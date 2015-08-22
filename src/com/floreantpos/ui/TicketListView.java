@@ -106,8 +106,8 @@ public class TicketListView extends JPanel {
 
 	private class TicketListTableModel extends ListTableModel {
 		public TicketListTableModel() {
-			super(new String[] { POSConstants.ID, "TBL", POSConstants.SERVER, POSConstants.CREATED, POSConstants.CUSTOMER,
-					POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE, "STATUS", POSConstants.TOTAL, POSConstants.DUE });
+			super(new String[] { POSConstants.ID, "餐桌号", POSConstants.SERVER, POSConstants.CREATED, POSConstants.CUSTOMER,
+					POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE, "订单状态", POSConstants.TOTAL, POSConstants.DUE });
 		}
 
 		public Object getValueAt(int rowIndex, int columnIndex) {
@@ -140,30 +140,30 @@ public class TicketListView extends JPanel {
 				return ticket.getDeliveryDate();
 
 			case 6:
-				return ticket.getType();
+				return ticket.getType().getValue();
 				
 			case 7:
 				if(ticket.getType() == TicketType.PICKUP) {
-					return "Will pickup";
+					return "等待自取";
 				}
 				else if(ticket.getType() == TicketType.HOME_DELIVERY) {
 					if(ticket.getAssignedDriver() == null) {
-						return "Driver not assigned";
+						return "未安排送货";
 					}
-					return "Driver assigned";
+					return "已安排送货";
 				}
 				else if(ticket.getType() == TicketType.DRIVE_THRU) {
-					return "Not delivered";
+					return "未穿越";
 				}
 				
 				if(ticket.isPaid()) {
 					if(ticket.getStatus() != null) {
 						return TicketStatus.valueOf(ticket.getStatus()).toString();
 					}
-					return "PAID";
+					return "已支付";
 				}
 				
-				return "OPEN";
+				return "等待支付";
 
 			case 8:
 				return ticket.getTotalAmount();
