@@ -113,7 +113,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 
 		jPanel3.setLayout(new java.awt.GridBagLayout());
 
-		jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel5.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel5.setText(com.floreantpos.POSConstants.SUBTOTAL + ":");
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -124,7 +124,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		gridBagConstraints.insets = new java.awt.Insets(3, 5, 0, 0);
 		jPanel3.add(jLabel5, gridBagConstraints);
 
-		jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel6.setText(com.floreantpos.POSConstants.TOTAL + ":");
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -134,7 +134,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		gridBagConstraints.insets = new java.awt.Insets(0, 5, 3, 0);
 		jPanel3.add(jLabel6, gridBagConstraints);
 
-		jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel1.setText(com.floreantpos.POSConstants.DISCOUNT + ":");
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -144,7 +144,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
 		jPanel3.add(jLabel1, gridBagConstraints);
 
-		jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel2.setText(com.floreantpos.POSConstants.TAX + ":");
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -171,7 +171,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		jPanel3.add(jSeparator3, gridBagConstraints);
 
 		tfSubtotal.setEditable(false);
-		tfSubtotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfSubtotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		gridBagConstraints_1 = new java.awt.GridBagConstraints();
 		gridBagConstraints_1.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_1.gridwidth = java.awt.GridBagConstraints.REMAINDER;
@@ -179,7 +179,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		jPanel3.add(tfSubtotal, gridBagConstraints_1);
 
 		tfTax.setEditable(false);
-		tfTax.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfTax.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		gridBagConstraints_3 = new java.awt.GridBagConstraints();
 		gridBagConstraints_3.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_3.gridx = 1;
@@ -188,7 +188,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		jPanel3.add(tfTax, gridBagConstraints_3);
 
 		tfDiscount.setEditable(false);
-		tfDiscount.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfDiscount.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		gridBagConstraints_2 = new java.awt.GridBagConstraints();
 		gridBagConstraints_2.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_2.gridx = 1;
@@ -197,7 +197,7 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel i
 		jPanel3.add(tfDiscount, gridBagConstraints_2);
 
 		tfTotal.setEditable(false);
-		tfTotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfTotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		gridBagConstraints_4 = new java.awt.GridBagConstraints();
 		gridBagConstraints_4.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_4.gridx = 1;

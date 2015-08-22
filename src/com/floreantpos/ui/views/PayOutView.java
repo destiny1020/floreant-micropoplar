@@ -66,17 +66,17 @@ public class PayOutView extends TransparentPanel {
 
         numberSelectionView.setTitle(com.floreantpos.POSConstants.AMOUNT_PAID_OUT);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 12));
         jLabel1.setText(com.floreantpos.POSConstants.PAY_OUT_REASON);
 
-        cbReason.setFont(new java.awt.Font("Tahoma", 1, 18));
+        cbReason.setFont(new java.awt.Font("微软雅黑", 1, 18));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 12));
         jLabel2.setText(com.floreantpos.POSConstants.SELECT_PAY_OUT_RECEPIENT);
 
-        cbRecepient.setFont(new java.awt.Font("Tahoma", 1, 18));
+        cbRecepient.setFont(new java.awt.Font("微软雅黑", 1, 18));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12));
+        jLabel3.setFont(new java.awt.Font("微软雅黑", 1, 12));
         jLabel3.setText("NOTE");
 
         btnAddNote.setText("...");

@@ -165,11 +165,11 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18));
+        jLabel5.setFont(new java.awt.Font("微软雅黑", 1, 18));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("TOTAL DISCOUNT");
 
-        lblTotalDiscount.setFont(new java.awt.Font("Tahoma", 1, 18));
+        lblTotalDiscount.setFont(new java.awt.Font("微软雅黑", 1, 18));
         lblTotalDiscount.setForeground(new java.awt.Color(204, 51, 0));
         lblTotalDiscount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTotalDiscount.setText("jLabel6");

@@ -235,10 +235,10 @@ public class PaymentView extends JPanel {
 
 		transparentPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 15, 15));
 
-		jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+		jLabel4.setFont(new java.awt.Font("微软雅黑", 1, 12)); // NOI18N
 		jLabel4.setText("DUE AMOUNT:");
 
-		jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12)); // NOI18N
 		jLabel6.setText("TENDERED AMOUNT:");
 
 		tfDueAmount.setEditable(false);

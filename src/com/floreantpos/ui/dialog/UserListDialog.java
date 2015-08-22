@@ -81,7 +81,7 @@ public class UserListDialog extends POSDialog {
 
         getContentPane().add(transparentPanel1, java.awt.BorderLayout.SOUTH);
 
-        cbUserList.setFont(new java.awt.Font("Tahoma", 1, 18));
+        cbUserList.setFont(new java.awt.Font("微软雅黑", 1, 18));
 
         org.jdesktop.layout.GroupLayout transparentPanel3Layout = new org.jdesktop.layout.GroupLayout(transparentPanel3);
         transparentPanel3.setLayout(transparentPanel3Layout);

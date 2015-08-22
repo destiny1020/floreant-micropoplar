@@ -174,7 +174,7 @@ public class PasswordScreen extends JPanel {
 		jLabel2 = new javax.swing.JLabel();
 		jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 
-		jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18));
+		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 18));
 		jLabel2.setForeground(new java.awt.Color(204, 102, 0));
 		jLabel2.setBackground(new java.awt.Color(204, 102, 0));
 		jLabel2.setText(com.floreantpos.POSConstants.ENTER_YOUR_PASSWORD);

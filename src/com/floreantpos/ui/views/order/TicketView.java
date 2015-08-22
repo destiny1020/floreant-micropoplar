@@ -132,7 +132,7 @@ public class TicketView extends JPanel {
 		ticketAmountPanel.setLayout(new MigLayout("alignx trailing,fill", "[grow][]", "[][][][][][][][]"));
 		jLabel5 = new javax.swing.JLabel();
 
-		jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel5.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel5.setText(com.floreantpos.POSConstants.SUBTOTAL + ":");
 		ticketAmountPanel.add(jLabel5, "cell 0 1,growx,aligny center");
@@ -140,11 +140,11 @@ public class TicketView extends JPanel {
 		tfSubtotal.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfSubtotal.setEditable(false);
-		tfSubtotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfSubtotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		ticketAmountPanel.add(tfSubtotal, "cell 1 1,growx,aligny center");
 		jLabel1 = new javax.swing.JLabel();
 
-		jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel1.setText(com.floreantpos.POSConstants.DISCOUNT + ":");
 		ticketAmountPanel.add(jLabel1, "cell 0 2,growx,aligny center");
@@ -152,11 +152,11 @@ public class TicketView extends JPanel {
 		tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfDiscount.setEditable(false);
-		tfDiscount.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfDiscount.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		ticketAmountPanel.add(tfDiscount, "cell 1 2,growx,aligny center");
 		jLabel2 = new javax.swing.JLabel();
 
-		jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel2.setText(com.floreantpos.POSConstants.TAX + ":");
 		ticketAmountPanel.add(jLabel2, "cell 0 3,growx,aligny center");
@@ -164,7 +164,7 @@ public class TicketView extends JPanel {
 		tfTax.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfTax.setEditable(false);
-		tfTax.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfTax.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		ticketAmountPanel.add(tfTax, "cell 1 3,growx,aligny center");
 
 		lblServiceCharge = new JLabel();
@@ -180,7 +180,7 @@ public class TicketView extends JPanel {
 		tfServiceCharge.setColumns(10);
 		jLabel6 = new javax.swing.JLabel();
 
-		jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12));
+		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel6.setText(com.floreantpos.POSConstants.TOTAL + ":");
 		ticketAmountPanel.add(jLabel6, "cell 0 5,growx,aligny center");
@@ -188,11 +188,11 @@ public class TicketView extends JPanel {
 		tfTotal.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfTotal.setEditable(false);
-		tfTotal.setFont(new java.awt.Font("Tahoma", 1, 12));
+		tfTotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		ticketAmountPanel.add(tfTotal, "cell 1 5,growx,aligny center");
 		chkTaxExempt = new javax.swing.JCheckBox();
 
-		chkTaxExempt.setFont(new java.awt.Font("Tahoma", 1, 12));
+		chkTaxExempt.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		chkTaxExempt.setText(com.floreantpos.POSConstants.TAX_EXEMPT);
 		chkTaxExempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		chkTaxExempt.setFocusable(false);

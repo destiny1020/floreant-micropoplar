@@ -43,33 +43,33 @@ public class TransactionCompletionDialog extends POSDialog {
 
 		setLayout(new MigLayout("align 50% 0%, ins 20", "[]20[]", ""));
 
-		add(createLabel("TOTAL AMOUNT" + ":", JLabel.LEFT), "grow");
+		add(createLabel("商品小计" + ":", JLabel.LEFT), "grow");
 		lblTotalAmount = createLabel("0.0", JLabel.RIGHT);
 		add(lblTotalAmount, "span, grow");
 
-		add(createLabel("TENDERED AMOUNT" + ":", JLabel.LEFT), "newline,grow");
+		add(createLabel("实收金额" + ":", JLabel.LEFT), "newline,grow");
 		lblTenderedAmount = createLabel("0.0", JLabel.RIGHT);
 		add(lblTenderedAmount, "span, grow");
 
 		add(new JSeparator(), "newline,span, grow");
 
-		add(createLabel("PAID AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-		lblPaidAmount = createLabel("0.0", JLabel.RIGHT);
-		add(lblPaidAmount, "span, grow");
+		// add(createLabel("付款金额" + ":", JLabel.LEFT), "newline,grow");
+		// lblPaidAmount = createLabel("0.0", JLabel.RIGHT);
+		// add(lblPaidAmount, "span, grow");
 
-		add(createLabel("DUE AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-		lblDueAmount = createLabel("0.0", JLabel.RIGHT);
-		add(lblDueAmount, "span, grow");
+		// add(createLabel("DUE AMOUNT" + ":", JLabel.LEFT), "newline,grow");
+		// lblDueAmount = createLabel("0.0", JLabel.RIGHT);
+		// add(lblDueAmount, "span, grow");
 
-		add(new JSeparator(), "newline,span, grow");
+		// add(new JSeparator(), "newline,span, grow");
 
-		add(createLabel("GRATUITY AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-		lblGratuityAmount = createLabel("0.0", JLabel.RIGHT);
-		add(lblGratuityAmount, "span, grow");
+		// add(createLabel("GRATUITY AMOUNT" + ":", JLabel.LEFT), "newline,grow");
+		// lblGratuityAmount = createLabel("0.0", JLabel.RIGHT);
+		// add(lblGratuityAmount, "span, grow");
 
-		add(new JSeparator(), "newline,span, grow");
+		// add(new JSeparator(), "newline,span, grow");
 
-		add(createLabel("CHANGE DUE" + ":", JLabel.LEFT), "grow");
+		add(createLabel("找零" + ":", JLabel.LEFT), "grow");
 		lblChangeDue = createLabel("0.0", JLabel.RIGHT);
 		add(lblChangeDue, "span, grow");
 
@@ -130,7 +130,7 @@ public class TransactionCompletionDialog extends POSDialog {
 
 	protected JLabel createLabel(String text, int alignment) {
 		JLabel label = new JLabel(text);
-		label.setFont(new java.awt.Font("Tahoma", 1, 24));
+		label.setFont(new java.awt.Font("微软雅黑", 1, 24));
 		//label.setForeground(new java.awt.Color(255, 102, 0));
 		label.setHorizontalAlignment(alignment);
 		label.setText(text);
@@ -148,9 +148,9 @@ public class TransactionCompletionDialog extends POSDialog {
 	public void updateView() {
 		lblTotalAmount.setText(NumberUtil.formatNumber(totalAmount));
 		lblTenderedAmount.setText(NumberUtil.formatNumber(tenderedAmount));
-		lblPaidAmount.setText(NumberUtil.formatNumber(paidAmount));
-		lblDueAmount.setText(NumberUtil.formatNumber(dueAmount));
-		lblGratuityAmount.setText(NumberUtil.formatNumber(gratuityAmount));
+//		lblPaidAmount.setText(NumberUtil.formatNumber(paidAmount));
+//		lblDueAmount.setText(NumberUtil.formatNumber(dueAmount));
+//		lblGratuityAmount.setText(NumberUtil.formatNumber(gratuityAmount));
 		lblChangeDue.setText(NumberUtil.formatNumber(changeAmount));
 	}
 
