@@ -168,7 +168,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener {
 
 		pnlStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
-		lblStatus.setFont(new java.awt.Font("Dialog", 1, 10));
+		lblStatus.setFont(new java.awt.Font("微软雅黑", 1, 10));
 		lblStatus.setText("Page i of n");
 		pnlStatus.add(lblStatus);
 

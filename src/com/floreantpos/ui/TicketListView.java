@@ -135,7 +135,7 @@ public class TicketListView extends JPanel {
 					return customerPhone;
 				}
 
-				return "Guest";
+				return "非会员顾客";
 
 			case 5:
 				return ticket.getDeliveryDate();
@@ -164,7 +164,7 @@ public class TicketListView extends JPanel {
 					return "已支付";
 				}
 				
-				return "等待支付";
+				return "进行中";
 
 			case 8:
 				return ticket.getTotalAmount();

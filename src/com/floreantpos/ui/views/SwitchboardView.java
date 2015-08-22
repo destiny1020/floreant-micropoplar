@@ -315,7 +315,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 	private void createHeaderPanel() {
 		JPanel statusPanel = new JPanel(new MigLayout("fill", "[fill, grow 100][]", ""));
 		statusPanel.setPreferredSize(new Dimension(80, 40));
-		java.awt.Font headerFont = new java.awt.Font("Dialog", Font.BOLD, 12);
+		java.awt.Font headerFont = new java.awt.Font("微软雅黑", Font.BOLD, 12);
 		
 		lblUserName.setFont(headerFont);
 		statusPanel.add(lblUserName);
@@ -807,8 +807,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		}
 		openTicketList.setTickets(openTickets);
 
-		lblUserName.setText(POSConstants.WELCOME + " " + user.toString() + ". " + POSConstants.YOU + " " + POSConstants.HAVE + " " + openTickets.size() + " "
-				+ POSConstants.OPEN.toLowerCase() + " " + POSConstants.TICKETS);
+		lblUserName.setText(POSConstants.WELCOME + " " + user.toString() + "." + POSConstants.YOU + " " + POSConstants.HAVE + " " + openTickets.size() + "个 "
+				+ POSConstants.OPEN.toLowerCase() + "的 " + POSConstants.TICKETS + ".");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
