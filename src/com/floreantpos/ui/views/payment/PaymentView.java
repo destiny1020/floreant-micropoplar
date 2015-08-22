@@ -32,7 +32,7 @@ public class PaymentView extends JPanel {
 
 	protected SettleTicketDialog settleTicketView;
 
-	private PosButton btnGratuity;
+//	private PosButton btnGratuity;
 	private com.floreantpos.swing.PosButton btnCancel;
 	private com.floreantpos.swing.PosButton btnFinish;
 	private com.floreantpos.swing.TransparentPanel calcButtonPanel;
@@ -162,7 +162,8 @@ public class PaymentView extends JPanel {
 
 		posButton12.setAction(calAction);
 		posButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear_32.png"))); // NOI18N
-		posButton12.setText("CLEAR");
+		posButton12.setText(POSConstants.CLEAR);
+		posButton12.setActionCommand("CLEAR");
 		posButton12.setFocusable(false);
 		calcButtonPanel.add(posButton12);
 
@@ -196,16 +197,16 @@ public class PaymentView extends JPanel {
 			}
 		});
 		
-		btnGratuity = new PosButton(com.floreantpos.POSConstants.ADD_GRATUITY_TEXT);
-		actionButtonPanel.add(btnGratuity, "growx");
-		btnGratuity.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doSetGratuity();
-			}
-		});
+//		btnGratuity = new PosButton(com.floreantpos.POSConstants.ADD_GRATUITY_TEXT);
+//		actionButtonPanel.add(btnGratuity, "growx");
+//		btnGratuity.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				doSetGratuity();
+//			}
+//		});
 		
 		btnCoupon = new PosButton(com.floreantpos.POSConstants.COUPON_DISCOUNT);
-		actionButtonPanel.add(btnCoupon, "growx, wrap");
+		actionButtonPanel.add(btnCoupon, "growx");
 		btnCoupon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settleTicketView.doApplyCoupon();
@@ -213,7 +214,7 @@ public class PaymentView extends JPanel {
 		});
 
 		btnViewCoupons = new PosButton(com.floreantpos.POSConstants.VIEW_DISCOUNTS);
-		actionButtonPanel.add(btnViewCoupons, "growx");
+		actionButtonPanel.add(btnViewCoupons, "growx, wrap");
 		btnViewCoupons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settleTicketView.doViewDiscounts();
@@ -221,7 +222,7 @@ public class PaymentView extends JPanel {
 		});
 
 		btnCancel = new com.floreantpos.swing.PosButton(POSConstants.CANCEL.toUpperCase());
-		actionButtonPanel.add(btnCancel, "growx");
+		actionButtonPanel.add(btnCancel, "span 2, growx, wrap");
 		btnCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnCancelActionPerformed(evt);
@@ -236,10 +237,10 @@ public class PaymentView extends JPanel {
 		transparentPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 15, 15));
 
 		jLabel4.setFont(new java.awt.Font("微软雅黑", 1, 12)); // NOI18N
-		jLabel4.setText("DUE AMOUNT:");
+		jLabel4.setText("应收金额:");
 
 		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12)); // NOI18N
-		jLabel6.setText("TENDERED AMOUNT:");
+		jLabel6.setText("实收金额:");
 
 		tfDueAmount.setEditable(false);
 		tfDueAmount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);

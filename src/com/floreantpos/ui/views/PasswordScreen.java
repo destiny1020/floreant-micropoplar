@@ -168,7 +168,7 @@ public class PasswordScreen extends JPanel {
 		add(jPanel2, "cell 0 0,growx,aligny top");
 		jPanel2.setLayout(new MigLayout("", "[343px]", "[][22px][31px][30px]"));
 
-		lblTerminalId = new JLabel("TERMINAL ID:");
+		lblTerminalId = new JLabel("终端号:");
 		lblTerminalId.setHorizontalAlignment(SwingConstants.CENTER);
 		jPanel2.add(lblTerminalId, "cell 0 0,growx");
 		jLabel2 = new javax.swing.JLabel();
@@ -220,7 +220,7 @@ public class PasswordScreen extends JPanel {
 				doLogin();
 			}
 		});
-		psbtnLogin.setText("LOGIN");
+		psbtnLogin.setText("登录");
 		jPanel3.add(psbtnLogin);
 
 		btnConfigureDatabase.setAction(goAction);
