@@ -1,0 +1,6 @@
+.settings/
+*.log
+.classpath
+.project
+floreantpos.config.properties
+target/

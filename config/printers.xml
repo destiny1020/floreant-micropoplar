@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<printers>
+    <receiptPrinter>GP-5890X Series</receiptPrinter>
+    <reportPrinter>GP-5890X Series</reportPrinter>
+</printers>
