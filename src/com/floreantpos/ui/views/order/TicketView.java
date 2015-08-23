@@ -40,6 +40,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.TicketItemCookingInstruction;
 import com.floreantpos.model.TicketItemModifier;
+import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.CookingInstructionDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.report.JReportPrintService;
@@ -355,7 +356,9 @@ public class TicketView extends JPanel {
 
 			updateModel();
 			
-			OrderController.saveOrder(ticket);
+			if(ticket.getType() != TicketType.TAKE_OUT) {
+				OrderController.saveOrder(ticket);
+			}
 
 			if (ticket.needsKitchenPrint()) {
 				JReportPrintService.printTicketToKitchen(ticket);
