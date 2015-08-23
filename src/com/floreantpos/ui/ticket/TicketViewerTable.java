@@ -47,10 +47,10 @@ public class TicketViewerTable extends JTable {
 	private void resizeTableColumns() {
 		setAutoResizeMode(AUTO_RESIZE_ALL_COLUMNS);
 //		setColumnWidth(0, 180);
-		setColumnWidth(1, 50);
-		setColumnWidth(2, 30);
-		setColumnWidth(3, 60);
-		setColumnWidth(4, 60);
+		setColumnWidth(1, 70);
+		setColumnWidth(2, 50);
+		setColumnWidth(3, 70);
+//		setColumnWidth(4, 60);
 	}
 
 	private void setColumnWidth(int columnNumber, int width) {

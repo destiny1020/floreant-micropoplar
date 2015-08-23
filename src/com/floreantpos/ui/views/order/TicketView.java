@@ -7,6 +7,7 @@
 package com.floreantpos.ui.views.order;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +64,7 @@ public class TicketView extends JPanel {
 	public TicketView() {
 		initComponents();
 
-		chkTaxExempt.setEnabled(false);
+//		chkTaxExempt.setEnabled(false);
 		btnAddCookingInstruction.setEnabled(false);
 		btnIncreaseAmount.setEnabled(false);
 		btnDecreaseAmount.setEnabled(false);
@@ -141,6 +142,7 @@ public class TicketView extends JPanel {
 
 		tfSubtotal.setEditable(false);
 		tfSubtotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		tfSubtotal.setPreferredSize(new Dimension(200, 25));
 		ticketAmountPanel.add(tfSubtotal, "cell 1 1,growx,aligny center");
 		jLabel1 = new javax.swing.JLabel();
 
@@ -150,54 +152,53 @@ public class TicketView extends JPanel {
 		ticketAmountPanel.add(jLabel1, "cell 0 2,growx,aligny center");
 		tfDiscount = new javax.swing.JTextField();
 		tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
-
 		tfDiscount.setEditable(false);
 		tfDiscount.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		ticketAmountPanel.add(tfDiscount, "cell 1 2,growx,aligny center");
-		jLabel2 = new javax.swing.JLabel();
-
-		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel2.setText(com.floreantpos.POSConstants.TAX + ":");
-		ticketAmountPanel.add(jLabel2, "cell 0 3,growx,aligny center");
-		tfTax = new javax.swing.JTextField();
-		tfTax.setHorizontalAlignment(SwingConstants.TRAILING);
-
-		tfTax.setEditable(false);
-		tfTax.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		ticketAmountPanel.add(tfTax, "cell 1 3,growx,aligny center");
-
-		lblServiceCharge = new JLabel();
-		lblServiceCharge.setText("Service Charge:");
-		lblServiceCharge.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblServiceCharge.setFont(new Font("Dialog", Font.BOLD, 12));
-		ticketAmountPanel.add(lblServiceCharge, "cell 0 4,alignx trailing");
-
-		tfServiceCharge = new JTextField();
-		tfServiceCharge.setHorizontalAlignment(SwingConstants.TRAILING);
-		tfServiceCharge.setEditable(false);
-		ticketAmountPanel.add(tfServiceCharge, "cell 1 4,growx,aligny center");
-		tfServiceCharge.setColumns(10);
+		
+//		jLabel2 = new javax.swing.JLabel();
+//		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 12));
+//		jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+//		jLabel2.setText(com.floreantpos.POSConstants.TAX + ":");
+//		ticketAmountPanel.add(jLabel2, "cell 0 3,growx,aligny center");
+//		tfTax = new javax.swing.JTextField();
+//		tfTax.setHorizontalAlignment(SwingConstants.TRAILING);
+//
+//		tfTax.setEditable(false);
+//		tfTax.setFont(new java.awt.Font("微软雅黑", 1, 12));
+//		ticketAmountPanel.add(tfTax, "cell 1 3,growx,aligny center");
+//
+//		lblServiceCharge = new JLabel();
+//		lblServiceCharge.setText("Service Charge:");
+//		lblServiceCharge.setHorizontalAlignment(SwingConstants.RIGHT);
+//		lblServiceCharge.setFont(new Font("Dialog", Font.BOLD, 12));
+//		ticketAmountPanel.add(lblServiceCharge, "cell 0 4,alignx trailing");
+//
+//		tfServiceCharge = new JTextField();
+//		tfServiceCharge.setHorizontalAlignment(SwingConstants.TRAILING);
+//		tfServiceCharge.setEditable(false);
+//		ticketAmountPanel.add(tfServiceCharge, "cell 1 4,growx,aligny center");
+//		tfServiceCharge.setColumns(10);
+		
 		jLabel6 = new javax.swing.JLabel();
-
 		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12));
 		jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		jLabel6.setText(com.floreantpos.POSConstants.TOTAL + ":");
-		ticketAmountPanel.add(jLabel6, "cell 0 5,growx,aligny center");
+		ticketAmountPanel.add(jLabel6, "cell 0 3,growx,aligny center");
 		tfTotal = new javax.swing.JTextField();
 		tfTotal.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfTotal.setEditable(false);
 		tfTotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		ticketAmountPanel.add(tfTotal, "cell 1 5,growx,aligny center");
-		chkTaxExempt = new javax.swing.JCheckBox();
-
-		chkTaxExempt.setFont(new java.awt.Font("微软雅黑", 1, 12));
-		chkTaxExempt.setText(com.floreantpos.POSConstants.TAX_EXEMPT);
-		chkTaxExempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		chkTaxExempt.setFocusable(false);
-		chkTaxExempt.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		ticketAmountPanel.add(chkTaxExempt, "cell 1 6,growx,aligny center");
+		ticketAmountPanel.add(tfTotal, "cell 1 3,growx,aligny center");
+		
+//		chkTaxExempt = new javax.swing.JCheckBox();
+//		chkTaxExempt.setFont(new java.awt.Font("微软雅黑", 1, 12));
+//		chkTaxExempt.setText(com.floreantpos.POSConstants.TAX_EXEMPT);
+//		chkTaxExempt.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//		chkTaxExempt.setFocusable(false);
+//		chkTaxExempt.setMargin(new java.awt.Insets(0, 0, 0, 0));
+//		ticketAmountPanel.add(chkTaxExempt, "cell 1 6,growx,aligny center");
 
 		btnPay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pay_32.png")));
 		btnPay.setText(com.floreantpos.POSConstants.PAY_NOW);
@@ -283,7 +284,7 @@ public class TicketView extends JPanel {
 				doAddCookingInstruction();
 			}
 		});
-		btnAddCookingInstruction.setText("<html><center>ADD COOKING<br/>INSTRUCTION</center></html>");
+		btnAddCookingInstruction.setText("添加烹饪说明");
 		scrollerPanel.add(btnAddCookingInstruction, "cell 0 1,grow");
 		scrollerPanel.add(btnDelete, "cell 1 1,grow");
 		scrollerPanel.add(btnScrollDown, "cell 2 1,grow");
@@ -316,14 +317,14 @@ public class TicketView extends JPanel {
 		try {
 			Object object = ticketViewerTable.getSelected();
 			if (!(object instanceof TicketItem)) {
-				POSMessageDialog.showError("Please select and item");
+				POSMessageDialog.showError("请选择商品");
 				return;
 			}
 
 			TicketItem ticketItem = (TicketItem) object;
 
 			if (ticketItem.isPrintedToKitchen()) {
-				POSMessageDialog.showError("Cooking instruction cannot be added to item already printed to kitchen");
+				POSMessageDialog.showError("已经打印给厨房的商品不能添加烹饪说明");
 				return;
 			}
 
@@ -366,7 +367,7 @@ public class TicketView extends JPanel {
 			RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
 
 		} catch (StaleObjectStateException e) {
-			POSMessageDialog.showError("It seems the ticket has been modified by some other person or terminal. Save failed.");
+			POSMessageDialog.showError("当前订单似乎已经被其他人员或者终端修改。 修改失败.");
 			return;
 		} catch (PosException x) {
 			POSMessageDialog.showError(x.getMessage());
@@ -453,9 +454,9 @@ public class TicketView extends JPanel {
 	private com.floreantpos.swing.PosButton btnPay;
 	private com.floreantpos.swing.PosButton btnScrollDown;
 	private com.floreantpos.swing.PosButton btnScrollUp;
-	private javax.swing.JCheckBox chkTaxExempt;
+//	private javax.swing.JCheckBox chkTaxExempt;
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
+//	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
 	private com.floreantpos.swing.TransparentPanel jPanel1;
@@ -465,11 +466,11 @@ public class TicketView extends JPanel {
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JTextField tfDiscount;
 	private javax.swing.JTextField tfSubtotal;
-	private javax.swing.JTextField tfTax;
+//	private javax.swing.JTextField tfTax;
 	private javax.swing.JTextField tfTotal;
 	private com.floreantpos.ui.ticket.TicketViewerTable ticketViewerTable;
-	private JTextField tfServiceCharge;
-	private JLabel lblServiceCharge;
+//	private JTextField tfServiceCharge;
+//	private JLabel lblServiceCharge;
 	private PosButton btnAddCookingInstruction;
 
 	// End of variables declaration//GEN-END:variables
@@ -510,11 +511,11 @@ public class TicketView extends JPanel {
 		if (ticket == null) {
 			tfSubtotal.setText("");
 			tfDiscount.setText("");
-			tfTax.setText("");
-			tfServiceCharge.setText("");
+//			tfTax.setText("");
+//			tfServiceCharge.setText("");
 			tfTotal.setText("");
 			
-			setBorder(BorderFactory.createTitledBorder(null, "Ticket [ NEW ]", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			setBorder(BorderFactory.createTitledBorder(null, "订单 [ 新建 ]", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 			
 			return;
 		}
@@ -524,28 +525,29 @@ public class TicketView extends JPanel {
 		tfSubtotal.setText(NumberUtil.formatNumber(ticket.getSubtotalAmount()));
 		tfDiscount.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
 
-		if(Application.getInstance().isPriceIncludesTax()) {
-			tfTax.setText("INCLUDED");
-		}
-		else {
-			tfTax.setText(NumberUtil.formatNumber(ticket.getTaxAmount()));
-		}
+//		if(Application.getInstance().isPriceIncludesTax()) {
+//			tfTax.setText("INCLUDED");
+//		}
+//		else {
+//			tfTax.setText(NumberUtil.formatNumber(ticket.getTaxAmount()));
+//		}
 
-		if (ticket.isTaxExempt()) {
-			chkTaxExempt.setSelected(true);
-		}
-		else {
-			chkTaxExempt.setSelected(false);
-		}
-
-		tfServiceCharge.setText(NumberUtil.formatNumber(ticket.getServiceCharge()));
+//		if (ticket.isTaxExempt()) {
+//			chkTaxExempt.setSelected(true);
+//		}
+//		else {
+//			chkTaxExempt.setSelected(false);
+//		}
+//
+//		tfServiceCharge.setText(NumberUtil.formatNumber(ticket.getServiceCharge()));
+		
 		tfTotal.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
 		
 		if(ticket.getId() == null) {
-			setBorder(BorderFactory.createTitledBorder(null, "Ticket [ NEW ]", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			setBorder(BorderFactory.createTitledBorder(null, "订单 [ 新建 ]", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		}
 		else {
-			setBorder(BorderFactory.createTitledBorder(null, "Ticket #" + ticket.getId(), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			setBorder(BorderFactory.createTitledBorder(null, "订单 #" + ticket.getId(), TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		}
 	}
 

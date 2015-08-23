@@ -170,7 +170,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 		activityPanel.setLayout(new java.awt.GridLayout(3, 0, 5, 5));
 
-		btnNewTicket.setText("DINE IN");
+		btnNewTicket.setText("堂食");
 		btnTakeout = new com.floreantpos.swing.PosButton();
 		btnPickup = new PosButton();
 		btnHomeDelivery = new PosButton();
@@ -243,6 +243,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		btnVoidTicket.setText(POSConstants.CAPITAL_VOID);
 		activityPanel.add(btnVoidTicket);
 		
+		btnRefundTicket.setText("订单退款");
 		activityPanel.add(btnRefundTicket);
 
 		btnPayout.setText(POSConstants.CAPITAL_PAY_OUT);
@@ -260,7 +261,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			}
 		});
 		btnAssignDriver.setText("<html>ASSIGN<br/>DRIVER</html>");
-		activityPanel.add(btnAssignDriver);
+//		activityPanel.add(btnAssignDriver);
 
 		btnCloseOrder = new PosButton();
 		btnCloseOrder.addActionListener(new ActionListener() {
@@ -807,8 +808,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		}
 		openTicketList.setTickets(openTickets);
 
-		lblUserName.setText(POSConstants.WELCOME + " " + user.toString() + "." + POSConstants.YOU + " " + POSConstants.HAVE + " " + openTickets.size() + "个 "
-				+ POSConstants.OPEN.toLowerCase() + "的 " + POSConstants.TICKETS + ".");
+		lblUserName.setText(POSConstants.WELCOME + " " + user.toString() + "." + POSConstants.YOU + POSConstants.HAVE + " " + openTickets.size() + "个 "
+				+ POSConstants.OPEN.toLowerCase() + "的" + POSConstants.TICKETS + ".");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

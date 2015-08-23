@@ -42,7 +42,7 @@ public class CookingInstructionSelectionView extends BeanEditor {
 		int[] selectedRows = table.getSelectedRows();
 		
 		if(selectedRows.length == 0) {
-			POSMessageDialog.showError("No cooking instruction selected");
+			POSMessageDialog.showError("没有选择烹饪说明");
 			return false;
 		}
 		
@@ -74,7 +74,7 @@ public class CookingInstructionSelectionView extends BeanEditor {
 
 	@Override
 	public String getDisplayText() {
-		return "Select cooking instructions";
+		return "选择烹饪说明";
 	}
 	
 	public List<TicketItemCookingInstruction> getTicketItemCookingInstructions() {
@@ -82,7 +82,7 @@ public class CookingInstructionSelectionView extends BeanEditor {
 	}
 
 	class CookingInstructionTableModel extends AbstractTableModel {
-		private final String[] columns = { "COOKING INSTRUCTIONS" };
+		private final String[] columns = { "烹饪说明" };
 
 		private List<CookingInstruction> rowsList;
 
