@@ -56,12 +56,12 @@ public class NoteView extends JPanel implements ActionListener, ChangeListener {
 
 		JPanel eastPanel = new JPanel(new GridLayout(0, 1, 2, 2));
 		PosButton button = new PosButton();
-		button.setText("SPACE");
+		button.setText("空格");
 		button.addActionListener(this);
 		eastPanel.add(button);
 		
 		POSToggleButton toggleButton = new POSToggleButton();
-		toggleButton.setText("CAPS");
+		toggleButton.setText("大小写");
 		toggleButton.addChangeListener(this);
 		eastPanel.add(toggleButton);
 

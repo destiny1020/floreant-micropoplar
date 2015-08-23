@@ -6,6 +6,8 @@
 
 package com.floreantpos.ui.dialog;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.floreantpos.model.TicketItem;
 
 /**
@@ -13,6 +15,7 @@ import com.floreantpos.model.TicketItem;
  * @author  MShahriar
  */
 public class MiscTicketItemDialog extends POSDialog {
+	private static int customIdx = 1;
     private TicketItem ticketItem;
 	
     /** Creates new form MiscTicketItemDialog */
@@ -92,6 +95,9 @@ public class MiscTicketItemDialog extends POSDialog {
     	setCanceled(false);
     	double amount = numberSelectionView1.getValue();
     	String itemName = noteView1.getNote();
+    	if(StringUtils.isBlank(itemName)) {
+    		itemName = "自定义商品" + customIdx++;
+    	}
     	
     	ticketItem = new TicketItem();
     	ticketItem.setItemCount(1);
