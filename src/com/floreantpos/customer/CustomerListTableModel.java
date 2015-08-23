@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.model.Customer;
+import com.floreantpos.ui.util.UiUtil;
 
 public class CustomerListTableModel extends ListTableModel<Customer> {
-	private final static String[] columns = { "PHONE", "NAME", "DoB", "ADDRESS", "CITY", "STATE" };
+	private final static String[] columns = { "电话号码", "姓名", "生日", "电子邮件", "地址" };
 
 	public CustomerListTableModel() {
 		super(columns);
@@ -28,16 +29,13 @@ public class CustomerListTableModel extends ListTableModel<Customer> {
 				return customer.getName();
 
 			case 2:
-				return customer.getDob();
+				return UiUtil.getDobStr(customer.getDob());
 				
 			case 3:
-				return customer.getAddress();
+				return customer.getEmail();
 				
 			case 4:
-				return customer.getCity();
-				
-			case 5:
-				return customer.getState();
+				return customer.getAddress();
 
 		}
 		return null;

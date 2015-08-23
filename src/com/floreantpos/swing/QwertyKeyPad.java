@@ -52,13 +52,13 @@ public class QwertyKeyPad extends JPanel implements ActionListener, ChangeListen
 
 		JPanel eastPanel = new JPanel(new GridLayout(0, 1, 2, 2));
 		PosButton button = new PosButton();
-		button.setText("SPACE");
+		button.setText("空格");
 		button.setFocusable(false);
 		button.addActionListener(this);
 		eastPanel.add(button);
 		
 		POSToggleButton toggleButton = new POSToggleButton();
-		toggleButton.setText("CAPS");
+		toggleButton.setText("大小写");
 		toggleButton.setFocusable(false);
 		toggleButton.addChangeListener(this);
 		eastPanel.add(toggleButton);

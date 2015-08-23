@@ -1,6 +1,7 @@
 package com.floreantpos.model.base;
 
 import java.lang.Comparable;
+import java.util.Date;
 import java.io.Serializable;
 
 
@@ -64,7 +65,7 @@ public abstract class BaseCustomer  implements Comparable, Serializable {
 	private java.lang.String telephoneNo;
 	private java.lang.String email;
 	private java.lang.String name;
-	private java.lang.String dob;
+	private Date dob;
 	private java.lang.String ssn;
 	private java.lang.String address;
 	private java.lang.String city;
@@ -192,7 +193,7 @@ public abstract class BaseCustomer  implements Comparable, Serializable {
 	/**
 	 * Return the value associated with the column: DOB
 	 */
-	public java.lang.String getDob () {
+	public Date getDob () {
 		return dob;
 	}
 
@@ -200,7 +201,7 @@ public abstract class BaseCustomer  implements Comparable, Serializable {
 	 * Set the value related to the column: DOB
 	 * @param dob the DOB value
 	 */
-	public void setDob (java.lang.String dob) {
+	public void setDob (Date dob) {
 		this.dob = dob;
 	}
 

@@ -39,9 +39,8 @@ public class CustomerSelectionDialog extends POSDialog {
 
 	private CustomerTable customerTable;
 	private POSTextField tfPhone;
-	private POSTextField tfLoyaltyNo;
+	private POSTextField tfEmail;
 	private POSTextField tfName;
-	private PosSmallButton btnInfo;
 
 	protected Customer selectedCustomer;
 	private PosSmallButton btnRemoveCustomer;
@@ -51,7 +50,7 @@ public class CustomerSelectionDialog extends POSDialog {
 	public CustomerSelectionDialog(Ticket ticket) {
 		this.ticket = ticket;
 		
-		setTitle("Add/Edit Customer");
+		setTitle("添加/编辑 客户");
 		
 		loadCustomerFromTicket();
 	}
@@ -69,7 +68,7 @@ public class CustomerSelectionDialog extends POSDialog {
 		JLabel lblNewLabel = new JLabel("");
 		panel_4.add(lblNewLabel, "cell 0 0 1 3,grow");
 
-		JLabel lblByPhone = new JLabel("Search by Phone");
+		JLabel lblByPhone = new JLabel("电话号码");
 		panel_4.add(lblByPhone, "cell 1 0");
 
 		tfPhone = new POSTextField();
@@ -84,16 +83,16 @@ public class CustomerSelectionDialog extends POSDialog {
 				doSearchCustomer();
 			}
 		});
-		psmlbtnSearch.setText("SEARCH");
+		psmlbtnSearch.setText("搜索");
 
-		JLabel lblByName = new JLabel("Or Loyalty #");
+		JLabel lblByName = new JLabel("电子邮件");
 		panel_4.add(lblByName, "cell 1 1,alignx trailing");
 
-		tfLoyaltyNo = new POSTextField();
-		panel_4.add(tfLoyaltyNo, "cell 2 1");
-		tfLoyaltyNo.setColumns(16);
+		tfEmail = new POSTextField();
+		panel_4.add(tfEmail, "cell 2 1");
+		tfEmail.setColumns(16);
 
-		JLabel lblByEmail = new JLabel("Or Name");
+		JLabel lblByEmail = new JLabel("顾客姓名");
 		panel_4.add(lblByEmail, "cell 1 2,alignx trailing");
 
 		tfName = new POSTextField();
@@ -123,7 +122,7 @@ public class CustomerSelectionDialog extends POSDialog {
 //					btnInfo.setEnabled(true);
 				}
 				else {
-					btnInfo.setEnabled(false);
+//					btnInfo.setEnabled(false);
 				}
 			}
 		});
@@ -132,16 +131,16 @@ public class CustomerSelectionDialog extends POSDialog {
 		JPanel panel = new JPanel();
 		panel_2.add(panel, BorderLayout.SOUTH);
 
-		btnInfo = new PosSmallButton();
-		btnInfo.setFocusable(false);
-		panel.add(btnInfo);
-		btnInfo.setEnabled(false);
-		btnInfo.setText("DETAIL");
-
-		PosSmallButton btnHistory = new PosSmallButton();
-		btnHistory.setEnabled(false);
-		btnHistory.setText("HISTORY");
-		panel.add(btnHistory);
+//		PosSmallButton btnInfo = new PosSmallButton();
+//		btnInfo.setFocusable(false);
+//		panel.add(btnInfo);
+//		btnInfo.setEnabled(false);
+//		btnInfo.setText("DETAIL");
+//
+//		PosSmallButton btnHistory = new PosSmallButton();
+//		btnHistory.setEnabled(false);
+//		btnHistory.setText("HISTORY");
+//		panel.add(btnHistory);
 
 		btnCreateNewCustomer = new PosSmallButton();
 		btnCreateNewCustomer.setFocusable(false);
@@ -151,7 +150,7 @@ public class CustomerSelectionDialog extends POSDialog {
 				doCreateNewCustomer();
 			}
 		});
-		btnCreateNewCustomer.setText("NEW");
+		btnCreateNewCustomer.setText("创建");
 		
 		btnRemoveCustomer = new PosSmallButton();
 		btnRemoveCustomer.addActionListener(new ActionListener() {
@@ -159,7 +158,7 @@ public class CustomerSelectionDialog extends POSDialog {
 				doRemoveCustomerFromTicket();
 			}
 		});
-		btnRemoveCustomer.setText("REMOVE");
+		btnRemoveCustomer.setText("移除");
 		panel.add(btnRemoveCustomer);
 
 		PosSmallButton btnSelect = new PosSmallButton();
@@ -167,14 +166,14 @@ public class CustomerSelectionDialog extends POSDialog {
 			public void actionPerformed(ActionEvent e) {
 				Customer customer = customerTable.getSelectedCustomer();
 				if(customer == null) {
-					POSMessageDialog.showError("Please select a customer");
+					POSMessageDialog.showError("请选择一位顾客");
 					return;
 				}
 				
 				doSetCustomer(customer);
 			}
 		});
-		btnSelect.setText("SELECT");
+		btnSelect.setText("选择");
 		panel.add(btnSelect);
 		
 				PosSmallButton btnCancel = new PosSmallButton();
@@ -184,7 +183,7 @@ public class CustomerSelectionDialog extends POSDialog {
 						dispose();
 					}
 				});
-				btnCancel.setText("CANCEL");
+				btnCancel.setText("取消");
 				panel.add(btnCancel);
 
 		JPanel panel_3 = new JPanel(new BorderLayout());
@@ -197,7 +196,7 @@ public class CustomerSelectionDialog extends POSDialog {
 				doSearchCustomer();
 			}
 		});
-		tfLoyaltyNo.addActionListener(new ActionListener() {
+		tfEmail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doSearchCustomer();
 			}
@@ -229,7 +228,7 @@ public class CustomerSelectionDialog extends POSDialog {
 	}
 
 	protected void doRemoveCustomerFromTicket() {
-		int option = JOptionPane.showOptionDialog(this, "Remove customer from ticket?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		int option = JOptionPane.showOptionDialog(this, "从此订单中移除该顾客吗?", "确认", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if(option != JOptionPane.YES_OPTION) {
 			return;
 		}
@@ -243,7 +242,7 @@ public class CustomerSelectionDialog extends POSDialog {
 	protected void doSearchCustomer() {
 		String phone = tfPhone.getText();
 		String name = tfName.getText();
-		String loyalty = tfLoyaltyNo.getText();
+		String loyalty = tfEmail.getText();
 
 		if (StringUtils.isEmpty(phone) && StringUtils.isEmpty(loyalty) && StringUtils.isEmpty(name)) {
 			List<Customer> list = CustomerDAO.getInstance().findAll();
