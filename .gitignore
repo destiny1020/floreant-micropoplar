@@ -4,3 +4,4 @@
 .project
 floreantpos.config.properties
 target/
+logs/

@@ -101,7 +101,7 @@ public class JReportPrintService {
 	public static void printTicket(Ticket ticket) {
 		try {
 
-			TicketPrintProperties printProperties = new TicketPrintProperties("*** ORDER " + ticket.getId() + " ***", false, true, true);
+			TicketPrintProperties printProperties = new TicketPrintProperties("*** 订单 " + ticket.getId() + " ***", false, true, true);
 			printProperties.setPrintCookingInstructions(false);
 			HashMap map = populateTicketProperties(ticket, printProperties, null);
 
@@ -125,7 +125,7 @@ public class JReportPrintService {
 	public static void printRefundTicket(Ticket ticket, RefundTransaction posTransaction) {
 		try {
 
-			TicketPrintProperties printProperties = new TicketPrintProperties("*** REFUND RECEIPT ***", true, true, true);
+			TicketPrintProperties printProperties = new TicketPrintProperties("*** 退款收据 ***", true, true, true);
 			printProperties.setPrintCookingInstructions(false);
 			HashMap map = populateTicketProperties(ticket, printProperties, posTransaction);
 			map.put("refundAmountText", "Total Refund");
@@ -147,7 +147,7 @@ public class JReportPrintService {
 		try {
 			Ticket ticket = transaction.getTicket();
 
-			TicketPrintProperties printProperties = new TicketPrintProperties("*** PAYMENT RECEIPT ***", true, true, true);
+			TicketPrintProperties printProperties = new TicketPrintProperties("*** 支付收据 ***", true, true, true);
 			printProperties.setPrintCookingInstructions(false);
 			HashMap map = populateTicketProperties(ticket, printProperties, transaction);
 
@@ -181,7 +181,7 @@ public class JReportPrintService {
 		try {
 			Ticket ticket = transaction.getTicket();
 
-			TicketPrintProperties printProperties = new TicketPrintProperties("*** PAYMENT RECEIPT ***", true, true, true);
+			TicketPrintProperties printProperties = new TicketPrintProperties("*** 支付收据 ***", true, true, true);
 			printProperties.setPrintCookingInstructions(false);
 			HashMap map = populateTicketProperties(ticket, printProperties, transaction);
 

@@ -25,23 +25,27 @@ public class RefundAction extends PosAction {
 			Ticket ticket = ticketList.getSelectedTicket();
 
 			if (ticket == null) {
-				int ticketId = NumberSelectionDialog2.takeIntInput("Enter or scan ticket id");
+				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单ID");
+				if(ticketId == -1) {
+					// user clicked without input
+					return;
+				}
 				ticket = TicketService.getTicket(ticketId);
 			}
 			
 			if(!ticket.isPaid()) {
-				POSMessageDialog.showError("Ticket is not paid.");
+				POSMessageDialog.showError("订单还未被支付.");
 				return;
 			}
 			
 			if(ticket.isRefunded()) {
-				POSMessageDialog.showError("Ticket is already refunded.");
+				POSMessageDialog.showError("订单已经退款.");
 				return;
 			}
 			
 			Double paidAmount = ticket.getPaidAmount();
 			
-			String message = Application.getCurrencySymbol() + paidAmount + " will be refunded.";
+			String message = "将退款金额: " + Application.getCurrencySymbol() + paidAmount;
 			
 //			int option = JOptionPane.showOptionDialog(Application.getPosWindow(), message, POSConstants.CONFIRM,
 //					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -52,7 +56,7 @@ public class RefundAction extends PosAction {
 			ticket = TicketDAO.getInstance().loadFullTicket(ticket.getId());
 			
 			message = "<html>" +
-					"Ticket #" + ticket.getId() + "<br/>Total paid " + ticket.getPaidAmount();
+					"订单 #" + ticket.getId() + "<br/>总共支付 " + ticket.getPaidAmount();
 			
 			if(ticket.getGratuity() != null) {
 				message += ", including tips " + ticket.getGratuity().getAmount();
@@ -60,19 +64,19 @@ public class RefundAction extends PosAction {
 			
 			message += "</html>";
 			
-			double refundAmount = NumberSelectionDialog2.takeDoubleInput(message, "Enter refund amount", paidAmount);
+			double refundAmount = NumberSelectionDialog2.takeDoubleInput(message, "请输入退款金额", paidAmount);
 			if(Double.isNaN(refundAmount)) {
 				return;
 			}
 			
 			if(refundAmount > paidAmount) {
-				POSMessageDialog.showError("Refund amount cannot be greater than paid amount");
+				POSMessageDialog.showError("退款金额不能大于实际支付金额");
 				return;
 			}
 
 			PosTransactionService.getInstance().refundTicket(ticket, refundAmount);
 			
-			POSMessageDialog.showMessage("Refunded " + Application.getCurrencySymbol() + refundAmount);
+			POSMessageDialog.showMessage("退款: " + Application.getCurrencySymbol() + refundAmount);
 			
 			ticketList.updateTicketList();
 			

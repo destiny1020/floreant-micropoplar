@@ -229,7 +229,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		activityPanel.add(btnSettleTicket);
 		btnGroupSettle = new com.floreantpos.swing.PosButton();
 
-		btnGroupSettle.setText("<html><body>" + POSConstants.CAPITAL_GROUP + "<br>" + POSConstants.CAPITAL_SETTLE + "</body></html>");
+		btnGroupSettle.setText(POSConstants.CAPITAL_GROUP + POSConstants.CAPITAL_SETTLE);
 		activityPanel.add(btnGroupSettle);
 		btnSplitTicket = new com.floreantpos.swing.PosButton();
 
@@ -268,7 +268,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				doCloseOrder();
 			}
 		});
-		btnCloseOrder.setText("CLOSE ORDER");
+		btnCloseOrder.setText("关闭订单");
 		activityPanel.add(btnCloseOrder);
 
 		bottomPanel.add(bottomLeftPanel, java.awt.BorderLayout.CENTER);
@@ -952,7 +952,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			int min = countDown / 60;
 			int sec = countDown % 60;
 			
-			timerLabel.setText("Aoto logoff in " + min + ":" + sec);
+			timerLabel.setText("在 " + min + ":" + sec + " 以后自动登出");
 			
 			if(countDown == 0) {
 				doLogout();

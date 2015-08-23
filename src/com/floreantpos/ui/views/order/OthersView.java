@@ -76,7 +76,7 @@ public class OthersView extends JPanel {
 				javax.swing.border.TitledBorder.DEFAULT_POSITION));
 		setLayout(new BorderLayout());
 
-		btnSearchItem = new PosButton("SEARCH ITEM");
+		btnSearchItem = new PosButton("搜索商品");
 		btnSearchItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,7 +96,7 @@ public class OthersView extends JPanel {
 		});
 		buttonPanel.add(btnOrderInfo);
 		
-		btnCustomer = new PosButton("CUSTOMER");
+		btnCustomer = new PosButton("顾客信息");
 		btnCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -319,7 +319,7 @@ public class OthersView extends JPanel {
 	}
 
 	public void searchItem() {
-		int itemId = NumberSelectionDialog2.takeIntInput("Enter or scan item id");
+		int itemId = NumberSelectionDialog2.takeIntInput("请输入或者扫描商品ID");
 
 		if (itemId == -1) {
 			return;
@@ -327,7 +327,7 @@ public class OthersView extends JPanel {
 
 		MenuItem menuItem = MenuItemDAO.getInstance().get(itemId);
 		if (menuItem == null) {
-			POSMessageDialog.showError("Item not found");
+			POSMessageDialog.showError("没有找到对应商品");
 			return;
 		}
 		itemSelectionListener.itemSelected(menuItem);
