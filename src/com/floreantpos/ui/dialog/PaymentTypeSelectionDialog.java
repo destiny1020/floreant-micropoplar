@@ -28,7 +28,7 @@ import com.floreantpos.swing.PosButton;
 public class PaymentTypeSelectionDialog extends POSDialog {
 	PaymentType selectedPaymentType;
 	private PaymentSelectionButton btnCash;
-	private PaymentSelectionButton btnGiftCert;
+//	private PaymentSelectionButton btnGiftCert;
 
 	/** Creates new form PaymentTypeSelectionDialog */
 	public PaymentTypeSelectionDialog() {
@@ -51,27 +51,29 @@ public class PaymentTypeSelectionDialog extends POSDialog {
 		JPanel genericPanel = new JPanel(new GridLayout(1, 0, 15, 15));
 		btnCash = new PaymentSelectionButton(PaymentType.CASH);
 		genericPanel.add(btnCash, "grow,wrap");
-		btnGiftCert = new PaymentSelectionButton(PaymentType.GIFT_CERTIFICATE);
-		genericPanel.add(btnGiftCert);
+//		btnGiftCert = new PaymentSelectionButton(PaymentType.GIFT_CERTIFICATE);
+//		genericPanel.add(btnGiftCert);
 		content.add(genericPanel, "height 60px, wrap, growx");
 		
 		JPanel creditCardPanel = new JPanel(new GridLayout(1, 0, 10, 10));
-		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_VISA));
+//		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_VISA));
 		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_MASTER_CARD));
-		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_AMEX));
+//		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_AMEX));
 		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_DISCOVERY));
+		creditCardPanel.add(new PaymentSelectionButton(PaymentType.UNION_PAY));
 		
-		creditCardPanel.setBorder(new CompoundBorder(new TitledBorder("CREDIT CARD"), new EmptyBorder(10, 10, 10, 10)));
+		creditCardPanel.setBorder(new CompoundBorder(new TitledBorder("银行卡支付"), new EmptyBorder(10, 10, 10, 10)));
 		content.add(creditCardPanel, "wrap, height 110px, growx");
 		
-		JPanel debitCardPanel = new JPanel(new GridLayout(1, 0, 10, 10));
-		debitCardPanel.add(new PaymentSelectionButton(PaymentType.DEBIT_VISA));
-		debitCardPanel.add(new PaymentSelectionButton(PaymentType.DEBIT_MASTER_CARD));
+		JPanel onlinePaymentPanel = new JPanel(new GridLayout(1, 0, 10, 10));
+		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.DEBIT_MASTER_CARD));
+		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.ALIPAY));
+		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.WECHAT));
 		
-		debitCardPanel.setBorder(new CompoundBorder(new TitledBorder("DEBIT CARD"), new EmptyBorder(10, 10, 10, 10)));
-		content.add(debitCardPanel, "wrap, height 110px, growx");
+		onlinePaymentPanel.setBorder(new CompoundBorder(new TitledBorder("在线支付"), new EmptyBorder(10, 10, 10, 10)));
+		content.add(onlinePaymentPanel, "wrap, height 110px, growx");
 		
-		PosButton cancel = new PosButton("CANCEL");
+		PosButton cancel = new PosButton("取消");
 		cancel.addActionListener(new ActionListener() {
 			
 			@Override
@@ -121,6 +123,6 @@ public class PaymentTypeSelectionDialog extends POSDialog {
 	
 	public void setCashButtonVisible(boolean visible) {
 		btnCash.setVisible(visible);
-		btnGiftCert.setVisible(visible);
+//		btnGiftCert.setVisible(visible);
 	}
 }

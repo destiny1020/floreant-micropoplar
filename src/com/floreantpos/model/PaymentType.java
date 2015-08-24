@@ -3,10 +3,10 @@ package com.floreantpos.model;
 import com.floreantpos.config.CardConfig;
 
 public enum PaymentType {
-	CASH("CASH"), DEBIT_VISA("Visa", "visa_card.png"), DEBIT_MASTER_CARD("MasterCard", "master_card.png"), 
+	CASH("现金"), DEBIT_VISA("Visa", "visa_card.png"), DEBIT_MASTER_CARD("MasterCard", "master_card.png"), 
 	CREDIT_VISA("Visa", "visa_card.png"), CREDIT_MASTER_CARD("MasterCard", "master_card.png"), 
 	CREDIT_AMEX("Amex", "am_ex_card.png"), CREDIT_DISCOVERY("Discover", "discover_card.png"), 
-	GIFT_CERTIFICATE("GIFT CERTIFICATE"),
+	GIFT_CERTIFICATE("礼品卡"),
 	
 	WECHAT("微信支付", "wechat.png"),
 	ALIPAY("支付宝", "alipay.png"),

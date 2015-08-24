@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.config.CardConfig;
+import com.floreantpos.config.WeChatConfig;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
@@ -249,6 +250,13 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 					settleTicket(transaction);
 					break;
+				case WECHAT:
+					payUsingWechat(tenderAmount);
+					break;
+				case ALIPAY:
+					break;
+				case UNION_PAY:
+					break;
 
 				case CREDIT_VISA:
 				case CREDIT_MASTER_CARD:
@@ -451,6 +459,17 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		} catch (Exception ee) {
 			POSMessageDialog.showError(Application.getPosWindow(), com.floreantpos.POSConstants.PRINT_ERROR, ee);
 		}
+	}
+	
+	private void payUsingWechat(final double tenderedAmount) throws Exception {
+		if(!WeChatConfig.isWeChatSupported()) {
+			POSMessageDialog.showError("目前不支持微信支付");
+			return;
+		}
+		
+		WeChatDialog weChatDialog = new WeChatDialog(this);
+		weChatDialog.pack();
+		weChatDialog.open();
 	}
 
 	private void payUsingCard(String cardName, final double tenderedAmount) throws Exception {

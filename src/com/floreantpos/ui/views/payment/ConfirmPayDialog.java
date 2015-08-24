@@ -42,7 +42,7 @@ public class ConfirmPayDialog extends POSDialog {
 				dispose();
 			}
 		});
-		psbtnConfirm.setText("CONFIRM");
+		psbtnConfirm.setText("确认");
 		panel_1.add(psbtnConfirm);
 		
 		PosButton psbtnCancel = new PosButton();
@@ -52,16 +52,16 @@ public class ConfirmPayDialog extends POSDialog {
 				dispose();
 			}
 		});
-		psbtnCancel.setText("CANCEL");
+		psbtnCancel.setText("取消");
 		panel_1.add(psbtnCancel);
 		
 		TitlePanel titlePanel = new TitlePanel();
-		titlePanel.setTitle("Confirm payment");
+		titlePanel.setTitle("支付确认");
 		getContentPane().add(titlePanel, BorderLayout.NORTH);
 		
 		lblInfo = new JLabel("");
 		lblInfo.setBorder(new EmptyBorder(10, 10, 10, 10));
-		lblInfo.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblInfo.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		getContentPane().add(lblInfo, BorderLayout.CENTER);
 	}
 
@@ -70,7 +70,7 @@ public class ConfirmPayDialog extends POSDialog {
 	}
 	
 	public void setAmount(double amount) {
-		lblInfo.setText("<html>You are going to process <b>" + Application.getCurrencySymbol() + amount
-							+ "</b>.<br/><br/>If you are sure press <b>CONFIRM</b>, otherwise press <b>CANCEL</b>.<br/><br/></html>");
+		lblInfo.setText("<html>收到了来自顾客的  <b>" + Application.getCurrencySymbol() + amount
+							+ "</b><br/><br/>如果确认无误, 请点击 <b>确认</b>, 否则请点击 <b>取消</b>.<br/><br/></html>");
 	}
 }
