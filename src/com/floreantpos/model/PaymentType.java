@@ -6,7 +6,11 @@ public enum PaymentType {
 	CASH("CASH"), DEBIT_VISA("Visa", "visa_card.png"), DEBIT_MASTER_CARD("MasterCard", "master_card.png"), 
 	CREDIT_VISA("Visa", "visa_card.png"), CREDIT_MASTER_CARD("MasterCard", "master_card.png"), 
 	CREDIT_AMEX("Amex", "am_ex_card.png"), CREDIT_DISCOVERY("Discover", "discover_card.png"), 
-	GIFT_CERTIFICATE("GIFT CERTIFICATE");
+	GIFT_CERTIFICATE("GIFT CERTIFICATE"),
+	
+	WECHAT("微信支付", "wechat.png"),
+	ALIPAY("支付宝", "alipay.png"),
+	UNION_PAY("银联支付", "unionpay.png");
 
 	private String displayString;
 	private String imageFile;
@@ -72,6 +76,16 @@ public enum PaymentType {
 				transaction = new GiftCertificateTransaction();
 				break;
 				
+			case WECHAT:
+				transaction = new WeChatTransaction();
+				break;
+			case ALIPAY:
+				transaction = new AlipayTransaction();
+				break;
+			case UNION_PAY:
+				transaction = new UnionPayTransaction();
+				break;
+			
 			default:
 				transaction = new CashTransaction();
 				break;

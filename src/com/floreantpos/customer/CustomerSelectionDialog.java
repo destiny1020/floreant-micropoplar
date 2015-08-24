@@ -49,6 +49,7 @@ public class CustomerSelectionDialog extends POSDialog {
 	
 	public CustomerSelectionDialog(Ticket ticket) {
 		this.ticket = ticket;
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		setTitle("添加/编辑 客户");
 		

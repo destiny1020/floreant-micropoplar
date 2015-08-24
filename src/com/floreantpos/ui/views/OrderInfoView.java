@@ -33,7 +33,7 @@ public class OrderInfoView extends JPanel {
 		for (int i = 0; i < tickets.size(); i++) {
 			Ticket ticket = (Ticket) tickets.get(i);
 			
-			TicketPrintProperties printProperties = new TicketPrintProperties("*** ORDER " + ticket.getId() + " ***", false, true, true);
+			TicketPrintProperties printProperties = new TicketPrintProperties("*** 订单 " + ticket.getId() + " ***", false, true, true);
 			HashMap map = JReportPrintService.populateTicketProperties(ticket, printProperties, null);
 			JasperPrint jasperPrint = JReportPrintService.createPrint(ticket, map, null);
 

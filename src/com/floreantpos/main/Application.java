@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -75,7 +76,7 @@ public class Application {
 	public final static String VERSION = AppProperties.getVersion();
 
 	private Application() {
-		//Locale.setDefault(Locale.forLanguageTag("ar-EG"));
+		Locale.setDefault(Locale.forLanguageTag("zh-CN"));
 
 		applicationIcon = new ImageIcon(getClass().getResource("/icons/icon.png")); //$NON-NLS-1$
 		posWindow = new PosWindow();

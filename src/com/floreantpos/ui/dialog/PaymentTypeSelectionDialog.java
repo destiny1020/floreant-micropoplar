@@ -33,7 +33,7 @@ public class PaymentTypeSelectionDialog extends POSDialog {
 	/** Creates new form PaymentTypeSelectionDialog */
 	public PaymentTypeSelectionDialog() {
 		super(Application.getPosWindow(), true);
-		setTitle("Select payment type");
+		setTitle("请选择支付类型");
 		
 		initComponents();
 	}

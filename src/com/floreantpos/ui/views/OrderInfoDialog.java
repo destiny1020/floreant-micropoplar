@@ -14,7 +14,7 @@ public class OrderInfoDialog extends POSDialog {
 	
 	public OrderInfoDialog(OrderInfoView view) {
 		this.view = view;
-		setTitle("ORDER PREVIEW");
+		setTitle("订单预览");
 		
 		createUI();
 	}
@@ -31,7 +31,7 @@ public class OrderInfoDialog extends POSDialog {
 				doPrint();
 			}
 		});
-		btnPrint.setText("PRINT");
+		btnPrint.setText("打印");
 		panel.add(btnPrint);
 		
 		PosButton btnClose = new PosButton();
@@ -40,7 +40,7 @@ public class OrderInfoDialog extends POSDialog {
 				dispose();
 			}
 		});
-		btnClose.setText("CLOSE");
+		btnClose.setText("关闭");
 		panel.add(btnClose);
 	}
 
