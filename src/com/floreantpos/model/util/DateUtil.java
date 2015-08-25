@@ -1,9 +1,16 @@
 package com.floreantpos.model.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
+	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd");
+	
+	public static String getTodayString() {
+		return SDF.format(new Date());
+	}
+	
 	public static Date startOfDay(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

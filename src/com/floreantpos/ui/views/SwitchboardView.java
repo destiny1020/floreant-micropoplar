@@ -54,6 +54,7 @@ import com.floreantpos.model.UserType;
 import com.floreantpos.model.dao.AttendenceHistoryDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.dao.UserDAO;
+import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.services.TicketService;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.ManagerDialog;

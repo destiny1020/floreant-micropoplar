@@ -1,5 +1,7 @@
 package com.floreantpos.ui.views.order;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.floreantpos.POSConstants;
 import com.floreantpos.actions.SettleTicketAction;
 import com.floreantpos.main.Application;
@@ -14,6 +16,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.order.actions.CategorySelectionListener;
 import com.floreantpos.ui.views.order.actions.GroupSelectionListener;
@@ -101,6 +104,11 @@ public class OrderController implements OrderListener, CategorySelectionListener
 		if (ticket == null)
 			return;
 
+		// set uniq id if necessary
+		if(StringUtils.isBlank(ticket.getUniqId())) {
+			ticket.setUniqId(TicketUniqIdGenerator.generate());
+		}
+		
 		boolean newTicket = ticket.getId() == null;
 
 		TicketDAO ticketDAO = new TicketDAO();

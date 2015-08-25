@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseTicket;
+import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.util.NumberUtil;
 import com.floreantpos.util.POSUtil;
 

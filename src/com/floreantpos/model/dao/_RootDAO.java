@@ -13,6 +13,7 @@ import com.floreantpos.model.CookingInstruction;
 import com.floreantpos.model.CouponAndDiscount;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.DrawerPullReport;
+import com.floreantpos.model.Generator;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.KitchenTicket;
 import com.floreantpos.model.KitchenTicketItem;
@@ -122,6 +123,7 @@ public abstract class _RootDAO extends com.floreantpos.model.dao._BaseRootDAO {
 		configuration = configuration.addClass(ZipCodeVsDeliveryCharge.class);
 		configuration = configuration.addClass(ShopFloor.class);
 		configuration = configuration.addClass(ShopTable.class);
+		configuration = configuration.addClass(Generator.class);
 		
 		configuration = configureInventoryClasses(configuration);
 		

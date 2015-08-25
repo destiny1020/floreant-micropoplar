@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jdesktop.swingx.JXTable;
 
 import com.floreantpos.POSConstants;
@@ -37,7 +38,7 @@ public class TicketListView extends JPanel {
 		table.setGridColor(Color.LIGHT_GRAY);
 		
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(30);
+		columnModel.getColumn(0).setPreferredWidth(100);
 		columnModel.getColumn(1).setPreferredWidth(20);
 		columnModel.getColumn(2).setPreferredWidth(100);
 		columnModel.getColumn(3).setPreferredWidth(150);
@@ -116,7 +117,8 @@ public class TicketListView extends JPanel {
 
 			switch (columnIndex) {
 			case 0:
-				return Integer.valueOf(ticket.getId());
+				String uniqId = ticket.getUniqId();
+				return StringUtils.isBlank(uniqId) ? Integer.valueOf(ticket.getId()) : uniqId;
 
 			case 1:
 				return ticket.getTableNumbers();

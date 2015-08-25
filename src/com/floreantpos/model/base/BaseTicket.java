@@ -75,6 +75,9 @@ public abstract class BaseTicket  implements Comparable, Serializable {
 
 	// primary key
 	private java.lang.Integer id;
+	
+	// unique ID
+	private String uniqId;
 
 	 java.util.Date modifiedTime;
 
@@ -896,6 +899,14 @@ public abstract class BaseTicket  implements Comparable, Serializable {
 
 	public String toString () {
 		return super.toString();
+	}
+
+	public String getUniqId() {
+		return uniqId;
+	}
+
+	public void setUniqId(String uniqId) {
+		this.uniqId = uniqId;
 	}
 
 
