@@ -76,7 +76,7 @@ public class NotesDialog extends POSDialog {
     
     @Override
     public void setTitle(String title) {
-    	super.setTitle(Application.getTitle());
+    	super.setTitle(title);
     	
     	titlePanel.setTitle(title);
     }

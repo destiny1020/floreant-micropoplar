@@ -5,3 +5,4 @@
 floreantpos.config.properties
 target/
 logs/
+*.bak

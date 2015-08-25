@@ -392,7 +392,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 	private void doReopenTicket() {
 		try {
 
-			int ticketId = NumberSelectionDialog2.takeIntInput("Enter or scan ticket id");
+			int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
 
 			if (ticketId == -1) {
 				return;
@@ -409,7 +409,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			}
 			
 			if(ticket.isVoided()) {
-				throw new PosException("Void ticket cannot be reopened");
+				throw new PosException("废弃订单不能重新打开");
 			}
 
 			ticket.setClosed(false);
@@ -501,7 +501,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("Enter or scan ticket id");
+				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
 				ticket = TicketService.getTicket(ticketId);
 			}
 
@@ -558,7 +558,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("Enter or scan ticket id");
+				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
 				ticket = TicketService.getTicket(ticketId);
 			}
 
@@ -614,7 +614,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("Enter or scan ticket id");
+				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
 				ticket = TicketService.getTicket(ticketId);
 			}
 
@@ -628,7 +628,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 	private void editTicket(Ticket ticket) {
 		if (ticket.isPaid()) {
-			POSMessageDialog.showMessage("Paid ticket cannot be edited");
+			POSMessageDialog.showMessage("已支付的订单无法编辑");
 			return;
 		}
 
@@ -911,7 +911,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		List<Ticket> selectedTickets = openTicketList.getSelectedTickets();
 
 		if (selectedTickets.size() == 0 || selectedTickets.size() > 1) {
-			POSMessageDialog.showMessage("Please select a ticket");
+			POSMessageDialog.showMessage("请选择一个订单");
 			return null;
 		}
 

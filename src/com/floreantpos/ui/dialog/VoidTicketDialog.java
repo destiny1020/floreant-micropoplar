@@ -32,6 +32,7 @@ public class VoidTicketDialog extends POSDialog {
     /** Creates new form VoidTicketDialog */
     public VoidTicketDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal, true);
+        setTitle(com.floreantpos.POSConstants.VOID_TICKET);
         initComponents();
         
         try {
@@ -42,7 +43,7 @@ public class VoidTicketDialog extends POSDialog {
 			POSMessageDialog.showError(com.floreantpos.POSConstants.CANNOT_LOAD_VOID_REASONS, e);
 		}
 		
-		setSize(450, 650);
+		setSize(500, 725);
     }
     
     /** This method is called from within the constructor to
