@@ -37,6 +37,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.util.NumberUtil;
 
 public class JReportPrintService {
@@ -227,6 +228,7 @@ public class JReportPrintService {
 		html.append("<span>" + columnText + "</span>");
 	}
 
+	@SuppressWarnings("unchecked")
 	public static HashMap populateTicketProperties(Ticket ticket, TicketPrintProperties printProperties, PosTransaction transaction) {
 		Restaurant restaurant = RestaurantDAO.getRestaurant();
 
@@ -254,7 +256,7 @@ public class JReportPrintService {
 		StringBuilder ticketHeaderBuilder = buildTicketHeader(ticket, printProperties);
 
 		map.put("ticketHeader", ticketHeaderBuilder.toString());
-		map.put("barcode", String.valueOf(ticket.getId()));
+		map.put("barcode", String.valueOf(ticket.getUniqId()));
 
 		if (printProperties.isShowHeader()) {
 			map.put(HEADER_LINE1, restaurant.getName());
@@ -353,14 +355,12 @@ public class JReportPrintService {
 	}
 
 	private static StringBuilder buildTicketHeader(Ticket ticket, TicketPrintProperties printProperties) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yy, h:m a");
-
 		StringBuilder ticketHeaderBuilder = new StringBuilder();
 		ticketHeaderBuilder.append("<html>");
 
-		beginRow(ticketHeaderBuilder);
-		addColumn(ticketHeaderBuilder, "*" + ticket.getType() + "*");
-		endRow(ticketHeaderBuilder);
+//		beginRow(ticketHeaderBuilder);
+//		addColumn(ticketHeaderBuilder, "*" + ticket.getType().getValue() + "*");
+//		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
 		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_TERMINAL_LABEL + Application.getInstance().getTerminal().getId());
@@ -385,7 +385,7 @@ public class JReportPrintService {
 		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
-		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_DATE_LABEL + dateFormat.format(new Date()));
+		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_DATE_LABEL + DateUtil.getNowString());
 		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
@@ -428,7 +428,7 @@ public class JReportPrintService {
 
 				if (ticket.getDeliveryDate() != null) {
 					beginRow(ticketHeaderBuilder);
-					addColumn(ticketHeaderBuilder, "Delivery: " + dateFormat.format(ticket.getDeliveryDate()));
+					addColumn(ticketHeaderBuilder, "Delivery: " + DateUtil.getDateString(ticket.getDeliveryDate()));
 					endRow(ticketHeaderBuilder);
 				}
 			}
@@ -438,6 +438,7 @@ public class JReportPrintService {
 		return ticketHeaderBuilder;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static JasperPrint createKitchenPrint(KitchenTicket ticket) throws Exception {
 		HashMap map = new HashMap();
 
