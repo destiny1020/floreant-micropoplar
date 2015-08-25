@@ -408,14 +408,14 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{paidAmount}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-7" x="0" y="104" width="75" height="13" isRemoveLineWhenBlank="true"/>
+				<reportElement key="staticText-10" x="0" y="104" width="75" height="13" isRemoveLineWhenBlank="true"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
 					<font fontName="Monospaced" size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{paidAmountText}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-8" x="1" y="45" width="75" height="13">
+				<reportElement key="staticText-11" x="1" y="45" width="75" height="13">
 					<printWhenExpression><![CDATA[$P{serviceCharge}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
@@ -437,7 +437,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{serviceCharge}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-6" x="1" y="19" width="75" height="13">
+				<reportElement key="staticText-12" x="1" y="19" width="75" height="13">
 					<printWhenExpression><![CDATA[$P{discountAmount}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
@@ -473,7 +473,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{footerMessage}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-8" x="1" y="71" width="75" height="13" isRemoveLineWhenBlank="true">
+				<reportElement key="staticText-13" x="1" y="71" width="75" height="13" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$P{tipAmount}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
@@ -495,7 +495,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{deliveryCharge}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-9" x="0" y="130" width="75" height="13" isRemoveLineWhenBlank="true">
+				<reportElement key="staticText-14" x="0" y="130" width="75" height="13" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$P{changedAmount} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
@@ -528,7 +528,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{additionalProperties}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-9" x="0" y="252" width="123" height="13" isRemoveLineWhenBlank="true">
+				<reportElement key="staticText-15" x="0" y="252" width="123" height="13" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$P{cardPayment}==true]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html">
@@ -549,7 +549,7 @@
 				<text><![CDATA[Sign:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="staticText-9" positionType="Float" x="0" y="278" width="123" height="13" isRemoveLineWhenBlank="true">
+				<reportElement key="staticText-16" positionType="Float" x="0" y="278" width="123" height="13" isRemoveLineWhenBlank="true">
 					<printWhenExpression><![CDATA[$P{cardPayment}==true]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
