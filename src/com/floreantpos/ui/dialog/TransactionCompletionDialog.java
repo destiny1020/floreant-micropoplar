@@ -74,7 +74,7 @@ public class TransactionCompletionDialog extends POSDialog {
 		add(lblChangeDue, "span, grow");
 
 		add(new JSeparator(), "sg mygroup,newline,span,grow");
-		PosButton btnClose = new PosButton("CLOSE");
+		PosButton btnClose = new PosButton("关闭");
 		btnClose.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +91,7 @@ public class TransactionCompletionDialog extends POSDialog {
 					JReportPrintService.printTransaction(completedTransaction, false);
 
 				} catch (Exception ee) {
-					POSMessageDialog.showError(Application.getPosWindow(), "There was an error while printing.", ee);
+					POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
 				}
 				dispose();
 			}
@@ -105,7 +105,7 @@ public class TransactionCompletionDialog extends POSDialog {
 					JReportPrintService.printTransaction(completedTransaction, true);
 
 				} catch (Exception ee) {
-					POSMessageDialog.showError(Application.getPosWindow(), "There was an error while printing.", ee);
+					POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
 				}
 				dispose();
 			}
@@ -119,7 +119,7 @@ public class TransactionCompletionDialog extends POSDialog {
 			p.add(btnClose, "skip, h 50");
 		}
 		else {
-			btnPrintStoreCopy.setText("PRINT");
+			btnPrintStoreCopy.setText("打印");
 			p.add(btnPrintStoreCopy, "skip, h 50");
 			p.add(btnClose, "skip, h 50");
 		}

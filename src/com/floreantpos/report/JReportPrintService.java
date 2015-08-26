@@ -295,9 +295,16 @@ public class JReportPrintService {
 			map.put("changeAmountText", POSConstants.RECEIPT_REPORT_CHANGEAMOUNT_LABEL + currencySymbol);
 
 			map.put("netAmount", NumberUtil.formatNumber(totalAmount));
-			map.put("paidAmount", NumberUtil.formatNumber(ticket.getPaidAmount()));
+			
+			// first retrieve tender amount from trans
+			if(transaction != null && transaction.getTenderAmount() != null) {
+				map.put("paidAmount", NumberUtil.formatNumber(transaction.getTenderAmount()));
+			} else {
+				map.put("paidAmount", NumberUtil.formatNumber(ticket.getPaidAmount()));
+			}
+			
 			map.put("dueAmount", NumberUtil.formatNumber(ticket.getDueAmount()));
-			map.put("grandSubtotal", NumberUtil.formatNumber(ticket.getSubtotalAmount()));
+			map.put("grandSubTotal", NumberUtil.formatNumber(ticket.getSubtotalAmount()));
 			map.put("footerMessage", restaurant.getTicketFooterMessage());
 			map.put("copyType", printProperties.getReceiptCopyType());
 

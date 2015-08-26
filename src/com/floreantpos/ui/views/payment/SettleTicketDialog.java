@@ -243,6 +243,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 					}
 
 					transaction = new CashTransaction();
+					transaction.setTenderAmount(tenderAmount);
 					transaction.setPaymentType(paymentType.name());
 					transaction.setTicket(ticket);
 					transaction.setCaptured(true);

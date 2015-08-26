@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <printers>
-    <defaultKitchenPrinter>
-        <defaultPrinter>false</defaultPrinter>
-        <deviceName>GP-5890X Series</deviceName>
-        <virtualPrinter>
-            <name>Kitchen</name>
-        </virtualPrinter>
-    </defaultKitchenPrinter>
-    <kitchenPrinters>
-        <defaultPrinter>false</defaultPrinter>
-        <deviceName>GP-5890X Series</deviceName>
-        <virtualPrinter>
-            <name>Kitchen</name>
-        </virtualPrinter>
-    </kitchenPrinters>
     <receiptPrinter>GP-5890X Series</receiptPrinter>
-    <reportPrinter>GP-5890X Series</reportPrinter>
 </printers>
