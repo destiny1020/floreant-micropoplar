@@ -228,16 +228,20 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		btnSettleTicket = new com.floreantpos.swing.PosButton();
 		btnSettleTicket.setText(POSConstants.CAPITAL_SETTLE);
 		activityPanel.add(btnSettleTicket);
+		
 		btnGroupSettle = new com.floreantpos.swing.PosButton();
-
 		btnGroupSettle.setText(POSConstants.CAPITAL_GROUP + POSConstants.CAPITAL_SETTLE);
-		activityPanel.add(btnGroupSettle);
+		if (TerminalConfig.isGroupSettleEnabled()) {
+			activityPanel.add(btnGroupSettle);
+		}
+		
 		btnSplitTicket = new com.floreantpos.swing.PosButton();
-
 		btnSplitTicket.setText(POSConstants.CAPITAL_SPLIT);
-		activityPanel.add(btnSplitTicket);
+		if (TerminalConfig.isSplitTicketEnabled()) {
+			activityPanel.add(btnSplitTicket);
+		}
+		
 		btnReopenTicket = new com.floreantpos.swing.PosButton();
-
 		btnReopenTicket.setText(POSConstants.CAPITAL_RE_OPEN);
 		activityPanel.add(btnReopenTicket);
 

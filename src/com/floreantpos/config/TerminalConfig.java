@@ -159,4 +159,12 @@ public class TerminalConfig {
 	public static void setUiDefaultFont(String fontName) {
 		config.setProperty(UI_DEFAULT_FONT, fontName);
 	}
+
+	public static boolean isGroupSettleEnabled() {
+		return false;
+	}
+
+	public static boolean isSplitTicketEnabled() {
+		return false;
+	}
 }
