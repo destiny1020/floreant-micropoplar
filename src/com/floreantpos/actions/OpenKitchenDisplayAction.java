@@ -5,7 +5,7 @@ import com.floreantpos.demo.KitchenDisplay;
 public class OpenKitchenDisplayAction extends PosAction {
 
 	public OpenKitchenDisplayAction() {
-		super("KITCHEN ORDERS");
+		super("厨房订单");
 	}
 	
 	@Override

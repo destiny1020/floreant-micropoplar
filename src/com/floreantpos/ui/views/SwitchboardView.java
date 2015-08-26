@@ -154,7 +154,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		btnLogout = new com.floreantpos.swing.PosButton();
 		btnBackOffice = new com.floreantpos.swing.PosButton();
 		btnManager = new com.floreantpos.swing.PosButton();
-		btnAuthorize = new PosButton(new AuthorizeTicketAction());
+//		btnAuthorize = new PosButton(new AuthorizeTicketAction());
 		btnKitchenDisplay = new PosButton(new OpenKitchenDisplayAction());
 		btnClockOut = new com.floreantpos.swing.PosButton();
 
@@ -279,7 +279,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 		bottomPanel.add(bottomLeftPanel, java.awt.BorderLayout.CENTER);
 
-		bottomRightPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "OTHERS", javax.swing.border.TitledBorder.CENTER,
+		bottomRightPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "系统功能", javax.swing.border.TitledBorder.CENTER,
 				javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
 		btnLogout.setText(POSConstants.CAPITAL_LOGOUT);
@@ -306,7 +306,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			bottomRightPanel.add(btnTicketsAndTables, "height pref!,grow,wrap");
 		}
 
-		bottomRightPanel.add(btnAuthorize, "height pref!,grow,wrap");
+//		bottomRightPanel.add(btnAuthorize, "height pref!,grow,wrap");
 		bottomRightPanel.add(btnKitchenDisplay, "height pref!,grow,wrap");
 		bottomRightPanel.add(btnManager, "height pref!,grow,wrap");
 		bottomRightPanel.add(btnBackOffice, "height pref!,grow,wrap");
@@ -824,7 +824,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 	private com.floreantpos.swing.PosButton btnGroupSettle;
 	private com.floreantpos.swing.PosButton btnLogout;
 	private com.floreantpos.swing.PosButton btnManager;
-	private com.floreantpos.swing.PosButton btnAuthorize;
+//	private com.floreantpos.swing.PosButton btnAuthorize;
 	private com.floreantpos.swing.PosButton btnKitchenDisplay;
 	private com.floreantpos.swing.PosButton btnNewTicket;
 	private com.floreantpos.swing.PosButton btnPayout;

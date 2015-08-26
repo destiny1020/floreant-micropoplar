@@ -82,7 +82,7 @@ public class User extends BaseUser {
 
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName();
+		return getLastName() + getFirstName();
 	}
 	
 	public boolean isManager() {
