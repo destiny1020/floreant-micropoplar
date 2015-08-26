@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.main.Application;
+import com.floreantpos.model.util.DateUtil;
 
 public class JournalReportModel {
 	private Date fromDate;
@@ -115,7 +116,7 @@ public class JournalReportModel {
 				return String.valueOf(data.getRefId());
 
 			case 1:
-				return Application.formatDate(data.getTime());
+				return DateUtil.getReceiptDateTime(data.getTime());
 
 			case 2:
 				return data.getAction();

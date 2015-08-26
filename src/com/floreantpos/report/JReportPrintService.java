@@ -1,21 +1,10 @@
 package com.floreantpos.report;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,8 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import us.fatehi.magnetictrack.bankcard.BankCardMagneticTrack;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.demo.KitchenDisplay;
@@ -39,6 +26,17 @@ import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.util.NumberUtil;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import us.fatehi.magnetictrack.bankcard.BankCardMagneticTrack;
 
 public class JReportPrintService {
 	private static final String TIP_AMOUNT = "tipAmount";
@@ -99,6 +97,7 @@ public class JReportPrintService {
 		return createJasperPrint(FILE_RECEIPT_REPORT, map, new JRTableModelDataSource(dataSource));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printTicket(Ticket ticket) {
 		try {
 
@@ -116,6 +115,7 @@ public class JReportPrintService {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static JasperPrint createRefundPrint(Ticket ticket, HashMap map) throws Exception {
 		final String FILE_RECEIPT_REPORT = "/com/floreantpos/report/template/RefundReceipt.jasper";
 
@@ -123,6 +123,7 @@ public class JReportPrintService {
 		return createJasperPrint(FILE_RECEIPT_REPORT, map, new JRTableModelDataSource(dataSource));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printRefundTicket(Ticket ticket, RefundTransaction posTransaction) {
 		try {
 
@@ -144,6 +145,7 @@ public class JReportPrintService {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printTransaction(PosTransaction transaction) {
 		try {
 			Ticket ticket = transaction.getTicket();
@@ -178,6 +180,7 @@ public class JReportPrintService {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printTransaction(PosTransaction transaction, boolean printCustomerCopy) {
 		try {
 			Ticket ticket = transaction.getTicket();
@@ -228,7 +231,7 @@ public class JReportPrintService {
 		html.append("<span>" + columnText + "</span>");
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static HashMap populateTicketProperties(Ticket ticket, TicketPrintProperties printProperties, PosTransaction transaction) {
 		Restaurant restaurant = RestaurantDAO.getRestaurant();
 
@@ -251,7 +254,7 @@ public class JReportPrintService {
 		map.put(TABLE_NO, POSConstants.RECEIPT_REPORT_TABLE_NO_LABEL + ticket.getTableNumbers());
 		map.put(GUEST_COUNT, POSConstants.RECEIPT_REPORT_GUEST_NO_LABEL + ticket.getNumberOfGuests());
 		map.put(SERVER_NAME, POSConstants.RECEIPT_REPORT_SERVER_LABEL + ticket.getOwner());
-		map.put(REPORT_DATE, POSConstants.RECEIPT_REPORT_DATE_LABEL + Application.formatDate(new Date()));
+		map.put(REPORT_DATE, POSConstants.RECEIPT_REPORT_DATE_LABEL + DateUtil.getReceiptDateTime(new Date()));
 
 		StringBuilder ticketHeaderBuilder = buildTicketHeader(ticket, printProperties);
 
@@ -460,7 +463,7 @@ public class JReportPrintService {
 		}
 		//map.put(GUEST_COUNT, POSConstants.RECEIPT_REPORT_GUEST_NO_LABEL + ticket.getNumberOfGuests());
 		map.put(SERVER_NAME, POSConstants.RECEIPT_REPORT_SERVER_LABEL + ticket.getServerName());
-		map.put(REPORT_DATE, Application.formatDate(new Date()));
+		map.put(REPORT_DATE, DateUtil.getReceiptDateTime(new Date()));
 
 		map.put("ticketHeader", "KTICHEN RECEIPT");
 

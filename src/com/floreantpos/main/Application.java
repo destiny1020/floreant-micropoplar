@@ -68,7 +68,6 @@ public class Application {
 
 	private static Application instance;
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy"); //$NON-NLS-1$
 	private static ImageIcon applicationIcon;
 
 	private boolean systemInitialized;
@@ -400,10 +399,6 @@ public class Application {
 
 	public static void setApplicationIcon(ImageIcon applicationIcon) {
 		Application.applicationIcon = applicationIcon;
-	}
-
-	public static String formatDate(Date date) {
-		return dateFormat.format(date);
 	}
 
 	public Shift getCurrentShift() {

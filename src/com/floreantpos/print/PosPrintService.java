@@ -25,6 +25,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TipsCashoutReport;
 import com.floreantpos.model.TipsCashoutReportTableModel;
 import com.floreantpos.model.dao.RestaurantDAO;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.util.NumberUtil;
 
@@ -237,6 +238,7 @@ public class PosPrintService {
 		printer.endLine();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printDrawerPullReport(DrawerPullReport drawerPullReport, Terminal terminal) {
 		
 		try {
@@ -264,14 +266,15 @@ public class PosPrintService {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void printServerTipsReport(TipsCashoutReport report) {
 		
 		try {
 			HashMap parameters = new HashMap();
 			parameters.put("server", report.getServer());
-			parameters.put("fromDate", Application.formatDate(report.getFromDate()));
-			parameters.put("toDate", Application.formatDate(report.getToDate()));
-			parameters.put("reportDate", Application.formatDate(report.getReportTime()));
+			parameters.put("fromDate", DateUtil.getReceiptDateTime(report.getFromDate()));
+			parameters.put("toDate", DateUtil.getReceiptDateTime(report.getToDate()));
+			parameters.put("reportDate", DateUtil.getReceiptDateTime(report.getReportTime()));
 			parameters.put("transactionCount", report.getDatas() == null ? "0" : "" + report.getDatas().size());
 			parameters.put("cashTips", NumberUtil.formatNumber(report.getCashTipsAmount()));
 			parameters.put("chargedTips", NumberUtil.formatNumber(report.getChargedTipsAmount()));
@@ -280,7 +283,6 @@ public class PosPrintService {
 			Restaurant restaurant = RestaurantDAO.getInstance().get(Integer.valueOf(1));
 			
 			parameters.put("headerLine1", restaurant.getName());
-			
 			
 			JasperReport mainReport = (JasperReport) JRLoader.loadObject(JReportPrintService.class.getResourceAsStream("/com/floreantpos/report/template/ServerTipsReport.jasper"));
 			JRDataSource dataSource = new JRTableModelDataSource(new TipsCashoutReportTableModel(report.getDatas(), new String[] {"ticketId", "saleType", "ticketTotal", "tips"}));

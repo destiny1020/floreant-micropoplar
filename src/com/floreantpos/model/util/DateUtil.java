@@ -6,6 +6,8 @@ import java.util.Date;
 
 public class DateUtil {
 	private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyyMMdd");
+	private static final SimpleDateFormat RECEIPT_SHORT = new SimpleDateFormat("yyyy/MM/dd");
+	private static final SimpleDateFormat RECEIPT = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 	private static final SimpleDateFormat SDF_E = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss E");
 
 	public static String getTodayString() {
@@ -39,5 +41,13 @@ public class DateUtil {
 
 	public static String getDateString(Date date) {
 		return SDF_E.format(date);
+	}
+	
+	public static String getReceiptDateTime(Date date) {
+		return RECEIPT.format(date);
+	}
+	
+	public static String getReceiptDate(Date date) {
+		return RECEIPT.format(date);
 	}
 }
