@@ -377,7 +377,7 @@ public class JReportPrintService {
 		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
-		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ticket.getId());
+		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ticket.getUniqId());
 		endRow(ticketHeaderBuilder);
 
 		if (ticket.getType() == TicketType.DINE_IN) {

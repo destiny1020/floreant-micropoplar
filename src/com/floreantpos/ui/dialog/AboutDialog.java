@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.floreantpos.IconFactory;
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.main.Application;
 
@@ -17,7 +18,7 @@ public class AboutDialog extends POSDialog {
 	
 	public AboutDialog() {
 		super(BackOfficeWindow.getInstance(), true);
-		setTitle("About");
+		setTitle("关于");
 	}
 	
 	@Override
@@ -27,7 +28,7 @@ public class AboutDialog extends POSDialog {
 		JLabel logoLabel = new JLabel(IconFactory.getIcon("/icons/", "fp_logo128x128.png"));
 		contentPanel.add(logoLabel, BorderLayout.WEST);
 		
-		JLabel l = new JLabel("<html><center><h1>Floreant POS</h1><br/><h2>Version " + Application.VERSION + "</h2></center></html>");
+		JLabel l = new JLabel("<html><center><h1>" + POSConstants.MDS_POS + "</h1><br/><h2>Version " + Application.VERSION + "</h2></center></html>");
 		contentPanel.add(l);
 		
 		JPanel buttonPanel = new JPanel();
