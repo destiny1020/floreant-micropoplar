@@ -387,4 +387,9 @@ public class POSConstants {
 	public static final String RECEIPT_REPORT_CHANGEAMOUNT_LABEL = Messages.getString("RECEIPT_REPORT_CHANGEAMOUNT_LABEL"); //$NON-NLS-1$
 	
 	public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
+
+	/**
+	 * Customer Window constants below
+	 */
+	public static final String CUSTOMER_WINDOW_STATUS = Messages.getString("CUSTOMER_WINDOW_STATUS");
 }

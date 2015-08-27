@@ -4,8 +4,6 @@ import java.awt.Font;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
@@ -13,9 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-
-import net.xeoh.plugins.base.PluginManager;
-import net.xeoh.plugins.base.impl.PluginManagerFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
@@ -39,6 +34,7 @@ import com.floreantpos.model.dao.PrinterConfigurationDAO;
 import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.TerminalDAO;
 import com.floreantpos.ui.dialog.POSMessageDialog;
+import com.floreantpos.ui.views.CustomerWindow;
 import com.floreantpos.ui.views.LoginScreen;
 import com.floreantpos.ui.views.order.RootView;
 import com.floreantpos.util.DatabaseConnectionException;
@@ -46,6 +42,9 @@ import com.floreantpos.util.DatabaseUtil;
 import com.floreantpos.util.POSUtil;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
+
+import net.xeoh.plugins.base.PluginManager;
+import net.xeoh.plugins.base.impl.PluginManagerFactory;
 
 public class Application {
 	private static Log logger = LogFactory.getLog(Application.class);
@@ -58,6 +57,7 @@ public class Application {
 
 	private Terminal terminal;
 	private PosWindow posWindow;
+	private CustomerWindow customerWindow;
 	private User currentUser;
 	private RootView rootView;
 	private BackOfficeWindow backOfficeWindow;
@@ -78,9 +78,16 @@ public class Application {
 		Locale.setDefault(Locale.forLanguageTag("zh-CN"));
 
 		applicationIcon = new ImageIcon(getClass().getResource("/icons/icon.png")); //$NON-NLS-1$
+		
+		// start main window
 		posWindow = new PosWindow();
 		posWindow.setTitle(getTitle());
 		posWindow.setIconImage(applicationIcon.getImage());
+		
+		// start customer window
+		customerWindow = new CustomerWindow();
+		customerWindow.setTitle(getTitle());
+		customerWindow.setIconImage(applicationIcon.getImage());
 	}
 
 	public void start() {
@@ -97,12 +104,17 @@ public class Application {
 
 		posWindow.getContentPane().add(rootView);
 		posWindow.setupSizeAndLocation();
+		
+		customerWindow.setStatus(POSConstants.CUSTOMER_WINDOW_STATUS);
+		// TODO: add view into customer window
 
 		if (TerminalConfig.isFullscreenMode()) {
 			posWindow.enterFullScreenMode();
 		}
+		customerWindow.enterFullScreenMode();
 
 		posWindow.setVisible(true);
+		customerWindow.setVisible(true);
 
 		initializeSystem();
 	}
@@ -171,6 +183,7 @@ public class Application {
 		try {
 
 			posWindow.setGlassPaneVisible(true);
+			customerWindow.setGlassPaneVisible(true);
 			//posWindow.setGlassPaneMessage(com.floreantpos.POSConstants.LOADING);
 
 			DatabaseUtil.checkConnection(DatabaseUtil.initialize());
@@ -204,7 +217,8 @@ public class Application {
 			e.printStackTrace();
 			logger.error(e);
 		} finally {
-			getPosWindow().setGlassPaneVisible(false);
+			posWindow.setGlassPaneVisible(false);
+			customerWindow.setGlassPaneVisible(false);
 		}
 	}
 
@@ -364,6 +378,10 @@ public class Application {
 
 	public static PosWindow getPosWindow() {
 		return getInstance().posWindow;
+	}
+	
+	public static CustomerWindow getCustomerWindow() {
+		return getInstance().customerWindow;
 	}
 
 	//	public BackOfficeWindow getBackOfficeWindow() {
