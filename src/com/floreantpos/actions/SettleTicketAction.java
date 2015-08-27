@@ -27,7 +27,7 @@ public class SettleTicketAction extends AbstractAction {
 		Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketId);
 
 		if (ticket.isPaid()) {
-			POSMessageDialog.showError("Ticket is already settled");
+			POSMessageDialog.showError("订单已经支付完成");
 			return false;
 		}
 

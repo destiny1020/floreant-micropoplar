@@ -28,11 +28,11 @@ public class ModelBrowser<E> extends JPanel implements ActionListener, ListSelec
 	protected JPanel browserPanel = new JPanel(new BorderLayout());
 	private JPanel beanPanel = new JPanel(new BorderLayout());
 	
-	private JButton btnNew = new JButton("NEW");
-	private JButton btnEdit = new JButton("EDIT");
-	private JButton btnSave = new JButton("SAVE");
-	private JButton btnDelete = new JButton("DELETE");
-	private JButton btnCancel = new JButton("CANCEL");
+	private JButton btnNew = new JButton("新建");
+	private JButton btnEdit = new JButton("编辑");
+	private JButton btnSave = new JButton("保存");
+	private JButton btnDelete = new JButton("删除");
+	private JButton btnCancel = new JButton("取消");
 	
 	public ModelBrowser() {
 		this(null);	

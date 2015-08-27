@@ -228,7 +228,11 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 	public void setDialogTitle(String title) {
 		super.setTitle(title);
 	}
-
+	
+	public String getValueString() {
+		return tfNumber.getText();
+	}
+	
 	public double getValue() {
 		return Double.parseDouble(tfNumber.getText());
 	}
@@ -266,6 +270,25 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 	public void setDefaultValue(int defaultValue) {
 		this.defaultValue = defaultValue;
 		tfNumber.setText(String.valueOf(defaultValue));
+	}
+	
+	/**
+	 * Return the input result as String.
+	 * 
+	 * @param title
+	 * @return
+	 */
+	public static String takeStringInput(String title) {
+		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
+		dialog.setTitle(title);
+		dialog.pack();
+		dialog.open();
+
+		if (dialog.isCanceled()) {
+			return "";
+		}
+		
+		return dialog.getValueString();
 	}
 
 	public static int takeIntInput(String title) {

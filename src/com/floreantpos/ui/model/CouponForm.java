@@ -92,11 +92,11 @@ public class CouponForm extends BeanEditor {
         boolean neverExpire = chkNeverExpire.isSelected();
 
         if (name == null || name.trim().equals("")) {
-            MessageDialog.showError("Name cannot be empty");
+            MessageDialog.showError("优惠券名称不能为空");
             return false;
         }
         if (couponType != CouponAndDiscount.FREE_AMOUNT && couponValue <= 0) {
-            MessageDialog.showError("Value must be greater than 0");
+            MessageDialog.showError("优惠券金额必须大于0");
             return false;
         }
 
@@ -115,9 +115,9 @@ public class CouponForm extends BeanEditor {
     public String getDisplayText() {
         CouponAndDiscount coupon = (CouponAndDiscount) getBean();
         if (coupon.getId() == null) {
-            return "Add new coupon/discount";
+            return "添加新的优惠券/折扣";
         }
-        return "Edit coupon/discount";
+        return "编辑优惠券/折扣";
     }
 
     {

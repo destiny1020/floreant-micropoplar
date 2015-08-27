@@ -36,6 +36,7 @@ public class TicketListView extends JPanel {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		table.setDefaultRenderer(Object.class, new PosTableRenderer());
 		table.setGridColor(Color.LIGHT_GRAY);
+		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(0).setPreferredWidth(100);

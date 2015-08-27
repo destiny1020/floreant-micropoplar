@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 
 public class BOMessageDialog {
@@ -22,17 +23,17 @@ public class BOMessageDialog {
 	}
 
 	public static void showError(String errorMessage) {
-		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), errorMessage, POSConstants.COMMON_ERROR, JOptionPane.ERROR_MESSAGE);
 	}
 
 	public static void showError(String errorMessage, Throwable t) {
 		logger.error(errorMessage, t);
-		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), errorMessage, POSConstants.COMMON_ERROR, JOptionPane.ERROR_MESSAGE);
 	}
 
 	public static void showError(Throwable t) {
 		logger.error("Error", t);
-		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), "An unexpected error has occured, you may need to restart the application", "Error",
+		JOptionPane.showMessageDialog(BackOfficeWindow.getInstance(), "发生了一个异常，请重启应用", POSConstants.COMMON_ERROR,
 				JOptionPane.ERROR_MESSAGE);
 	}
 }

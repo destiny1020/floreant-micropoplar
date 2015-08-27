@@ -2,6 +2,8 @@ package com.floreantpos.model.dao;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+
+import com.floreantpos.model.Ticket;
 import com.floreantpos.model.dao.TicketDAO;
 import org.hibernate.criterion.Order;
 
@@ -47,7 +49,7 @@ public abstract class BaseTicketDAO extends com.floreantpos.model.dao._RootDAO {
 		throws org.hibernate.HibernateException {
 		return (com.floreantpos.model.Ticket) get(getReferenceClass(), key, s);
 	}
-
+	
 	public com.floreantpos.model.Ticket load(java.lang.Integer key)
 		throws org.hibernate.HibernateException {
 		return (com.floreantpos.model.Ticket) load(getReferenceClass(), key);

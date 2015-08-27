@@ -45,7 +45,7 @@ public class RefundAction extends PosAction {
 			
 			Double paidAmount = ticket.getPaidAmount();
 			
-			String message = "将退款金额: " + Application.getCurrencySymbol() + paidAmount;
+			String message = "需要退款的金额: " + Application.getCurrencySymbol() + paidAmount;
 			
 //			int option = JOptionPane.showOptionDialog(Application.getPosWindow(), message, POSConstants.CONFIRM,
 //					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -56,7 +56,7 @@ public class RefundAction extends PosAction {
 			ticket = TicketDAO.getInstance().loadFullTicket(ticket.getId());
 			
 			message = "<html>" +
-					"订单 #" + ticket.getId() + "<br/>总共支付 " + ticket.getPaidAmount();
+					"订单 #" + ticket.getUniqId() + "<br/>总共支付 " + ticket.getPaidAmount();
 			
 			if(ticket.getGratuity() != null) {
 				message += ", including tips " + ticket.getGratuity().getAmount();

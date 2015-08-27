@@ -89,7 +89,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 			}
 		});
 
-		setTitle(Application.getTitle() + "- " + com.floreantpos.POSConstants.BACK_OFFICE); //$NON-NLS-1$
+		setTitle(Application.getTitle() + " - " + com.floreantpos.POSConstants.BACK_OFFICE); //$NON-NLS-1$
 		applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
 	}
 
@@ -139,7 +139,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 
 		createInventoryMenus(menuBar);
 		
-		JMenu helpMenu = new JMenu("Help");
+		JMenu helpMenu = new JMenu("帮助");
 		helpMenu.add(new AboutAction());
 		menuBar.add(helpMenu);
 
@@ -157,7 +157,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 			return;
 		}
 
-		JMenu inventoryMenu = new JMenu("Inventory");
+		JMenu inventoryMenu = new JMenu("库存");
 		for (AbstractAction abstractAction : actions) {
 			inventoryMenu.add(abstractAction);
 		}

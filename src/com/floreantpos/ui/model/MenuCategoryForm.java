@@ -120,7 +120,7 @@ public class MenuCategoryForm extends BeanEditor {
     	
     	String categoryName = tfName.getText();
     	if(POSUtil.isBlankOrNull(categoryName)) {
-    		MessageDialog.showError("Name is required");
+    		MessageDialog.showError("需要输入名字");
     		return false;
     	}
     	

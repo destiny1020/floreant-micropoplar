@@ -505,8 +505,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
-				ticket = TicketService.getTicket(ticketId);
+				String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
+				ticket = TicketService.getTicketByUniqId(ticketUniqId);
 			}
 
 			new SettleTicketAction(ticket.getId()).execute();

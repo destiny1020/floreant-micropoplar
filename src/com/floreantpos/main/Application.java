@@ -320,7 +320,7 @@ public class Application {
 		User user = getCurrentUser();
 
 		if (user != null && !user.hasPermission(UserPermission.SHUT_DOWN)) {
-			POSMessageDialog.showError("You do not have permission to execute this action");
+			POSMessageDialog.showError("您没有权限执行此项命令");
 			return;
 		}
 

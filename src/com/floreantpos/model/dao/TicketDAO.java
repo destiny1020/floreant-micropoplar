@@ -185,6 +185,30 @@ public class TicketDAO extends BaseTicketDAO {
 			closeSession(session);
 		}
 	}
+	
+	public Ticket findByUniqId(String uniqId) {
+		Session session = null;
+
+		try {
+			session = getSession();
+			Criteria criteria = session.createCriteria(getReferenceClass());
+			criteria.add(Restrictions.eq(Ticket.PROP_UNIQ_ID, uniqId));
+			List list = criteria.list();
+			if(list != null && list.size() == 1) {
+				return (Ticket) list.get(0);
+			} else {
+				if(list != null && list.size() == 0) {
+					return null;
+				} else if(list != null && list.size() > 1) {
+					throw new RuntimeException("Ticket Unique ID:" + uniqId + " has more than one ticket !");
+				}
+			}
+		} finally {
+			closeSession(session);
+		}
+		
+		return null;
+	}
 
 	public List<Ticket> findOpenTickets() {
 		Session session = null;

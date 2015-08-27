@@ -6,3 +6,4 @@ floreantpos.config.properties
 target/
 logs/
 *.bak
+i18n/messages_zh_CN.properties~

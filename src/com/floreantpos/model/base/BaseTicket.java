@@ -52,6 +52,7 @@ public abstract class BaseTicket  implements Comparable, Serializable {
 	public static String PROP_PAID_AMOUNT = "paidAmount";
 	public static String PROP_EXTRA_DELIVERY_INFO = "extraDeliveryInfo";
 	public static String PROP_SERVICE_CHARGE = "serviceCharge";
+	public static String PROP_UNIQ_ID = "uniqId";
 
 
 	// constructors
