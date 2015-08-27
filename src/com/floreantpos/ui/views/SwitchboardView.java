@@ -25,14 +25,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.apache.commons.logging.LogFactory;
 
 import com.floreantpos.ITicketList;
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
-import com.floreantpos.actions.AuthorizeTicketAction;
 import com.floreantpos.actions.NewBarTabAction;
 import com.floreantpos.actions.OpenKitchenDisplayAction;
 import com.floreantpos.actions.RefundAction;
@@ -54,7 +51,6 @@ import com.floreantpos.model.UserType;
 import com.floreantpos.model.dao.AttendenceHistoryDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.dao.UserDAO;
-import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.services.TicketService;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.ManagerDialog;
@@ -69,6 +65,8 @@ import com.floreantpos.ui.views.payment.SettleTicketDialog;
 import com.floreantpos.util.POSUtil;
 import com.floreantpos.util.PosGuiUtil;
 import com.floreantpos.util.TicketAlreadyExistsException;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * 

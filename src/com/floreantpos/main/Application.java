@@ -36,6 +36,7 @@ import com.floreantpos.model.dao.TerminalDAO;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CustomerWindow;
 import com.floreantpos.ui.views.LoginScreen;
+import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.RootView;
 import com.floreantpos.util.DatabaseConnectionException;
 import com.floreantpos.util.DatabaseUtil;
@@ -57,7 +58,6 @@ public class Application {
 
 	private Terminal terminal;
 	private PosWindow posWindow;
-	private CustomerWindow customerWindow;
 	private User currentUser;
 	private RootView rootView;
 	private BackOfficeWindow backOfficeWindow;
@@ -66,6 +66,9 @@ public class Application {
 	private Restaurant restaurant;
 	private PosPrinters printers;
 
+	private CustomerWindow customerWindow;
+	private CustomerRootView customerRootView;
+	
 	private static Application instance;
 
 	private static ImageIcon applicationIcon;
@@ -101,6 +104,7 @@ public class Application {
 		setApplicationLook();
 
 		rootView = RootView.getInstance();
+		customerRootView = CustomerRootView.getInstance();
 
 		posWindow.getContentPane().add(rootView);
 		posWindow.setupSizeAndLocation();
@@ -374,6 +378,10 @@ public class Application {
 
 	public void setRootView(RootView rootView) {
 		this.rootView = rootView;
+	}
+	
+	public CustomerRootView getCustomerRootView() {
+		return customerRootView;
 	}
 
 	public static PosWindow getPosWindow() {
