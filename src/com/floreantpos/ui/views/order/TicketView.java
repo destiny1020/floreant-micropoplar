@@ -48,7 +48,9 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CookingInstructionSelectionView;
+import com.floreantpos.ui.views.CustomerView;
 import com.floreantpos.ui.views.SwitchboardView;
+import com.floreantpos.ui.views.customer.CustomerTicketView;
 import com.floreantpos.ui.views.order.actions.OrderListener;
 import com.floreantpos.util.NumberUtil;
 
@@ -368,6 +370,9 @@ public class TicketView extends JPanel {
 			OrderController.saveOrder(ticket);
 
 			RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
+			
+			// remove the current ticket in customer ticket view
+			CustomerView.getInstance().getCustomerTicketView().setTicket(null);
 
 		} catch (StaleObjectStateException e) {
 			POSMessageDialog.showError("当前订单似乎已经被其他人员或者终端修改, 修改失败.");
@@ -381,6 +386,9 @@ public class TicketView extends JPanel {
 
 	private void doCancelOrder(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doCancelOrder
 		RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
+		
+		// remove the current ticket in customer ticket view
+		CustomerView.getInstance().getCustomerTicketView().setTicket(null);
 	}//GEN-LAST:event_doCancelOrder
 
 	private synchronized void updateModel() {
@@ -511,6 +519,7 @@ public class TicketView extends JPanel {
 	}
 
 	public void updateView() {
+		System.out.println("update main ticket view");
 		if (ticket == null) {
 			tfSubtotal.setText("");
 			tfDiscount.setText("");

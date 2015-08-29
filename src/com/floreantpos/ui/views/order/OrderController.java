@@ -17,7 +17,9 @@ import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.TicketUniqIdGenerator;
+import com.floreantpos.ui.views.CustomerView;
 import com.floreantpos.ui.views.SwitchboardView;
+import com.floreantpos.ui.views.customer.CustomerTicketView;
 import com.floreantpos.ui.views.order.actions.CategorySelectionListener;
 import com.floreantpos.ui.views.order.actions.GroupSelectionListener;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
@@ -54,6 +56,9 @@ public class OrderController implements OrderListener, CategorySelectionListener
 
 		TicketItem ticketItem = menuItem.convertToTicketItem();
 		orderView.getTicketView().addTicketItem(ticketItem);
+		
+		// sync ticket item to the customer view
+		CustomerView.getInstance().getCustomerTicketView().updateAllView();
 
 		if (menuItem.hasModifiers()) {
 			ModifierView modifierView = orderView.getModifierView();

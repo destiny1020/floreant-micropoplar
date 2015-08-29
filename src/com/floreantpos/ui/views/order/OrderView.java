@@ -177,6 +177,10 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 
 		ticketView.setTicket(currentTicket);
 		othersView.setCurrentTicket(currentTicket);
+		
+		// set ticket to the customer view
+		CustomerRootView.getInstance().getCustomerView().setCurrentTicket(currentTicket);
+		
 		resetView();
 	}
 

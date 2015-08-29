@@ -3,18 +3,23 @@ package com.floreantpos.ui.views.customer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.ticket.TicketViewerTable;
+import com.floreantpos.util.NumberUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -51,6 +56,10 @@ public class CustomerTicketView extends JPanel {
 
 	public CustomerTicketView() {
 		initComponents();
+		
+		// ticket view table related
+		ticketViewerTable.setRowHeight(35);
+		ticketViewerTable.getRenderer().setInTicketScreen(true);
 	}
 
 	private void initComponents() {
@@ -118,7 +127,29 @@ public class CustomerTicketView extends JPanel {
 	}
 	
 	public void updateView() {
-		// TODO
+		System.out.println("update customer ticket view");
+		if (ticket == null) {
+			tfSubtotal.setText("");
+			tfDiscount.setText("");
+			tfTotal.setText("");
+			
+			setBorder(BorderFactory.createTitledBorder(null, "还未点单", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+			
+			return;
+		}
+		
+		ticket.calculatePrice();
+
+		tfSubtotal.setText(NumberUtil.formatNumber(ticket.getSubtotalAmount()));
+		tfDiscount.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
+		tfTotal.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
+		
+		if(ticket.getId() == null) {
+			setBorder(BorderFactory.createTitledBorder(null, "尊敬的顾客, 您的点单如下:", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+		}
+		else {
+			setBorder(BorderFactory.createTitledBorder(null, "尊敬的顾客, 您的点单如下:", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+		}
 	}
 	
 	public void addTicketItem(TicketItem ticketItem) {

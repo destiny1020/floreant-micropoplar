@@ -60,5 +60,11 @@ public class CustomerView extends TransparentPanel {
 
 	public void setCurrentTicket(Ticket currentTicket) {
 		this.currentTicket = currentTicket;
+		
+		customerTicketView.setTicket(currentTicket);
+	}
+
+	public void transactionCompleted() {
+		setCurrentTicket(null);
 	}
 }

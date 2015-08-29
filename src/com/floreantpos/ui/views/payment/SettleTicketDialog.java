@@ -28,6 +28,7 @@ import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
 import com.floreantpos.model.CouponAndDiscount;
 import com.floreantpos.model.CreditCardTransaction;
+import com.floreantpos.model.Customer;
 import com.floreantpos.model.GiftCertificateTransaction;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.MerchantGateway;
@@ -50,6 +51,7 @@ import com.floreantpos.ui.dialog.PaymentTypeSelectionDialog;
 import com.floreantpos.ui.dialog.TransactionCompletionDialog;
 import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.TicketDetailView;
+import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.OrderController;
 import com.floreantpos.util.POSUtil;
 
@@ -392,6 +394,9 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			//FIXME
 			printTicket(ticket, transaction);
 
+			// remove ticket information in customer view
+			CustomerRootView.getInstance().getCustomerView().transactionCompleted();
+			
 			showTransactionCompleteMsg(dueAmount, transaction.getTenderAmount(), ticket, transaction);
 
 			if (ticket.getDueAmount() > 0.0) {
