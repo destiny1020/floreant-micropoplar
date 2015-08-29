@@ -45,6 +45,11 @@ public class RootView extends com.floreantpos.swing.TransparentPanel {
 	}
 	
 	public void showView(String viewName) {
+		// reset auto search item dialog when display other views
+		if(!viewName.equals(OrderView.VIEW_NAME)) {
+			orderView.setHasClosedSearchDialog(false);
+		}
+		
 		layout.show(this, viewName);
 	}
 

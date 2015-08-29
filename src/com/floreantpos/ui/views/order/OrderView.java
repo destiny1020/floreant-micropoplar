@@ -108,17 +108,22 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 	private MenuItemView itemView;
 	private ModifierView modifierView;
 	private OrderController orderController;
+	
+	private boolean hasClosedSearchDialog = false;
 
 	public void showView(final String viewName) {
 		cardLayout.show(midContainer, viewName);
 
 		// show the dialog let server scan the items
-		if (currentTicket != null && currentTicket.getTicketItems() != null
-				&& currentTicket.getTicketItems().size() == 0) {
+		if (!hasClosedSearchDialog && 
+				currentTicket != null && 
+				currentTicket.getTicketItems() != null &&
+				currentTicket.getTicketItems().size() == 0) {
 			EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					othersView.searchItem();
+					hasClosedSearchDialog = true;
 				}
 			});
 		}
@@ -210,5 +215,13 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 			categoryView.cleanup();
 		}
 		super.setVisible(aFlag);
+	}
+
+	public boolean isHasClosedSearchDialog() {
+		return hasClosedSearchDialog;
+	}
+
+	public void setHasClosedSearchDialog(boolean hasClosedSearchDialog) {
+		this.hasClosedSearchDialog = hasClosedSearchDialog;
 	}
 }

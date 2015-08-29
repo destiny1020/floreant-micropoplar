@@ -320,6 +320,12 @@ public class OthersView extends JPanel {
 	}
 
 	public void searchItem() {
+		boolean hasClosedAlready = OrderView.getInstance().isHasClosedSearchDialog();
+		if(hasClosedAlready) {
+			// not to show up for two times
+			return;
+		}
+		
 		String barcode = NumberSelectionDialog2.takeStringInput("请输入或者扫描商品条形码编号");
 
 		if (StringUtils.isBlank(barcode)) {
