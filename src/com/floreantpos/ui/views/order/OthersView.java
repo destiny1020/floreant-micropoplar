@@ -333,4 +333,5 @@ public class OthersView extends JPanel {
 		}
 		itemSelectionListener.itemSelected(menuItem);
 	}
+
 }
