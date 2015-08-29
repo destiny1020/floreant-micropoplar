@@ -12,10 +12,10 @@ import com.floreantpos.ui.views.payment.SettleTicketDialog;
 
 public class SettleTicketAction extends AbstractAction {
 
-	private int ticketId;
+	private String ticketUniqId;
 
-	public SettleTicketAction(int ticketId) {
-		this.ticketId = ticketId;
+	public SettleTicketAction(String ticketUniqId) {
+		this.ticketUniqId = ticketUniqId;
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class SettleTicketAction extends AbstractAction {
 	}
 
 	public boolean execute() {
-		Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketId);
+		Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketUniqId);
 
 		if (ticket.isPaid()) {
 			POSMessageDialog.showError("订单已经支付完成");

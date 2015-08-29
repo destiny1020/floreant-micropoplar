@@ -255,7 +255,7 @@ public class OpenTicketsListDialog extends POSDialog {
 			return;
 		}
 		
-		Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getId());
+		Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 
 		VoidTicketDialog dialog = new VoidTicketDialog(Application.getPosWindow(), true);
 		dialog.setTicket(ticketToVoid);

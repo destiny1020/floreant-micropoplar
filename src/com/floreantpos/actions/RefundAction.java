@@ -1,5 +1,7 @@
 package com.floreantpos.actions;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.floreantpos.ITicketList;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Ticket;
@@ -25,12 +27,12 @@ public class RefundAction extends PosAction {
 			Ticket ticket = ticketList.getSelectedTicket();
 
 			if (ticket == null) {
-				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单ID");
-				if(ticketId == -1) {
+				String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单ID");
+				if(StringUtils.isBlank(ticketUniqId)) {
 					// user clicked without input
 					return;
 				}
-				ticket = TicketService.getTicket(ticketId);
+				ticket = TicketService.getTicketByUniqId(ticketUniqId);
 			}
 			
 			if(!ticket.isPaid()) {
@@ -53,7 +55,7 @@ public class RefundAction extends PosAction {
 //				return;
 //			}
 
-			ticket = TicketDAO.getInstance().loadFullTicket(ticket.getId());
+			ticket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 			
 			message = "<html>" +
 					"订单 #" + ticket.getUniqId() + "<br/>总共支付 " + ticket.getPaidAmount();

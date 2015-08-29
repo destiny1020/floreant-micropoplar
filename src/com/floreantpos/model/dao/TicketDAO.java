@@ -51,12 +51,15 @@ public class TicketDAO extends BaseTicketDAO {
 		super.saveOrUpdate(ticket, s);
 	}
 	
-	public Ticket loadFullTicket(int id) {
+	public Ticket loadFullTicket(String uniqId) {
 		Session session = createNewSession();
 		
-		Ticket ticket = (Ticket) session.get(getReferenceClass(), id);
+		Ticket ticket = findByUniqId(uniqId);
 		
 		if(ticket == null) return null;
+		
+		// to prevent: [org.hibernate.HibernateException: collection is not associated with any session]
+		session.refresh(ticket);
 		
 		Hibernate.initialize(ticket.getTicketItems());
 		Hibernate.initialize(ticket.getCouponAndDiscounts());

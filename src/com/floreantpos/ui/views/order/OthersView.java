@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -319,13 +320,13 @@ public class OthersView extends JPanel {
 	}
 
 	public void searchItem() {
-		int itemId = NumberSelectionDialog2.takeIntInput("请输入或者扫描商品ID");
+		String barcode = NumberSelectionDialog2.takeStringInput("请输入或者扫描商品条形码编号");
 
-		if (itemId == -1) {
+		if (StringUtils.isBlank(barcode)) {
 			return;
 		}
 
-		MenuItem menuItem = MenuItemDAO.getInstance().get(itemId);
+		MenuItem menuItem = MenuItemDAO.getInstance().findByBarcode(barcode);
 		if (menuItem == null) {
 			POSMessageDialog.showError("没有找到对应商品");
 			return;

@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
 
 import com.floreantpos.ITicketList;
@@ -394,16 +395,16 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 	private void doReopenTicket() {
 		try {
 
-			int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
+			String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
 
-			if (ticketId == -1) {
+			if (StringUtils.isBlank(ticketUniqId)) {
 				return;
 			}
 
-			Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketId);
+			Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketUniqId);
 
 			if (ticket == null) {
-				throw new PosException(POSConstants.NO_TICKET_WITH_ID + " " + ticketId + " " + POSConstants.FOUND);
+				throw new PosException(POSConstants.NO_TICKET_WITH_ID + " " + ticketUniqId + " " + POSConstants.FOUND);
 			}
 
 			if (!ticket.isClosed()) {
@@ -507,7 +508,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = TicketService.getTicketByUniqId(ticketUniqId);
 			}
 
-			new SettleTicketAction(ticket.getId()).execute();
+			new SettleTicketAction(ticket.getUniqId()).execute();
 
 			updateTicketList();
 
@@ -535,7 +536,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 			for (int i = 0; i < tickets.size(); i++) {
 				Ticket ticket = tickets.get(i);
-				ticketsToShow.add(TicketDAO.getInstance().loadFullTicket(ticket.getId()));
+				ticketsToShow.add(TicketDAO.getInstance().loadFullTicket(ticket.getUniqId()));
 			}
 
 			OrderInfoView view = new OrderInfoView(ticketsToShow);
@@ -560,11 +561,11 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
-				ticket = TicketService.getTicket(ticketId);
+				String uniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
+				ticket = TicketService.getTicketByUniqId(uniqId);
 			}
 
-			Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getId());
+			Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 
 			VoidTicketDialog voidTicketDialog = new VoidTicketDialog(Application.getPosWindow(), true);
 			voidTicketDialog.setTicket(ticketToVoid);
@@ -594,7 +595,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			//			}
 
 			// initialize the ticket.
-			Ticket ticket = TicketDAO.getInstance().loadFullTicket(selectedTicket.getId());
+			Ticket ticket = TicketDAO.getInstance().loadFullTicket(selectedTicket.getUniqId());
 
 			SplitTicketDialog dialog = new SplitTicketDialog();
 			dialog.setTicket(ticket);
@@ -616,8 +617,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = selectedTickets.get(0);
 			}
 			else {
-				int ticketId = NumberSelectionDialog2.takeIntInput("请输入或者扫描订单号");
-				ticket = TicketService.getTicket(ticketId);
+				String ticketId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
+				ticket = TicketService.getTicketByUniqId(ticketId);
 			}
 
 			editTicket(ticket);
@@ -634,7 +635,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			return;
 		}
 
-		Ticket ticketToEdit = TicketDAO.getInstance().loadFullTicket(ticket.getId());
+		Ticket ticketToEdit = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 		OrderView.getInstance().setCurrentTicket(ticketToEdit);
 
 		RootView.getInstance().showView(OrderView.VIEW_NAME);
@@ -712,7 +713,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		for (int i = 0; i < selectedTickets.size(); i++) {
 			Ticket ticket = selectedTickets.get(i);
 
-			Ticket fullTicket = TicketDAO.getInstance().loadFullTicket(ticket.getId());
+			Ticket fullTicket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 
 			SettleTicketDialog posDialog = new SettleTicketDialog();
 			posDialog.setTicket(fullTicket);

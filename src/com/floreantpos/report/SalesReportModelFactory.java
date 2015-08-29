@@ -49,7 +49,7 @@ public class SalesReportModelFactory {
 		
 		for (Iterator iter = tickets.iterator(); iter.hasNext();) {
 			Ticket t = (Ticket) iter.next();
-			Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getId());
+			Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getUniqId());
 			
 			List<TicketItem> ticketItems = ticket.getTicketItems();
 			if(ticketItems == null) continue;

@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
@@ -29,7 +31,8 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 	private JTextField tfNumber;
 
 	private boolean floatingPoint;
-	private PosButton posButton_1;
+	private PosButton btnOK;
+	private PosButton btnCancel;
 
 	public NumberSelectionDialog2() {
 		this(Application.getPosWindow());
@@ -66,6 +69,16 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		tfNumber.setBackground(Color.WHITE);
 		// tfNumber.setHorizontalAlignment(JTextField.RIGHT);
 		contentPane.add(tfNumber, "span 2, grow");
+		
+		// let number field respond to ENTER input
+		tfNumber.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					btnOK.doClick();
+				}
+			}
+		});
 
 		PosButton posButton = new PosButton(POSConstants.CLEAR_ALL);
 		posButton.setFocusable(false);
@@ -73,7 +86,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		posButton.addActionListener(this);
 		contentPane.add(posButton, "growy,height 55,wrap");
 
-		String[][] numbers = { { "7", "8", "9" }, { "4", "5", "6" }, { "1", "2", "3" }, { ".", "0", "CLEAR" } };
+		String[][] numbers = { { "7", "8", "9" }, { "4", "5", "6" }, { "1", "2", "3" }, { ".", "0", "清除" } };
 		String[][] iconNames = new String[][] { { "7_32.png", "8_32.png", "9_32.png" },
 				{ "4_32.png", "5_32.png", "6_32.png" }, { "1_32.png", "2_32.png", "3_32.png" },
 				{ "dot_32.png", "0_32.png", "clear_32.png" } };
@@ -105,15 +118,15 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		}
 		contentPane.add(new JSeparator(), "newline,spanx ,growy,gapy 20");
 
-		posButton = new PosButton(POSConstants.OK);
-		posButton.setFocusable(false);
-		posButton.addActionListener(this);
-		contentPane.add(posButton, "skip 1,grow");
+		btnOK = new PosButton(POSConstants.OK);
+		btnOK.setFocusable(false);
+		btnOK.addActionListener(this);
+		contentPane.add(btnOK, "skip 1,grow");
 
-		posButton_1 = new PosButton(POSConstants.CANCEL);
-		posButton_1.setFocusable(false);
-		posButton_1.addActionListener(this);
-		contentPane.add(posButton_1, "grow");
+		btnCancel = new PosButton(POSConstants.CANCEL);
+		btnCancel.setFocusable(false);
+		btnCancel.addActionListener(this);
+		contentPane.add(btnCancel, "grow");
 	}
 
 	private void doOk() {
@@ -204,11 +217,13 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 				return false;
 			}
 		} else {
-			try {
-				Integer.parseInt(str);
-			} catch (Exception x) {
-				return false;
-			}
+			// input is for ticket id or item id
+//			try {
+//				Integer.parseInt(str);
+//			} catch (Exception x) {
+//				return false;
+//			}
+			return true;
 		}
 		return true;
 	}
@@ -274,6 +289,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
 		dialog.setTitle(title);
 		dialog.pack();
+		dialog.setOptionSize(1.5);
 		dialog.open();
 
 		if (dialog.isCanceled()) {
