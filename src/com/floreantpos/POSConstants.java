@@ -1,6 +1,7 @@
 package com.floreantpos;
 public class POSConstants {
 	public static final String COLON = ":"; //$NON-NLS-1$
+	public static final String DEFAULT_FONT_NAME = "微软雅黑";
 	
 	public static final String EDIT_TAX_RATE = Messages.getString("PosMessage.0"); //$NON-NLS-1$
 	public static final String ENTER_PAYOUT_NOTE = Messages.getString("PosMessage.1"); //$NON-NLS-1$

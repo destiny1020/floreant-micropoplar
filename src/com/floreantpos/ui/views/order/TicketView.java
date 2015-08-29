@@ -134,27 +134,27 @@ public class TicketView extends JPanel {
 		ticketAmountPanel.setLayout(new MigLayout("alignx trailing,fill", "[grow][]", "[][][][][][][][]"));
 		jLabel5 = new javax.swing.JLabel();
 
-		jLabel5.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		jLabel5.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel5.setText(com.floreantpos.POSConstants.SUBTOTAL + ":");
+		jLabel5.setText(com.floreantpos.POSConstants.SUBTOTAL + POSConstants.COLON);
 		ticketAmountPanel.add(jLabel5, "cell 0 1,growx,aligny center");
 		tfSubtotal = new javax.swing.JTextField();
 		tfSubtotal.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfSubtotal.setEditable(false);
-		tfSubtotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		tfSubtotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		tfSubtotal.setPreferredSize(new Dimension(200, 25));
 		ticketAmountPanel.add(tfSubtotal, "cell 1 1,growx,aligny center");
 		jLabel1 = new javax.swing.JLabel();
 
-		jLabel1.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		jLabel1.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel1.setText(com.floreantpos.POSConstants.DISCOUNT + ":");
+		jLabel1.setText(com.floreantpos.POSConstants.DISCOUNT + POSConstants.COLON);
 		ticketAmountPanel.add(jLabel1, "cell 0 2,growx,aligny center");
 		tfDiscount = new javax.swing.JTextField();
 		tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
 		tfDiscount.setEditable(false);
-		tfDiscount.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		tfDiscount.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		ticketAmountPanel.add(tfDiscount, "cell 1 2,growx,aligny center");
 		
 //		jLabel2 = new javax.swing.JLabel();
@@ -182,15 +182,15 @@ public class TicketView extends JPanel {
 //		tfServiceCharge.setColumns(10);
 		
 		jLabel6 = new javax.swing.JLabel();
-		jLabel6.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		jLabel6.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabel6.setText(com.floreantpos.POSConstants.TOTAL + ":");
+		jLabel6.setText(com.floreantpos.POSConstants.TOTAL + POSConstants.COLON);
 		ticketAmountPanel.add(jLabel6, "cell 0 3,growx,aligny center");
 		tfTotal = new javax.swing.JTextField();
 		tfTotal.setHorizontalAlignment(SwingConstants.TRAILING);
 
 		tfTotal.setEditable(false);
-		tfTotal.setFont(new java.awt.Font("微软雅黑", 1, 12));
+		tfTotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
 		ticketAmountPanel.add(tfTotal, "cell 1 3,growx,aligny center");
 		
 //		chkTaxExempt = new javax.swing.JCheckBox();
@@ -370,7 +370,7 @@ public class TicketView extends JPanel {
 			RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
 
 		} catch (StaleObjectStateException e) {
-			POSMessageDialog.showError("当前订单似乎已经被其他人员或者终端修改。 修改失败.");
+			POSMessageDialog.showError("当前订单似乎已经被其他人员或者终端修改, 修改失败.");
 			return;
 		} catch (PosException x) {
 			POSMessageDialog.showError(x.getMessage());

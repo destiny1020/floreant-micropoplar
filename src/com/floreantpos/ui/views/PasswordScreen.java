@@ -23,8 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.apache.commons.logging.LogFactory;
 
 import com.floreantpos.POSConstants;
@@ -43,6 +41,8 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.ShiftException;
 import com.floreantpos.util.ShiftUtil;
 import com.floreantpos.util.UserNotFoundException;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * 
@@ -271,6 +271,7 @@ public class PasswordScreen extends JPanel {
 
 			tfPassword.setText("");
 			application.getRootView().showView(SwitchboardView.VIEW_NAME);
+			application.getCustomerRootView().showView(CustomerView.VIEW_NAME);
 
 		} catch (UserNotFoundException e) {
 			LogFactory.getLog(Application.class).error(e);

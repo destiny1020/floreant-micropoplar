@@ -110,16 +110,16 @@ public class Application {
 		posWindow.setupSizeAndLocation();
 		
 		customerWindow.setStatus(POSConstants.CUSTOMER_WINDOW_STATUS);
-		// TODO: add view into customer window
-
+		customerWindow.getContentPane().add(customerRootView);
+		
 		if (TerminalConfig.isFullscreenMode()) {
 			posWindow.enterFullScreenMode();
 		}
 		posWindow.setVisible(true);
 		
 		// customerWindow.enterFullScreenMode();
-//		customerWindow.setupSizeAndLocation();
-//		customerWindow.setVisible(true);
+		customerWindow.setupSizeAndLocation();
+		customerWindow.setVisible(true);
 
 		initializeSystem();
 	}

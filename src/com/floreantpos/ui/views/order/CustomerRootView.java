@@ -30,8 +30,11 @@ public class CustomerRootView extends TransparentPanel {
 		waitingLoginScreen = new WaitingLoginScreen();
 		addView(WaitingLoginScreen.VIEW_NAME, waitingLoginScreen);
 		
-		customerView = new CustomerView();
+		customerView = CustomerView.getInstance();
 		addView(CustomerView.VIEW_NAME, customerView);
+		
+		// default view to waiting view
+		showView(WaitingLoginScreen.VIEW_NAME);
 	}
 	
 	public void addView(String viewName, Component view) {
