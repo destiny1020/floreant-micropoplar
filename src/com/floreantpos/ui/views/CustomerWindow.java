@@ -54,22 +54,34 @@ public class CustomerWindow extends JFrame implements WindowListener {
 		statusLabel.setText(status);
 	}
 	
-	public void enterFullScreenMode() {
-		GraphicsDevice window = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[1];
-		if(window == null) {
-			window = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+	public void setupSizeAndLocation() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(AppConfig.getInt(WWIDTH, (int) screenSize.getWidth()), AppConfig.getInt(WHEIGHT, (int) screenSize.getHeight()));
+		
+		setLocation(AppConfig.getInt(WLOCX, ((screenSize.width - getWidth()) >> 1)), AppConfig.getInt(WLOCY, ((screenSize.height - getHeight()) >> 1)));
+		setMinimumSize(new Dimension(800, 600));
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		int extendedState = AppConfig.getInt(EXTENDEDSTATE, -1);
+		if(extendedState != -1) {
+			setExtendedState(extendedState);
 		}
+	}
+	
+	public void enterFullScreenMode() {
+		GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+		int chosenScreen = screenDevices.length == 1 ? 0 : 1;
+		GraphicsDevice window = screenDevices[chosenScreen];
 		setUndecorated(true);
-		window.setFullScreenWindow(this);
+//		window.setFullScreenWindow(this);
 	}
 	
 	public void leaveFullScreenMode() {
-		GraphicsDevice window = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[1];
-		if(window == null) {
-			window = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-		}
+		GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+		int chosenScreen = screenDevices.length == 1 ? 0 : 1;
+		GraphicsDevice window = screenDevices[chosenScreen];
 		setUndecorated(false);
-		window.setFullScreenWindow(null);
+//		window.setFullScreenWindow(null);
 	}
 
 	public void saveSizeAndLocation() {

@@ -24,13 +24,13 @@ import com.floreantpos.ui.TitlePanel;
 
 public class NumberSelectionDialog2 extends POSDialog implements ActionListener {
 	private int defaultValue;
-	
+
 	private TitlePanel titlePanel;
 	private JTextField tfNumber;
 
 	private boolean floatingPoint;
 	private PosButton posButton_1;
-	
+
 	public NumberSelectionDialog2() {
 		this(Application.getPosWindow());
 	}
@@ -39,16 +39,16 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		super(parent, true);
 		init();
 	}
-	
+
 	public NumberSelectionDialog2(Dialog parent) {
 		super(parent, true);
-		
+
 		init();
 	}
 
 	private void init() {
-		setResizable(false);
-		
+		setResizable(true);
+
 		Container contentPane = getContentPane();
 
 		MigLayout layout = new MigLayout("fillx", "[60px,fill][60px,fill][60px,fill]", "[][][][][]");
@@ -60,11 +60,11 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		tfNumber = new JTextField();
 		tfNumber.setText(String.valueOf(defaultValue));
 		tfNumber.setFont(tfNumber.getFont().deriveFont(Font.BOLD, 24));
-		//tfNumber.setEditable(false);
+		// tfNumber.setEditable(false);
 		tfNumber.setFocusable(true);
 		tfNumber.requestFocus();
 		tfNumber.setBackground(Color.WHITE);
-		//tfNumber.setHorizontalAlignment(JTextField.RIGHT);
+		// tfNumber.setHorizontalAlignment(JTextField.RIGHT);
 		contentPane.add(tfNumber, "span 2, grow");
 
 		PosButton posButton = new PosButton(POSConstants.CLEAR_ALL);
@@ -74,7 +74,8 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		contentPane.add(posButton, "growy,height 55,wrap");
 
 		String[][] numbers = { { "7", "8", "9" }, { "4", "5", "6" }, { "1", "2", "3" }, { ".", "0", "CLEAR" } };
-		String[][] iconNames = new String[][] { { "7_32.png", "8_32.png", "9_32.png" }, { "4_32.png", "5_32.png", "6_32.png" }, { "1_32.png", "2_32.png", "3_32.png" },
+		String[][] iconNames = new String[][] { { "7_32.png", "8_32.png", "9_32.png" },
+				{ "4_32.png", "5_32.png", "6_32.png" }, { "1_32.png", "2_32.png", "3_32.png" },
 				{ "dot_32.png", "0_32.png", "clear_32.png" } };
 
 		for (int i = 0; i < numbers.length; i++) {
@@ -86,8 +87,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 
 				if (icon == null) {
 					posButton.setText(buttonText);
-				}
-				else {
+				} else {
 					posButton.setIcon(icon);
 					if (POSConstants.CLEAR.equals(buttonText)) {
 						posButton.setText(buttonText);
@@ -115,7 +115,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		posButton_1.addActionListener(this);
 		contentPane.add(posButton_1, "grow");
 	}
-	
+
 	private void doOk() {
 		if (!validate(tfNumber.getText())) {
 			POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
@@ -124,35 +124,35 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		setCanceled(false);
 		dispose();
 	}
-	
+
 	private void doCancel() {
 		setCanceled(true);
 		dispose();
 	}
-	
+
 	private void doClearAll() {
 		tfNumber.setText(String.valueOf(defaultValue));
 	}
-	
+
 	private void doClear() {
 		String s = tfNumber.getText();
 		if (s.length() > 1) {
 			s = s.substring(0, s.length() - 1);
-		}
-		else {
+		} else {
 			s = String.valueOf(defaultValue);
 		}
 		tfNumber.setText(s);
 	}
-	
+
 	private void doInsertNumber(String number) {
 		String s = tfNumber.getText();
 		double d = 0;
-		
+
 		try {
 			d = Double.parseDouble(s);
-		}catch (Exception x) {}
-		
+		} catch (Exception x) {
+		}
+
 		if (d == 0) {
 			tfNumber.setText(number);
 			return;
@@ -165,37 +165,32 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		}
 		tfNumber.setText(s);
 	}
-	
+
 	private void doInsertDot() {
-		//if (isFloatingPoint() && tfNumber.getText().indexOf('.') < 0) {
-			String string = tfNumber.getText() + ".";
-			if (!validate(string)) {
-				POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
-				return;
-			}
-			tfNumber.setText(string);
-		//}
+		// if (isFloatingPoint() && tfNumber.getText().indexOf('.') < 0) {
+		String string = tfNumber.getText() + ".";
+		if (!validate(string)) {
+			POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
+			return;
+		}
+		tfNumber.setText(string);
+		// }
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
-		
-		if(POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
+
+		if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
 			doCancel();
-		}
-		else if(POSConstants.OK.equalsIgnoreCase(actionCommand)) {
+		} else if (POSConstants.OK.equalsIgnoreCase(actionCommand)) {
 			doOk();
-		}
-		else if (actionCommand.equals(POSConstants.CLEAR_ALL)) {
+		} else if (actionCommand.equals(POSConstants.CLEAR_ALL)) {
 			doClearAll();
-		}
-		else if (actionCommand.equals(POSConstants.CLEAR)) {
+		} else if (actionCommand.equals(POSConstants.CLEAR)) {
 			doClear();
-		}
-		else if (actionCommand.equals(".")) {
+		} else if (actionCommand.equals(".")) {
 			doInsertDot();
-		}
-		else {
+		} else {
 			doInsertNumber(actionCommand);
 		}
 
@@ -208,8 +203,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 			} catch (Exception x) {
 				return false;
 			}
-		}
-		else {
+		} else {
 			try {
 				Integer.parseInt(str);
 			} catch (Exception x) {
@@ -221,30 +215,28 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 
 	public void setTitle(String title) {
 		titlePanel.setTitle(title);
-		
+
 		super.setTitle(title);
 	}
-	
+
 	public void setDialogTitle(String title) {
 		super.setTitle(title);
 	}
-	
+
 	public String getValueString() {
 		return tfNumber.getText();
 	}
-	
+
 	public double getValue() {
 		return Double.parseDouble(tfNumber.getText());
 	}
 
 	public void setValue(double value) {
-		if(value == 0) {
+		if (value == 0) {
 			tfNumber.setText("0");
-		}
-		else if (isFloatingPoint()) {
+		} else if (isFloatingPoint()) {
 			tfNumber.setText(String.valueOf(value));
-		}
-		else {
+		} else {
 			tfNumber.setText(String.valueOf((int) value));
 		}
 	}
@@ -271,7 +263,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		this.defaultValue = defaultValue;
 		tfNumber.setText(String.valueOf(defaultValue));
 	}
-	
+
 	/**
 	 * Return the input result as String.
 	 * 
@@ -287,7 +279,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		if (dialog.isCanceled()) {
 			return "";
 		}
-		
+
 		return dialog.getValueString();
 	}
 
@@ -295,15 +287,22 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
 		dialog.setTitle(title);
 		dialog.pack();
+		dialog.setOptionSize(1.5);
 		dialog.open();
 
 		if (dialog.isCanceled()) {
 			return -1;
 		}
-		
+
 		return (int) dialog.getValue();
 	}
-	
+
+	private void setOptionSize(double d) {
+		// expand for more space
+		Dimension currentSize = getSize();
+		setSize((int) (currentSize.width * d), currentSize.height);
+	}
+
 	public static double takeDoubleInput(String title, String dialogTitle, double initialAmount) {
 		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
 		dialog.setFloatingPoint(true);
@@ -312,14 +311,14 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		dialog.setDialogTitle(dialogTitle);
 		dialog.pack();
 		dialog.open();
-		
+
 		if (dialog.isCanceled()) {
 			return Double.NaN;
 		}
-		
+
 		return dialog.getValue();
 	}
-	
+
 	public static double show(Component parent, String title, double initialAmount) {
 		NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
 		dialog2.setFloatingPoint(true);
@@ -328,11 +327,11 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 		dialog2.setLocationRelativeTo(parent);
 		dialog2.setValue(initialAmount);
 		dialog2.setVisible(true);
-		
-		if(dialog2.isCanceled()) {
+
+		if (dialog2.isCanceled()) {
 			return Double.NaN;
 		}
-		
+
 		return dialog2.getValue();
 	}
 }

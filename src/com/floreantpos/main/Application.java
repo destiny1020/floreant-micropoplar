@@ -115,10 +115,11 @@ public class Application {
 		if (TerminalConfig.isFullscreenMode()) {
 			posWindow.enterFullScreenMode();
 		}
-		customerWindow.enterFullScreenMode();
-
 		posWindow.setVisible(true);
-		customerWindow.setVisible(true);
+		
+		// customerWindow.enterFullScreenMode();
+//		customerWindow.setupSizeAndLocation();
+//		customerWindow.setVisible(true);
 
 		initializeSystem();
 	}
