@@ -51,10 +51,20 @@ public class TicketDAO extends BaseTicketDAO {
 		super.saveOrUpdate(ticket, s);
 	}
 	
+	/**
+	 * simple wrapper over loadFullTicket(int id) overload
+	 * 
+	 * @param uniqId
+	 * @return
+	 */
 	public Ticket loadFullTicket(String uniqId) {
+		return	loadFullTicket(findByUniqId(uniqId).getId());
+	}
+	
+	public Ticket loadFullTicket(int id) {
 		Session session = createNewSession();
 		
-		Ticket ticket = findByUniqId(uniqId);
+		Ticket ticket = (Ticket) session.get(getReferenceClass(), id);
 		
 		if(ticket == null) return null;
 		

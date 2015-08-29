@@ -84,7 +84,7 @@ public class SalesReport extends Report {
 		for (Iterator iter = tickets.iterator(); iter.hasNext();) {
 			Ticket t = (Ticket) iter.next();
 			
-			Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getUniqId());
+			Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getId());
 
 			List<TicketItem> ticketItems = ticket.getTicketItems();
 			if (ticketItems == null)

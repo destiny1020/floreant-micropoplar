@@ -385,6 +385,8 @@ public class POSConstants {
 	public static final String RECEIPT_REPORT_PAIDAMOUNT_LABEL = Messages.getString("RECEIPT_REPORT_PAIDAMOUNT_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_DUEAMOUNT_LABEL = Messages.getString("RECEIPT_REPORT_DUEAMOUNT_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_CHANGEAMOUNT_LABEL = Messages.getString("RECEIPT_REPORT_CHANGEAMOUNT_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_TOTAL_REFUND_LABEL = Messages.getString("RECEIPT_REPORT_TOTAL_REFUND_LABEL");
+	public static final String RECEIPT_REPORT_CASH_REFUND_LABEL = Messages.getString("RECEIPT_REPORT_CASH_REFUND_LABEL");
 	
 	public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
 

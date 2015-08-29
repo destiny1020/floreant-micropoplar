@@ -508,7 +508,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = TicketService.getTicketByUniqId(ticketUniqId);
 			}
 
-			new SettleTicketAction(ticket.getUniqId()).execute();
+			new SettleTicketAction(ticket.getId()).execute();
 
 			updateTicketList();
 
@@ -536,7 +536,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 			for (int i = 0; i < tickets.size(); i++) {
 				Ticket ticket = tickets.get(i);
-				ticketsToShow.add(TicketDAO.getInstance().loadFullTicket(ticket.getUniqId()));
+				ticketsToShow.add(TicketDAO.getInstance().loadFullTicket(ticket.getId()));
 			}
 
 			OrderInfoView view = new OrderInfoView(ticketsToShow);
@@ -565,7 +565,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 				ticket = TicketService.getTicketByUniqId(uniqId);
 			}
 
-			Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
+			Ticket ticketToVoid = TicketDAO.getInstance().loadFullTicket(ticket.getId());
 
 			VoidTicketDialog voidTicketDialog = new VoidTicketDialog(Application.getPosWindow(), true);
 			voidTicketDialog.setTicket(ticketToVoid);
@@ -595,7 +595,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			//			}
 
 			// initialize the ticket.
-			Ticket ticket = TicketDAO.getInstance().loadFullTicket(selectedTicket.getUniqId());
+			Ticket ticket = TicketDAO.getInstance().loadFullTicket(selectedTicket.getId());
 
 			SplitTicketDialog dialog = new SplitTicketDialog();
 			dialog.setTicket(ticket);
@@ -635,7 +635,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			return;
 		}
 
-		Ticket ticketToEdit = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
+		Ticket ticketToEdit = TicketDAO.getInstance().loadFullTicket(ticket.getId());
 		OrderView.getInstance().setCurrentTicket(ticketToEdit);
 
 		RootView.getInstance().showView(OrderView.VIEW_NAME);
@@ -713,7 +713,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 		for (int i = 0; i < selectedTickets.size(); i++) {
 			Ticket ticket = selectedTickets.get(i);
 
-			Ticket fullTicket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
+			Ticket fullTicket = TicketDAO.getInstance().loadFullTicket(ticket.getId());
 
 			SettleTicketDialog posDialog = new SettleTicketDialog();
 			posDialog.setTicket(fullTicket);

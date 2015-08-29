@@ -180,7 +180,7 @@ public class TicketAuthorizationDialog extends POSDialog {
 			return;
 		}
 
-		Ticket ticket = TicketDAO.getInstance().loadFullTicket(transaction.getTicket().getUniqId());
+		Ticket ticket = TicketDAO.getInstance().loadFullTicket(transaction.getTicket().getId());
 		Set<PosTransaction> transactions = ticket.getTransactions();
 		for (PosTransaction posTransaction : transactions) {
 			if (transaction.getId().equals(posTransaction.getId())) {

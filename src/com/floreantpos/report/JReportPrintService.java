@@ -129,10 +129,12 @@ public class JReportPrintService {
 
 			TicketPrintProperties printProperties = new TicketPrintProperties("*** 退款收据 ***", true, true, true);
 			printProperties.setPrintCookingInstructions(false);
+			String currencySymbol = Application.getCurrencySymbol();
+			
 			HashMap map = populateTicketProperties(ticket, printProperties, posTransaction);
-			map.put("refundAmountText", "Total Refund");
+			map.put("refundAmountText", POSConstants.RECEIPT_REPORT_TOTAL_REFUND_LABEL + currencySymbol);
 			map.put("refundAmount", String.valueOf(posTransaction.getAmount()));
-			map.put("cashRefundText", "Cash Refund");
+			map.put("cashRefundText", POSConstants.RECEIPT_REPORT_CASH_REFUND_LABEL + currencySymbol);
 			map.put("cashRefund", String.valueOf(posTransaction.getAmount()));
 
 			JasperPrint jasperPrint = createRefundPrint(ticket, map);
@@ -395,7 +397,7 @@ public class JReportPrintService {
 		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
-		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_DATE_LABEL + DateUtil.getNowString());
+		addColumn(ticketHeaderBuilder, POSConstants.RECEIPT_REPORT_DATE_LABEL + DateUtil.getReceiptDate(new Date()));
 		endRow(ticketHeaderBuilder);
 
 		beginRow(ticketHeaderBuilder);
@@ -438,7 +440,7 @@ public class JReportPrintService {
 
 				if (ticket.getDeliveryDate() != null) {
 					beginRow(ticketHeaderBuilder);
-					addColumn(ticketHeaderBuilder, "Delivery: " + DateUtil.getDateString(ticket.getDeliveryDate()));
+					addColumn(ticketHeaderBuilder, "Delivery: " + DateUtil.getReceiptDate(ticket.getDeliveryDate()));
 					endRow(ticketHeaderBuilder);
 				}
 			}
