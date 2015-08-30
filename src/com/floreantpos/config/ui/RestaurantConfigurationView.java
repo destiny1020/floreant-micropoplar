@@ -7,6 +7,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Restaurant;
 import com.floreantpos.model.dao.RestaurantDAO;
@@ -26,46 +27,46 @@ public class RestaurantConfigurationView extends ConfigurationView {
 	private POSTextField tfTable;
 	private POSTextField tfCurrencyName;
 	private POSTextField tfCurrencySymbol;
-	private POSTextField tfServiceCharge;
-	private POSTextField tfDefaultGratuity;
+//	private POSTextField tfServiceCharge;
+//	private POSTextField tfDefaultGratuity;
 	private POSTextField tfTicketFooter;
 	private JTextField tfZipCode;
 	
 	public RestaurantConfigurationView() {
 		setLayout(new MigLayout("", "[grow][grow][][grow]", "[grow][][][][][][][][][][][][][][][][]"));
 		
-		JLabel lblNewLabel = new JLabel("Restaurant name" + ":");
+		JLabel lblNewLabel = new JLabel(POSConstants.RESTAURANT_NAME + POSConstants.COLON);
 		add(lblNewLabel, "cell 0 1,alignx trailing");
 		
 		tfRestaurantName = new POSTextField();
 		add(tfRestaurantName, "cell 1 1 3 1,growx");
 		
-		JLabel lblAddressLine = new JLabel("Address line 1" + ":");
+		JLabel lblAddressLine = new JLabel(POSConstants.ADDRESS_LINE1 + POSConstants.COLON);
 		add(lblAddressLine, "cell 0 2,alignx trailing");
 		
 		tfAddressLine1 = new POSTextField();
 		add(tfAddressLine1, "cell 1 2 3 1,growx");
 		
-		JLabel lblAddressLine_1 = new JLabel("Address line 2" + ":");
+		JLabel lblAddressLine_1 = new JLabel(POSConstants.ADDRESS_LINE2 + POSConstants.COLON);
 		add(lblAddressLine_1, "cell 0 3,alignx trailing");
 		
 		tfAddressLine2 = new POSTextField();
 		add(tfAddressLine2, "cell 1 3 3 1,growx");
 		
-		JLabel lblAddressLine_2 = new JLabel("Address line 3" + ":");
+		JLabel lblAddressLine_2 = new JLabel(POSConstants.ADDRESS_LINE3 + POSConstants.COLON);
 		add(lblAddressLine_2, "cell 0 4,alignx trailing");
 		
 		tfAddressLine3 = new POSTextField();
 		add(tfAddressLine3, "cell 1 4 3 1,growx");
 		
-		JLabel lblZipCode = new JLabel("ZIP code");
+		JLabel lblZipCode = new JLabel(POSConstants.ZIP_CODE + POSConstants.COLON);
 		add(lblZipCode, "cell 0 5,alignx trailing");
 		
 		tfZipCode = new JTextField();
 		add(tfZipCode, "cell 1 5,growx");
 		tfZipCode.setColumns(10);
 		
-		JLabel lblPhone = new JLabel("Phone:");
+		JLabel lblPhone = new JLabel(POSConstants.TEL + POSConstants.COLON);
 		add(lblPhone, "cell 0 6,alignx trailing");
 		
 		tfTelephone = new POSTextField();
@@ -74,7 +75,7 @@ public class RestaurantConfigurationView extends ConfigurationView {
 		JSeparator separator = new JSeparator();
 		add(separator, "cell 0 8 4 1,growx");
 		
-		JLabel lblCapacity = new JLabel("Capacity:");
+		JLabel lblCapacity = new JLabel(POSConstants.CAPACITY + POSConstants.COLON);
 		add(lblCapacity, "cell 0 9,alignx trailing");
 		
 		tfCapacity = new POSTextField();
@@ -83,16 +84,16 @@ public class RestaurantConfigurationView extends ConfigurationView {
 		tfTable = new POSTextField();
 		add(tfTable, "cell 3 9,growx");
 		
-		JLabel lblCurrencyName = new JLabel("Currency name" + ":");
+		JLabel lblCurrencyName = new JLabel(POSConstants.CURRENCY_NAME + POSConstants.COLON);
 		add(lblCurrencyName, "cell 0 10,alignx trailing");
 		
-		JLabel lblTables = new JLabel("Tables" + ":");
+		JLabel lblTables = new JLabel(POSConstants.TABLES + POSConstants.COLON);
 		add(lblTables, "flowx,cell 2 9");
 		
 		tfCurrencyName = new POSTextField();
 		add(tfCurrencyName, "flowx,cell 1 10");
 		
-		JLabel lblCurrencySymbol = new JLabel("Currency symbol" + ":");
+		JLabel lblCurrencySymbol = new JLabel(POSConstants.CURRENCY_SYMBOL + POSConstants.COLON);
 		add(lblCurrencySymbol, "cell 2 10,alignx trailing");
 		
 		tfCurrencySymbol = new POSTextField();
@@ -101,33 +102,31 @@ public class RestaurantConfigurationView extends ConfigurationView {
 		JSeparator separator_1 = new JSeparator();
 		add(separator_1, "cell 0 11 4 1,growx");
 		
-		JLabel lblServiceCharge = new JLabel("Service Charge" + ":");
-		add(lblServiceCharge, "cell 0 12,alignx trailing");
+//		JLabel lblServiceCharge = new JLabel("Service Charge" + ":");
+//		add(lblServiceCharge, "cell 0 12,alignx trailing");
+//		
+//		tfServiceCharge = new POSTextField();
+//		add(tfServiceCharge, "cell 1 12,growx");
+//		
+//		JLabel label = new JLabel("%");
+//		add(label, "cell 2 12");
+//		
+//		JLabel lblDefaultGratuity = new JLabel("Default gratuity" + ":");
+//		add(lblDefaultGratuity, "flowy,cell 0 13,alignx trailing");
+//		
+//		tfDefaultGratuity = new POSTextField();
+//		add(tfDefaultGratuity, "cell 1 13,growx");
+//		
+//		JLabel label_1 = new JLabel("%");
+//		add(label_1, "cell 2 13");
 		
-		tfServiceCharge = new POSTextField();
-		add(tfServiceCharge, "cell 1 12,growx");
-		
-		JLabel label = new JLabel("%");
-		add(label, "cell 2 12");
-		
-		JLabel lblDefaultGratuity = new JLabel("Default gratuity" + ":");
-		add(lblDefaultGratuity, "flowy,cell 0 13,alignx trailing");
-		
-		tfDefaultGratuity = new POSTextField();
-		add(tfDefaultGratuity, "cell 1 13,growx");
-		
-		JLabel label_1 = new JLabel("%");
-		add(label_1, "cell 2 13");
-		
-		JLabel lblTicketFooterMessage = new JLabel("Ticket footer message" + ":");
+		JLabel lblTicketFooterMessage = new JLabel(POSConstants.TICKET_FOOTER_MESSAGE + POSConstants.COLON);
 		add(lblTicketFooterMessage, "cell 0 14,alignx trailing");
 		
 		tfTicketFooter = new POSTextField();
 		add(tfTicketFooter, "cell 1 14 3 1,growx");
 	}
 	
-	
-
 	@Override
 	public boolean save() throws Exception {
 		if(!isInitialized()) {
@@ -176,17 +175,17 @@ public class RestaurantConfigurationView extends ConfigurationView {
 			return false;
 		}
 		
-		try {
-			serviceCharge = Double.parseDouble(tfServiceCharge.getText());
-		} catch (Exception x) {
-			//do nothing
-		}
-		
-		try {
-			gratuityPercentage = Double.parseDouble(tfDefaultGratuity.getText());
-		} catch (Exception x) {
-			//do nothing
-		}
+//		try {
+//			serviceCharge = Double.parseDouble(tfServiceCharge.getText());
+//		} catch (Exception x) {
+//			//do nothing
+//		}
+//		
+//		try {
+//			gratuityPercentage = Double.parseDouble(tfDefaultGratuity.getText());
+//		} catch (Exception x) {
+//			//do nothing
+//		}
 
 		restaurant.setName(name);
 		restaurant.setAddressLine1(addr1);
@@ -224,8 +223,8 @@ public class RestaurantConfigurationView extends ConfigurationView {
 		tfTable.setText(String.valueOf(restaurant.getTables()));
 		tfCurrencyName.setText(restaurant.getCurrencyName());
 		tfCurrencySymbol.setText(restaurant.getCurrencySymbol());
-		tfServiceCharge.setText(String.valueOf(restaurant.getServiceChargePercentage()));
-		tfDefaultGratuity.setText(String.valueOf(restaurant.getDefaultGratuityPercentage()));
+//		tfServiceCharge.setText(String.valueOf(restaurant.getServiceChargePercentage()));
+//		tfDefaultGratuity.setText(String.valueOf(restaurant.getDefaultGratuityPercentage()));
 		tfTicketFooter.setText(restaurant.getTicketFooterMessage());
 		
 		setInitialized(true);

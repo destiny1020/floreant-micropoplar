@@ -126,7 +126,7 @@ public class TicketListView extends JPanel {
 
 			case 2:
 					User owner = ticket.getOwner();
-					return owner.getFirstName();
+					return owner.toString();
 
 			case 3:
 				return ticket.getCreateDate();

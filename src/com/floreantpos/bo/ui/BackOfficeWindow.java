@@ -169,17 +169,23 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 		JMenu reportMenu = new JMenu(com.floreantpos.POSConstants.REPORTS);
 		reportMenu.add(new SalesReportAction());
 		reportMenu.add(new OpenTicketSummaryReportAction());
-		reportMenu.add(new HourlyLaborReportAction());
-		reportMenu.add(new PayrollReportAction());
-		reportMenu.add(new KeyStatisticsSalesReportAction());
+		// Menu 小时薪资报表
+//		reportMenu.add(new HourlyLaborReportAction());
+		// Menu 薪资报表
+//		reportMenu.add(new PayrollReportAction());
+		// 关键点分析
+//		reportMenu.add(new KeyStatisticsSalesReportAction());
 		reportMenu.add(new SalesAnalysisReportAction());
-		reportMenu.add(new CreditCardReportAction());
+		// 银行卡报表
+//		reportMenu.add(new CreditCardReportAction());
 		reportMenu.add(new MenuUsageReportAction());
-		reportMenu.add(new ServerProductivityReportAction());
-//		reportMenu.add(new JournalReportAction());
+		// 服务员生产率
+//		reportMenu.add(new ServerProductivityReportAction());
+		reportMenu.add(new JournalReportAction());
 		reportMenu.add(new SalesBalanceReportAction());
 		reportMenu.add(new SalesExceptionReportAction());
-		reportMenu.add(new SalesDetailReportAction());
+		// 销售详情报表
+//		reportMenu.add(new SalesDetailReportAction());
 		menuBar.add(reportMenu);
 	}
 
@@ -210,10 +216,12 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 		adminMenu.add(new ConfigureRestaurantAction());
 		adminMenu.add(new UserExplorerAction());
 		adminMenu.add(new UserTypeExplorerAction());
-		adminMenu.add(new ViewGratuitiesAction());
+		// 小费管理
+//		adminMenu.add(new ViewGratuitiesAction());
 		adminMenu.add(new DrawerPullReportExplorerAction());
-		adminMenu.add(new DataExportAction());
-		adminMenu.add(new DataImportAction());
+		// 商品项目导入导出
+//		adminMenu.add(new DataExportAction());
+//		adminMenu.add(new DataImportAction());
 		menuBar.add(adminMenu);
 	}
 

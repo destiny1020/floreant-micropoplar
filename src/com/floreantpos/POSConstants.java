@@ -244,7 +244,7 @@ public class POSConstants {
 	public static final String CASHIER = Messages.getString("PosMessage.232"); //$NON-NLS-1$
 	public static final String DOLLAR = Messages.getString("PosMessage.233"); //$NON-NLS-1$
 	public static final String MIN_QUANTITY = Messages.getString("PosMessage.234"); //$NON-NLS-1$
-	public static final String CURRENCY_NAME_ = Messages.getString("PosMessage.235"); //$NON-NLS-1$
+	public static final String CURRENCY_NAME = Messages.getString("PosMessage.235"); //$NON-NLS-1$
 	public static final String PREVIOUS_SALE_AFTER_DRAWER_RESET_ = Messages.getString("PosMessage.236"); //$NON-NLS-1$
 	public static final String SALES_DETAILED_REPORT = Messages.getString("PosMessage.237"); //$NON-NLS-1$
 	public static final String YOU_CANNOT_PARTIALLY_PAY_MULTIPLE_TICKETS_ = Messages.getString("PosMessage.238"); //$NON-NLS-1$
@@ -261,7 +261,7 @@ public class POSConstants {
 	public static final String SURE_SHUTDOWN_ = Messages.getString("PosMessage.249"); //$NON-NLS-1$
 	public static final String ID = Messages.getString("PosMessage.250"); //$NON-NLS-1$
 	public static final String SELECT_COOKING_INSTRUCTION = Messages.getString("PosMessage.251"); //$NON-NLS-1$
-	public static final String CURRENCY_SYMBOL_ = Messages.getString("PosMessage.252"); //$NON-NLS-1$
+	public static final String CURRENCY_SYMBOL = Messages.getString("PosMessage.252"); //$NON-NLS-1$
 	public static final String EDIT_ACTUAL_AMOUNT = Messages.getString("PosMessage.253"); //$NON-NLS-1$
 	public static final String MENU_MODIFIER_GROUPS = Messages.getString("PosMessage.254"); //$NON-NLS-1$
 	public static final String MODIFIERS = Messages.getString("PosMessage.255"); //$NON-NLS-1$
@@ -296,7 +296,6 @@ public class POSConstants {
 	public static final String FROM_DATE_CANNOT_BE_GREATER_THAN_TO_DATE_ = Messages.getString("PosMessage.284"); //$NON-NLS-1$
 	public static final String TABLE_NUMBER_CANNOT_BE_0 = Messages.getString("PosMessage.285"); //$NON-NLS-1$
 	public static final String TERMINAL_LABEL = Messages.getString("TERMINAL_LABEL"); //$NON-NLS-1$
-	public static final String CAPACITY_ = Messages.getString("PosMessage.287"); //$NON-NLS-1$
 	public static final String UNNABLE_TO_SAVE_ = Messages.getString("PosMessage.288"); //$NON-NLS-1$
 	public static final String SELECT_ITEM_TO_DELETE = Messages.getString("PosMessage.289"); //$NON-NLS-1$
 	public static final String GRATUITY_ADMINISTRATION = Messages.getString("PosMessage.290"); //$NON-NLS-1$
@@ -358,6 +357,11 @@ public class POSConstants {
 	public static final String CAPITAL_GROUP = Messages.getString("Switchboard.36"); //$NON-NLS-1$
 	public static final String INVALID_NUMBER = Messages.getString("PosMessage.310"); //$NON-NLS-1$
 	public static final String CAPITAL_COOKING_INSTRUCTIONS = Messages.getString("PosMessage.311"); //$NON-NLS-1$
+	public static final String ZIP_CODE = Messages.getString("PosMessage.312"); //$NON-NLS-1$
+	public static final String TICKET_FOOTER_MESSAGE = Messages.getString("PosMessage.313"); //$NON-NLS-1$
+	public static final String DEFAULT_CURRENCY_NAME = Messages.getString("PosMessage.314"); //$NON-NLS-1$
+	public static final String DEFAULT_CURRENCY_SYMBOL = Messages.getString("PosMessage.315"); //$NON-NLS-1$
+
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$
 	public static final String CAPITAL_PREV = Messages.getString("SelectionView.2"); //$NON-NLS-1$
