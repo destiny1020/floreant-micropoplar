@@ -372,6 +372,13 @@ public class POSConstants {
 	public static final String RECEIPT_REPORT_TABLE_NO_LABEL = Messages.getString("RECEIPT_REPORT_TABLE_NO_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_GUEST_NO_LABEL = Messages.getString("RECEIPT_REPORT_GUEST_NO_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_SERVER_LABEL = Messages.getString("RECEIPT_REPORT_SERVER_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_OPERATOR_LABEL = Messages.getString("RECEIPT_REPORT_OPERATOR_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_TIME_LABEL = Messages.getString("RECEIPT_REPORT_VOID_TIME_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_REASON_LABEL = Messages.getString("RECEIPT_REPORT_VOID_REASON_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_REASON_UNKNOWN = Messages.getString("RECEIPT_REPORT_VOID_REASON_UNKNOWN"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_WASTED_LABEL = Messages.getString("RECEIPT_REPORT_VOID_WASTED_LABEL"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_WASTED_YES = Messages.getString("RECEIPT_REPORT_VOID_WASTED_YES"); //$NON-NLS-1$
+	public static final String RECEIPT_REPORT_VOID_WASTED_NO = Messages.getString("RECEIPT_REPORT_VOID_WASTED_NO"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_DATE_LABEL = Messages.getString("RECEIPT_REPORT_DATE_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_ITEM_LABEL = Messages.getString("RECEIPT_REPORT_ITEM_LABEL"); //$NON-NLS-1$
 	public static final String RECEIPT_REPORT_QUANTITY_LABEL = Messages.getString("RECEIPT_REPORT_QUANTITY_LABEL"); //$NON-NLS-1$

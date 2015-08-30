@@ -412,7 +412,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			}
 			
 			if(ticket.isVoided()) {
-				throw new PosException("废弃订单不能重新打开");
+				throw new PosException("取消订单不能重新打开");
 			}
 
 			ticket.setClosed(false);

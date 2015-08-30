@@ -8,7 +8,12 @@ package com.floreantpos.ui.dialog;
 
 
 import java.awt.Frame;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
@@ -18,6 +23,7 @@ import com.floreantpos.model.VoidReason;
 import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.dao.VoidReasonDAO;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.swing.ListComboBoxModel;
 import com.floreantpos.util.NumberUtil;
@@ -218,12 +224,27 @@ public class VoidTicketDialog extends POSDialog {
 			dao.voidTicket(ticket);
 			
 			try {
-				String title = "- VOID RECEIPT -";
-				String data = "Ticket #" + ticket.getId() + " was voided.";
+				String title = "- 取消订单收据 -";
+				String data = "订单 #" + ticket.getUniqId() + " 被取消了.";
 				
-				JReportPrintService.printGenericReport(title, data);
+				// pass additional information like: time and operator
+				Map<String, String> additionalCtx = new HashMap<>();
+				additionalCtx.put("time", POSConstants.RECEIPT_REPORT_VOID_TIME_LABEL + DateUtil.getReceiptDateTime(new Date()));
+				additionalCtx.put("operator", POSConstants.RECEIPT_REPORT_OPERATOR_LABEL + ticket.getVoidedBy());
+				
+				// reason and whether wasted
+				String voidReasonStr = ticket.getVoidReason();
+				if(StringUtils.isBlank(voidReasonStr)) {
+					voidReasonStr = POSConstants.RECEIPT_REPORT_VOID_REASON_UNKNOWN;
+				}
+				additionalCtx.put("optional1", POSConstants.RECEIPT_REPORT_VOID_REASON_LABEL + voidReasonStr);
+				
+				String wastedStr = ticket.isWasted() ? POSConstants.RECEIPT_REPORT_VOID_WASTED_YES : POSConstants.RECEIPT_REPORT_VOID_WASTED_NO;
+				additionalCtx.put("optional2", POSConstants.RECEIPT_REPORT_VOID_WASTED_LABEL + wastedStr);
+				
+				JReportPrintService.printGenericReport(title, data, additionalCtx);
 			}catch(Exception ee) {
-				String message = "There was an error while printing void information to kitchen\n" + ee.getMessage();
+				String message = "在打印取消信息到厨房时发生了错误\n" + ee.getMessage();
 				POSMessageDialog.showError(Application.getPosWindow(), message, ee);
 			}
 			

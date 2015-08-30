@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -65,9 +66,20 @@ public class JReportPrintService {
 	private static Log logger = LogFactory.getLog(JReportPrintService.class);
 
 	public static void printGenericReport(String title, String data) throws Exception {
-		HashMap<String, String> map = new HashMap<String, String>(2);
+		printGenericReport(title, data, null);
+	}
+	
+	public static void printGenericReport(String title, String data, Map<String, String> additionalCtx) throws Exception {
+		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("title", title);
 		map.put("data", data);
+		
+		if(additionalCtx != null && additionalCtx.size() > 0) {
+			for(Entry<String, String> entry : additionalCtx.entrySet()) {
+				map.put(entry.getKey(), entry.getValue());
+			}
+		}
+		
 		JasperPrint jasperPrint = createJasperPrint("/com/floreantpos/report/template/GenericReport.jasper", map, new JREmptyDataSource());
 		jasperPrint.setProperty("printerName", Application.getPrinters().getReceiptPrinter());
 		printQuitely(jasperPrint);
