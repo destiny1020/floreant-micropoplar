@@ -43,6 +43,7 @@ import com.floreantpos.util.DatabaseUtil;
 import com.floreantpos.util.POSUtil;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
+import com.lowagie.text.FontFactory;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;

@@ -42,6 +42,7 @@ public class ReportService {
 	private static SimpleDateFormat fullDateFormatter = new SimpleDateFormat("MMM dd yyyy, hh:mm a");
 	private static SimpleDateFormat shortDateFormatter = new SimpleDateFormat("MMM dd yyyy ");
 	
+	// TODO: remove the date formatter, use DateUtil instead
 	public static String formatFullDate(Date date) {
 		return fullDateFormatter.format(date);
 	}

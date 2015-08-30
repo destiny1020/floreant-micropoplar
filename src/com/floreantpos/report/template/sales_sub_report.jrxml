@@ -32,7 +32,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="微软雅黑" size="18" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="微软雅黑" size="18" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportType}]]></textFieldExpression>
 			</textField>
@@ -53,7 +53,7 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[商品名称]]></text>
 				</staticText>
@@ -66,7 +66,7 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[单价]]></text>
 				</staticText>
@@ -79,7 +79,7 @@
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<text><![CDATA[数量]]></text>
 				</staticText>
@@ -92,7 +92,7 @@
 						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+						<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<text><![CDATA[小计]]></text>
 				</staticText>
@@ -111,7 +111,7 @@
 						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement verticalAlignment="Middle">
-						<font fontName="微软雅黑"/>
+						<font fontName="微软雅黑" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Name}]]></textFieldExpression>
 				</textField>
@@ -124,7 +124,7 @@
 						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="微软雅黑"/>
+						<font fontName="微软雅黑" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Price}]]></textFieldExpression>
 				</textField>
@@ -137,7 +137,7 @@
 						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="微软雅黑"/>
+						<font fontName="微软雅黑" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{Total}]]></textFieldExpression>
 				</textField>
@@ -150,7 +150,7 @@
 						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="微软雅黑"/>
+						<font fontName="微软雅黑" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{QTY}]]></textFieldExpression>
 				</textField>
@@ -168,7 +168,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="微软雅黑" size="12" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 				</textElement>
 				<text><![CDATA[总金额: ]]></text>
 			</staticText>
@@ -181,7 +181,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="微软雅黑" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="微软雅黑" isBold="true" pdfFontName="fonts/msyh.ttf" pdfEncoding="Identity-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{grandTotal}]]></textFieldExpression>
 			</textField>

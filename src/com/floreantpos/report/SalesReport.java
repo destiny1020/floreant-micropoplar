@@ -22,6 +22,7 @@ import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.TicketItemModifier;
 import com.floreantpos.model.TicketItemModifierGroup;
 import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.report.service.ReportService;
 
 public class SalesReport extends Report {
@@ -32,6 +33,7 @@ public class SalesReport extends Report {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void refresh() throws Exception {
 		createModels();
@@ -42,11 +44,12 @@ public class SalesReport extends Report {
 		JasperReport itemReport = (JasperReport) JRLoader.loadObject(SalesReportModelFactory.class.getResource("/com/floreantpos/report/template/sales_sub_report.jasper"));
 		JasperReport modifierReport = (JasperReport) JRLoader.loadObject(SalesReportModelFactory.class.getResource("/com/floreantpos/report/template/sales_sub_report.jasper"));
 
+		@SuppressWarnings("rawtypes")
 		HashMap map = new HashMap();
 		ReportUtil.populateRestaurantProperties(map);
-		map.put("reportTitle", "================================= Sales Report ================================");
-		map.put("reportTime", ReportService.formatFullDate(new Date()));
-		map.put("dateRange", ReportService.formatShortDate(getStartDate()) + " to " + ReportService.formatShortDate(getEndDate()));
+		map.put("reportTitle", "销售报表");
+		map.put("reportTime", DateUtil.getReportFullDate(new Date()));
+		map.put("dateRange", DateUtil.getReportShortDate(getStartDate()) + "  到  " + DateUtil.getReportShortDate(getEndDate()));
 		map.put("terminalName", com.floreantpos.POSConstants.ALL);
 		map.put("itemDataSource", new JRTableModelDataSource(itemReportModel));
 		map.put("modifierDataSource", new JRTableModelDataSource(modifierReportModel));
