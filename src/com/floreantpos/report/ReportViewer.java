@@ -50,7 +50,7 @@ public class ReportViewer extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout(5, 5));
 
-        jLabel1.setText("Report Type" + ":");
+        jLabel1.setText("报告类型" + ":");
 
         cbReportType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { com.floreantpos.POSConstants.PREVIOUS_SALE_AFTER_DRAWER_RESET_, com.floreantpos.POSConstants.SALE_BEFORE_DRAWER_RESET }));
 

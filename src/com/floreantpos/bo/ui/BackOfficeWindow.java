@@ -176,7 +176,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 		reportMenu.add(new CreditCardReportAction());
 		reportMenu.add(new MenuUsageReportAction());
 		reportMenu.add(new ServerProductivityReportAction());
-		reportMenu.add(new JournalReportAction());
+//		reportMenu.add(new JournalReportAction());
 		reportMenu.add(new SalesBalanceReportAction());
 		reportMenu.add(new SalesExceptionReportAction());
 		reportMenu.add(new SalesDetailReportAction());

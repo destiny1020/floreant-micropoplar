@@ -9,7 +9,7 @@ import com.floreantpos.ui.dialog.AboutDialog;
 public class AboutAction extends AbstractAction {
 	
 	public AboutAction() {
-		super("About");
+		super("关于本系统");
 	}
 
 	@Override
