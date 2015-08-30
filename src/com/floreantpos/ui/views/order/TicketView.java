@@ -519,7 +519,6 @@ public class TicketView extends JPanel {
 	}
 
 	public void updateView() {
-		System.out.println("update main ticket view");
 		if (ticket == null) {
 			tfSubtotal.setText("");
 			tfDiscount.setText("");

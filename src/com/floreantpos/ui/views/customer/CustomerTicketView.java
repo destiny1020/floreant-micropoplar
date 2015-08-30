@@ -127,7 +127,6 @@ public class CustomerTicketView extends JPanel {
 	}
 	
 	public void updateView() {
-		System.out.println("update customer ticket view");
 		if (ticket == null) {
 			tfSubtotal.setText("");
 			tfDiscount.setText("");

@@ -45,7 +45,7 @@ public class MercuryPayProcessor implements CardProcessor {
 			throw new PosException("Error authorizing transaction.");
 		}
 		
-		System.out.println(mpsResponse);
+		// System.out.println(mpsResponse);
 		
 		transaction.setCardTransactionId(result.getTransactionId());
 		transaction.setCardAuthCode(result.getAuthCode());
@@ -77,7 +77,7 @@ public class MercuryPayProcessor implements CardProcessor {
 		xml = xml.replace($amount, amountStrng);
 		xml = xml.replace($authorizeAmount, amountStrng);
 		
-		System.out.println(xml);
+		// System.out.println(xml);
 
 		MercuryWebRequest mpswr = new MercuryWebRequest("https://w1.mercurydev.net/ws/ws.asmx");
 		mpswr.addParameter("tran", xml); //Set WebServices 'tran' parameter to the XML transaction request
@@ -93,7 +93,7 @@ public class MercuryPayProcessor implements CardProcessor {
 	public String authorizeAmount(Ticket ticket, String cardTrack, double amount, String cardType) throws Exception {
 		String mpsResponse = doPreAuth(ticket, cardTrack, amount);
 		
-		System.out.println(mpsResponse);
+		// System.out.println(mpsResponse);
 		
 		MercuryResponse result = new MercuryResponse(mpsResponse);
 		if(!result.isApproved()) {

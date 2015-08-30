@@ -162,7 +162,7 @@ public class QwertyKeyPad extends JPanel implements ActionListener, ChangeListen
 			
 			@Override
 			public void componentResized(ComponentEvent e) {
-				System.out.println(comp.getSize());
+				// System.out.println(comp.getSize());
 				
 			}
 			

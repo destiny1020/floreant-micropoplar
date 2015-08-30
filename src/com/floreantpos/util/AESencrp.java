@@ -45,7 +45,7 @@ public class AESencrp {
 //		System.out.println(encrypt);
 		
 		String decrypt = decrypt("4T9H+1LqawVTsVvifd/TxA==");
-		System.out.println(decrypt);
+		// System.out.println(decrypt);
 	}
 
 }
