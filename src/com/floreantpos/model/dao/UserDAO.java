@@ -44,7 +44,7 @@ public class UserDAO extends BaseUserDAO {
 		}
 	}
 	
-	public User findUser(int id) {
+	public User findUser(String id) {
 		Session session = null;
 		
 		try {
@@ -58,7 +58,7 @@ public class UserDAO extends BaseUserDAO {
 			}
 			else {
 				//TODO: externalize string
-				throw new UserNotFoundException("User with id " + id + " not found");
+				throw new UserNotFoundException("用户ID: " + id + " 不存在");
 			}
 		} finally {
 			if (session != null) {
@@ -85,7 +85,7 @@ public class UserDAO extends BaseUserDAO {
 		}
 	}
 	
-	public boolean isUserExist(int id) {
+	public boolean isUserExist(String id) {
 		try {
 			User user  = findUser(id);
 			
@@ -205,7 +205,7 @@ public class UserDAO extends BaseUserDAO {
 		query = query.setParameter("userType", user.getType());
 		
 		if (query.list().size() > 0) {
-			throw new PosException("Another user with same ID already exists");
+			throw new PosException("该用户ID已经被使用了");
 		}
 
 		return true;
@@ -220,7 +220,7 @@ public class UserDAO extends BaseUserDAO {
 			}
 			super.saveOrUpdate(user);
 		} catch (Exception x) {
-			throw new PosException("Could not save user", x);
+			throw new PosException("无法保存用户", x);
 		} finally {
 			closeSession(session);
 		}
@@ -285,7 +285,7 @@ public class UserDAO extends BaseUserDAO {
 				}
 			} catch (Exception e2) {
 			}
-			throw new PosException("Unnable to find user", e);
+			throw new PosException("无法找到用户", e);
 		} finally {
 			if (session != null) {
 				session.close();

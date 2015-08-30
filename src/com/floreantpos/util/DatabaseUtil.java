@@ -110,7 +110,7 @@ public class DatabaseUtil {
 			UserTypeDAO.getInstance().saveOrUpdate(type);
 
 			User u = new User();
-			u.setUserId(123);
+			u.setUserId("123");
 			u.setSsn("123");
 			u.setPassword("1111");
 			u.setFirstName("Administrator");

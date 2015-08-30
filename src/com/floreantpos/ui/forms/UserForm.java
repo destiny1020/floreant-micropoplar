@@ -203,12 +203,8 @@ public class UserForm extends BeanEditor {
 			user = (User) getBean();
 		}
 
-		int id = 1000;
-		try {
-			id = Integer.parseInt(tfId.getText());
-		} catch (Exception x) {
-			throw new IllegalModelStateException("ID不正确");
-		}
+		String id = "1000";
+		id =tfId.getText();
 
 //		String ssn = tfSsn.getText();
 		String firstName = tfFirstName.getText();

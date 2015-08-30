@@ -18,6 +18,7 @@ public class AboutDialog extends POSDialog {
 	
 	public AboutDialog() {
 		super(BackOfficeWindow.getInstance(), true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("关于");
 	}
 	

@@ -70,7 +70,7 @@ public abstract class BaseUser  implements Comparable, Serializable {
 	 java.util.Date modifiedTime;
 
 	// fields
-		protected java.lang.Integer userId;
+		protected java.lang.String userId;
 		protected java.lang.String password;
 		protected java.lang.String firstName;
 		protected java.lang.String lastName;
@@ -131,15 +131,15 @@ public abstract class BaseUser  implements Comparable, Serializable {
 	/**
 	 * Return the value associated with the column: USER_ID
 	 */
-	public java.lang.Integer getUserId () {
-					return userId == null ? Integer.valueOf(0) : userId;
+	public java.lang.String getUserId () {
+					return userId == null ? "" : userId;
 			}
 
 	/**
 	 * Set the value related to the column: USER_ID
 	 * @param userId the USER_ID value
 	 */
-	public void setUserId (java.lang.Integer userId) {
+	public void setUserId (java.lang.String userId) {
 		this.userId = userId;
 	}
 
