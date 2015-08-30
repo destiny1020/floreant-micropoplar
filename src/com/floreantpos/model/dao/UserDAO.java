@@ -157,6 +157,7 @@ public class UserDAO extends BaseUserDAO {
 				} catch (Exception x) {
 				}
 			}
+			// TODO: find why such exception throws when enters a new day
 			throw new PosException("Unable to store clock in information", e);
 
 		} finally {

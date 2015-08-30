@@ -28,10 +28,10 @@ public class UserExplorerAction extends AbstractAction {
 		
 		UserExplorer explorer = null;
 		JTabbedPane tabbedPane = backOfficeWindow.getTabbedPane();
-		int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.USERS);
+		int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.USER_EXPLORER);
 		if (index == -1) {
 			explorer = new UserExplorer();
-			tabbedPane.addTab(com.floreantpos.POSConstants.USERS, explorer);
+			tabbedPane.addTab(com.floreantpos.POSConstants.USER_EXPLORER, explorer);
 		}
 		else {
 			explorer = (UserExplorer) tabbedPane.getComponentAt(index);

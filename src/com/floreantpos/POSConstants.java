@@ -363,6 +363,7 @@ public class POSConstants {
 	public static final String DEFAULT_CURRENCY_SYMBOL = Messages.getString("PosMessage.315"); //$NON-NLS-1$
 	public static final String NO_PRINTER = Messages.getString("PosMessage.316"); //$NON-NLS-1$
 	public static final String DATABASE_TAB = Messages.getString("DatabaseConfigurationDialog.8"); //$NON-NLS-1$
+	public static final String USER_EXPLORER = Messages.getString("PosMessage.317"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$

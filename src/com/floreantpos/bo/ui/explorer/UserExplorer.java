@@ -156,7 +156,7 @@ public class UserExplorer extends TransparentPanel {
 	class UserTableModel extends ListTableModel {
 		
 		UserTableModel(List list){
-			super(new String[] {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.FIRST_NAME, com.floreantpos.POSConstants.LAST_NAME, com.floreantpos.POSConstants.TYPE}, list);
+			super(new String[] {com.floreantpos.POSConstants.USER_ID, com.floreantpos.POSConstants.USER_NAME, com.floreantpos.POSConstants.TYPE}, list);
 		}
 		
 
@@ -168,12 +168,9 @@ public class UserExplorer extends TransparentPanel {
 					return String.valueOf(user.getUserId());
 					
 				case 1:
-					return user.getFirstName();
+					return user.toString();
 					
 				case 2:
-					return user.getLastName();
-					
-				case 3:
 					return user.getType();
 			}
 			return null;

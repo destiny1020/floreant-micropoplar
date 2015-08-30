@@ -243,6 +243,7 @@ public class PasswordScreen extends JPanel {
 		lblTerminalId.setText("");
 	}// </editor-fold>//GEN-END:initComponents
 
+	// TODO: check login logic, everytime when entered a new day, throws: com.floreantpos.PosException: Unable to store clock in information
 	public synchronized void doLogin() {
 		try {
 			tfPassword.setEnabled(false);
