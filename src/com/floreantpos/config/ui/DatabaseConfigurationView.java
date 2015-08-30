@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.floreantpos.Database;
 import com.floreantpos.Messages;
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.config.AppConfig;
 import com.floreantpos.main.Application;
@@ -184,7 +185,7 @@ public class DatabaseConfigurationView extends ConfigurationView implements Acti
 
 				if (createDatabase) {
 					//JOptionPane.showMessageDialog(DatabaseConfigurationView.this, Messages.getString("DatabaseConfigurationDialog.35")); //$NON-NLS-1$
-					JOptionPane.showMessageDialog(DatabaseConfigurationView.this, "Database created. Default password is 1111."); //$NON-NLS-1$
+					JOptionPane.showMessageDialog(DatabaseConfigurationView.this, "数据库创建完毕. 初始密码是1111."); //$NON-NLS-1$
 				}
 				else {
 					JOptionPane.showMessageDialog(DatabaseConfigurationView.this, Messages.getString("DatabaseConfigurationDialog.36")); //$NON-NLS-1$
@@ -263,7 +264,7 @@ public class DatabaseConfigurationView extends ConfigurationView implements Acti
 
 	@Override
 	public String getName() {
-		return "Database";
+		return POSConstants.DATABASE_TAB;
 	}
 
 }

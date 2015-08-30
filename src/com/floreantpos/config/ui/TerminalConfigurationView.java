@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import net.miginfocom.swing.MigLayout;
 
 import com.floreantpos.Messages;
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.swing.IntegerTextField;
@@ -33,21 +34,21 @@ public class TerminalConfigurationView extends ConfigurationView {
 	private IntegerTextField tfSecretKeyLength;
 	//private FixedLengthTextField tfAdminPassword = new FixedLengthTextField(16);
 	
-	private JCheckBox cbEnableDineIn = new JCheckBox("DINE IN");
-	private JCheckBox cbEnableTakeOut = new JCheckBox("TAKE OUT");
-	private JCheckBox cbEnablePickUp = new JCheckBox("PICK UP");
-	private JCheckBox cbEnableHomeDelivery = new JCheckBox("HOME DELIVERY");
-	private JCheckBox cbEnableDriveThru = new JCheckBox("DRIVE THRU");
-	private JCheckBox cbEnableBarTab = new JCheckBox("BAR TAB");
+	private JCheckBox cbEnableDineIn = new JCheckBox("堂食");
+	private JCheckBox cbEnableTakeOut = new JCheckBox("打包");
+	private JCheckBox cbEnablePickUp = new JCheckBox("自取");
+	private JCheckBox cbEnableHomeDelivery = new JCheckBox("快递");
+//	private JCheckBox cbEnableDriveThru = new JCheckBox("DRIVE THRU");
+//	private JCheckBox cbEnableBarTab = new JCheckBox("BAR TAB");
 	
-	private JCheckBox cbFullscreenMode = new JCheckBox("Kiosk Mode");
+	private JCheckBox cbFullscreenMode = new JCheckBox("全屏模式");
 	
 	private JComboBox<String> cbFonts = new JComboBox<String>();
 
 	private IntegerTextField tfButtonHeight;
 
 	private IntegerTextField tfFontSize;
-	private JCheckBox cbAutoLogoff = new JCheckBox("Enable auto logoff");
+	private JCheckBox cbAutoLogoff = new JCheckBox("启用自动登出");
 	private IntegerTextField tfLogoffTime = new IntegerTextField(4);
 	
 	public TerminalConfigurationView() {
@@ -66,7 +67,7 @@ public class TerminalConfigurationView extends ConfigurationView {
 		tfTerminalNumber.setColumns(10);
 		add(tfTerminalNumber, "aligny top, wrap"); //$NON-NLS-1$
 		
-		add(new JLabel("Default password length"));
+		add(new JLabel("默认密码长度: "));
 		tfSecretKeyLength = new IntegerTextField(3);
 		add(tfSecretKeyLength, "wrap");
 		
@@ -82,32 +83,32 @@ public class TerminalConfigurationView extends ConfigurationView {
 			}
 		});
 		add(cbAutoLogoff);
-		add(new JLabel("Auto logoff time")); //$NON-NLS-1$
-		add(tfLogoffTime, "wrap");
+		add(new JLabel("自动登出时间: "),  "alignx right,aligny center"); //$NON-NLS-1$
+		add(tfLogoffTime, "alignx left,aligny center,wrap");
 		
 		add(cbFullscreenMode, "wrap"); //$NON-NLS-1$
 		
-		add(new JLabel("Default font")); //$NON-NLS-1$
+		add(new JLabel("默认字体: ")); //$NON-NLS-1$
 		add(cbFonts, "wrap"); //$NON-NLS-1$
 		
 		JPanel ticketTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-		ticketTypePanel.setBorder(BorderFactory.createTitledBorder("Ticket Types"));
+		ticketTypePanel.setBorder(BorderFactory.createTitledBorder("订单类型"));
 		ticketTypePanel.add(cbEnableDineIn);
 		ticketTypePanel.add(cbEnableTakeOut);
 		ticketTypePanel.add(cbEnablePickUp);
 		ticketTypePanel.add(cbEnableHomeDelivery);
-		ticketTypePanel.add(cbEnableDriveThru);
-		ticketTypePanel.add(cbEnableBarTab);
+//		ticketTypePanel.add(cbEnableDriveThru);
+//		ticketTypePanel.add(cbEnableBarTab);
 		
 		add(ticketTypePanel, "span 3, wrap");
 		
 		JPanel touchConfigPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-		touchConfigPanel.setBorder(BorderFactory.createTitledBorder("TOUCH SCREEN SETTINGS"));
-		touchConfigPanel.add(new JLabel("Button height"));
+		touchConfigPanel.setBorder(BorderFactory.createTitledBorder("触屏设置"));
+		touchConfigPanel.add(new JLabel("按钮高度: "));
 		tfButtonHeight = new IntegerTextField(5);
 		touchConfigPanel.add(tfButtonHeight);
 		
-		touchConfigPanel.add(new JLabel("Button font size"));
+		touchConfigPanel.add(new JLabel("按钮字体大小: "));
 		tfFontSize = new IntegerTextField(5);
 		touchConfigPanel.add(tfFontSize);
 		
@@ -133,12 +134,12 @@ public class TerminalConfigurationView extends ConfigurationView {
 		int fontSize = tfFontSize.getInteger();
 		
 		if(buttonHeight < 20) {
-			POSMessageDialog.showError(BackOfficeWindow.getInstance(), "Please make sure button size is at least 20");
+			POSMessageDialog.showError(BackOfficeWindow.getInstance(), "请确保按钮至少要大于20个单位");
 			return false;
 		}
 		
 		if(fontSize < 8) {
-			POSMessageDialog.showError(BackOfficeWindow.getInstance(), "Please make sure button font size is at least 8");
+			POSMessageDialog.showError(BackOfficeWindow.getInstance(), "请确保按钮字体大小至少要大于8个单位");
 			return false;
 		}
 		
@@ -158,8 +159,8 @@ public class TerminalConfigurationView extends ConfigurationView {
 		TerminalConfig.setPickupEnable(cbEnablePickUp.isSelected());
 		TerminalConfig.setTakeOutEnable(cbEnableTakeOut.isSelected());
 		TerminalConfig.setHomeDeliveryEnable(cbEnableHomeDelivery.isSelected());
-		TerminalConfig.setDriveThruEnable(cbEnableDriveThru.isSelected());
-		TerminalConfig.setBarTabEnable(cbEnableBarTab.isSelected());
+//		TerminalConfig.setDriveThruEnable(cbEnableDriveThru.isSelected());
+//		TerminalConfig.setBarTabEnable(cbEnableBarTab.isSelected());
 		TerminalConfig.setFullscreenMode(cbFullscreenMode.isSelected());
 		
 		TerminalConfig.setTouchScreenButtonHeight(buttonHeight);
@@ -168,7 +169,7 @@ public class TerminalConfigurationView extends ConfigurationView {
 		TerminalConfig.setAutoLogoffEnable(cbAutoLogoff.isSelected());
 		TerminalConfig.setAutoLogoffTime(tfLogoffTime.getInteger() <= 0 ? 10 : tfLogoffTime.getInteger());
 		
-		POSMessageDialog.showMessage(BackOfficeWindow.getInstance(), "Please restart system for the configuration to take effect");
+		POSMessageDialog.showMessage(BackOfficeWindow.getInstance(), "请重启系统来让设置生效");
 		
 		String selectedFont = (String) cbFonts.getSelectedItem();
 		if("<select>".equals(selectedFont)) {
@@ -188,8 +189,8 @@ public class TerminalConfigurationView extends ConfigurationView {
 		cbEnablePickUp.setSelected(TerminalConfig.isPickupEnable());
 		cbEnableTakeOut.setSelected(TerminalConfig.isTakeOutEnable());
 		cbEnableHomeDelivery.setSelected(TerminalConfig.isHomeDeliveryEnable());
-		cbEnableDriveThru.setSelected(TerminalConfig.isDriveThruEnable());
-		cbEnableBarTab.setSelected(TerminalConfig.isBarTabEnable());
+//		cbEnableDriveThru.setSelected(TerminalConfig.isDriveThruEnable());
+//		cbEnableBarTab.setSelected(TerminalConfig.isBarTabEnable());
 		cbFullscreenMode.setSelected(TerminalConfig.isFullscreenMode());
 		
 		tfButtonHeight.setText("" + TerminalConfig.getTouchScreenButtonHeight());
@@ -200,6 +201,11 @@ public class TerminalConfigurationView extends ConfigurationView {
 		tfLogoffTime.setEnabled(cbAutoLogoff.isSelected());
 		
 		initializeFontConfig();
+		
+		// TODO: may refactor the code into external resource
+		cbEnableDineIn.setEnabled(false);
+		cbEnablePickUp.setEnabled(false);
+		cbEnableHomeDelivery.setEnabled(false);
 		
 		setInitialized(true);
 	}
@@ -222,6 +228,6 @@ public class TerminalConfigurationView extends ConfigurationView {
 
 	@Override
 	public String getName() {
-		return "Terminal";
+		return POSConstants.TERMINAL_LABEL;
 	}
 }

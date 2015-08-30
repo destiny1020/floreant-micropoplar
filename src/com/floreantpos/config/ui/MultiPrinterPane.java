@@ -35,7 +35,7 @@ public class MultiPrinterPane extends JPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);
 		
-		JButton btnAdd = new JButton("ADD");
+		JButton btnAdd = new JButton("添加");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doAddPrinter();
@@ -43,7 +43,7 @@ public class MultiPrinterPane extends JPanel {
 		});
 		panel.add(btnAdd);
 		
-		JButton btnEdit = new JButton("EDIT");
+		JButton btnEdit = new JButton("编辑");
 		btnEdit.addActionListener(new ActionListener() {
 			
 			@Override
@@ -113,7 +113,8 @@ public class MultiPrinterPane extends JPanel {
 		
 		for (Printer printer : printers) {
 			if(virtualPrinter.equals(printer.getVirtualPrinter())) {
-				POSMessageDialog.showError(this.getParent(), "A printer with that virtual printer already exists.");
+//				POSMessageDialog.showError(this.getParent(), "A printer with that virtual printer already exists.该打印机已经存在于对应虚拟打印机中了.");
+				POSMessageDialog.showError(this.getParent(), "该打印机已经存在于对应的虚拟打印机中了.");
 				return;
 			}
 		}

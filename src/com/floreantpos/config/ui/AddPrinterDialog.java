@@ -33,7 +33,7 @@ public class AddPrinterDialog extends POSDialog {
 
 	public AddPrinterDialog() throws HeadlessException {
 		super(BackOfficeWindow.getInstance(), true);
-		setTitle("Add/Edit Printer");
+		setTitle("添加/编辑 打印机");
 		
 		setMinimumSize(new Dimension(400, 200));
 		//setResizable(false);
@@ -45,7 +45,7 @@ public class AddPrinterDialog extends POSDialog {
 	public void initUI() {
 		getContentPane().setLayout(new MigLayout("", "[][grow][]", "[][][][][grow]"));
 		
-		JLabel lblName = new JLabel("Virtual Printer");
+		JLabel lblName = new JLabel("虚拟打印机: ");
 		getContentPane().add(lblName, "cell 0 0,alignx trailing");
 		
 		cbVirtualPrinter = new JComboBox();
@@ -53,7 +53,7 @@ public class AddPrinterDialog extends POSDialog {
 		cbVirtualPrinter.setModel(new DefaultComboBoxModel<VirtualPrinter>(virtualPrinters.toArray(new VirtualPrinter[0])));
 		getContentPane().add(cbVirtualPrinter, "cell 1 0,growx");
 		
-		JButton btnNew = new JButton("NEW");
+		JButton btnNew = new JButton("新建");
 		btnNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doAddNewVirtualPrinter();
@@ -61,7 +61,7 @@ public class AddPrinterDialog extends POSDialog {
 		});
 		getContentPane().add(btnNew, "cell 2 0");
 		
-		JLabel lblDevice = new JLabel("Device");
+		JLabel lblDevice = new JLabel("设备: ");
 		getContentPane().add(lblDevice, "cell 0 1,alignx trailing");
 		
 		cbDevice = new JComboBox();
@@ -69,7 +69,7 @@ public class AddPrinterDialog extends POSDialog {
 		cbDevice.setRenderer(new PrintServiceComboRenderer());
 		getContentPane().add(cbDevice, "cell 1 1,growx");
 		
-		chckbxDefault = new JCheckBox("Default");
+		chckbxDefault = new JCheckBox("设为默认");
 		getContentPane().add(chckbxDefault, "cell 1 2");
 		
 		JSeparator separator = new JSeparator();
@@ -78,7 +78,7 @@ public class AddPrinterDialog extends POSDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, "cell 0 4 3 1,grow");
 		
-		JButton btnOk = new JButton("OK");
+		JButton btnOk = new JButton("确定");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doAddPrinter();
@@ -86,7 +86,7 @@ public class AddPrinterDialog extends POSDialog {
 		});
 		panel.add(btnOk);
 		
-		JButton btnCancel = new JButton("CANCEL");
+		JButton btnCancel = new JButton("取消");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setCanceled(true);
@@ -113,13 +113,13 @@ public class AddPrinterDialog extends POSDialog {
 	protected void doAddPrinter() {
 		VirtualPrinter vp = (VirtualPrinter) cbVirtualPrinter.getSelectedItem();
 		if (vp == null) {
-			POSMessageDialog.showError(this, "Please select a virtual printer");
+			POSMessageDialog.showError(this, "请选择一个虚拟打印机.");
 			return;
 		}
 		
 		PrintService printService = (PrintService) cbDevice.getSelectedItem();
 		if(printService == null) {
-			POSMessageDialog.showMessage(this, "Please select a device.");
+			POSMessageDialog.showMessage(this, "请选择一台设备.");
 			return;
 		}
 		

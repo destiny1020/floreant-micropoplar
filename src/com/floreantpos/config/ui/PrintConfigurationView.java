@@ -23,6 +23,7 @@ import javax.swing.JList;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.PosPrinters;
@@ -66,7 +67,7 @@ public class PrintConfigurationView extends ConfigurationView {
 		setInitialized(true);
 
 		if (printServices == null || printServices.length == 0) {
-			POSMessageDialog.showMessage(BackOfficeWindow.getInstance(), "No printer is installed on your operating system. Please install printer and come back again.");
+			POSMessageDialog.showMessage(BackOfficeWindow.getInstance(), POSConstants.NO_PRINTER);
 		}
 	}
 
@@ -117,7 +118,7 @@ public class PrintConfigurationView extends ConfigurationView {
 	private void initComponents() {
 		setLayout(new MigLayout("", "[][grow,fill]", "[][][][18px,grow]"));
 		
-		JLabel lblReportPrinter = new JLabel("Report Printer");
+		JLabel lblReportPrinter = new JLabel("报表打印机: ");
 		add(lblReportPrinter, "cell 0 0,alignx trailing");
 		
 		cbReportPrinterName = new JComboBox();
@@ -125,7 +126,7 @@ public class PrintConfigurationView extends ConfigurationView {
 		javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
 		add(jLabel1, "cell 0 1,alignx right");
 
-		jLabel1.setText("Receipt Printer:");
+		jLabel1.setText("小票打印机: ");
 		cbReceiptPrinterName = new javax.swing.JComboBox();
 		add(cbReceiptPrinterName, "cell 1 1,growx");
 		javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
@@ -142,7 +143,7 @@ public class PrintConfigurationView extends ConfigurationView {
 		//MultiPrinterPane multiPrinterPane = new MultiPrinterPane("Receipt Printers", printers.getReceiptPrinters());
 		//panel.add(multiPrinterPane);
 		
-		MultiPrinterPane multiPrinterPane = new MultiPrinterPane("Kitchen Printers", printers.getKitchenPrinters());
+		MultiPrinterPane multiPrinterPane = new MultiPrinterPane("厨房打印机", printers.getKitchenPrinters());
 		add(multiPrinterPane, "cell 0 3 2 1,grow");
 		//panel.add(multiPrinterPane_1);
 

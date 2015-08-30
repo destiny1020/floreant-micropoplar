@@ -26,7 +26,7 @@ public class VirtualPrinterConfigDialog extends POSDialog {
 
 	public VirtualPrinterConfigDialog() throws HeadlessException {
 		super(BackOfficeWindow.getInstance(), true);
-		setTitle("Add/Edit Virtual Printer");
+		setTitle("添加/编辑 虚拟打印机");
 		
 		setSize(400, 150);
 		setResizable(false);
@@ -37,7 +37,7 @@ public class VirtualPrinterConfigDialog extends POSDialog {
 	public void initUI() {
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][]"));
 		
-		JLabel lblName = new JLabel("Name");
+		JLabel lblName = new JLabel("名称: ");
 		getContentPane().add(lblName, "cell 0 0,alignx trailing");
 		
 		tfName = new FixedLengthTextField(60);
@@ -49,7 +49,7 @@ public class VirtualPrinterConfigDialog extends POSDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, "cell 0 4 2 1,grow");
 		
-		JButton btnOk = new JButton("OK");
+		JButton btnOk = new JButton("确定");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doAddPrinter();
@@ -57,7 +57,7 @@ public class VirtualPrinterConfigDialog extends POSDialog {
 		});
 		panel.add(btnOk);
 		
-		JButton btnCancel = new JButton("CANCEL");
+		JButton btnCancel = new JButton("取消");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setCanceled(true);
@@ -72,14 +72,14 @@ public class VirtualPrinterConfigDialog extends POSDialog {
 			
 			String name = tfName.getText();
 			if (StringUtils.isEmpty(name)) {
-				POSMessageDialog.showMessage(this, "Please provide a name");
+				POSMessageDialog.showMessage(this, "请给它取一个名字");
 				return;
 			}
 
 			VirtualPrinterDAO printerDAO = VirtualPrinterDAO.getInstance();
 
 			if (printerDAO.findPrinterByName(name) != null) {
-				POSMessageDialog.showMessage(this, "A printer with that name already exists.");
+				POSMessageDialog.showMessage(this, "名字重复了.");
 				return;
 			}
 

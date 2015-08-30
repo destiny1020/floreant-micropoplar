@@ -361,6 +361,8 @@ public class POSConstants {
 	public static final String TICKET_FOOTER_MESSAGE = Messages.getString("PosMessage.313"); //$NON-NLS-1$
 	public static final String DEFAULT_CURRENCY_NAME = Messages.getString("PosMessage.314"); //$NON-NLS-1$
 	public static final String DEFAULT_CURRENCY_SYMBOL = Messages.getString("PosMessage.315"); //$NON-NLS-1$
+	public static final String NO_PRINTER = Messages.getString("PosMessage.316"); //$NON-NLS-1$
+	public static final String DATABASE_TAB = Messages.getString("DatabaseConfigurationDialog.8"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$
