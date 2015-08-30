@@ -92,6 +92,7 @@ public class POSConstants {
 	public static final String END_DATE = Messages.getString("PosMessage.85"); //$NON-NLS-1$
 	public static final String RESTAURANT_NAME = Messages.getString("PosMessage.86"); //$NON-NLS-1$
 	public static final String TOTAL = Messages.getString("PosMessage.87"); //$NON-NLS-1$
+	public static final String TOTAL_EN = Messages.getString("PosMessage.87.en"); //$NON-NLS-1$
 	public static final String REQUIRED_MODIFIERS_NOT_ADDED = Messages.getString("PosMessage.88"); //$NON-NLS-1$
 	public static final String DISABLED = Messages.getString("PosMessage.89"); //$NON-NLS-1$
 	public static final String INSTRUCTION_CANNOT_BE_EMPTY = Messages.getString("PosMessage.90"); //$NON-NLS-1$
@@ -184,7 +185,9 @@ public class POSConstants {
 	public static final String MENU_ITEMS = Messages.getString("PosMessage.176"); //$NON-NLS-1$
 	public static final String DATE_TIME = Messages.getString("PosMessage.177"); //$NON-NLS-1$
 	public static final String TAX = Messages.getString("PosMessage.178"); //$NON-NLS-1$
+	public static final String TAX_EN = Messages.getString("PosMessage.178.en"); //$NON-NLS-1$
 	public static final String NAME = Messages.getString("PosMessage.179"); //$NON-NLS-1$
+	public static final String NAME_EN = Messages.getString("PosMessage.179.en"); //$NON-NLS-1$
 	public static final String EDIT_MENU_CATEGORY = Messages.getString("PosMessage.180"); //$NON-NLS-1$
 	public static final String DESCRIPTION = Messages.getString("PosMessage.181"); //$NON-NLS-1$
 	public static final String INVALID_AMOUNT = Messages.getString("PosMessage.182"); //$NON-NLS-1$
@@ -204,6 +207,7 @@ public class POSConstants {
 	public static final String EXPLORERS = Messages.getString("PosMessage.196"); //$NON-NLS-1$
 	public static final String TOTAL_GRATUITY = Messages.getString("PosMessage.197"); //$NON-NLS-1$
 	public static final String PRICE = Messages.getString("PosMessage.198"); //$NON-NLS-1$
+	public static final String PRICE_EN = Messages.getString("PosMessage.198.en"); //$NON-NLS-1$
 	public static final String SRV_ = Messages.getString("PosMessage.199"); //$NON-NLS-1$
 	public static final String MISC_ITEM = Messages.getString("PosMessage.200"); //$NON-NLS-1$
 	public static final String TABLE_NUMBER = Messages.getString("PosMessage.201"); //$NON-NLS-1$
@@ -217,6 +221,7 @@ public class POSConstants {
 	public static final String TICKET = Messages.getString("PosMessage.209"); //$NON-NLS-1$
 	public static final String DELETE = Messages.getString("PosMessage.210"); //$NON-NLS-1$
 	public static final String QTY = Messages.getString("PosMessage.211"); //$NON-NLS-1$
+	public static final String QTY_EN = Messages.getString("PosMessage.211.en"); //$NON-NLS-1$
 	public static final String CONFIRM_DELETE = Messages.getString("PosMessage.212"); //$NON-NLS-1$
 	public static final String GUEST = "Guest"; //$NON-NLS-1$
 	public static final String EMPTY_PASSWORD = Messages.getString("PosMessage.214"); //$NON-NLS-1$
