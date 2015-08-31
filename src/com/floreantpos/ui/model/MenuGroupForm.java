@@ -121,7 +121,7 @@ public class MenuGroupForm extends BeanEditor {
 				model.setSelectedItem(foodCategory);
 			}
 		} catch (Exception x) {
-			MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, x);
 		}
     }//GEN-LAST:event_doNewCategory
     
@@ -144,7 +144,7 @@ public class MenuGroupForm extends BeanEditor {
 			MenuGroupDAO foodGroupDAO = new MenuGroupDAO();
 			foodGroupDAO.saveOrUpdate(foodGroup);
 		} catch (Exception e) {
-			MessageDialog.showError(e);
+			MessageDialog.showError(this, e);
 			return false;
 		}
 		return true;
@@ -176,13 +176,13 @@ public class MenuGroupForm extends BeanEditor {
 		
 		String name = tfName.getText();
     	if(POSUtil.isBlankOrNull(name)) {
-    		MessageDialog.showError("需要二级类目名称");
+    		MessageDialog.showError(this, "需要二级类目名称");
     		return false;
     	}
 		
     	MenuCategory category = (MenuCategory) cbCategory.getSelectedItem();
     	if(category == null) {
-    		MessageDialog.showError("需要关联一级类目");
+    		MessageDialog.showError(this, "需要关联一级类目");
     		return false;
     	}
     	

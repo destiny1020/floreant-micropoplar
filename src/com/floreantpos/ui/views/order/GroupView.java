@@ -77,7 +77,7 @@ public class GroupView extends SelectionView {
 			
 			setItems(groups);
 		} catch (Exception e) {
-			MessageDialog.showError(e);
+			MessageDialog.showError(this, e);
 		}
 	}
 	

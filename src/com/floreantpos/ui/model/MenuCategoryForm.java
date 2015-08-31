@@ -120,7 +120,7 @@ public class MenuCategoryForm extends BeanEditor {
     	
     	String categoryName = tfName.getText();
     	if(POSUtil.isBlankOrNull(categoryName)) {
-    		MessageDialog.showError("需要输入名字");
+    		MessageDialog.showError(this, "需要输入名字");
     		return false;
     	}
     	
@@ -147,7 +147,7 @@ public class MenuCategoryForm extends BeanEditor {
 			foodCategoryDAO.saveOrUpdate(foodCategory);
 			return true;
 		} catch (Exception x) {
-			MessageDialog.showError(x);
+			MessageDialog.showError(this, x);
 			return false;
 		}
 	}

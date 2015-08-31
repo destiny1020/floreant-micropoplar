@@ -484,7 +484,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 				menuItemMGListModel.add(modifier);
 			}
 		} catch (Exception x) {
-			MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, x);
 		}
     }
     
@@ -503,7 +503,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
     			menuItemMGListModel.fireTableDataChanged();
     		}
     	} catch (Exception x) {
-    		MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+    		MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, x);
     	}
     }
     private void deleteMenuItemModifierGroup() {
@@ -515,7 +515,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
     			menuItemMGListModel.remove(index);
     		}
     	} catch (Exception x) {
-    		MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+    		MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, x);
     	}
     }
     
@@ -528,7 +528,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 			MenuItemDAO menuItemDAO = new MenuItemDAO();
 			menuItemDAO.saveOrUpdate(menuItem);
 		} catch (Exception e) {
-			MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, e);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, e);
 			return false;
 		}
 		return true;
@@ -574,7 +574,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 	protected boolean updateModel() {
 		String itemName = tfName.getText();
 		if(POSUtil.isBlankOrNull(itemName)) {
-			MessageDialog.showError(com.floreantpos.POSConstants.NAME_REQUIRED);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.NAME_REQUIRED);
 			return false;
 		}
 		

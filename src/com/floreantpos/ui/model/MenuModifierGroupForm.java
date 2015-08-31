@@ -86,7 +86,7 @@ public class MenuModifierGroupForm extends BeanEditor {
 			ModifierGroupDAO dao = new ModifierGroupDAO();
 			dao.saveOrUpdate(group);
 		} catch (Exception e) {
-			MessageDialog.showError(e);
+			MessageDialog.showError(this, e);
 			return false;
 		}
 		return true;
@@ -119,7 +119,7 @@ public class MenuModifierGroupForm extends BeanEditor {
 
 		String name = tfName.getText();
     	if(POSUtil.isBlankOrNull(name)) {
-    		MessageDialog.showError(com.floreantpos.POSConstants.NAME_REQUIRED);
+    		MessageDialog.showError(this, com.floreantpos.POSConstants.NAME_REQUIRED);
     		return false;
     	}
     	

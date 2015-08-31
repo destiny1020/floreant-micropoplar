@@ -62,7 +62,7 @@ public class CouponForm extends BeanEditor {
             CouponAndDiscountDAO dao = new CouponAndDiscountDAO();
             dao.saveOrUpdate(coupon);
         } catch (Exception e) {
-            MessageDialog.showError(com.floreantpos.POSConstants.SAVE_ERROR, e);
+            MessageDialog.showError(this, com.floreantpos.POSConstants.SAVE_ERROR, e);
             return false;
         }
         return true;
@@ -92,11 +92,11 @@ public class CouponForm extends BeanEditor {
         boolean neverExpire = chkNeverExpire.isSelected();
 
         if (name == null || name.trim().equals("")) {
-            MessageDialog.showError("优惠券名称不能为空");
+            MessageDialog.showError(this, "优惠券名称不能为空");
             return false;
         }
         if (couponType != CouponAndDiscount.FREE_AMOUNT && couponValue <= 0) {
-            MessageDialog.showError("优惠券金额必须大于0");
+            MessageDialog.showError(this, "优惠券金额必须大于0");
             return false;
         }
 

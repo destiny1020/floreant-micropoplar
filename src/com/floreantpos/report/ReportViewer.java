@@ -146,7 +146,7 @@ public class ReportViewer extends javax.swing.JPanel {
 			}
 			
 		} catch (Exception e) {
-			MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, e);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, e);
 		}
     }//GEN-LAST:event_doRefreshReport
     

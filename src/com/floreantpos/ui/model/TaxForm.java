@@ -102,7 +102,7 @@ public class TaxForm extends BeanEditor {
 			TaxDAO dao = new TaxDAO();
 			dao.saveOrUpdate(tax);
 		} catch (Exception e) {
-			MessageDialog.showError(e);
+			MessageDialog.showError(this, e);
 			return false;
 		}
 		
@@ -122,7 +122,7 @@ public class TaxForm extends BeanEditor {
 		
 		String name = tfName.getText();
     	if(POSUtil.isBlankOrNull(name)) {
-    		MessageDialog.showError(com.floreantpos.POSConstants.NAME_REQUIRED);
+    		MessageDialog.showError(this, com.floreantpos.POSConstants.NAME_REQUIRED);
     		return false;
     	}
 		

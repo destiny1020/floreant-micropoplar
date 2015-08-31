@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.model.MenuModifier;
 import com.floreantpos.model.MenuModifierGroup;
 import com.floreantpos.model.Tax;
@@ -203,7 +204,7 @@ public class MenuModifierForm extends BeanEditor {
 				model.setSelectedItem(tax);
 			}
 		} catch (Exception x) {
-			MessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, x);
 		}
 	}//GEN-LAST:event_btnNewTaxActionPerformed
 
@@ -233,7 +234,7 @@ public class MenuModifierForm extends BeanEditor {
 			ModifierDAO dao = new ModifierDAO();
 			dao.saveOrUpdate(modifier);
 		} catch (Exception e) {
-			MessageDialog.showError(com.floreantpos.POSConstants.SAVE_ERROR, e);
+			MessageDialog.showError(this, com.floreantpos.POSConstants.SAVE_ERROR, e);
 			return false;
 		}
 		return true;
@@ -266,7 +267,7 @@ public class MenuModifierForm extends BeanEditor {
 
 		String name = tfName.getText();
     	if(POSUtil.isBlankOrNull(name)) {
-    		MessageDialog.showError("Name is required");
+    		MessageDialog.showError(this, POSConstants.NAME_REQUIRED);
     		return false;
     	}
     	

@@ -276,22 +276,22 @@ public class PasswordScreen extends JPanel {
 
 		} catch (UserNotFoundException e) {
 			LogFactory.getLog(Application.class).error(e);
-			POSMessageDialog.showError("User not found");
-			msgLabel.setText("Login failed, please try again...");
+			POSMessageDialog.showError("没有找到用户");
+			msgLabel.setText("登录失败, 请重新尝试...");
 		} catch (ShiftException e) {
 			LogFactory.getLog(Application.class).error(e);
-			MessageDialog.showError(e.getMessage());
+			MessageDialog.showError(this, e.getMessage());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			LogFactory.getLog(Application.class).error(e1);
 			String message = e1.getMessage();
 
 			if (message != null && message.contains("Cannot open connection")) {
-				MessageDialog.showError("Cannot open database connection, please check database configuration.");
+				MessageDialog.showError(this, "不能打开数据库连接, 请检查数据库配置.");
 				DatabaseConfigurationDialog.show(Application.getPosWindow());
 			}
 			else {
-				MessageDialog.showError("We are sorry, and unexpected error has occuered");
+				MessageDialog.showError(this, "很抱歉, 发生了一个异常错误.");
 			}
 		} finally {
 			tfPassword.setEnabled(true);
@@ -332,9 +332,10 @@ public class PasswordScreen extends JPanel {
 	}
 
 	public void setTerminalId(int terminalId) {
-		lblTerminalId.setText("TERMINAL ID: " + terminalId);
+		lblTerminalId.setText("终端ID: " + terminalId);
 	}
 
+	// TODO: investigate what this method does
 	private void reClockInUser(Calendar currentTime, User user, Shift currentShift) {
 		POSMessageDialog.showMessage("You will be clocked out from previous Shift");
 
