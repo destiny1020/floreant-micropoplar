@@ -108,7 +108,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 				return;
 			
 			if(!Application.getCurrentUser().hasPermission(UserPermission.ADD_DISCOUNT)) {
-				POSMessageDialog.showError("You do not have permission to execute this action");
+				POSMessageDialog.showError("您没有权限进行折扣的添加");
 				return;
 			}
 

@@ -196,9 +196,9 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 		explorerMenu.add(new CategoryExplorerAction());
 		explorerMenu.add(new GroupExplorerAction());
 		explorerMenu.add(new ItemExplorerAction());
-		explorerMenu.add(new ModifierGroupExplorerAction());
-		explorerMenu.add(new ModifierExplorerAction());
-		explorerMenu.add(new ShiftExplorerAction());
+//		explorerMenu.add(new ModifierGroupExplorerAction());
+//		explorerMenu.add(new ModifierExplorerAction());
+//		explorerMenu.add(new ShiftExplorerAction());
 		explorerMenu.add(new CouponExplorerAction());
 		explorerMenu.add(new CookingInstructionExplorerAction());
 		explorerMenu.add(new TaxExplorerAction());

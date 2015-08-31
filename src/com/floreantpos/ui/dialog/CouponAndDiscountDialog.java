@@ -116,12 +116,12 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        titlePanel1.setTitle("Select Coupon/Discount");
+        titlePanel1.setTitle("选择优惠券/折扣券");
 
         jScrollPane1.setViewportView(listCoupons);
 
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel_32.png"))); // NOI18N
-        btnCancel.setText("CANCEL");
+        btnCancel.setText("取消");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doCancel(evt);
@@ -129,7 +129,7 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
         });
 
         btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/finish_32.png"))); // NOI18N
-        btnOk.setText("OK");
+        btnOk.setText("确定");
         btnOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doOk(evt);
@@ -142,13 +142,13 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel1.setText("Coupon/Discount Name" + ":");
+        jLabel1.setText("优惠券/折扣 名称" + ":");
 
-        jLabel2.setText("Coupon/Discount Number" + ":");
+        jLabel2.setText("优惠券/折扣 数量" + ":");
 
-        jLabel3.setText("Coupon/Discount Type" + ":");
+        jLabel3.setText("优惠券/折扣 类型" + ":");
 
-        jLabel4.setText("Coupon/Discount Value" + ":");
+        jLabel4.setText("优惠券/折扣 金额/百分比" + ":");
 
         tfName.setEditable(false);
 
@@ -158,7 +158,7 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
 
         tfValue.setEditable(false);
 
-        btnEditValue.setText("Enter Value");
+        btnEditValue.setText("输入值");
         btnEditValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doEnterValue(evt);
@@ -167,12 +167,14 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
 
         jLabel5.setFont(new java.awt.Font("微软雅黑", 1, 18));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("TOTAL DISCOUNT");
+        jLabel5.setText("总优惠/折扣金额");
 
         lblTotalDiscount.setFont(new java.awt.Font("微软雅黑", 1, 18));
         lblTotalDiscount.setForeground(new java.awt.Color(204, 51, 0));
         lblTotalDiscount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTotalDiscount.setText("jLabel6");
+        
+        // show the real money amount
+        lblTotalDiscount.setText("");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,7 +279,7 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
 			double parseDouble = Double.parseDouble(tfValue.getText());
 			ticketCoupon.setValue(parseDouble);
 		}catch(Exception x) {
-			throw new PosException("CouponAndDiscount amount is not valid");
+			throw new PosException("优惠券/折扣的金额不正确");
 		}
 	return ticketCoupon;
 }
@@ -285,7 +287,7 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
     private void doEnterValue(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doEnterValue
         NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
         dialog.setFloatingPoint(true);
-        dialog.setTitle("Enter value");
+        dialog.setTitle("请输入值");
         dialog.pack();
         dialog.open();
         
@@ -299,7 +301,7 @@ public class CouponAndDiscountDialog extends POSDialog implements ActionListener
     	try {
 			TicketCouponAndDiscount selectedCoupon = getSelectedCoupon();
 			if (selectedCoupon == null) {
-				POSMessageDialog.showError(this, "Please select a coupon/discount");
+				POSMessageDialog.showError(this, "请选择一项优惠券/折扣券");
 				return;
 			}
 			setCanceled(false);

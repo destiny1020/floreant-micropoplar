@@ -139,31 +139,31 @@ public class CouponForm extends BeanEditor {
         contentPane.setLayout(new FormLayout("fill:d:noGrow,left:4dlu:noGrow,fill:d:grow,left:4dlu:noGrow,fill:100px:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         contentPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), null));
         final JLabel label1 = new JLabel();
-        label1.setText("Coupon Name" + ":");
+        label1.setText("优惠券名称" + ":");
         CellConstraints cc = new CellConstraints();
         contentPane.add(label1, cc.xy(1, 1));
         final JLabel label2 = new JLabel();
-        label2.setText("Experiation Date" + ":");
+        label2.setText("过期时间" + ":");
         contentPane.add(label2, cc.xy(1, 5));
         tfCouponName = new JTextField();
         contentPane.add(tfCouponName, cc.xyw(3, 1, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
         dpExperation = new JXDatePicker();
         contentPane.add(dpExperation, cc.xy(3, 5));
         final JLabel label3 = new JLabel();
-        label3.setText("Coupon Type" + ":");
+        label3.setText("优惠券类型" + ":");
         contentPane.add(label3, cc.xy(1, 3));
         cbCouponType = new JComboBox();
         contentPane.add(cbCouponType, cc.xy(3, 3));
         final JLabel label4 = new JLabel();
-        label4.setText("Coupon Value" + ":");
+        label4.setText("优惠券价值" + ":");
         contentPane.add(label4, cc.xy(1, 7));
         tfCouponValue = new JFormattedTextField();
         contentPane.add(tfCouponValue, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
         chkDisabled = new JCheckBox();
-        chkDisabled.setText("Disabled");
+        chkDisabled.setText("禁用");
         contentPane.add(chkDisabled, cc.xy(3, 9));
         chkNeverExpire = new JCheckBox();
-        chkNeverExpire.setText("Never Expires");
+        chkNeverExpire.setText("永不过期");
         contentPane.add(chkNeverExpire, cc.xy(3, 11));
     }
 

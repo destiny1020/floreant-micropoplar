@@ -29,9 +29,15 @@ public class CouponAndDiscount extends BaseCouponAndDiscount {
 	public final static int PERCENTAGE_PER_ITEM = 5;
 	public final static int PERCENTAGE_PER_ORDER = 6;
 
-	public final static String[] COUPON_TYPE_NAMES = { "Free Amount", "Fixed Per Category",
-			"Fixed Per Item", "Fixed Per Order", "Percentage Per Category",
-			"Percentage Per Item", "Percentage Per Order" };
+	public final static String[] COUPON_TYPE_NAMES = {
+			"无限制抵扣券", 
+			"一级类目抵扣券",
+			"商品抵扣券", 
+			"Fixed Per Order", 
+			"Percentage Per Category",
+			"Percentage Per Item", 
+			"Percentage Per Order" 
+	};
 
 	@Override
 	public String toString() {

@@ -70,6 +70,7 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
 
         setContentPane(contentPane);
         setModal(true);
+        setTitle("浏览优惠折扣信息");
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
@@ -119,7 +120,7 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
             Object object = discountViewTableModel.get(selectedRow);
             modified = discountViewTableModel.delete((TicketDiscount) object);
         } catch (Exception e) {
-            POSMessageDialog.showError(this, "An error occured while delete.", e);
+            POSMessageDialog.showError(this, "在删除是发生了错误.", e);
         }
     }
 
@@ -163,7 +164,7 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
         btnDeleteSelected = new PosButton();
         btnDeleteSelected.setIcon(new ImageIcon(getClass().getResource("/images/delete_32.png")));
         btnDeleteSelected.setPreferredSize(new Dimension(140, 50));
-        btnDeleteSelected.setText("Delete Selected");
+        btnDeleteSelected.setText("删除所选项");
         panel2.add(btnDeleteSelected);
         buttonOK = new PosButton();
         buttonOK.setIcon(new ImageIcon(getClass().getResource("/images/finish_32.png")));
@@ -206,7 +207,7 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
     }
 
     class DiscountViewTableModel extends AbstractTableModel {
-        String[] columnNames = {"Name", "Rule", "Amount"};
+        String[] columnNames = {"优惠券/折扣券 名称", "种类", "金额/百分比"};
         ArrayList rows = new ArrayList();
 
         DiscountViewTableModel() {
