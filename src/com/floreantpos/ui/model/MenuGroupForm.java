@@ -176,13 +176,13 @@ public class MenuGroupForm extends BeanEditor {
 		
 		String name = tfName.getText();
     	if(POSUtil.isBlankOrNull(name)) {
-    		MessageDialog.showError("Name is required");
+    		MessageDialog.showError("需要二级类目名称");
     		return false;
     	}
 		
     	MenuCategory category = (MenuCategory) cbCategory.getSelectedItem();
     	if(category == null) {
-    		MessageDialog.showError("Category is required");
+    		MessageDialog.showError("需要关联一级类目");
     		return false;
     	}
     	
@@ -197,8 +197,8 @@ public class MenuGroupForm extends BeanEditor {
 	public String getDisplayText() {
     	MenuGroup foodGroup = (MenuGroup) getBean();
     	if(foodGroup.getId() == null) {
-    		return "New menu group";
+    		return "新建二级类目";
     	}
-    	return "Edit menu group";
+    	return "编辑二级类目";
     }
 }

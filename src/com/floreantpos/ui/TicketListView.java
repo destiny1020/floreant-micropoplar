@@ -22,6 +22,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketStatus;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.User;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
 public class TicketListView extends JPanel {
@@ -39,11 +40,13 @@ public class TicketListView extends JPanel {
 		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(100);
-		columnModel.getColumn(1).setPreferredWidth(20);
-		columnModel.getColumn(2).setPreferredWidth(100);
-		columnModel.getColumn(3).setPreferredWidth(150);
-		columnModel.getColumn(5).setPreferredWidth(150);
+		columnModel.getColumn(0).setPreferredWidth(120);
+//		columnModel.getColumn(1).setPreferredWidth(20);
+		columnModel.getColumn(1).setPreferredWidth(50);
+		columnModel.getColumn(2).setPreferredWidth(150);
+		columnModel.getColumn(3).setPreferredWidth(50);
+		columnModel.getColumn(4).setPreferredWidth(150);
+		columnModel.getColumn(5).setPreferredWidth(50);
 
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
@@ -109,7 +112,9 @@ public class TicketListView extends JPanel {
 
 	private class TicketListTableModel extends ListTableModel {
 		public TicketListTableModel() {
-			super(new String[] { POSConstants.ID, "餐桌号", POSConstants.SERVER, POSConstants.CREATED, POSConstants.CUSTOMER,
+//			super(new String[] { POSConstants.ID, "餐桌号", POSConstants.SERVER, POSConstants.CREATED, POSConstants.CUSTOMER,
+//					POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE, "订单状态", POSConstants.TOTAL, POSConstants.DUE });
+			super(new String[] { POSConstants.ID, POSConstants.SERVER, POSConstants.CREATED, POSConstants.CUSTOMER,
 					POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE, "订单状态", POSConstants.TOTAL, POSConstants.DUE });
 		}
 
@@ -121,32 +126,32 @@ public class TicketListView extends JPanel {
 				String uniqId = ticket.getUniqId();
 				return StringUtils.isBlank(uniqId) ? Integer.valueOf(ticket.getId()) : uniqId;
 
-			case 1:
-				return ticket.getTableNumbers();
+//			case 1:
+//				return ticket.getTableNumbers();
 
-			case 2:
+			case 1:
 					User owner = ticket.getOwner();
 					return owner.toString();
 
-			case 3:
-				return ticket.getCreateDate();
+			case 2:
+				return DateUtil.getTicketViewDate(ticket.getCreateDate());
 
-			case 4:
+			case 3:
 				String customerPhone = ticket.getProperty(Ticket.CUSTOMER_PHONE);
 				
 				if (customerPhone != null) {
 					return customerPhone;
 				}
 
-				return "非会员顾客";
+				return "非会员";
+
+			case 4:
+				return DateUtil.getTicketViewDate(ticket.getDeliveryDate());
 
 			case 5:
-				return ticket.getDeliveryDate();
-
-			case 6:
 				return ticket.getType().getValue();
 				
-			case 7:
+			case 6:
 				if(ticket.getType() == TicketType.PICKUP) {
 					return "等待自取";
 				}
@@ -169,10 +174,10 @@ public class TicketListView extends JPanel {
 				
 				return "进行中";
 
-			case 8:
+			case 7:
 				return ticket.getTotalAmount();
 
-			case 9:
+			case 8:
 				return ticket.getDueAmount();
 
 			}
@@ -186,7 +191,7 @@ public class TicketListView extends JPanel {
 		List<Ticket> selectedTickets = getSelectedTickets();
 
 		if (selectedTickets.size() == 0 || selectedTickets.size() > 1) {
-			POSMessageDialog.showMessage("Please select a ticket");
+			POSMessageDialog.showMessage("请选择一个订单");
 			return null;
 		}
 

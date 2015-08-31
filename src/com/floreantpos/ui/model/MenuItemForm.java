@@ -91,8 +91,8 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 				byte[] itemImage = FileUtils.readFileToByteArray(imageFile);
 				int imageSize = itemImage.length / 1024;
 				
-				if(imageSize > 20) {
-					POSMessageDialog.showMessage("The image is too large. Please select an image within 20 KB in size");
+				if(imageSize > 50) {
+					POSMessageDialog.showMessage("图片太大了. 图片大小不应超过50KB.");
 					itemImage = null;
 					return;
 				}
@@ -124,9 +124,9 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		List<MenuGroup> foodGroups = foodGroupDAO.findAll();
 		cbGroup.setModel(new ComboBoxModel(foodGroups));
 		
-		TaxDAO taxDAO = new TaxDAO();
-		List<Tax> taxes = taxDAO.findAll();
-		cbTax.setModel(new ComboBoxModel(taxes));
+//		TaxDAO taxDAO = new TaxDAO();
+//		List<Tax> taxes = taxDAO.findAll();
+//		cbTax.setModel(new ComboBoxModel(taxes));
 		
 		menuItemModifierGroups = menuItem.getMenuItemModiferGroups();
 		menuItemMGListModel = new MenuItemMGListModel();
@@ -157,7 +157,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
         jPanel1.add(jLabel3, "cell 0 4,alignx left,aligny center");
         jPanel1.add(jLabel4, "cell 0 2,alignx left,aligny center");
         
-        JLabel lblImage = new JLabel("Image:");
+        JLabel lblImage = new JLabel("图片");
         lblImage.setHorizontalAlignment(SwingConstants.TRAILING);
         jPanel1.add(lblImage, "cell 0 6,aligny center");
         setLayout(new BorderLayout(0, 0));
@@ -176,7 +176,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
         });
         jPanel1.add(btnSelectImage, "cell 2 6");
         
-        btnClearImage = new JButton("Clear");
+        btnClearImage = new JButton("清除");
         btnClearImage.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		doClearImage();
@@ -184,26 +184,26 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
         });
         jPanel1.add(btnClearImage, "cell 3 6");
         
-        cbShowTextWithImage = new JCheckBox("Show image only");
+        cbShowTextWithImage = new JCheckBox("仅显示图片");
         cbShowTextWithImage.setActionCommand("Show Text with Image");
         jPanel1.add(cbShowTextWithImage, "cell 1 7 3 1"); //$NON-NLS-1$
-        jPanel1.add(jLabel6, "cell 0 8,alignx left,aligny center"); //$NON-NLS-1$
+//        jPanel1.add(jLabel6, "cell 0 8,alignx left,aligny center"); //$NON-NLS-1$
         jPanel1.add(jLabel2, "cell 0 5,alignx left,aligny center"); //$NON-NLS-1$
         jPanel1.add(jLabel1, "cell 0 0,alignx left,aligny center"); //$NON-NLS-1$
         jPanel1.add(tfName, "cell 1 0 3 1,growx,aligny top"); //$NON-NLS-1$
         jPanel1.add(cbGroup, "cell 1 2,growx,aligny top"); //$NON-NLS-1$
         jPanel1.add(btnNewGroup, "cell 3 2,growx,aligny top"); //$NON-NLS-1$
         jPanel1.add(tfDiscountRate, "cell 1 5,growx,aligny top"); //$NON-NLS-1$
-        jPanel1.add(cbTax, "cell 1 8,growx,aligny top"); //$NON-NLS-1$
+//        jPanel1.add(cbTax, "cell 1 8,growx,aligny top"); //$NON-NLS-1$
         jPanel1.add(tfPrice, "cell 1 4,growx,aligny top"); //$NON-NLS-1$
         
-        lblKitchenPrinter = new JLabel("Kitchen & Bar Printer");
+        lblKitchenPrinter = new JLabel("厨房打印机");
         jPanel1.add(lblKitchenPrinter, "cell 0 9"); //$NON-NLS-1$
         
         cbPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(VirtualPrinterDAO.getInstance().findAll().toArray(new VirtualPrinter[0])));
         jPanel1.add(cbPrinter, "cell 1 9,growx"); //$NON-NLS-1$
         jPanel1.add(chkVisible, "cell 1 10,alignx left,aligny top"); //$NON-NLS-1$
-        jPanel1.add(btnNewTax, "cell 2 8,alignx left,aligny top"); //$NON-NLS-1$
+//        jPanel1.add(btnNewTax, "cell 2 8,alignx left,aligny top"); //$NON-NLS-1$
         jPanel1.add(jLabel5, "cell 2 5"); //$NON-NLS-1$
         add(tabbedPane);
         
@@ -241,10 +241,10 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
         jLabel3 = new javax.swing.JLabel();
         jLabel3.setHorizontalAlignment(SwingConstants.TRAILING);
         tfPrice = new DoubleTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel6.setHorizontalAlignment(SwingConstants.TRAILING);
-        cbTax = new javax.swing.JComboBox();
-        btnNewTax = new javax.swing.JButton();
+//        jLabel6 = new javax.swing.JLabel();
+//        jLabel6.setHorizontalAlignment(SwingConstants.TRAILING);
+//        cbTax = new javax.swing.JComboBox();
+//        btnNewTax = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
         jLabel5 = new javax.swing.JLabel();
@@ -282,16 +282,16 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 
         tfPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jLabel6.setText(Messages.getString("LABEL_TAX"));
+//        jLabel6.setText(Messages.getString("LABEL_TAX"));
 
-        btnNewTax.setText("...");
-        btnNewTax.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewTaxdoCreateNewTax(evt);
-            }
-        });
+//        btnNewTax.setText("...");
+//        btnNewTax.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                btnNewTaxdoCreateNewTax(evt);
+//            }
+//        });
 
-        jLabel2.setText(com.floreantpos.POSConstants.DISCOUNT_RATE + ":");
+        jLabel2.setText(com.floreantpos.POSConstants.DISCOUNT_RATE);
 
         jLabel5.setText("%");
 
@@ -358,7 +358,8 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
                 .addContainerGap())
         );
 
-        tabbedPane.addTab(com.floreantpos.POSConstants.MODIFIER_GROUPS, jPanel2);
+        // TODO: 口味选择
+//        tabbedPane.addTab(com.floreantpos.POSConstants.MODIFIER_GROUPS, jPanel2);
 
         btnDeleteShift.setText(com.floreantpos.POSConstants.DELETE_SHIFT);
 
@@ -402,7 +403,8 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab(com.floreantpos.POSConstants.SHIFTS, jPanel3);
+        // TODO: 根据时段打折的活动
+//        tabbedPane.addTab(com.floreantpos.POSConstants.SHIFTS, jPanel3);
         
         tabbedPane.addChangeListener(this);
     }// </editor-fold>//GEN-END:initComponents
@@ -435,16 +437,18 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
     private javax.swing.JButton btnEditModifierGroup;
     private javax.swing.JButton btnNewGroup;
     private javax.swing.JButton btnNewModifierGroup;
-    private javax.swing.JButton btnNewTax;
+    
+//    private javax.swing.JButton btnNewTax;
+//    private javax.swing.JComboBox cbTax;
+    
     private javax.swing.JComboBox cbGroup;
-    private javax.swing.JComboBox cbTax;
     private javax.swing.JCheckBox chkVisible;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+//    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -560,7 +564,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		}
 		else {
 			cbGroup.setSelectedItem(menuItem.getParent());
-			cbTax.setSelectedItem(menuItem.getTax());
+//			cbTax.setSelectedItem(menuItem.getTax());
 		}
 		
 		cbPrinter.setSelectedItem(menuItem.getVirtualPrinter());
@@ -579,7 +583,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		menuItem.setBarcode(tfBarcode.getText());
 		menuItem.setParent((MenuGroup) cbGroup.getSelectedItem());
 		menuItem.setPrice(Double.valueOf(tfPrice.getText()));
-		menuItem.setTax((Tax) cbTax.getSelectedItem());
+//		menuItem.setTax((Tax) cbTax.getSelectedItem());
 		menuItem.setVisible(chkVisible.isSelected());
 		menuItem.setShowImageOnly(cbShowTextWithImage.isSelected());
 		

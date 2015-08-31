@@ -22,4 +22,5 @@ public class MessageDialog {
 		logger.error("Error", t);
 		JOptionPane.showMessageDialog(Application.getPosWindow(), "An unexpected error has occured, you may need to restart the application", "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
 }

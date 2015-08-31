@@ -35,8 +35,6 @@ public class DrawerPullReportExplorer extends TransparentPanel {
 	private JButton btnGo = new JButton(com.floreantpos.POSConstants.GO);
 	private JButton btnEditActualAmount = new JButton(com.floreantpos.POSConstants.EDIT_ACTUAL_AMOUNT);
 	
-	private static SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd MMM, yyyy hh:mm a"); //$NON-NLS-1$
-
 	private JTable table;
 
 	public DrawerPullReportExplorer() {
@@ -139,7 +137,7 @@ public class DrawerPullReportExplorer extends TransparentPanel {
 				return report.getId().toString();
 
 			case 1:
-				return dateTimeFormatter.format(report.getReportTime());
+				return DateUtil.getReportFullDate(report.getReportTime());
 
 			case 2:
 				return report.getDrawerAccountable();

@@ -115,7 +115,8 @@ public class MenuItemExplorer extends TransparentPanel {
 	}
 	
 	class MenuItemExplorerTableModel extends ListTableModel {
-		String[] columnNames = { com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME, com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")", com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)", com.floreantpos.POSConstants.FOOD_GROUP, com.floreantpos.POSConstants.TAX + " (%)" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+//		String[] columnNames = { com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME, com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")", com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)", com.floreantpos.POSConstants.FOOD_GROUP, com.floreantpos.POSConstants.TAX + " (%)" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		String[] columnNames = { com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME, com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")", com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)", com.floreantpos.POSConstants.FOOD_GROUP }; 
 
 		MenuItemExplorerTableModel(){
 			setColumnNames(columnNames);
@@ -146,11 +147,11 @@ public class MenuItemExplorer extends TransparentPanel {
 					}
 					return ""; //$NON-NLS-1$
 
-				case 6:
-					if (item.getTax() != null) {
-						return Double.valueOf(item.getTax().getRate());
-					}
-					return ""; //$NON-NLS-1$
+//				case 6:
+//					if (item.getTax() != null) {
+//						return Double.valueOf(item.getTax().getRate());
+//					}
+//					return ""; //$NON-NLS-1$
 
 			}
 			return null;
