@@ -505,7 +505,11 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			}
 			else {
 				String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
-				ticket = TicketService.getTicketByUniqId(ticketUniqId);
+				if(StringUtils.isNotBlank(ticketUniqId)) {
+					ticket = TicketService.getTicketByUniqId(ticketUniqId);
+				} else {
+					return;
+				}
 			}
 
 			new SettleTicketAction(ticket.getId()).execute();
@@ -622,6 +626,9 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 			}
 			else {
 				String ticketId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
+				if(StringUtils.isBlank(ticketId)) {
+					return;
+				}
 				ticket = TicketService.getTicketByUniqId(ticketId);
 			}
 

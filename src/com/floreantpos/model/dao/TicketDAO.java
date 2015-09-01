@@ -213,7 +213,7 @@ public class TicketDAO extends BaseTicketDAO {
 				if(list != null && list.size() == 0) {
 					return null;
 				} else if(list != null && list.size() > 1) {
-					throw new RuntimeException("Ticket Unique ID:" + uniqId + " has more than one ticket !");
+					throw new RuntimeException("订单唯一标识符: " + uniqId + " 对应着不止一条订单 !");
 				}
 			}
 		} finally {
