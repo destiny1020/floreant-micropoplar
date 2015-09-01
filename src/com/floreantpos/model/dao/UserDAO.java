@@ -167,7 +167,7 @@ public class UserDAO extends BaseUserDAO {
 		}
 	}
 
-	public void saveClockOut(User user, AttendenceHistory attendenceHistory,
+	public User saveClockOut(User user, AttendenceHistory attendenceHistory,
 			Shift shift, Calendar currentTime) {
 		Session session = null;
 		Transaction tx = null;
@@ -180,6 +180,9 @@ public class UserDAO extends BaseUserDAO {
 			session.saveOrUpdate(attendenceHistory);
 
 			tx.commit();
+			session.refresh(user);
+			
+			return user;
 		} catch (Exception e) {
 			if (tx != null) {
 				try {

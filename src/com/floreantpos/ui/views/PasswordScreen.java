@@ -337,7 +337,8 @@ public class PasswordScreen extends JPanel {
 
 	// TODO: investigate what this method does
 	private void reClockInUser(Calendar currentTime, User user, Shift currentShift) {
-		POSMessageDialog.showMessage("You will be clocked out from previous Shift");
+		// You will be clocked out from previous Shift
+		POSMessageDialog.showMessage("上一个班次中您忘记打卡退出了, 现在为您打卡退出上一个班次");
 
 		Application application = Application.getInstance();
 		AttendenceHistoryDAO attendenceHistoryDAO = new AttendenceHistoryDAO();
@@ -354,7 +355,9 @@ public class PasswordScreen extends JPanel {
 			attendenceHistory.setTerminal(application.getTerminal());
 			attendenceHistory.setShift(user.getCurrentShift());
 		}
-		user.doClockOut(attendenceHistory, currentShift, currentTime);
+		// TODO: solve the strange:
+		// org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): [com.floreantpos.model.User#2]
+		user = user.doClockOut(attendenceHistory, currentShift, currentTime);
 		user.doClockIn(application.getTerminal(), currentShift, currentTime);
 	}
 

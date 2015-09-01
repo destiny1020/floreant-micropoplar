@@ -77,11 +77,12 @@ public class OthersView extends JPanel {
 				javax.swing.border.TitledBorder.DEFAULT_POSITION));
 		setLayout(new BorderLayout());
 
-		btnSearchItem = new PosButton("搜索商品");
+		btnSearchItem = new PosButton("条形码搜索商品");
 		btnSearchItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				searchItem();
+				// direct click
+				searchItem(true);
 			}
 		});
 		buttonPanel.add(btnSearchItem);
@@ -319,9 +320,16 @@ public class OthersView extends JPanel {
 		this.itemSelectionListener = itemSelectionListener;
 	}
 
-	public void searchItem() {
+	/**
+	 * Two situations:
+	 * 1. direct click by the operator
+	 * 2. automatic show-up for the first time
+	 * 
+	 * @param isDirectClick
+	 */
+	public void searchItem(boolean isDirectClick) {
 		boolean hasClosedAlready = OrderView.getInstance().isHasClosedSearchDialog();
-		if(hasClosedAlready) {
+		if(hasClosedAlready && !isDirectClick) {
 			// not to show up for two times
 			return;
 		}

@@ -122,7 +122,7 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 			EventQueue.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					othersView.searchItem();
+					othersView.searchItem(false);
 					hasClosedSearchDialog = true;
 				}
 			});

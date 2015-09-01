@@ -67,7 +67,7 @@ public class User extends BaseUser {
 		UserDAO.getInstance().saveClockIn(this, attendenceHistory, shift, currentTime);
 	}
 	
-	public void doClockOut(AttendenceHistory attendenceHistory, Shift shift, Calendar currentTime) {
+	public User doClockOut(AttendenceHistory attendenceHistory, Shift shift, Calendar currentTime) {
 		setClockedIn(false);
 		setCurrentShift(null);
 		setCurrentTerminal(null);
@@ -77,7 +77,7 @@ public class User extends BaseUser {
 		attendenceHistory.setClockOutTime(currentTime.getTime());
 		attendenceHistory.setClockOutHour(Short.valueOf((short) currentTime.get(Calendar.HOUR)));
 		
-		UserDAO.getInstance().saveClockOut(this, attendenceHistory, shift, currentTime);
+		return UserDAO.getInstance().saveClockOut(this, attendenceHistory, shift, currentTime);
 	}
 
 	@Override
