@@ -205,13 +205,13 @@ public class CustomerForm extends BeanEditor<Customer> {
 		String phoneString = tfPhone.getText();
 
 		if (StringUtils.isEmpty(phoneString)) {
-			POSMessageDialog.showError("请提供顾客的手机号码");
+			POSMessageDialog.showError("请提供会员的手机号码");
 			return false;
 		}
 
 		// check phone number
 		if (!isMobileNO(phoneString)) {
-			POSMessageDialog.showError("顾客的手机号码不正确");
+			POSMessageDialog.showError("会员的手机号码不正确");
 			return false;
 		}
 
@@ -261,8 +261,8 @@ public class CustomerForm extends BeanEditor<Customer> {
 	@Override
 	public String getDisplayText() {
 		if (editMode) {
-			return "编辑客户";
+			return "编辑会员";
 		}
-		return "创建客户";
+		return "创建会员";
 	}
 }

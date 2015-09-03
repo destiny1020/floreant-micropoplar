@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -39,6 +40,12 @@ public class TicketDAO extends BaseTicketDAO {
 	
 	@Override
 	public void saveOrUpdate(Ticket ticket) {
+		// refresh the ticket
+		if(ticket.getId() != null && 
+				StringUtils.isNotBlank(ticket.getUniqId())) {
+			refresh(ticket);
+		}
+		
 		ticket.setActiveDate(Calendar.getInstance().getTime());
 		
 		super.saveOrUpdate(ticket);

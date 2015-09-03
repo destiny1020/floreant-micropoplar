@@ -365,6 +365,7 @@ public class POSConstants {
 	public static final String DATABASE_TAB = Messages.getString("DatabaseConfigurationDialog.8"); //$NON-NLS-1$
 	public static final String USER_EXPLORER = Messages.getString("PosMessage.317"); //$NON-NLS-1$
 	public static final String CUSTOMER_EXPLORER = Messages.getString("PosMessage.318"); //$NON-NLS-1$
+	public static final String CUSTOMER_PHONE = Messages.getString("PosMessage.319"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$

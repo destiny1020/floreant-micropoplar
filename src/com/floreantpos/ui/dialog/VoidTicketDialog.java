@@ -225,7 +225,7 @@ public class VoidTicketDialog extends POSDialog {
 			
 			try {
 				String title = "- 取消订单收据 -";
-				String data = "订单 #" + ticket.getUniqId() + " 被取消了.";
+				String data = "订单 " + ticket.getUniqId() + " 被取消了.";
 				
 				// pass additional information like: time and operator
 				Map<String, String> additionalCtx = new HashMap<>();

@@ -98,7 +98,7 @@ public class OthersView extends JPanel {
 		});
 		buttonPanel.add(btnOrderInfo);
 		
-		btnCustomer = new PosButton("顾客信息");
+		btnCustomer = new PosButton("会员信息");
 		btnCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
