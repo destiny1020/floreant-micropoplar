@@ -43,10 +43,11 @@ public class TicketListView extends JPanel {
 		columnModel.getColumn(0).setPreferredWidth(120);
 //		columnModel.getColumn(1).setPreferredWidth(20);
 		columnModel.getColumn(1).setPreferredWidth(50);
-		columnModel.getColumn(2).setPreferredWidth(150);
-		columnModel.getColumn(3).setPreferredWidth(50);
-		columnModel.getColumn(4).setPreferredWidth(150);
-		columnModel.getColumn(5).setPreferredWidth(50);
+		columnModel.getColumn(2).setPreferredWidth(120);
+		columnModel.getColumn(3).setPreferredWidth(100);
+		columnModel.getColumn(4).setPreferredWidth(120);
+		columnModel.getColumn(5).setPreferredWidth(60);
+		columnModel.getColumn(6).setPreferredWidth(60);
 
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JScrollBar scrollBar = scrollPane.getVerticalScrollBar();

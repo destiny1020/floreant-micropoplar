@@ -146,18 +146,18 @@ public class CustomerSelectionDialog extends POSDialog {
 		customerTable.setFocusable(false);
 		customerTable.setRowHeight(35);
 		customerTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				selectedCustomer = customerTable.getSelectedCustomer();
-				if (selectedCustomer != null) {
-					// btnInfo.setEnabled(true);
-				} else {
-					// btnInfo.setEnabled(false);
-				}
-			}
-		});
+//		customerTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//
+//			@Override
+//			public void valueChanged(ListSelectionEvent e) {
+//				selectedCustomer = customerTable.getSelectedCustomer();
+//				if (selectedCustomer != null) {
+//					// btnInfo.setEnabled(true);
+//				} else {
+//					// btnInfo.setEnabled(false);
+//				}
+//			}
+//		});
 		scrollPane.setViewportView(customerTable);
 
 		JPanel panel = new JPanel();
@@ -262,6 +262,9 @@ public class CustomerSelectionDialog extends POSDialog {
 			ticket.setUniqId(TicketUniqIdGenerator.generate());
 		}
 
+		if(ticket.getId() != null) {
+			TicketDAO.getInstance().refresh(ticket);
+		}
 		ticket.setCustomer(customer);
 		TicketDAO.getInstance().saveOrUpdate(ticket);
 		
