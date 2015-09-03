@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Hibernate;
 
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Customer;

@@ -40,11 +40,11 @@ public class TicketDAO extends BaseTicketDAO {
 	
 	@Override
 	public void saveOrUpdate(Ticket ticket) {
-		// refresh the ticket
-		if(ticket.getId() != null && 
-				StringUtils.isNotBlank(ticket.getUniqId())) {
-			refresh(ticket);
-		}
+		// TODO: move refresh to invokers
+//		if(ticket.getId() != null && 
+//				StringUtils.isNotBlank(ticket.getUniqId())) {
+//			refresh(ticket);
+//		}
 		
 		ticket.setActiveDate(Calendar.getInstance().getTime());
 		

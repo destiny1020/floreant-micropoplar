@@ -44,6 +44,7 @@ import com.floreantpos.model.TicketItemModifier;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.CookingInstructionDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
+import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
@@ -375,7 +376,7 @@ public class TicketView extends JPanel {
 
 	private synchronized void doFinishOrder(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doFinishOrder
 		try {
-
+			
 			updateModel();
 
 			if (ticket.getType() != TicketType.TAKE_OUT) {
@@ -418,6 +419,7 @@ public class TicketView extends JPanel {
 			throw new PosException(com.floreantpos.POSConstants.TICKET_IS_EMPTY_);
 		}
 
+		ticket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 		ticket.calculatePrice();
 	}
 
