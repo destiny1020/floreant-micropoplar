@@ -26,6 +26,7 @@ import com.floreantpos.bo.actions.ConfigureRestaurantAction;
 import com.floreantpos.bo.actions.CookingInstructionExplorerAction;
 import com.floreantpos.bo.actions.CouponExplorerAction;
 import com.floreantpos.bo.actions.CreditCardReportAction;
+import com.floreantpos.bo.actions.CustomerExplorerAction;
 import com.floreantpos.bo.actions.DataExportAction;
 import com.floreantpos.bo.actions.DataImportAction;
 import com.floreantpos.bo.actions.DrawerPullReportExplorerAction;
@@ -201,7 +202,10 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 //		explorerMenu.add(new ShiftExplorerAction());
 		explorerMenu.add(new CouponExplorerAction());
 		explorerMenu.add(new CookingInstructionExplorerAction());
-		explorerMenu.add(new TaxExplorerAction());
+//		explorerMenu.add(new TaxExplorerAction());
+		
+		// Customer information explorer
+		explorerMenu.add(new CustomerExplorerAction());
 		
 		OrderServiceExtension plugin = Application.getPluginManager().getPlugin(OrderServiceExtension.class);
 		if (plugin == null) {

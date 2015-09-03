@@ -3,6 +3,7 @@ package com.floreantpos.customer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.forms.CustomerForm;
+import com.floreantpos.util.POSComparators;
 import com.floreantpos.util.PosGuiUtil;
 
 public class CustomerExplorer extends TransparentPanel {
@@ -32,22 +34,25 @@ public class CustomerExplorer extends TransparentPanel {
 		CustomerDAO dao = new CustomerDAO();
 		customerList = dao.findAll();
 		
+		// sort customers by ID asc default:
+		Collections.sort(customerList, POSComparators.COMPARATOR_ID);
+		
 		tableModel = new BeanTableModel<Customer>(Customer.class);
 		tableModel.addColumn("ID", "autoId");
-		tableModel.addColumn("NAME", "name");
-		tableModel.addColumn("LOYALTY", "loyaltyNo");
-		tableModel.addColumn("TELEPHONE", "telephoneNo");
-		tableModel.addColumn("EMAIL", "email");
-		tableModel.addColumn("DOB", "dob");
-		tableModel.addColumn("SSN", "ssn");
-		tableModel.addColumn("ADDRESS", "address");
-		tableModel.addColumn("CITY", "city");
-		tableModel.addColumn("STATE", "state");
-		tableModel.addColumn("ZIP", "zipCode");
-		tableModel.addColumn("COUNTRY", "country");
-		tableModel.addColumn("CREDIT LIMIT", "creditLimit");
-		tableModel.addColumn("CREDIT SPENT", "creditSpent");
-		tableModel.addColumn("NOTE", "note");
+		tableModel.addColumn("电话", "telephoneNo");
+		tableModel.addColumn("邮箱", "email");
+		tableModel.addColumn("姓名", "name");
+		tableModel.addColumn("生日", "dob");
+//		tableModel.addColumn("LOYALTY", "loyaltyNo");
+//		tableModel.addColumn("SSN", "ssn");
+		tableModel.addColumn("地址", "address");
+		tableModel.addColumn("城市", "city");
+//		tableModel.addColumn("STATE", "state");
+//		tableModel.addColumn("ZIP", "zipCode");
+//		tableModel.addColumn("COUNTRY", "country");
+//		tableModel.addColumn("CREDIT LIMIT", "creditLimit");
+//		tableModel.addColumn("CREDIT SPENT", "creditSpent");
+		tableModel.addColumn("备注", "note");
 		tableModel.addRows(customerList);
 
 		table = new JTable(tableModel);

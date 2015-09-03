@@ -14,6 +14,7 @@ public class DateUtil {
 	private static final SimpleDateFormat REPORT_SHORT = new SimpleDateFormat("yyyy/MM/dd E");
 	
 	private static final SimpleDateFormat TICKET_VIEW_TIME = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+	private static final SimpleDateFormat DOB_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static String getTodayString() {
 		return SDF.format(new Date());
@@ -66,5 +67,9 @@ public class DateUtil {
 	
 	public static String getTicketViewDate(Date date) {
 		return TICKET_VIEW_TIME.format(date);
+	}
+	
+	public static SimpleDateFormat getDOBFormatter() {
+		return DOB_FORMATTER;
 	}
 }

@@ -3,10 +3,11 @@ package com.floreantpos.model;
 import java.util.HashMap;
 
 import com.floreantpos.model.base.BaseCustomer;
+import com.floreantpos.util.IDEntity;
 
 
 
-public class Customer extends BaseCustomer {
+public class Customer extends BaseCustomer implements IDEntity {
 	private static final long serialVersionUID = 1L;
 
 /*[CONSTRUCTOR MARKER BEGIN]*/
@@ -47,5 +48,10 @@ public class Customer extends BaseCustomer {
 	public String toString() {
 		String name = getName();
 		return name;
+	}
+
+	@Override
+	public int getId() {
+		return getAutoId();
 	}
 }
