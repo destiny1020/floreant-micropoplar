@@ -22,6 +22,7 @@ public class WeChatConfig {
 	public static final String WECHAT_SUB_MCH_ID = "wechat_sub_mch_id";
 	public static final String WECHAT_CREDENTIAL_PATH = "wechat_credential_path";
 	public static final String WECHAT_CREDENTIAL_PASS = "wechat_credential_pass";
+	public static final String WECHAT_NOTIFY_URL = "wechat_notify_url";
 
 	private static PropertiesConfiguration config;
 
@@ -94,6 +95,10 @@ public class WeChatConfig {
 
 	public static String getWeChatCredentialPass() {
 		return getString(WECHAT_CREDENTIAL_PASS, "");
+	}
+	
+	public static String getWeChatNotifyUrl() {
+		return getString(WECHAT_NOTIFY_URL, "");
 	}
 
 }

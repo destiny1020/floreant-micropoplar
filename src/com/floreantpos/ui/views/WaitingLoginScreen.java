@@ -16,7 +16,6 @@ import com.floreantpos.swing.ImageComponent;
 public class WaitingLoginScreen extends JPanel {
 	public final static String VIEW_NAME = "WAITING_LOGIN_VIEW";
 	
-	
 	public WaitingLoginScreen(){
 		setLayout(new BorderLayout(5, 5));
 		

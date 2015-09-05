@@ -2,12 +2,10 @@ package com.floreantpos.ui.views;
 
 import java.awt.Dimension;
 
-import javax.swing.JPanel;
-
 import com.floreantpos.model.Ticket;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.views.customer.CustomerTicketView;
-import com.floreantpos.ui.views.order.OrderView;
+import com.floreantpos.ui.views.customer.MultipleUsageView;
 
 /**
  * The view that customer can see: 1. ticket items information 2. payment
@@ -20,6 +18,8 @@ public class CustomerView extends TransparentPanel {
 	public final static String VIEW_NAME = "CUSTOMER_VIEW";
 
 	private static CustomerView instance;
+
+	private MultipleUsageView customerMultipleUsageView;
 	private CustomerTicketView customerTicketView;
 
 	private Ticket currentTicket;
@@ -36,7 +36,8 @@ public class CustomerView extends TransparentPanel {
 
 		add(customerTicketView, java.awt.BorderLayout.EAST);
 
-		// TODO: banner at center
+		customerMultipleUsageView = new MultipleUsageView();
+		add(customerTicketView, java.awt.BorderLayout.CENTER);
 	}
 
 	public synchronized static CustomerView getInstance() {
@@ -60,11 +61,15 @@ public class CustomerView extends TransparentPanel {
 
 	public void setCurrentTicket(Ticket currentTicket) {
 		this.currentTicket = currentTicket;
-		
+
 		customerTicketView.setTicket(currentTicket);
 	}
 
 	public void transactionCompleted() {
 		setCurrentTicket(null);
+	}
+
+	public MultipleUsageView getCustomerMultipleUsageView() {
+		return customerMultipleUsageView;
 	}
 }

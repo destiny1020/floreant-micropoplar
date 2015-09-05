@@ -5,3 +5,4 @@ wechat_mch_id=123
 wechat_sub_mch_id=
 wechat_credential_path=123
 wechat_credential_pass=123
+wechat_nofity_url=http://www.baidu.com/
