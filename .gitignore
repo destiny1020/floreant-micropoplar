@@ -8,3 +8,4 @@ logs/
 *.bak
 i18n/messages_zh_CN.properties~
 config/wechat.properties
+qrcodes/

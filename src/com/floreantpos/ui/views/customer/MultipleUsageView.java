@@ -63,4 +63,5 @@ public class MultipleUsageView extends JPanel {
 		qrCodeView.renderQrCode(qrCodeLocation);
 		showView(QRCodeView.VIEW_NAME);
 	}
+	
 }

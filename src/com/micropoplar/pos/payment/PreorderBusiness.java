@@ -5,12 +5,15 @@ import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.LoggerFactory;
+
 import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.util.DateUtil;
 import com.micropoplar.pos.payment.config.WeChatConfig;
 import com.tencent.WXPay;
+import com.tencent.common.Log;
 import com.tencent.common.Util;
 import com.tencent.protocol.pay_protocol.PreorderReqData;
 import com.tencent.protocol.pay_protocol.PreorderResData;
@@ -24,6 +27,8 @@ import util.QRGen;
  *
  */
 public class PreorderBusiness {
+
+	private static Log log = new Log(LoggerFactory.getLogger(PreorderBusiness.class));
 
 	public static String QRCODE_GEN_FAILED = "qrcode_gen_failed";
 
@@ -62,12 +67,18 @@ public class PreorderBusiness {
 
 		// 发送请求
 		String response = WXPay.requestPreorderService(reqData);
+		log.i(response);
 
 		// 转换响应为对象
 		PreorderResData preoderResData = (PreorderResData) Util.getObjectFromXML(response, PreorderResData.class);
 
 		if (preoderResData.getReturn_code().equals("SUCCESS") && preoderResData.getReturn_msg().equals("OK")) {
-			String fileDest = String.format("%s.png", "qrcode/" + ticket.getUniqId());
+			String qrCodeFolder = WeChatConfig.getWeChatQrCodesFolder();
+			if (!qrCodeFolder.endsWith("/")) {
+				qrCodeFolder += "/";
+			}
+
+			String fileDest = String.format("%s.png", qrCodeFolder + ticket.getUniqId());
 			QRGen.encodeQrcode(preoderResData.getCode_url(), fileDest);
 
 			return fileDest;

@@ -37,7 +37,7 @@ public class CustomerView extends TransparentPanel {
 		add(customerTicketView, java.awt.BorderLayout.EAST);
 
 		customerMultipleUsageView = new MultipleUsageView();
-		add(customerTicketView, java.awt.BorderLayout.CENTER);
+		add(customerMultipleUsageView, java.awt.BorderLayout.CENTER);
 	}
 
 	public synchronized static CustomerView getInstance() {

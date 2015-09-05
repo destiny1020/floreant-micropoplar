@@ -630,7 +630,6 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 	}
 
 	private void handleQrCode(PosTransaction transaction) {
-		// TODO
 		setTransactionAmounts(transaction);
 
 		// show customer the qr code
@@ -645,7 +644,8 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 				view.switchToQRCode(qrCodeLocation);
 			}
 
-			settleTicket(transaction);
+			// TODO
+//			settleTicket(transaction);
 		} catch (Exception e) {
 			e.printStackTrace();
 			POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);

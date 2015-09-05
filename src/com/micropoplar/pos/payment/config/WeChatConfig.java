@@ -1,6 +1,8 @@
 package com.micropoplar.pos.payment.config;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +25,7 @@ public class WeChatConfig {
 	public static final String WECHAT_CREDENTIAL_PATH = "wechat_credential_path";
 	public static final String WECHAT_CREDENTIAL_PASS = "wechat_credential_pass";
 	public static final String WECHAT_NOTIFY_URL = "wechat_notify_url";
+	public static final String WECHAT_QRCODES_FOLDER = "wechat_qrcodes_folder";
 
 	private static PropertiesConfiguration config;
 
@@ -34,6 +37,12 @@ public class WeChatConfig {
 			}
 			
 			config = new PropertiesConfiguration(configFile);
+			
+			// 创建二维码本地路径
+			String folderPath = getWeChatQrCodesFolder();
+			if(!Files.exists(Paths.get(folderPath))) {
+				Files.createDirectories(Paths.get(folderPath));
+			}
 			
 			// 初始化微信支付环境
 			WXPay.initSDKConfiguration(
@@ -99,6 +108,10 @@ public class WeChatConfig {
 	
 	public static String getWeChatNotifyUrl() {
 		return getString(WECHAT_NOTIFY_URL, "");
+	}
+	
+	public static String getWeChatQrCodesFolder() {
+		return getString(WECHAT_QRCODES_FOLDER, "qrcodes/");
 	}
 
 }
