@@ -22,13 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.config.CardConfig;
-import com.floreantpos.config.WeChatConfig;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
 import com.floreantpos.model.CouponAndDiscount;
 import com.floreantpos.model.CreditCardTransaction;
-import com.floreantpos.model.Customer;
 import com.floreantpos.model.GiftCertificateTransaction;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.MerchantGateway;
@@ -54,6 +52,7 @@ import com.floreantpos.ui.views.TicketDetailView;
 import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.OrderController;
 import com.floreantpos.util.POSUtil;
+import com.micropoplar.pos.payment.config.WeChatConfig;
 
 public class SettleTicketDialog extends POSDialog implements CardInputListener {
 	public static final String LOYALTY_DISCOUNT_PERCENTAGE = "loyalty_discount_percentage";
