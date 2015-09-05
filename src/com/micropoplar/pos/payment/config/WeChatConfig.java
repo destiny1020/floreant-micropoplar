@@ -3,6 +3,7 @@ package com.micropoplar.pos.payment.config;
 import java.io.File;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang3.StringUtils;
 
 import com.tencent.WXPay;
 
@@ -31,6 +32,8 @@ public class WeChatConfig {
 				configFile.createNewFile();
 			}
 			
+			config = new PropertiesConfiguration(configFile);
+			
 			// 初始化微信支付环境
 			WXPay.initSDKConfiguration(
 					WeChatConfig.getWeChatSignKey(), 
@@ -46,7 +49,15 @@ public class WeChatConfig {
 	}
 	
 	public static boolean isWeChatSupported() {
-		return config.getBoolean(WECHAT_ENABLE);
+		return config.getBoolean(WECHAT_ENABLE, false);
+	}
+	
+	public static boolean isWeChatPaymentValid() {
+		return StringUtils.isNotBlank(getWeChatSignKey()) &&
+				StringUtils.isNotBlank(getWeChatAppId()) &&
+				StringUtils.isNotBlank(getWeChatMchId()) &&
+				StringUtils.isNotBlank(getWeChatCredentialPath()) &&
+				StringUtils.isNotBlank(getWeChatCredentialPass());
 	}
 
 	public static PropertiesConfiguration getConfig() {
@@ -62,27 +73,27 @@ public class WeChatConfig {
 	}
 
 	public static String getWeChatSignKey() {
-		return getString(WECHAT_SIGN_KEY);
+		return getString(WECHAT_SIGN_KEY, "");
 	}
 
 	public static String getWeChatAppId() {
-		return getString(WECHAT_APP_ID);
+		return getString(WECHAT_APP_ID, "");
 	}
 
 	public static String getWeChatMchId() {
-		return getString(WECHAT_MCH_ID);
+		return getString(WECHAT_MCH_ID, "");
 	}
 
 	public static String getWeChatSubMchId() {
-		return getString(WECHAT_SUB_MCH_ID);
+		return getString(WECHAT_SUB_MCH_ID, "");
 	}
 
 	public static String getWeChatCredentialPath() {
-		return getString(WECHAT_CREDENTIAL_PATH);
+		return getString(WECHAT_CREDENTIAL_PATH, "");
 	}
 
 	public static String getWeChatCredentialPass() {
-		return getString(WECHAT_CREDENTIAL_PASS);
+		return getString(WECHAT_CREDENTIAL_PASS, "");
 	}
 
 }

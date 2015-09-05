@@ -1,0 +1,7 @@
+wechat_enable=true
+wechat_sign_key=123
+wechat_app_id=123
+wechat_mch_id=123
+wechat_sub_mch_id=
+wechat_credential_path=123
+wechat_credential_pass=123

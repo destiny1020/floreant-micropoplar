@@ -468,9 +468,16 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 	
 	private void payUsingWechat(final double tenderedAmount) throws Exception {
 		if(!WeChatConfig.isWeChatSupported()) {
-			POSMessageDialog.showError("目前不支持微信支付");
+			POSMessageDialog.showError(POSConstants.WECHAT_NOT_SUPPORTED);
 			return;
+		} else {
+			// check whether wechat config is valid
+			if(!WeChatConfig.isWeChatPaymentValid()) {
+				POSMessageDialog.showError(POSConstants.WECHAT_NOT_VALID);
+				return;
+			}
 		}
+		
 		
 		WeChatDialog weChatDialog = new WeChatDialog(this);
 		weChatDialog.pack();

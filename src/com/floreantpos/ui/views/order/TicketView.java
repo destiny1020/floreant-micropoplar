@@ -45,6 +45,7 @@ import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.CookingInstructionDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
@@ -413,10 +414,16 @@ public class TicketView extends JPanel {
 	}// GEN-LAST:event_doCancelOrder
 
 	private synchronized void updateModel() {
-		// previous judgement is: ticket.getTicketItems() == null ||
-		// ticket.getTicketItems().size() == 0
-		if (StringUtils.isBlank(ticket.getUniqId())) {
+		if (StringUtils.isBlank(ticket.getUniqId()) &&
+				(ticket.getTicketItems() == null || ticket.getTicketItems().size() == 0)) {
 			throw new PosException(com.floreantpos.POSConstants.TICKET_IS_EMPTY_);
+		}
+		
+		// generate uniq id if necessary
+		if(StringUtils.isBlank(ticket.getUniqId())) {
+			ticket.setUniqId(TicketUniqIdGenerator.generate());
+			TicketDAO.getInstance().saveOrUpdate(ticket);
+			TicketDAO.getInstance().refresh(ticket);
 		}
 
 		ticket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
