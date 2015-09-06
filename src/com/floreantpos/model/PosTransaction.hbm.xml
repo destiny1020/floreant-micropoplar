@@ -96,5 +96,8 @@
 		
 		<subclass discriminator-value="VOID_TRANS" name="com.floreantpos.model.VoidTransaction">
 		</subclass>
+
+		<subclass discriminator-value="WECHAT_TRANS" name="com.floreantpos.model.WeChatTransaction">
+		</subclass>
 	</class>
 </hibernate-mapping>

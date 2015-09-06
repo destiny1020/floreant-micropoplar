@@ -1,6 +1,7 @@
 package com.floreantpos.ui.views.payment;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -49,6 +50,7 @@ import com.floreantpos.ui.dialog.PaymentTypeSelectionDialog;
 import com.floreantpos.ui.dialog.TransactionCompletionDialog;
 import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.TicketDetailView;
+import com.floreantpos.ui.views.customer.AdvertisementView;
 import com.floreantpos.ui.views.customer.MultipleUsageView;
 import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.OrderController;
@@ -635,6 +637,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		setTransactionAmounts(transaction);
 
 		// show customer the qr code
+		PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
 		try {
 			String qrCodeLocation = PreorderBusiness.run(ticket, (int) (transaction.getTenderAmount() * 100));
 			if (qrCodeLocation.equals(PreorderBusiness.QRCODE_GEN_FAILED)) {
@@ -644,21 +647,24 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 				MultipleUsageView view = CustomerRootView.getInstance().getCustomerView()
 						.getCustomerMultipleUsageView();
 				boolean successfullyShown = view.switchToQRCode(qrCodeLocation);
-				PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
 				if (successfullyShown) {
-					// show waiting dialog and query for the wechat transaction
-					waitDialog.setVisible(true);
-					// polling for the payment status
-					PaymentResult result = checkWhetherPaid();
-					if (result.isSuccessful()) {
-						POSMessageDialog.showMessage(POSConstants.WECHAT_PAID_SUCCESSFUL);
-						if (StringUtils.isNotEmpty(result.getTransactionId())) {
-							transaction.setOuterTransactionId(result.getTransactionId());
+					EventQueue.invokeLater(() -> {
+						// show waiting dialog and query for the wechat transaction
+						waitDialog.setVisible(true);
+						// polling for the payment status
+						PaymentResult result = checkWhetherPaid();
+						if (result.isSuccessful()) {
+							POSMessageDialog.showMessage(POSConstants.WECHAT_PAID_SUCCESSFUL);
+							if (StringUtils.isNotEmpty(result.getTransactionId())) {
+								transaction.setOuterTransactionId(result.getTransactionId());
+							}
+							settleTicket(transaction);
+							// show normal view
+							view.showView(AdvertisementView.VIEW_NAME);
+						} else {
+							POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
 						}
-						settleTicket(transaction);
-					} else {
-						POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
-					}
+					});
 				} else {
 					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 				}
@@ -666,6 +672,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			waitDialog.setVisible(false);
 			POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 		}
 	}
