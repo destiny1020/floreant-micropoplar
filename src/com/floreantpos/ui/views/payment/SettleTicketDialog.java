@@ -53,7 +53,9 @@ import com.floreantpos.ui.views.customer.MultipleUsageView;
 import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.OrderController;
 import com.floreantpos.util.POSUtil;
+import com.micropoplar.pos.payment.PaymentResult;
 import com.micropoplar.pos.payment.PreorderBusiness;
+import com.micropoplar.pos.payment.QueryBusiness;
 import com.micropoplar.pos.payment.config.WeChatConfig;
 
 public class SettleTicketDialog extends POSDialog implements CardInputListener {
@@ -641,14 +643,39 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			} else {
 				MultipleUsageView view = CustomerRootView.getInstance().getCustomerView()
 						.getCustomerMultipleUsageView();
-				view.switchToQRCode(qrCodeLocation);
+				boolean successfullyShown = view.switchToQRCode(qrCodeLocation);
+				PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
+				if (successfullyShown) {
+					// show waiting dialog and query for the wechat transaction
+					waitDialog.setVisible(true);
+					// polling for the payment status
+					PaymentResult result = checkWhetherPaid();
+					if (result.isSuccessful()) {
+						POSMessageDialog.showMessage(POSConstants.WECHAT_PAID_SUCCESSFUL);
+						if (StringUtils.isNotEmpty(result.getTransactionId())) {
+							transaction.setOuterTransactionId(result.getTransactionId());
+						}
+						settleTicket(transaction);
+					} else {
+						POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
+					}
+				} else {
+					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
+				}
+				waitDialog.setVisible(false);
 			}
-
-			// TODO
-//			settleTicket(transaction);
 		} catch (Exception e) {
 			e.printStackTrace();
 			POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
+		}
+	}
+
+	private PaymentResult checkWhetherPaid() {
+		try {
+			return QueryBusiness.queryQrCodePay(ticket);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return PaymentResult.FAIL_RESULT;
 		}
 	}
 

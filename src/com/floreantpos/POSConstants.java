@@ -369,6 +369,8 @@ public class POSConstants {
 	public static final String WECHAT_NOT_SUPPORTED = Messages.getString("PosMessage.320"); //$NON-NLS-1$
 	public static final String WECHAT_NOT_VALID = Messages.getString("PosMessage.321"); //$NON-NLS-1$
 	public static final String WECHAT_QR_GEN_ERROR = Messages.getString("PosMessage.322"); //$NON-NLS-1$
+	public static final String WECHAT_PAID_SUCCESSFUL = Messages.getString("PosMessage.323"); //$NON-NLS-1$
+	public static final String WECHAT_PAID_UNSUCCESSFUL = Messages.getString("PosMessage.324"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$

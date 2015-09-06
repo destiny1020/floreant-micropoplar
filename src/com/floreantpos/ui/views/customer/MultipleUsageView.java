@@ -59,9 +59,11 @@ public class MultipleUsageView extends JPanel {
 	 * 
 	 * @param qrCodeLocation
 	 */
-	public void switchToQRCode(String qrCodeLocation) {
-		qrCodeView.renderQrCode(qrCodeLocation);
+	public boolean switchToQRCode(String qrCodeLocation) {
+		boolean successful = qrCodeView.renderQrCode(qrCodeLocation);
 		showView(QRCodeView.VIEW_NAME);
+		
+		return successful;
 	}
 	
 }

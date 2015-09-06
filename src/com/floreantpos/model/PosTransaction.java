@@ -114,4 +114,5 @@ public class PosTransaction extends BasePosTransaction {
 	public Double calculateAuthorizeAmount() {
 		return getTenderAmount() + getTenderAmount() * 0.2;
 	}
+	
 }

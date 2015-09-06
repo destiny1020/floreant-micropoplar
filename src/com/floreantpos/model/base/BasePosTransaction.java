@@ -47,7 +47,7 @@ public abstract class BasePosTransaction  implements Comparable, Serializable {
 	public static String PROP_CARD_TRANSACTION_ID = "cardTransactionId";
 	public static String PROP_ID = "id";
 	public static String PROP_GIFT_CERT_PAID_AMOUNT = "giftCertPaidAmount";
-
+	public static String PROP_OUTER_TRANSACTION_ID = "outerTransactionId";
 
 	// constructors
 	public BasePosTransaction () {
@@ -111,6 +111,7 @@ public abstract class BasePosTransaction  implements Comparable, Serializable {
 		protected java.lang.Double giftCertCashBackAmount;
 		protected java.lang.Boolean drawerResetted;
 		protected java.lang.String note;
+		protected java.lang.String outerTransactionId;
 
 	// many to one
 	private com.floreantpos.model.Terminal terminal;
@@ -688,6 +689,14 @@ public abstract class BasePosTransaction  implements Comparable, Serializable {
 
 	public String toString () {
 		return super.toString();
+	}
+
+	public java.lang.String getOuterTransactionId() {
+		return outerTransactionId;
+	}
+
+	public void setOuterTransactionId(java.lang.String outerTransactionId) {
+		this.outerTransactionId = outerTransactionId;
 	}
 
 

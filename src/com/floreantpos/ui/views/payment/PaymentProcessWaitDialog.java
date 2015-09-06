@@ -10,9 +10,9 @@ public class PaymentProcessWaitDialog extends JDialog {
 
 	public PaymentProcessWaitDialog(JDialog parent) {
 		super(parent, false);
-		setTitle("Processing...");
+		setTitle("正在处理中...");
 		
-		JLabel label = new JLabel("Processing payment, please wait...");
+		JLabel label = new JLabel("正在处理支付请求, 请稍等片刻...");
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setFont(label.getFont().deriveFont(24).deriveFont(Font.BOLD));
 		add(label);
@@ -24,9 +24,9 @@ public class PaymentProcessWaitDialog extends JDialog {
 
 	public PaymentProcessWaitDialog(JFrame parent) {
 		super(parent, false);
-		setTitle("Processing...");
+		setTitle("正在处理中...");
 		
-		JLabel label = new JLabel("Processing payment, please wait...");
+		JLabel label = new JLabel("正在处理支付请求, 请稍等片刻...");
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setFont(label.getFont().deriveFont(24).deriveFont(Font.BOLD));
 		add(label);

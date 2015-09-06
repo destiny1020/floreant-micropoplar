@@ -19,7 +19,7 @@ public final static String VIEW_NAME = "QR_CODE_VIEW";
 		setLayout(new BorderLayout());
 	}
 	
-	public void renderQrCode(String qrCodeDest) {
+	public boolean renderQrCode(String qrCodeDest) {
 		if(picLabel != null) {
 			remove(picLabel);
 		}
@@ -29,8 +29,10 @@ public final static String VIEW_NAME = "QR_CODE_VIEW";
 			myPicture = ImageIO.read(new File(qrCodeDest));
 			picLabel = new JLabel(new ImageIcon(myPicture));
 			add(picLabel, BorderLayout.CENTER);
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
