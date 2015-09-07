@@ -57,16 +57,16 @@ public class PaymentTypeSelectionDialog extends POSDialog {
 		
 		JPanel creditCardPanel = new JPanel(new GridLayout(1, 0, 10, 10));
 //		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_VISA));
-		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_MASTER_CARD));
+//		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_MASTER_CARD));
 //		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_AMEX));
-		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_DISCOVERY));
+//		creditCardPanel.add(new PaymentSelectionButton(PaymentType.CREDIT_DISCOVERY));
 		creditCardPanel.add(new PaymentSelectionButton(PaymentType.UNION_PAY));
 		
 		creditCardPanel.setBorder(new CompoundBorder(new TitledBorder("银行卡支付"), new EmptyBorder(10, 10, 10, 10)));
 		content.add(creditCardPanel, "wrap, height 110px, growx");
 		
 		JPanel onlinePaymentPanel = new JPanel(new GridLayout(1, 0, 10, 10));
-		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.DEBIT_MASTER_CARD));
+//		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.DEBIT_MASTER_CARD));
 		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.ALIPAY));
 		onlinePaymentPanel.add(new PaymentSelectionButton(PaymentType.WECHAT));
 		

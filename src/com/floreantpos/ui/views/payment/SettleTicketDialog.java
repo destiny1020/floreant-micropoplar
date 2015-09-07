@@ -664,11 +664,11 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 						} else {
 							POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
 						}
+						waitDialog.setVisible(false);
 					});
 				} else {
 					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 				}
-				waitDialog.setVisible(false);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
