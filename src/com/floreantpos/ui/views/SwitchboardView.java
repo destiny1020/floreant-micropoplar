@@ -59,6 +59,7 @@ import com.floreantpos.ui.dialog.NumberSelectionDialog2;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.dialog.PayoutDialog;
 import com.floreantpos.ui.dialog.VoidTicketDialog;
+import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.DefaultOrderServiceExtension;
 import com.floreantpos.ui.views.order.OrderView;
 import com.floreantpos.ui.views.order.RootView;
@@ -502,15 +503,19 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
 			if (selectedTickets.size() > 0) {
 				ticket = selectedTickets.get(0);
+				ticket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
 			}
 			else {
 				String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单号");
 				if(StringUtils.isNotBlank(ticketUniqId)) {
-					ticket = TicketService.getTicketByUniqId(ticketUniqId);
+					ticket = TicketDAO.getInstance().loadFullTicket(ticketUniqId);
 				} else {
 					return;
 				}
 			}
+			
+			// set ticket to the customer view
+			CustomerRootView.getInstance().getCustomerView().setCurrentTicket(ticket);
 
 			new SettleTicketAction(ticket.getId()).execute();
 

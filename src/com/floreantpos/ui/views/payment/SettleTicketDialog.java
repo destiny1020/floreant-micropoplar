@@ -633,38 +633,44 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		settleTicket(transaction);
 	}
 
-	private void handleQrCode(PosTransaction transaction) {
+	private void handleQrCode(final PosTransaction transaction) {
 		setTransactionAmounts(transaction);
 
 		// show customer the qr code
-		PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
+		final PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
 		try {
 			String qrCodeLocation = PreorderBusiness.run(ticket, (int) (transaction.getTenderAmount() * 100));
 			if (qrCodeLocation.equals(PreorderBusiness.QRCODE_GEN_FAILED)) {
 				POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 				return;
 			} else {
-				MultipleUsageView view = CustomerRootView.getInstance().getCustomerView()
+				final MultipleUsageView view = CustomerRootView.getInstance().getCustomerView()
 						.getCustomerMultipleUsageView();
 				boolean successfullyShown = view.switchToQRCode(qrCodeLocation);
 				if (successfullyShown) {
-					EventQueue.invokeLater(() -> {
-						// show waiting dialog and query for the wechat transaction
-						waitDialog.setVisible(true);
-						// polling for the payment status
-						PaymentResult result = checkWhetherPaid();
-						if (result.isSuccessful()) {
-							POSMessageDialog.showMessage(POSConstants.WECHAT_PAID_SUCCESSFUL);
-							if (StringUtils.isNotEmpty(result.getTransactionId())) {
-								transaction.setOuterTransactionId(result.getTransactionId());
+					EventQueue.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							// show waiting dialog and query for the wechat
+							// transaction
+							waitDialog.setVisible(true);
+							// polling for the payment status
+							PaymentResult result = checkWhetherPaid();
+							if (result.isSuccessful()) {
+								POSMessageDialog.showMessage(POSConstants.WECHAT_PAID_SUCCESSFUL);
+								if (StringUtils.isNotEmpty(result.getTransactionId())) {
+									transaction.setOuterTransactionId(result.getTransactionId());
+								}
+								settleTicket(transaction);
+								// show normal view
+								view.showView(AdvertisementView.VIEW_NAME);
+							} else {
+								POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
 							}
-							settleTicket(transaction);
-							// show normal view
-							view.showView(AdvertisementView.VIEW_NAME);
-						} else {
-							POSMessageDialog.showError(POSConstants.WECHAT_PAID_UNSUCCESSFUL);
+							waitDialog.setVisible(false);
 						}
-						waitDialog.setVisible(false);
+
 					});
 				} else {
 					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
