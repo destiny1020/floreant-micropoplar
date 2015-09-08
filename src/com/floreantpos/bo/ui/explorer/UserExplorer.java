@@ -40,12 +40,7 @@ public class UserExplorer extends TransparentPanel {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Integer userWithMaxId = UserDAO.getInstance().findUserWithMaxId();
-					
 					UserForm editor = new UserForm();
-					if(userWithMaxId != null) {
-						editor.setId(new Integer(userWithMaxId.intValue() + 1));
-					}
 					BeanEditorDialog dialog = new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
 					dialog.open();
 					if (dialog.isCanceled())

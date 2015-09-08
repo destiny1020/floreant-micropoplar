@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
 
 import com.floreantpos.POSConstants;
@@ -53,7 +54,7 @@ public class PasswordScreen extends JPanel {
 
 	/** Creates new form PasswordScreen */
 	public PasswordScreen() {
-		//setMinimumSize(new Dimension(320, 10));
+		// setMinimumSize(new Dimension(320, 10));
 		initComponents();
 
 		btnConfigureDatabase.setAction(goAction);
@@ -172,30 +173,30 @@ public class PasswordScreen extends JPanel {
 		lblTerminalId = new JLabel("终端号:");
 		lblTerminalId.setHorizontalAlignment(SwingConstants.CENTER);
 		jPanel2.add(lblTerminalId, "cell 0 0 2 1,growx");
-		
+
 		// user name label and tf
 		lblUsername = new JLabel(POSConstants.LOGIN_USERNAME);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsername.setFont(new java.awt.Font("微软雅黑", 1, 18));
 		lblUsername.setForeground(new java.awt.Color(204, 102, 0));
 		lblUsername.setBackground(new java.awt.Color(204, 102, 0));
-		jPanel2.add(lblUsername, "cell 0 1");
-		
+		jPanel2.add(lblUsername, "cell 0 1,align left");
+
 		tfUsername = new JTextField();
 		tfUsername.setPreferredSize(new Dimension(270, 80));
 		jPanel2.add(tfUsername, "cell 1 1,growx");
-		
+
 		jLabel2 = new javax.swing.JLabel();
 		jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 18));
 		jLabel2.setForeground(new java.awt.Color(204, 102, 0));
 		jLabel2.setBackground(new java.awt.Color(204, 102, 0));
 		jLabel2.setText(com.floreantpos.POSConstants.ENTER_YOUR_PASSWORD);
-		jPanel2.add(jLabel2, "cell 0 2,growx,aligny top");
+		jPanel2.add(jLabel2, "cell 0 2,align left");
 		tfPassword = new POSPasswordField();
 		tfPassword.setFocusCycleRoot(true);
 		tfPassword.setFont(new java.awt.Font("Courier", 1, 18));
-//		tfPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		// tfPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		tfPassword.setPreferredSize(new Dimension(270, 25));
 		tfPassword.addKeyListener(new KeyListener() {
 
@@ -208,21 +209,18 @@ public class PasswordScreen extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					doLogin();
 				}
-				else {
-					checkLogin(String.valueOf(e.getKeyChar()));
-				}
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 		});
-//		jPanel2.add(tfPassword, "cell 1 2,growx,aligny top");
+		// jPanel2.add(tfPassword, "cell 1 2,growx,aligny top");
 		jPanel2.add(tfPassword, "cell 1 2,growx");
 
 		panel = new JPanel();
 		add(panel, "cell 0 2,grow");
-		
+
 		jPanel3.setLayout(new GridLayout(0, 1, 5, 5));
 
 		psbtnLogin = new PosButton();
@@ -254,18 +252,37 @@ public class PasswordScreen extends JPanel {
 		lblTerminalId.setText("");
 	}// </editor-fold>//GEN-END:initComponents
 
-	// TODO: check login logic, everytime when entered a new day, throws: com.floreantpos.PosException: Unable to store clock in information
+	// TODO: check login logic, everytime when entered a new day, throws:
+	// com.floreantpos.PosException: Unable to store clock in information
 	public synchronized void doLogin() {
+		// check whether both fields are filled
+		String username = tfUsername.getText();
+		String secretKey = capturePassword();
+
+		if (StringUtils.isBlank(username)) {
+			POSMessageDialog.showError(POSConstants.LOGIN_USERNAME_REQUIRED);
+			return;
+		}
+
+		if (StringUtils.isBlank(secretKey)) {
+			POSMessageDialog.showError(POSConstants.PASSWORD_REQUIRED);
+			return;
+		}
+
+		int secretKeyLength = secretKey.length();
+		if (secretKeyLength < 4 || secretKeyLength > 12) {
+			POSMessageDialog.showError(POSConstants.PASSWORD_LENGTH_INVALID);
+			return;
+		}
+
 		try {
 			tfPassword.setEnabled(false);
 
 			Application application = Application.getInstance();
 			application.initializeSystem();
 
-			String secretKey = capturePassword();
-
 			UserDAO dao = new UserDAO();
-			User user = dao.findUserBySecretKey(secretKey);
+			User user = dao.findUserBySecretKey(username, secretKey);
 
 			if (user == null) {
 				throw new UserNotFoundException();
@@ -287,7 +304,7 @@ public class PasswordScreen extends JPanel {
 
 		} catch (UserNotFoundException e) {
 			LogFactory.getLog(Application.class).error(e);
-			POSMessageDialog.showError("没有找到用户");
+			POSMessageDialog.showError(POSConstants.NO_SUCH_USER);
 		} catch (ShiftException e) {
 			LogFactory.getLog(Application.class).error(e);
 			MessageDialog.showError(this, e.getMessage());
@@ -299,8 +316,7 @@ public class PasswordScreen extends JPanel {
 			if (message != null && message.contains("Cannot open connection")) {
 				MessageDialog.showError(this, "不能打开数据库连接, 请检查数据库配置.");
 				DatabaseConfigurationDialog.show(Application.getPosWindow());
-			}
-			else {
+			} else {
 				MessageDialog.showError(this, "很抱歉, 发生了一个异常错误.");
 			}
 		} finally {
@@ -321,16 +337,14 @@ public class PasswordScreen extends JPanel {
 			if (userShift != null) {
 				if (!userShift.equals(currentShift)) {
 					reClockInUser(currentTime, user, currentShift);
-				}
-				else if (userShift.getShiftLength() != null && (elaspedTimeSinceLastLogin >= userShift.getShiftLength())) {
+				} else if (userShift.getShiftLength() != null
+						&& (elaspedTimeSinceLastLogin >= userShift.getShiftLength())) {
 					reClockInUser(currentTime, user, currentShift);
 				}
-			}
-			else {
+			} else {
 				user.doClockIn(application.getTerminal(), currentShift, currentTime);
 			}
-		}
-		else {
+		} else {
 			user.doClockIn(application.getTerminal(), currentShift, currentTime);
 		}
 	}
@@ -366,7 +380,9 @@ public class PasswordScreen extends JPanel {
 			attendenceHistory.setShift(user.getCurrentShift());
 		}
 		// TODO: solve the strange:
-		// org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): [com.floreantpos.model.User#2]
+		// org.hibernate.StaleObjectStateException: Row was updated or deleted
+		// by another transaction (or unsaved-value mapping was incorrect):
+		// [com.floreantpos.model.User#2]
 		user = user.doClockOut(attendenceHistory, currentShift, currentTime);
 		user.doClockIn(application.getTerminal(), currentShift, currentTime);
 	}
@@ -403,17 +419,13 @@ public class PasswordScreen extends JPanel {
 				if (tfPassword.hasFocus()) {
 					tfPassword.setText("");
 				}
-			}
-			else if (com.floreantpos.POSConstants.LOGIN.equals(command)) {
+			} else if (com.floreantpos.POSConstants.LOGIN.equals(command)) {
 				doLogin();
-			}
-			else if (com.floreantpos.POSConstants.SHUTDOWN.equals(command)) {
+			} else if (com.floreantpos.POSConstants.SHUTDOWN.equals(command)) {
 				Application.getInstance().shutdownPOS();
-			}
-			else if ("DBCONFIG".equalsIgnoreCase(command)) {
+			} else if ("DBCONFIG".equalsIgnoreCase(command)) {
 				DatabaseConfigurationDialog.show(Application.getPosWindow());
-			}
-			else {
+			} else {
 				String newPass = capturePassword();
 				newPass += command;
 				tfPassword.setText(newPass);
@@ -424,8 +436,7 @@ public class PasswordScreen extends JPanel {
 	Action loginAction = new AbstractAction() {
 		public void actionPerformed(ActionEvent e) {
 			tfPassword.setText(capturePassword() + e.getActionCommand());
-			checkLogin(e.getActionCommand());
-
+			// checkLogin(e.getActionCommand());
 		}
 	};
 	private JPanel panel;
@@ -439,7 +450,7 @@ public class PasswordScreen extends JPanel {
 
 	private void checkLogin(String key) {
 		String secretKey = capturePassword();
-		if (secretKey != null && secretKey.length() == TerminalConfig.getDefaultPassLen()) {
+		if (StringUtils.isNotBlank(secretKey)) {
 			Thread loginThread = new Thread(new Runnable() {
 				@Override
 				public void run() {

@@ -185,6 +185,7 @@ public class TerminalConfigurationView extends ConfigurationView {
 	public void initialize() throws Exception {
 		tfTerminalNumber.setText(String.valueOf(TerminalConfig.getTerminalId()));
 		tfSecretKeyLength.setText(String.valueOf(TerminalConfig.getDefaultPassLen()));
+		tfSecretKeyLength.setVisible(false);
 		cbEnableDineIn.setSelected(TerminalConfig.isDineInEnable());
 		cbEnablePickUp.setSelected(TerminalConfig.isPickupEnable());
 		cbEnableTakeOut.setSelected(TerminalConfig.isTakeOutEnable());

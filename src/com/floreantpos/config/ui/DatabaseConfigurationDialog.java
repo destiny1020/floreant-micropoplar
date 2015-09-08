@@ -287,18 +287,18 @@ public class DatabaseConfigurationDialog extends POSDialog implements ActionList
 		}
 	}
 
-	private void isAuthorizedToPerformDbChange() {
-		DatabaseUtil.initialize();
-		
-		UserDAO.getInstance().findAll();
-		
-		String password = JOptionPane.showInputDialog("Enter Administrator password.");
-		User user2 = UserDAO.getInstance().findUserBySecretKey(password);
-		if(user2 == null || !user2.isAdministrator()) {
-			POSMessageDialog.showError(this, "Wrong password");
-			return;
-		}
-	}
+//	private void isAuthorizedToPerformDbChange() {
+//		DatabaseUtil.initialize();
+//		
+//		UserDAO.getInstance().findAll();
+//		
+//		String password = JOptionPane.showInputDialog("Enter Administrator password.");
+//		User user2 = UserDAO.getInstance().findUserBySecretKey(password);
+//		if(user2 == null || !user2.isAdministrator()) {
+//			POSMessageDialog.showError(this, "Wrong password");
+//			return;
+//		}
+//	}
 
 	private void saveConfig(Database selectedDb, String providerName, String databaseURL, String databasePort, String databaseName, String user, String pass,
 			String connectionString, String hibernateDialect) {

@@ -372,6 +372,15 @@ public class POSConstants {
 	public static final String WECHAT_PAID_SUCCESSFUL = Messages.getString("PosMessage.323"); //$NON-NLS-1$
 	public static final String WECHAT_PAID_UNSUCCESSFUL = Messages.getString("PosMessage.324"); //$NON-NLS-1$
 	public static final String LOGIN_USERNAME = Messages.getString("PosMessage.325"); //$NON-NLS-1$
+	public static final String LOGIN_USERNAME_REQUIRED = Messages.getString("PosMessage.326"); //$NON-NLS-1$
+	public static final String PASSWORD_REQUIRED = Messages.getString("PosMessage.327"); //$NON-NLS-1$
+	public static final String PASSWORD_LENGTH_INVALID = Messages.getString("PosMessage.328"); //$NON-NLS-1$
+	public static final String NO_SUCH_USER = Messages.getString("PosMessage.329"); //$NON-NLS-1$
+	public static final String USER_ID_NEEDED = Messages.getString("PosMessage.330"); //$NON-NLS-1$
+	public static final String USER_ID_DUPLICATED = Messages.getString("PosMessage.331"); //$NON-NLS-1$
+	public static final String USER_PASS_CONFIRM = Messages.getString("PosMessage.332"); //$NON-NLS-1$
+	public static final String USER_ID_FORMAT = Messages.getString("PosMessage.333"); //$NON-NLS-1$
+	public static final String USER_PASS_FORMAT = Messages.getString("PosMessage.334"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$

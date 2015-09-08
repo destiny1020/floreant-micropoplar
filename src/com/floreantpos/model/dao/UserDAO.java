@@ -67,13 +67,14 @@ public class UserDAO extends BaseUserDAO {
 		}
 	}
 	
-	public User findUserBySecretKey(String secretKey) {
+	public User findUserBySecretKey(String username, String secretKey) {
 		Session session = null;
 		
 		try {
 			
 			session = getSession();
 			Criteria criteria = session.createCriteria(getReferenceClass());
+			criteria.add(Restrictions.eq(User.PROP_USER_ID, username));
 			criteria.add(Restrictions.eq(User.PROP_PASSWORD, secretKey));
 			
 			Object result = criteria.uniqueResult();
