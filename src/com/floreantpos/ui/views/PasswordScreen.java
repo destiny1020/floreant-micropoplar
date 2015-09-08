@@ -21,6 +21,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.apache.commons.logging.LogFactory;
@@ -166,23 +167,36 @@ public class PasswordScreen extends JPanel {
 
 		jLabel4.setText(com.floreantpos.POSConstants.USER_TYPE + ":");
 		add(jPanel2, "cell 0 0,growx,aligny top");
-		jPanel2.setLayout(new MigLayout("", "[343px]", "[][22px][31px][30px]"));
+		jPanel2.setLayout(new MigLayout("", "[70px][270px]", "[][30px][25px]"));
 
 		lblTerminalId = new JLabel("终端号:");
 		lblTerminalId.setHorizontalAlignment(SwingConstants.CENTER);
-		jPanel2.add(lblTerminalId, "cell 0 0,growx");
+		jPanel2.add(lblTerminalId, "cell 0 0 2 1,growx");
+		
+		// user name label and tf
+		lblUsername = new JLabel(POSConstants.LOGIN_USERNAME);
+		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		lblUsername.setFont(new java.awt.Font("微软雅黑", 1, 18));
+		lblUsername.setForeground(new java.awt.Color(204, 102, 0));
+		lblUsername.setBackground(new java.awt.Color(204, 102, 0));
+		jPanel2.add(lblUsername, "cell 0 1");
+		
+		tfUsername = new JTextField();
+		tfUsername.setPreferredSize(new Dimension(270, 80));
+		jPanel2.add(tfUsername, "cell 1 1,growx");
+		
 		jLabel2 = new javax.swing.JLabel();
 		jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-
 		jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 18));
 		jLabel2.setForeground(new java.awt.Color(204, 102, 0));
 		jLabel2.setBackground(new java.awt.Color(204, 102, 0));
 		jLabel2.setText(com.floreantpos.POSConstants.ENTER_YOUR_PASSWORD);
-		jPanel2.add(jLabel2, "cell 0 1,growx,aligny top");
+		jPanel2.add(jLabel2, "cell 0 2,growx,aligny top");
 		tfPassword = new POSPasswordField();
 		tfPassword.setFocusCycleRoot(true);
 		tfPassword.setFont(new java.awt.Font("Courier", 1, 18));
-		tfPassword.setHorizontalAlignment(SwingConstants.CENTER);
+//		tfPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		tfPassword.setPreferredSize(new Dimension(270, 25));
 		tfPassword.addKeyListener(new KeyListener() {
 
 			@Override
@@ -203,11 +217,8 @@ public class PasswordScreen extends JPanel {
 			public void keyPressed(KeyEvent e) {
 			}
 		});
-		jPanel2.add(tfPassword, "cell 0 2,growx,aligny top");
-
-		msgLabel = new JLabel("");
-		msgLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		jPanel2.add(msgLabel, "cell 0 3,grow");
+//		jPanel2.add(tfPassword, "cell 1 2,growx,aligny top");
+		jPanel2.add(tfPassword, "cell 1 2,growx");
 
 		panel = new JPanel();
 		add(panel, "cell 0 2,grow");
@@ -277,7 +288,6 @@ public class PasswordScreen extends JPanel {
 		} catch (UserNotFoundException e) {
 			LogFactory.getLog(Application.class).error(e);
 			POSMessageDialog.showError("没有找到用户");
-			msgLabel.setText("登录失败, 请重新尝试...");
 		} catch (ShiftException e) {
 			LogFactory.getLog(Application.class).error(e);
 			MessageDialog.showError(this, e.getMessage());
@@ -365,6 +375,8 @@ public class PasswordScreen extends JPanel {
 	private com.floreantpos.swing.PosButton btnConfigureDatabase;
 	private com.floreantpos.swing.PosButton btnShutdown;
 	private javax.swing.JPanel buttonPanel;
+	private JLabel lblUsername;
+	private JTextField tfUsername;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JPanel jPanel2;
@@ -417,7 +429,6 @@ public class PasswordScreen extends JPanel {
 		}
 	};
 	private JPanel panel;
-	private JLabel msgLabel;
 	private PosButton psbtnLogin;
 	private JLabel lblTerminalId;
 
@@ -427,8 +438,6 @@ public class PasswordScreen extends JPanel {
 	}
 
 	private void checkLogin(String key) {
-		msgLabel.setText("");
-
 		String secretKey = capturePassword();
 		if (secretKey != null && secretKey.length() == TerminalConfig.getDefaultPassLen()) {
 			Thread loginThread = new Thread(new Runnable() {
