@@ -19,7 +19,7 @@ import javax.json.JsonReader;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
@@ -676,9 +676,14 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 					// save the payment type to wechat into properties
 					Map<String, String> props = ticket.getProperties();
-					props.put(Ticket.PAYMENT_TYPE, PaymentType.WECHAT.name());
-					ticket.setProperties(props);
-					TicketDAO.getInstance().saveOrUpdate(ticket);
+					String paymentType = ticket.getProperty(Ticket.PAYMENT_TYPE);
+					if (StringUtils.isBlank(paymentType)
+							|| !StringUtils.equals(paymentType, PaymentType.WECHAT.name())) {
+						TicketDAO.getInstance().refresh(ticket);
+						props.put(Ticket.PAYMENT_TYPE, PaymentType.WECHAT.name());
+						ticket.setProperties(props);
+						TicketDAO.getInstance().saveOrUpdate(ticket);
+					}
 				} else {
 					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 				}

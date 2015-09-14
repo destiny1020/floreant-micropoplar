@@ -53,6 +53,8 @@ public class SettleTicketAction extends AbstractAction {
 					SettleTicketDialog posDialog = new SettleTicketDialog();
 					posDialog.setTicket(ticket);
 					posDialog.settleTicket(transaction);
+
+					return true;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

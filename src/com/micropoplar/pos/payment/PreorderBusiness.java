@@ -2,6 +2,8 @@ package com.micropoplar.pos.payment;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,6 +44,15 @@ public class PreorderBusiness {
 	 */
 	public static String run(Ticket ticket, int amount) throws Exception {
 
+		// 首先检查订单的二维码是否已经生成过了
+		String qrCodeFolder = WeChatConfig.getWeChatQrCodesFolder();
+		String fileDest = String.format("%s.png", qrCodeFolder + ticket.getUniqId());
+		if (Files.exists(Paths.get(fileDest))) {
+			log.i(String.format("订单: %s 已经生成过二维码了，直接显示", ticket.getUniqId()));
+			return fileDest;
+		}
+
+		log.i(String.format("准备为订单: %s 生成二维码", ticket.getUniqId()));
 		PreorderReqData reqData = new PreorderReqData();
 
 		// 填充数据
@@ -73,12 +84,10 @@ public class PreorderBusiness {
 		PreorderResData preoderResData = (PreorderResData) Util.getObjectFromXML(response, PreorderResData.class);
 
 		if (preoderResData.getReturn_code().equals("SUCCESS") && preoderResData.getReturn_msg().equals("OK")) {
-			String qrCodeFolder = WeChatConfig.getWeChatQrCodesFolder();
 			if (!qrCodeFolder.endsWith("/")) {
 				qrCodeFolder += "/";
 			}
 
-			String fileDest = String.format("%s.png", qrCodeFolder + ticket.getUniqId());
 			QRGen.encodeQrcode(preoderResData.getCode_url(), fileDest);
 
 			return fileDest;
