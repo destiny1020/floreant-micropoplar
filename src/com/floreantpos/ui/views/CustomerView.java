@@ -4,6 +4,7 @@ import java.awt.Dimension;
 
 import com.floreantpos.model.Ticket;
 import com.floreantpos.swing.TransparentPanel;
+import com.floreantpos.ui.views.customer.AdvertisementView;
 import com.floreantpos.ui.views.customer.CustomerTicketView;
 import com.floreantpos.ui.views.customer.MultipleUsageView;
 
@@ -67,6 +68,7 @@ public class CustomerView extends TransparentPanel {
 
 	public void transactionCompleted() {
 		setCurrentTicket(null);
+		customerMultipleUsageView.showView(AdvertisementView.VIEW_NAME);
 	}
 
 	public MultipleUsageView getCustomerMultipleUsageView() {

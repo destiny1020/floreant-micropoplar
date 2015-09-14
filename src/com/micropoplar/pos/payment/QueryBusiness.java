@@ -34,6 +34,7 @@ public class QueryBusiness {
 		// 进行循环查询
 		PaymentResult result = null;
 		for (int i = 0; i < QUERY_TIMES; i++) {
+			Thread.sleep(WAITING_TIME_BEFORE_QUERY_IN_MILLIS);// 等待一定时间再进行查询，避免状态还没来得及被更新
 			result = queryQrCodePayOnce(ticket);
 			if (result.isSuccessful()) {
 				return result;
@@ -50,9 +51,6 @@ public class QueryBusiness {
 	 * @throws Exception
 	 */
 	public static PaymentResult queryQrCodePayOnce(Ticket ticket) throws Exception {
-
-		Thread.sleep(WAITING_TIME_BEFORE_QUERY_IN_MILLIS);// 等待一定时间再进行查询，避免状态还没来得及被更新
-
 		ScanPayQueryReqData reqData = new ScanPayQueryReqData("", ticket.getUniqId());
 		String responseString = WXPay.requestScanPayQueryService(reqData);
 		log.i("支付订单查询API返回的数据如下：");
