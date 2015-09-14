@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 
 import javax.json.Json;
@@ -403,6 +404,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 			showTransactionCompleteMsg(dueAmount, transaction.getTenderAmount(), ticket, transaction);
 
+			// TODO: fix partial payment problem
 			if (ticket.getDueAmount() > 0.0) {
 				int option = JOptionPane.showConfirmDialog(Application.getPosWindow(),
 						POSConstants.CONFIRM_PARTIAL_PAYMENT, POSConstants.MDS_POS, JOptionPane.YES_NO_OPTION);
@@ -609,6 +611,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 				settleTicket(transaction);
 			} else if (inputter instanceof WeChatDialog) {
+				// WeChat processing
 				WeChatDialog dialog = (WeChatDialog) inputter;
 				switch (dialog.getSelectedPaymentType()) {
 				case PAYMENT_BAR:
@@ -649,7 +652,6 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 				boolean successfullyShown = view.switchToQRCode(qrCodeLocation);
 				if (successfullyShown) {
 					EventQueue.invokeLater(new Runnable() {
-
 						@Override
 						public void run() {
 							// show waiting dialog and query for the wechat
@@ -670,8 +672,13 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 							}
 							waitDialog.setVisible(false);
 						}
-
 					});
+
+					// save the payment type to wechat into properties
+					Map<String, String> props = ticket.getProperties();
+					props.put(Ticket.PAYMENT_TYPE, PaymentType.WECHAT.name());
+					ticket.setProperties(props);
+					TicketDAO.getInstance().saveOrUpdate(ticket);
 				} else {
 					POSMessageDialog.showError(POSConstants.WECHAT_QR_GEN_ERROR);
 				}

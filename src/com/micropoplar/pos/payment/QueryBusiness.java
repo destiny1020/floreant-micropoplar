@@ -42,7 +42,14 @@ public class QueryBusiness {
 		return result;
 	}
 
-	private static PaymentResult queryQrCodePayOnce(Ticket ticket) throws Exception {
+	/**
+	 * 对订单的支付状态查询一次，在重新处理订单的时候使用
+	 * 
+	 * @param ticket
+	 * @return
+	 * @throws Exception
+	 */
+	public static PaymentResult queryQrCodePayOnce(Ticket ticket) throws Exception {
 
 		Thread.sleep(WAITING_TIME_BEFORE_QUERY_IN_MILLIS);// 等待一定时间再进行查询，避免状态还没来得及被更新
 
@@ -75,11 +82,11 @@ public class QueryBusiness {
 				if (scanPayQueryResData.getTrade_state().equals("SUCCESS")) {
 					// 表示查单结果为“支付成功”
 					log.i("查询到订单支付成功，微信订单号为: " + transID);
-					return new PaymentResult(true, transID);
+					return new PaymentResult(true, transID, Integer.parseInt(scanPayQueryResData.getTotal_fee()));
 				} else {
 					// 支付不成功
 					log.i("查询到订单支付不成功，微信订单号为: " + transID);
-					return new PaymentResult(false, transID);
+					return new PaymentResult(false, transID, 0);
 				}
 			} else {
 				log.i("查询出错，错误码：" + scanPayQueryResData.getErr_code() + "     错误信息："

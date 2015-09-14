@@ -8,15 +8,17 @@ package com.micropoplar.pos.payment;
  */
 public class PaymentResult {
 
-	public static final PaymentResult FAIL_RESULT = new PaymentResult(false, "");
+	public static final PaymentResult FAIL_RESULT = new PaymentResult(false, "", 0);
 
 	private boolean successful;
 	private String transactionId;
+	private int totalFee;
 
-	public PaymentResult(boolean successful, String transactionId) {
+	public PaymentResult(boolean successful, String transactionId, int totalFee) {
 		super();
 		this.successful = successful;
 		this.transactionId = transactionId;
+		this.totalFee = totalFee;
 	}
 
 	public boolean isSuccessful() {
@@ -33,6 +35,14 @@ public class PaymentResult {
 
 	public void setTransactionId(String transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public int getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(int totalFee) {
+		this.totalFee = totalFee;
 	}
 
 }
