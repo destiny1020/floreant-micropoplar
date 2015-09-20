@@ -13,6 +13,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 
 import com.floreantpos.bo.actions.DataImportAction;
+import com.floreantpos.model.Generator;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.Restaurant;
 import com.floreantpos.model.Shift;
@@ -21,6 +22,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
+import com.floreantpos.model.dao.GenDAO;
 import com.floreantpos.model.dao.PosTransactionDAO;
 import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.ShiftDAO;
@@ -29,6 +31,7 @@ import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.dao.UserDAO;
 import com.floreantpos.model.dao.UserTypeDAO;
 import com.floreantpos.model.dao._RootDAO;
+import com.floreantpos.model.util.TicketUniqIdGenerator;
 
 public class DatabaseUtil {
 	private static Log logger = LogFactory.getLog(DatabaseUtil.class);
@@ -85,11 +88,12 @@ public class DatabaseUtil {
 			restaurant.setName("Sample Restaurant");
 			restaurant.setAddressLine1("Somewhere");
 			restaurant.setTelephone("+0123456789");
+			restaurant.setItemPriceIncludesTax(true);
 			RestaurantDAO.getInstance().saveOrUpdate(restaurant);
 
 			Tax tax = new Tax();
-			tax.setName("US");
-			tax.setRate(Double.valueOf(6));
+			tax.setName("中国");
+			tax.setRate(Double.valueOf(0));
 			TaxDAO.getInstance().saveOrUpdate(tax);
 
 			Shift shift = new Shift();
@@ -119,6 +123,13 @@ public class DatabaseUtil {
 
 			UserDAO dao = new UserDAO();
 			dao.saveOrUpdate(u);
+			
+			Generator gen = new Generator();
+			gen.setGenName(TicketUniqIdGenerator.COLUMN_TICKET_UNIQ_ID);
+			gen.setNextValue("1");
+			
+			GenDAO genDao = new GenDAO();
+			genDao.saveOrUpdate(gen);
 			
 			if(!exportSampleData) {
 				return true;

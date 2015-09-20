@@ -13,7 +13,7 @@ import com.floreantpos.model.dao.GenDAO;
  */
 public class TicketUniqIdGenerator {
 
-	private static final String COLUMN_TICKET_UNIQ_ID = "ticketUniqId";
+	public static final String COLUMN_TICKET_UNIQ_ID = "ticketUniqId";
 	private static final String TERMINAL_PREFIX = "A";
 
 	public static synchronized String generate() {

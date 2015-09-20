@@ -39,7 +39,7 @@ public class Restaurant extends BaseRestaurant {
 	public String getCurrencySymbol() {
 		String currencySymbol = super.getCurrencySymbol();
 		if(StringUtils.isEmpty(currencySymbol)) {
-			currencySymbol = "$";
+			currencySymbol = "￥";
 		}
 		return currencySymbol;
 	}
