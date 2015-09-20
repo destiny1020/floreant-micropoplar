@@ -349,6 +349,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		transaction.setAmount(tenderAmount);
 		transaction.setTenderAmount(confirmDialog.getModifiedTenderAmount());
 		transaction.setPaymentType(paymentType.name());
+		transaction.setDiscountRate(confirmDialog.getActualDiscountRate());
 		transaction.setTicket(ticket);
 		transaction.setCaptured(true);
 
@@ -430,7 +431,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			transactionService.settleTicket(ticket, transaction);
 
 			// FIXME
-			if(transaction instanceof TakeoutTransaction) {
+			if (transaction instanceof TakeoutTransaction) {
 				// 外卖订单对于Ticket的特别处理
 			} else {
 				printTicket(ticket, transaction);

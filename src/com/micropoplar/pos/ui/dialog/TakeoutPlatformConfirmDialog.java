@@ -39,6 +39,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 	private PaymentType takeoutPaymentType;
 	private final double tenderAmount;
 	private double modifiedTenderAmount;
+	private double actualDiscountRate;
 
 	private JTextField tfModifiedTenderedAmount;
 
@@ -73,8 +74,8 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 		JLabel lblCurrentDiscount = new JLabel("平台折扣率: ");
 		paymentPanel.add(lblCurrentDiscount, "cell 0 1");
 
-		double currentDiscount = TakeoutPlatformConfig.getPaymentDiscount(paymentType);
-		JSpinner spinCurrentDiscount = new JSpinner(new SpinnerNumberModel(currentDiscount, 0.0, 1.0, 0.01));
+		this.actualDiscountRate = TakeoutPlatformConfig.getPaymentDiscount(paymentType);
+		JSpinner spinCurrentDiscount = new JSpinner(new SpinnerNumberModel(actualDiscountRate, 0.0, 1.0, 0.01));
 		spinCurrentDiscount.setEnabled(true);
 
 		// 设置输入格式以及校验
@@ -96,6 +97,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 				double modifiedTenderAmount = TakeoutPlatformConfirmDialog.this
 						.calculateAmount(TakeoutPlatformConfirmDialog.this.tenderAmount, discount);
 				TakeoutPlatformConfirmDialog.this.modifiedTenderAmount = modifiedTenderAmount;
+				TakeoutPlatformConfirmDialog.this.actualDiscountRate = discount;
 
 				tfModifiedTenderedAmount.setText(String.valueOf(modifiedTenderAmount));
 			}
@@ -108,7 +110,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 		JLabel lblModifiedTenderedAmount = new JLabel("折扣后金额: ");
 		paymentPanel.add(lblModifiedTenderedAmount, "cell 0 2");
 
-		this.modifiedTenderAmount = calculateAmount(tenderAmount, currentDiscount);
+		this.modifiedTenderAmount = calculateAmount(tenderAmount, actualDiscountRate);
 		tfModifiedTenderedAmount = new JTextField(String.valueOf(modifiedTenderAmount));
 		tfModifiedTenderedAmount.setEditable(false);
 		tfModifiedTenderedAmount.setFont(new Font(POSConstants.DEFAULT_FONT_NAME, 1, 20));
@@ -182,6 +184,10 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 
 	public double getModifiedTenderAmount() {
 		return modifiedTenderAmount;
+	}
+
+	public double getActualDiscountRate() {
+		return actualDiscountRate;
 	}
 
 }

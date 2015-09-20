@@ -37,6 +37,9 @@
 		<!-- OUTER TRANSACTION ID  WECHAT and ALIPAY -->
 		<property column="OUTER_TRANSACTION_ID" name="outerTransactionId" type="string" length="60" />
 		
+		<!-- DISCOUNT RATE for 3rd TAKEOUT PLATFORM -->
+		<property column="DISCOUNT_RATE" name="discountRate" type="java.lang.Double" />
+		
 		<!-- a transaction is marked as settled when drawer is resetted -->
 		<property column="DRAWER_RESETTED" index="tran_drawer_resetted" name="drawerResetted" type="java.lang.Boolean" />
 
