@@ -381,6 +381,7 @@ public class POSConstants {
 	public static final String USER_PASS_CONFIRM = Messages.getString("PosMessage.332"); //$NON-NLS-1$
 	public static final String USER_ID_FORMAT = Messages.getString("PosMessage.333"); //$NON-NLS-1$
 	public static final String USER_PASS_FORMAT = Messages.getString("PosMessage.334"); //$NON-NLS-1$
+	public static final String TAKEOUT_PLATFORM_NOT_ENABLED = Messages.getString("PosMessage.335"); //$NON-NLS-1$
 
 	public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
 	public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$

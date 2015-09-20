@@ -73,6 +73,16 @@ public class PaymentTypeSelectionDialog extends POSDialog {
 		onlinePaymentPanel.setBorder(new CompoundBorder(new TitledBorder("在线支付"), new EmptyBorder(10, 10, 10, 10)));
 		content.add(onlinePaymentPanel, "wrap, height 110px, growx");
 		
+		// 外卖平台
+		JPanel takeoutPaymentPanel = new JPanel(new GridLayout(1, 0, 10, 10));
+		takeoutPaymentPanel.add(new PaymentSelectionButton(PaymentType.MEITUAN));
+		takeoutPaymentPanel.add(new PaymentSelectionButton(PaymentType.ELEME));
+		takeoutPaymentPanel.add(new PaymentSelectionButton(PaymentType.DAOJIA));
+		takeoutPaymentPanel.add(new PaymentSelectionButton(PaymentType.LINEZERO));
+		
+		takeoutPaymentPanel.setBorder(new CompoundBorder(new TitledBorder("外卖平台"), new EmptyBorder(10, 10, 10, 10)));
+		content.add(takeoutPaymentPanel, "wrap, height 110px, growx");
+		
 		PosButton cancel = new PosButton("取消");
 		cancel.addActionListener(new ActionListener() {
 			

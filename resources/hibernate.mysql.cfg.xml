@@ -58,5 +58,6 @@
 		<mapping resource="com/floreantpos/model/UserPermission.hbm.xml" />
 		<mapping resource="com/floreantpos/model/UserType.hbm.xml" />
 		<mapping resource="com/floreantpos/model/Generator.hbm.xml" />
+		<mapping resource="com/micropoplar/pos/model/TakeoutPlatform.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

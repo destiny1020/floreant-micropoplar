@@ -10,7 +10,12 @@ public enum PaymentType {
 	
 	WECHAT("微信支付", "wechat.png"),
 	ALIPAY("支付宝", "alipay.png"),
-	UNION_PAY("银联支付", "unionpay.png");
+	UNION_PAY("银联支付", "unionpay.png"),
+	
+	MEITUAN("美团", "meituan.png"),
+	ELEME("饿了么", "eleme.png"),
+	DAOJIA("到家美食会", "daojia.png"),
+	LINEZERO("零号线", "linezero.png");
 
 	private String displayString;
 	private String imageFile;
@@ -51,7 +56,9 @@ public enum PaymentType {
 			return true;
 
 		default:
-			return CardConfig.isSwipeCardSupported() || CardConfig.isManualEntrySupported() || CardConfig.isExtTerminalSupported();
+			// TODO: permission control for the payment
+			return true;
+//			return CardConfig.isSwipeCardSupported() || CardConfig.isManualEntrySupported() || CardConfig.isExtTerminalSupported();
 		}
 	}
 	
@@ -84,6 +91,13 @@ public enum PaymentType {
 				break;
 			case UNION_PAY:
 				transaction = new UnionPayTransaction();
+				break;
+				
+			case MEITUAN:
+			case DAOJIA:
+			case ELEME:
+			case LINEZERO:
+				transaction = new TakeoutTransaction();
 				break;
 			
 			default:

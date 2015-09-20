@@ -35,6 +35,7 @@ import com.floreantpos.model.MerchantGateway;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.Restaurant;
+import com.floreantpos.model.TakeoutTransaction;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketCouponAndDiscount;
 import com.floreantpos.model.TicketType;
@@ -59,7 +60,9 @@ import com.floreantpos.util.POSUtil;
 import com.micropoplar.pos.payment.PaymentResult;
 import com.micropoplar.pos.payment.PreorderBusiness;
 import com.micropoplar.pos.payment.QueryBusiness;
+import com.micropoplar.pos.payment.config.TakeoutPlatformConfig;
 import com.micropoplar.pos.payment.config.WeChatConfig;
+import com.micropoplar.pos.ui.dialog.TakeoutPlatformConfirmDialog;
 
 public class SettleTicketDialog extends POSDialog implements CardInputListener {
 	public static final String LOYALTY_DISCOUNT_PERCENTAGE = "loyalty_discount_percentage";
@@ -267,6 +270,12 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 				break;
 			case UNION_PAY:
 				break;
+			case MEITUAN:
+			case ELEME:
+			case DAOJIA:
+			case LINEZERO:
+				payUsingTakeoutPlatform(transaction, tenderAmount, paymentType);
+				break;
 
 			case CREDIT_VISA:
 			case CREDIT_MASTER_CARD:
@@ -320,6 +329,30 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void payUsingTakeoutPlatform(PosTransaction transaction, double tenderAmount, PaymentType paymentType) {
+		if (!TakeoutPlatformConfig.isPaymentEnabled(paymentType)) {
+			POSMessageDialog.showError(paymentType.getDisplayString() + POSConstants.TAKEOUT_PLATFORM_NOT_ENABLED);
+			return;
+		}
+
+		TakeoutPlatformConfirmDialog confirmDialog = new TakeoutPlatformConfirmDialog(tenderAmount, paymentType);
+		confirmDialog.pack();
+		confirmDialog.open();
+
+		if (confirmDialog.isCanceled()) {
+			return;
+		}
+
+		transaction = new TakeoutTransaction();
+		transaction.setAmount(tenderAmount);
+		transaction.setTenderAmount(confirmDialog.getModifiedTenderAmount());
+		transaction.setPaymentType(paymentType.name());
+		transaction.setTicket(ticket);
+		transaction.setCaptured(true);
+
+		settleTicket(transaction);
 	}
 
 	private void doSettleBarTabTicket(Ticket ticket) {
@@ -397,7 +430,11 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			transactionService.settleTicket(ticket, transaction);
 
 			// FIXME
-			printTicket(ticket, transaction);
+			if(transaction instanceof TakeoutTransaction) {
+				// 外卖订单对于Ticket的特别处理
+			} else {
+				printTicket(ticket, transaction);
+			}
 
 			// remove ticket information in customer view
 			CustomerRootView.getInstance().getCustomerView().transactionCompleted();
