@@ -40,6 +40,7 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketCouponAndDiscount;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.TransactionType;
+import com.floreantpos.model.UnionPayTransaction;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.report.JReportPrintService;
@@ -227,10 +228,10 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 			tenderAmount = paymentView.getTenderedAmount();
 
-			if (ticket.getType() == TicketType.BAR_TAB) {
-				doSettleBarTabTicket(ticket);
-				return;
-			}
+			// if (ticket.getType() == TicketType.BAR_TAB) {
+			// doSettleBarTabTicket(ticket);
+			// return;
+			// }
 
 			PaymentTypeSelectionDialog dialog = new PaymentTypeSelectionDialog();
 			dialog.setResizable(false);
@@ -246,7 +247,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 
 			switch (paymentType) {
 			case CASH:
-				ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog();
+				ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog(POSConstants.CASH_CONFIRM_TITLE);
 				confirmPayDialog.setAmount(tenderAmount);
 				confirmPayDialog.open();
 
@@ -269,6 +270,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 			case ALIPAY:
 				break;
 			case UNION_PAY:
+				payUsingUnionPay(transaction, tenderAmount, paymentType);
 				break;
 			case MEITUAN:
 			case ELEME:
@@ -331,6 +333,24 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		}
 	}
 
+	private void payUsingUnionPay(PosTransaction transaction, double tenderAmount, PaymentType paymentType) {
+		ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog(POSConstants.UNION_PAY_CONFIRM_TITLE);
+		confirmPayDialog.setAmount(tenderAmount);
+		confirmPayDialog.open();
+
+		if (confirmPayDialog.isCanceled()) {
+			return;
+		}
+
+		transaction = new UnionPayTransaction();
+		transaction.setTenderAmount(tenderAmount);
+		transaction.setPaymentType(paymentType.name());
+		transaction.setTicket(ticket);
+		setTransactionAmounts(transaction);
+
+		settleTicket(transaction);
+	}
+
 	private void payUsingTakeoutPlatform(PosTransaction transaction, double tenderAmount, PaymentType paymentType) {
 		if (!TakeoutPlatformConfig.isPaymentEnabled(paymentType)) {
 			POSMessageDialog.showError(paymentType.getDisplayString() + POSConstants.TAKEOUT_PLATFORM_NOT_ENABLED);
@@ -351,75 +371,78 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 		transaction.setPaymentType(paymentType.name());
 		transaction.setDiscountRate(confirmDialog.getActualDiscountRate());
 		transaction.setTicket(ticket);
-		transaction.setCaptured(true);
 
 		settleTicket(transaction);
 	}
 
-	private void doSettleBarTabTicket(Ticket ticket) {
-		ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog();
-		confirmPayDialog.setAmount(tenderAmount);
-		confirmPayDialog.open();
-
-		if (confirmPayDialog.isCanceled()) {
-			return;
-		}
-
-		PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
-		waitDialog.setVisible(true);
-
-		try {
-			String transactionId = ticket.getProperty(Ticket.PROPERTY_CARD_TRANSACTION_ID);
-
-			CreditCardTransaction transaction = new CreditCardTransaction();
-			transaction.setPaymentType(ticket.getProperty(Ticket.PROPERTY_PAYMENT_METHOD));
-			transaction.setTransactionType(TransactionType.CREDIT.name());
-			transaction.setTicket(ticket);
-			transaction.setCardType(ticket.getProperty(Ticket.PROPERTY_CARD_NAME));
-			transaction.setCaptured(false);
-			transaction.setCardMerchantGateway(CardConfig.getMerchantGateway().name());
-			transaction.setCardAuthCode(ticket.getProperty("AuthCode"));
-			transaction.addProperty("AcqRefData", ticket.getProperty("AcqRefData"));
-
-			CardReader cardReader = CardReader.valueOf(ticket.getProperty(Ticket.PROPERTY_CARD_READER));
-
-			if (cardReader == CardReader.SWIPE) {
-				transaction.setCardReader(CardReader.SWIPE.name());
-				transaction.setCardTrack(ticket.getProperty(Ticket.PROPERTY_CARD_TRACKS));
-				transaction.setCardTransactionId(transactionId);
-			} else if (cardReader == CardReader.MANUAL) {
-				transaction.setCardReader(CardReader.MANUAL.name());
-				transaction.setCardTransactionId(transactionId);
-				transaction.setCardNumber(ticket.getProperty(Ticket.PROPERTY_CARD_NUMBER));
-				transaction.setCardExpiryMonth(ticket.getProperty(Ticket.PROPERTY_CARD_EXP_MONTH));
-				transaction.setCardExpiryYear(ticket.getProperty(Ticket.PROPERTY_CARD_EXP_YEAR));
-			} else {
-				transaction.setCardReader(CardReader.EXTERNAL_TERMINAL.name());
-				transaction.setCardAuthCode(ticket.getProperty(Ticket.PROPERTY_CARD_AUTH_CODE));
-			}
-
-			setTransactionAmounts(transaction);
-
-			if (cardReader == CardReader.SWIPE || cardReader == CardReader.MANUAL) {
-				double advanceAmount = Double.parseDouble(
-						ticket.getProperty(Ticket.PROPERTY_ADVANCE_PAYMENT, "" + CardConfig.getMerchantGateway()));
-
-				CardProcessor cardProcessor = CardConfig.getMerchantGateway().getProcessor();
-				if (tenderAmount > advanceAmount) {
-					cardProcessor.voidAmount(transactionId, advanceAmount);
-				}
-
-				cardProcessor.authorizeAmount(transaction);
-			}
-
-			settleTicket(transaction);
-
-		} catch (Exception e) {
-			POSMessageDialog.showError(e.getMessage(), e);
-		} finally {
-			waitDialog.setVisible(false);
-		}
-	}
+	// private void doSettleBarTabTicket(Ticket ticket) {
+	// ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog();
+	// confirmPayDialog.setAmount(tenderAmount);
+	// confirmPayDialog.open();
+	//
+	// if (confirmPayDialog.isCanceled()) {
+	// return;
+	// }
+	//
+	// PaymentProcessWaitDialog waitDialog = new PaymentProcessWaitDialog(this);
+	// waitDialog.setVisible(true);
+	//
+	// try {
+	// String transactionId =
+	// ticket.getProperty(Ticket.PROPERTY_CARD_TRANSACTION_ID);
+	//
+	// CreditCardTransaction transaction = new CreditCardTransaction();
+	// transaction.setPaymentType(ticket.getProperty(Ticket.PROPERTY_PAYMENT_METHOD));
+	// transaction.setTransactionType(TransactionType.CREDIT.name());
+	// transaction.setTicket(ticket);
+	// transaction.setCardType(ticket.getProperty(Ticket.PROPERTY_CARD_NAME));
+	// transaction.setCaptured(false);
+	// transaction.setCardMerchantGateway(CardConfig.getMerchantGateway().name());
+	// transaction.setCardAuthCode(ticket.getProperty("AuthCode"));
+	// transaction.addProperty("AcqRefData", ticket.getProperty("AcqRefData"));
+	//
+	// CardReader cardReader =
+	// CardReader.valueOf(ticket.getProperty(Ticket.PROPERTY_CARD_READER));
+	//
+	// if (cardReader == CardReader.SWIPE) {
+	// transaction.setCardReader(CardReader.SWIPE.name());
+	// transaction.setCardTrack(ticket.getProperty(Ticket.PROPERTY_CARD_TRACKS));
+	// transaction.setCardTransactionId(transactionId);
+	// } else if (cardReader == CardReader.MANUAL) {
+	// transaction.setCardReader(CardReader.MANUAL.name());
+	// transaction.setCardTransactionId(transactionId);
+	// transaction.setCardNumber(ticket.getProperty(Ticket.PROPERTY_CARD_NUMBER));
+	// transaction.setCardExpiryMonth(ticket.getProperty(Ticket.PROPERTY_CARD_EXP_MONTH));
+	// transaction.setCardExpiryYear(ticket.getProperty(Ticket.PROPERTY_CARD_EXP_YEAR));
+	// } else {
+	// transaction.setCardReader(CardReader.EXTERNAL_TERMINAL.name());
+	// transaction.setCardAuthCode(ticket.getProperty(Ticket.PROPERTY_CARD_AUTH_CODE));
+	// }
+	//
+	// setTransactionAmounts(transaction);
+	//
+	// if (cardReader == CardReader.SWIPE || cardReader == CardReader.MANUAL) {
+	// double advanceAmount = Double.parseDouble(
+	// ticket.getProperty(Ticket.PROPERTY_ADVANCE_PAYMENT, "" +
+	// CardConfig.getMerchantGateway()));
+	//
+	// CardProcessor cardProcessor =
+	// CardConfig.getMerchantGateway().getProcessor();
+	// if (tenderAmount > advanceAmount) {
+	// cardProcessor.voidAmount(transactionId, advanceAmount);
+	// }
+	//
+	// cardProcessor.authorizeAmount(transaction);
+	// }
+	//
+	// settleTicket(transaction);
+	//
+	// } catch (Exception e) {
+	// POSMessageDialog.showError(e.getMessage(), e);
+	// } finally {
+	// waitDialog.setVisible(false);
+	// }
+	// }
 
 	public void settleTicket(PosTransaction transaction) {
 		try {
@@ -601,7 +624,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
 					throw new RuntimeException("Invalid card string");
 				}
 
-				ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog();
+				ConfirmPayDialog confirmPayDialog = new ConfirmPayDialog("Swipe Card Confirm");
 				confirmPayDialog.setAmount(tenderAmount);
 				confirmPayDialog.open();
 

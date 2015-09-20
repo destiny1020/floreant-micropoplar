@@ -20,6 +20,9 @@ public class AppConfig {
 	private static final String KITCHEN_PRINT_ON_ORDER_FINISH = "kitchen_print_on_order_finish"; //$NON-NLS-1$
 	private static final String PRINT_RECEIPT_ON_ORDER_SETTLE = "print_receipt_on_order_settle"; //$NON-NLS-1$
 	private static final String PRINT_RECEIPT_ON_ORDER_FINISH = "print_receipt_on_order_finish"; //$NON-NLS-1$
+
+	// PAYMENT KEYS
+	public static final String PAYMENT_UNION_PAY_SUPPORTED = "payment_union_pay_enabled";
 	
 	private static PropertiesConfiguration config;
 	

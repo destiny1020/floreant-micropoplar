@@ -102,6 +102,9 @@
 
 		<subclass discriminator-value="WECHAT_TRANS" name="com.floreantpos.model.WeChatTransaction">
 		</subclass>
+		
+		<subclass discriminator-value="UNION_PAY_TRANS" name="com.floreantpos.model.UnionPayTransaction">
+		</subclass>
 
 		<subclass discriminator-value="TAKEOUT_TRANS" name="com.floreantpos.model.TakeoutTransaction">
 		</subclass>
