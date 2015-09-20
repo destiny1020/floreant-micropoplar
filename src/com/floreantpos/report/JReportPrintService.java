@@ -23,6 +23,7 @@ import com.floreantpos.model.RefundTransaction;
 import com.floreantpos.model.Restaurant;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketType;
+import com.floreantpos.model.dao.PosTransactionDAO;
 import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
@@ -491,9 +492,9 @@ public class JReportPrintService {
 	public static void printTicketToKitchen(Ticket ticket) {
 		Session session = null;
 		Transaction transaction = null;
+		TicketDAO.getInstance().refresh(ticket);
 		try {
 			session = TicketDAO.getInstance().createNewSession();
-			transaction = session.beginTransaction();
 
 			List<KitchenTicket> kitchenTickets = KitchenTicket.fromTicket(ticket);
 
@@ -514,12 +515,8 @@ public class JReportPrintService {
 
 				//markItemsAsPrinted(kitchenTicket);
 			}
-
 			session.saveOrUpdate(ticket);
-			transaction.commit();
-
 		} catch (Exception e) {
-			transaction.rollback();
 			logger.error(com.floreantpos.POSConstants.PRINT_ERROR, e);
 		} finally {
 			session.close();
