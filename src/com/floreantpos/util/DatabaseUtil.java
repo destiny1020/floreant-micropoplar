@@ -32,6 +32,8 @@ import com.floreantpos.model.dao.UserDAO;
 import com.floreantpos.model.dao.UserTypeDAO;
 import com.floreantpos.model.dao._RootDAO;
 import com.floreantpos.model.util.TicketUniqIdGenerator;
+import com.micropoplar.pos.dao.TakeoutPlatformDao;
+import com.micropoplar.pos.model.TakeoutPlatform;
 
 public class DatabaseUtil {
 	private static Log logger = LogFactory.getLog(DatabaseUtil.class);
@@ -117,8 +119,8 @@ public class DatabaseUtil {
 			u.setUserId("123");
 			u.setSsn("123");
 			u.setPassword("1111");
-			u.setFirstName("Administrator");
-			u.setLastName(com.floreantpos.POSConstants.USER);
+//			u.setFirstName("Administrator");
+			u.setLastName("Administrator");
 			u.setType(type);
 
 			UserDAO dao = new UserDAO();
@@ -130,6 +132,14 @@ public class DatabaseUtil {
 			
 			GenDAO genDao = new GenDAO();
 			genDao.saveOrUpdate(gen);
+			
+			// Takeout platform
+			TakeoutPlatformDao tpDao = new TakeoutPlatformDao();
+			
+			tpDao.saveOrUpdate(new TakeoutPlatform("meituan", true, 0.85));
+			tpDao.saveOrUpdate(new TakeoutPlatform("eleme", true, 0.90));
+			tpDao.saveOrUpdate(new TakeoutPlatform("daojia", true, 0.95));
+			tpDao.saveOrUpdate(new TakeoutPlatform("linezero", true, 0.80));
 			
 			if(!exportSampleData) {
 				return true;

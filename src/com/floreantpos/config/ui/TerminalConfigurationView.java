@@ -35,7 +35,7 @@ public class TerminalConfigurationView extends ConfigurationView {
 	//private FixedLengthTextField tfAdminPassword = new FixedLengthTextField(16);
 	
 	private JCheckBox cbEnableDineIn = new JCheckBox("堂食");
-	private JCheckBox cbEnableTakeOut = new JCheckBox("打包");
+	private JCheckBox cbEnableTakeOut = new JCheckBox("外带");
 	private JCheckBox cbEnablePickUp = new JCheckBox("自取");
 	private JCheckBox cbEnableHomeDelivery = new JCheckBox("快递");
 //	private JCheckBox cbEnableDriveThru = new JCheckBox("DRIVE THRU");

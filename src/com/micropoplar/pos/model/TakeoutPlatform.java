@@ -13,8 +13,20 @@ public class TakeoutPlatform {
 	private Boolean enabled;
 	private Double discount;
 
+	public TakeoutPlatform() {
+
+	}
+
+	public TakeoutPlatform(String name, Boolean enabled, Double discount) {
+		super();
+		this.name = name;
+		this.enabled = enabled;
+		this.discount = discount;
+	}
+
 	public String getName() {
 		return name;
+
 	}
 
 	public void setName(String name) {
