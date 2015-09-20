@@ -42,7 +42,7 @@ public abstract class BaseTicketItem  implements Comparable, Serializable {
 	public static String PROP_SUBTOTAL_AMOUNT_WITHOUT_MODIFIERS = "subtotalAmountWithoutModifiers";
 	public static String PROP_TOTAL_AMOUNT_WITHOUT_MODIFIERS = "totalAmountWithoutModifiers";
 	public static String PROP_VIRTUAL_PRINTER = "virtualPrinter";
-
+	public static String PROP_DISCOUNT_OFFSET_AMOUNT = "discountOffsetAmount";
 
 	// constructors
 	public BaseTicketItem () {
@@ -87,7 +87,7 @@ public abstract class BaseTicketItem  implements Comparable, Serializable {
 		protected java.lang.String groupName;
 		protected java.lang.String categoryName;
 		protected java.lang.Double unitPrice;
-		protected java.lang.Double discountRate;
+		protected java.lang.Double discountRate = 1.0; // 1.0 表示没有打折
 		protected java.lang.Double taxRate;
 		protected java.lang.Double subtotalAmount;
 		protected java.lang.Double subtotalAmountWithoutModifiers;
@@ -100,6 +100,7 @@ public abstract class BaseTicketItem  implements Comparable, Serializable {
 		protected java.lang.Boolean shouldPrintToKitchen;
 		protected java.lang.Boolean hasModifiers;
 		protected java.lang.Boolean printedToKitchen;
+		protected java.lang.Double discountOffsetAmount;
 
 	// many to one
 	private com.floreantpos.model.Ticket ticket;
@@ -587,5 +588,12 @@ public abstract class BaseTicketItem  implements Comparable, Serializable {
 		return super.toString();
 	}
 
+	public java.lang.Double getDiscountOffsetAmount() {
+		return discountOffsetAmount;
+	}
+
+	public void setDiscountOffsetAmount(java.lang.Double discountOffsetAmount) {
+		this.discountOffsetAmount = discountOffsetAmount;
+	}
 
 }

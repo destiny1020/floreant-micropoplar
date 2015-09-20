@@ -142,8 +142,8 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 		setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));
 		setSubtotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateSubtotal(false)));
 		setDiscountAmount(NumberUtil.roundToTwoDigit(calculateDiscount()));
-		setTaxAmount(NumberUtil.roundToTwoDigit(calculateTax(true)));
-		setTaxAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTax(false)));
+//		setTaxAmount(NumberUtil.roundToTwoDigit(calculateTax(true)));
+//		setTaxAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTax(false)));
 		setTotalAmount(NumberUtil.roundToTwoDigit(calculateTotal(true)));
 		setTotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTotal(false)));
 	}
@@ -181,44 +181,44 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 
 		double discount = 0;
 		if (discountRate > 0) {
-			discount = subtotalWithoutModifiers * discountRate / 100.0;
+			discount = subtotalWithoutModifiers * (1 - discountRate);
 		}
 
 		return discount;
 	}
 
-	private double calculateTax(boolean includeModifierTax) {
-		double subtotal = 0;
-
-		subtotal = getSubtotalAmountWithoutModifiers();
-
-		double discount = getDiscountAmount();
-
-		subtotal = subtotal - discount;
-
-		double taxRate = getTaxRate();
-		double tax = 0;
-
-		if (taxRate > 0) {
-			if (priceIncludesTax) {
-				tax = subtotal - (subtotal / (1 + (taxRate / 100.0)));
-			}
-			else {
-				tax = subtotal * (taxRate / 100.0);
-			}
-		}
-
-		if (includeModifierTax) {
-			List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
-			if (ticketItemModifierGroups != null) {
-				for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-					tax += ticketItemModifierGroup.getTax();
-				}
-			}
-		}
-
-		return tax;
-	}
+//	private double calculateTax(boolean includeModifierTax) {
+//		double subtotal = 0;
+//
+//		subtotal = getSubtotalAmountWithoutModifiers();
+//
+//		double discount = getDiscountAmount();
+//
+//		subtotal = subtotal - discount;
+//
+//		double taxRate = getTaxRate();
+//		double tax = 0;
+//
+//		if (taxRate > 0) {
+//			if (priceIncludesTax) {
+//				tax = subtotal - (subtotal / (1 + (taxRate / 100.0)));
+//			}
+//			else {
+//				tax = subtotal * (taxRate / 100.0);
+//			}
+//		}
+//
+//		if (includeModifierTax) {
+//			List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
+//			if (ticketItemModifierGroups != null) {
+//				for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
+//					tax += ticketItemModifierGroup.getTax();
+//				}
+//			}
+//		}
+//
+//		return tax;
+//	}
 
 	private double calculateTotal(boolean includeModifiers) {
 		double total = 0;
@@ -228,7 +228,8 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 				total = getSubtotalAmount() - getDiscountAmount();
 			}
 			else {
-				total = getSubtotalAmount() - getDiscountAmount() + getTaxAmount();
+//				total = getSubtotalAmount() - getDiscountAmount() + getTaxAmount();
+				total = getSubtotalAmount() - getDiscountAmount();
 			}
 		}
 		else {
@@ -236,7 +237,8 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
 			}
 			else {
-				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount() + getTaxAmountWithoutModifiers();
+//				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount() + getTaxAmountWithoutModifiers();
+				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
 			}
 		}
 
