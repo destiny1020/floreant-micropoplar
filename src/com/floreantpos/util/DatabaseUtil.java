@@ -136,10 +136,10 @@ public class DatabaseUtil {
 			// Takeout platform
 			TakeoutPlatformDao tpDao = new TakeoutPlatformDao();
 			
-			tpDao.saveOrUpdate(new TakeoutPlatform("meituan", true, 0.85));
-			tpDao.saveOrUpdate(new TakeoutPlatform("eleme", true, 0.90));
-			tpDao.saveOrUpdate(new TakeoutPlatform("daojia", true, 0.95));
-			tpDao.saveOrUpdate(new TakeoutPlatform("linezero", true, 0.80));
+			tpDao.saveOrUpdate(new TakeoutPlatform("meituan", true, 8.5));
+			tpDao.saveOrUpdate(new TakeoutPlatform("eleme", true, 9.0));
+			tpDao.saveOrUpdate(new TakeoutPlatform("daojia", true, 9.5));
+			tpDao.saveOrUpdate(new TakeoutPlatform("linezero", true, 8.0));
 			
 			if(!exportSampleData) {
 				return true;

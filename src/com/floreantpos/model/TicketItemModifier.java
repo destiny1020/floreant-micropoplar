@@ -215,4 +215,9 @@ public class TicketItemModifier extends BaseTicketItemModifier implements ITicke
 	public String getItemCode() {
 		return "";
 	}
+
+	@Override
+	public Double getDiscountAmount() {
+		return 0.0;
+	}
 }

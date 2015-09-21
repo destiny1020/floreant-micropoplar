@@ -125,7 +125,7 @@ public class PosTransactionService {
 			double totalPrice = 0.0;
 			for (TicketItem item : ticketItems) {
 				item.setDiscountRate(discountRate);
-				item.calculatePrice();
+				item.calculatePrice(true);
 				totalPrice += item.getTotalAmountWithoutModifiers();
 			}
 

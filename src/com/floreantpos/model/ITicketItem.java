@@ -10,6 +10,8 @@ public interface ITicketItem {
 	Double getUnitPriceDisplay();
 
 	Integer getItemCountDisplay();
+	
+	Double getDiscountAmount();
 
 	Double getTaxAmountWithoutModifiersDisplay();
 

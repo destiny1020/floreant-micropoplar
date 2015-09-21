@@ -24,9 +24,7 @@ public class TicketViewerTableModel extends AbstractTableModel {
 
 	private boolean priceIncludesTax = false;
 	
-	//protected String[] excludingTaxColumnNames = { "Item", "U/Price", "Unit", "Tax", "Price" };
-	protected String[] excludingTaxColumnNames = { "商品", "单价", "数量", "商品总价" };
-	protected String[] includingTaxColumnNames = { "Item", "U/Price", "Unit", "Price" };
+	protected String[] includingTaxColumnNames = { "商品", "单价", "数量", "折扣金额", "商品总价" };
 
 	private boolean forReciptPrint;
 	private boolean printCookingInstructions;
@@ -55,20 +53,12 @@ public class TicketViewerTableModel extends AbstractTableModel {
 	}
 
 	public int getColumnCount() {
-		if(priceIncludesTax) {
-			return includingTaxColumnNames.length;
-		}
-		
-		return excludingTaxColumnNames.length;
+		return includingTaxColumnNames.length;
 	}
 
 	@Override
 	public String getColumnName(int column) {
-		if(priceIncludesTax) {
 			return includingTaxColumnNames[column];
-		}
-		
-		return excludingTaxColumnNames[column];
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -84,18 +74,14 @@ public class TicketViewerTableModel extends AbstractTableModel {
 
 			case 1:
 				return ticketItem.getUnitPriceDisplay();
-
+				
 			case 2:
 				return ticketItem.getItemCountDisplay();
 
-//			case 3:
-//				if(priceIncludesTax) {
-//					return ticketItem.getTotalAmountWithoutModifiersDisplay();
-//				}
-//				
-//				return ticketItem.getTaxAmountWithoutModifiersDisplay();
-
 			case 3:
+				return ticketItem.getDiscountAmount();
+				
+			case 4:
 				return ticketItem.getTotalAmountWithoutModifiersDisplay();
 		}
 

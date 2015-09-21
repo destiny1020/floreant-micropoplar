@@ -129,7 +129,7 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 		return ticketItemModifierGroup;
 	}
 
-	public void calculatePrice() {
+	public void calculatePrice(boolean needDiscount) {
 		priceIncludesTax = Application.getInstance().isPriceIncludesTax();
 
 		List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
@@ -141,7 +141,9 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 
 		setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));
 		setSubtotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateSubtotal(false)));
-		setDiscountAmount(NumberUtil.roundToTwoDigit(calculateDiscount()));
+		if(needDiscount) {
+			setDiscountAmount(NumberUtil.roundToTwoDigit(calculateDiscount()));
+		}
 //		setTaxAmount(NumberUtil.roundToTwoDigit(calculateTax(true)));
 //		setTaxAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTax(false)));
 		setTotalAmount(NumberUtil.roundToTwoDigit(calculateTotal(true)));
@@ -181,7 +183,7 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
 
 		double discount = 0;
 		if (discountRate > 0) {
-			discount = subtotalWithoutModifiers * (1 - discountRate);
+			discount = NumberUtil.roundToTwoDigit(subtotalWithoutModifiers * (100 - discountRate * 10) / 100.0);
 		}
 
 		return discount;

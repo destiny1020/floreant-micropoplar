@@ -62,4 +62,9 @@ public class TicketItemCookingInstruction extends BaseTicketItemCookingInstructi
 	public String getItemCode() {
 		return "";
 	}
+
+	@Override
+	public Double getDiscountAmount() {
+		return 0.0;
+	}
 }

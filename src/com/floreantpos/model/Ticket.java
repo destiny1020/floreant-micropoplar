@@ -216,8 +216,14 @@ public class Ticket extends BaseTicket {
 			return;
 		}
 
+		// check whether has member information
+		boolean hasMemberInfo = false;
+		if(StringUtils.isNotBlank(this.getProperty(Ticket.CUSTOMER_PHONE))) {
+			hasMemberInfo = true;
+		}
+		
 		for (TicketItem ticketItem : ticketItems) {
-			ticketItem.calculatePrice();
+			ticketItem.calculatePrice(hasMemberInfo);
 		}
 
 		double subtotalAmount = calculateSubtotalAmount();

@@ -681,5 +681,9 @@ public class TicketView extends JPanel {
 		setBorder(BorderFactory.createTitledBorder(null, String.format("订单 [ %s ]", ticket.getUniqId()),
 				TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
 		tfCustomerPhone.setText(ticket.getProperty(Ticket.CUSTOMER_PHONE));
+		
+		// recalculate the ticket items prices information
+		ticket.calculatePrice();
+		updateView();
 	}
 }

@@ -75,12 +75,12 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 		paymentPanel.add(lblCurrentDiscount, "cell 0 1");
 
 		this.actualDiscountRate = TakeoutPlatformConfig.getPaymentDiscount(paymentType);
-		JSpinner spinCurrentDiscount = new JSpinner(new SpinnerNumberModel(actualDiscountRate, 0.0, 1.0, 0.01));
+		JSpinner spinCurrentDiscount = new JSpinner(new SpinnerNumberModel(actualDiscountRate, 0.0, 10.0, 0.1));
 		spinCurrentDiscount.setEnabled(true);
 
 		// 设置输入格式以及校验
 		spinCurrentDiscount.setInputVerifier(new DiscountVerifier());
-		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinCurrentDiscount, "0.00");
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinCurrentDiscount, "0.0");
 		spinCurrentDiscount.setEditor(editor);
 		JFormattedTextField textField = ((JSpinner.NumberEditor) spinCurrentDiscount.getEditor()).getTextField();
 		textField.setEditable(true);
@@ -156,7 +156,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 	}
 
 	private double calculateAmount(double amount, double discount) {
-		return NumberUtil.roundToTwoDigit(amount * discount);
+		return NumberUtil.roundToTwoDigit(amount * discount / 10);
 	}
 
 	class DiscountVerifier extends InputVerifier {
@@ -166,7 +166,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 			try {
 				Double discountValue = Double.valueOf((String) spinner.getValue());
 
-				if (discountValue > 1.0 || discountValue < 0.0) {
+				if (discountValue > 10.0 || discountValue < 0.0) {
 					return false;
 				}
 
