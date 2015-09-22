@@ -8,53 +8,53 @@ package com.micropoplar.pos.model;
  */
 public class TakeoutPlatform {
 
-	private Integer id;
-	private String name;
-	private Boolean enabled;
-	private Double discount;
+  private Integer id;
+  private String name;
+  private Boolean enabled;
+  private Double discount;
 
-	public TakeoutPlatform() {
+  public TakeoutPlatform() {
 
-	}
+  }
 
-	public TakeoutPlatform(String name, Boolean enabled, Double discount) {
-		super();
-		this.name = name;
-		this.enabled = enabled;
-		this.discount = discount;
-	}
+  public TakeoutPlatform(String name, Boolean enabled, Double discount) {
+    super();
+    this.name = name;
+    this.enabled = enabled;
+    this.discount = discount;
+  }
 
-	public String getName() {
-		return name;
+  public String getName() {
+    return name;
 
-	}
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
+  public Boolean getEnabled() {
+    return enabled;
+  }
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
 
-	public Double getDiscount() {
-		return discount;
-	}
+  public Double getDiscount() {
+    return discount;
+  }
 
-	public void setDiscount(Double discount) {
-		this.discount = discount;
-	}
+  public void setDiscount(Double discount) {
+    this.discount = discount;
+  }
 
-	public Integer getId() {
-		return id;
-	}
+  public Integer getId() {
+    return id;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
 }

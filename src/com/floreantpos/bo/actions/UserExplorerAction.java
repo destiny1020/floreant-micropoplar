@@ -11,32 +11,31 @@ import com.floreantpos.bo.ui.explorer.UserExplorer;
 
 public class UserExplorerAction extends AbstractAction {
 
-	public UserExplorerAction() {
-		super(com.floreantpos.POSConstants.USERS);
-	}
+  public UserExplorerAction() {
+    super(com.floreantpos.POSConstants.USERS);
+  }
 
-	public UserExplorerAction(String name) {
-		super(name);
-	}
+  public UserExplorerAction(String name) {
+    super(name);
+  }
 
-	public UserExplorerAction(String name, Icon icon) {
-		super(name, icon);
-	}
+  public UserExplorerAction(String name, Icon icon) {
+    super(name, icon);
+  }
 
-	public void actionPerformed(ActionEvent e) {
-		BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
-		
-		UserExplorer explorer = null;
-		JTabbedPane tabbedPane = backOfficeWindow.getTabbedPane();
-		int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.USER_EXPLORER);
-		if (index == -1) {
-			explorer = new UserExplorer();
-			tabbedPane.addTab(com.floreantpos.POSConstants.USER_EXPLORER, explorer);
-		}
-		else {
-			explorer = (UserExplorer) tabbedPane.getComponentAt(index);
-		}
-		tabbedPane.setSelectedComponent(explorer);
-	}
+  public void actionPerformed(ActionEvent e) {
+    BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
+
+    UserExplorer explorer = null;
+    JTabbedPane tabbedPane = backOfficeWindow.getTabbedPane();
+    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.USER_EXPLORER);
+    if (index == -1) {
+      explorer = new UserExplorer();
+      tabbedPane.addTab(com.floreantpos.POSConstants.USER_EXPLORER, explorer);
+    } else {
+      explorer = (UserExplorer) tabbedPane.getComponentAt(index);
+    }
+    tabbedPane.setSelectedComponent(explorer);
+  }
 
 }

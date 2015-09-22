@@ -18,284 +18,282 @@ import com.floreantpos.model.TicketItemModifier;
 import com.floreantpos.model.TicketItemModifierGroup;
 
 public class TicketViewerTableModel extends AbstractTableModel {
-	private JTable table;
-	protected Ticket ticket;
-	protected final HashMap<String, ITicketItem> tableRows = new LinkedHashMap<String, ITicketItem>();
+  private JTable table;
+  protected Ticket ticket;
+  protected final HashMap<String, ITicketItem> tableRows = new LinkedHashMap<String, ITicketItem>();
 
-	private boolean priceIncludesTax = false;
-	
-	protected String[] includingTaxColumnNames = { "商品", "单价", "数量", "折扣金额", "商品总价" };
+  private boolean priceIncludesTax = false;
 
-	private boolean forReciptPrint;
-	private boolean printCookingInstructions;
+  protected String[] includingTaxColumnNames = {"商品", "单价", "数量", "折扣金额", "商品总价"};
 
-	public TicketViewerTableModel(JTable table) {
-		this(table, null);
-	}
+  private boolean forReciptPrint;
+  private boolean printCookingInstructions;
 
-	public TicketViewerTableModel(JTable table, Ticket ticket) {
-		this.table = table;
-		setTicket(ticket);
-	}
+  public TicketViewerTableModel(JTable table) {
+    this(table, null);
+  }
 
-	public int getItemCount() {
-		return tableRows.size();
-	}
+  public TicketViewerTableModel(JTable table, Ticket ticket) {
+    this.table = table;
+    setTicket(ticket);
+  }
 
-	public int getRowCount() {
-		int size = tableRows.size();
-		
-		return size;
-	}
+  public int getItemCount() {
+    return tableRows.size();
+  }
 
-	public int getActualRowCount() {
-		return tableRows.size();
-	}
+  public int getRowCount() {
+    int size = tableRows.size();
 
-	public int getColumnCount() {
-		return includingTaxColumnNames.length;
-	}
+    return size;
+  }
 
-	@Override
-	public String getColumnName(int column) {
-			return includingTaxColumnNames[column];
-	}
+  public int getActualRowCount() {
+    return tableRows.size();
+  }
 
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		ITicketItem ticketItem = tableRows.get(String.valueOf(rowIndex));
-		
-		if(ticketItem == null) {
-			return null;
-		}
+  public int getColumnCount() {
+    return includingTaxColumnNames.length;
+  }
 
-		switch (columnIndex) {
-			case 0:
-				return ticketItem.getNameDisplay();
+  @Override
+  public String getColumnName(int column) {
+    return includingTaxColumnNames[column];
+  }
 
-			case 1:
-				return ticketItem.getUnitPriceDisplay();
-				
-			case 2:
-				return ticketItem.getItemCountDisplay();
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    ITicketItem ticketItem = tableRows.get(String.valueOf(rowIndex));
 
-			case 3:
-				return ticketItem.getDiscountAmount();
-				
-			case 4:
-				return ticketItem.getTotalAmountWithoutModifiersDisplay();
-		}
+    if (ticketItem == null) {
+      return null;
+    }
 
-		return null;
-	}
+    switch (columnIndex) {
+      case 0:
+        return ticketItem.getNameDisplay();
 
-	private void calculateRows() {
-		TicketItemRowCreator.calculateTicketRows(ticket, tableRows);
-	}
+      case 1:
+        return ticketItem.getUnitPriceDisplay();
 
-	public int addTicketItem(TicketItem ticketItem) {
+      case 2:
+        return ticketItem.getItemCountDisplay();
 
-		if (ticketItem.isHasModifiers()) {
-			return addTicketItemToTicket(ticketItem);
-		}
+      case 3:
+        return ticketItem.getDiscountAmount();
 
-		Set<Entry<String, ITicketItem>> entries = tableRows.entrySet();
-		for (Entry<String, ITicketItem> entry : entries) {
+      case 4:
+        return ticketItem.getTotalAmountWithoutModifiersDisplay();
+    }
 
-			if (!(entry.getValue() instanceof TicketItem)) {
-				continue;
-			}
+    return null;
+  }
 
-			TicketItem t = (TicketItem) entry.getValue();
+  private void calculateRows() {
+    TicketItemRowCreator.calculateTicketRows(ticket, tableRows);
+  }
 
-			if (ticketItem.getName().equals(t.getName()) && !t.isPrintedToKitchen()) {
-				t.setItemCount(t.getItemCount() + 1);
+  public int addTicketItem(TicketItem ticketItem) {
 
-				table.repaint();
+    if (ticketItem.isHasModifiers()) {
+      return addTicketItemToTicket(ticketItem);
+    }
 
-				return Integer.parseInt(entry.getKey());
-			}
-		}
+    Set<Entry<String, ITicketItem>> entries = tableRows.entrySet();
+    for (Entry<String, ITicketItem> entry : entries) {
 
-		return addTicketItemToTicket(ticketItem);
-	}
+      if (!(entry.getValue() instanceof TicketItem)) {
+        continue;
+      }
 
-	private int addTicketItemToTicket(TicketItem ticketItem) {
-		ticket.addToticketItems(ticketItem);
-		calculateRows();
-		fireTableDataChanged();
+      TicketItem t = (TicketItem) entry.getValue();
 
-		return tableRows.size() - 1;
-	}
+      if (ticketItem.getName().equals(t.getName()) && !t.isPrintedToKitchen()) {
+        t.setItemCount(t.getItemCount() + 1);
 
-	public void addAllTicketItem(TicketItem ticketItem) {
-		if (ticketItem.isHasModifiers()) {
-			List<TicketItem> ticketItems = ticket.getTicketItems();
-			ticketItems.add(ticketItem);
+        table.repaint();
 
-			calculateRows();
-			fireTableDataChanged();
-		}
-		else {
-			List<TicketItem> ticketItems = ticket.getTicketItems();
-			boolean exists = false;
-			for (TicketItem item : ticketItems) {
-				if (item.getName().equals(ticketItem.getName())) {
-					int itemCount = item.getItemCount();
-					itemCount += ticketItem.getItemCount();
-					item.setItemCount(itemCount);
-					exists = true;
-					table.repaint();
-					return;
-				}
-			}
-			if (!exists) {
-				ticket.addToticketItems(ticketItem);
-				calculateRows();
-				fireTableDataChanged();
-			}
-		}
-	}
+        return Integer.parseInt(entry.getKey());
+      }
+    }
 
-	public boolean containsTicketItem(TicketItem ticketItem) {
-		if (ticketItem.isHasModifiers())
-			return false;
+    return addTicketItemToTicket(ticketItem);
+  }
 
-		List<TicketItem> ticketItems = ticket.getTicketItems();
-		for (TicketItem item : ticketItems) {
-			if (item.getName().equals(ticketItem.getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
+  private int addTicketItemToTicket(TicketItem ticketItem) {
+    ticket.addToticketItems(ticketItem);
+    calculateRows();
+    fireTableDataChanged();
 
-	public void removeModifier(TicketItem parent, TicketItemModifier modifierToDelete) {
-		TicketItemModifierGroup ticketItemModifierGroup = modifierToDelete.getParent();
-		List<TicketItemModifier> ticketItemModifiers = ticketItemModifierGroup.getTicketItemModifiers();
+    return tableRows.size() - 1;
+  }
 
-		for (Iterator iter = ticketItemModifiers.iterator(); iter.hasNext();) {
-			TicketItemModifier modifier = (TicketItemModifier) iter.next();
-			if (modifier.getItemId() == modifierToDelete.getItemId()) {
-				iter.remove();
+  public void addAllTicketItem(TicketItem ticketItem) {
+    if (ticketItem.isHasModifiers()) {
+      List<TicketItem> ticketItems = ticket.getTicketItems();
+      ticketItems.add(ticketItem);
 
-				if (modifier.isPrintedToKitchen()) {
-					ticket.addDeletedItems(modifier);
-				}
+      calculateRows();
+      fireTableDataChanged();
+    } else {
+      List<TicketItem> ticketItems = ticket.getTicketItems();
+      boolean exists = false;
+      for (TicketItem item : ticketItems) {
+        if (item.getName().equals(ticketItem.getName())) {
+          int itemCount = item.getItemCount();
+          itemCount += ticketItem.getItemCount();
+          item.setItemCount(itemCount);
+          exists = true;
+          table.repaint();
+          return;
+        }
+      }
+      if (!exists) {
+        ticket.addToticketItems(ticketItem);
+        calculateRows();
+        fireTableDataChanged();
+      }
+    }
+  }
 
-				calculateRows();
-				fireTableDataChanged();
-				return;
-			}
-		}
-	}
+  public boolean containsTicketItem(TicketItem ticketItem) {
+    if (ticketItem.isHasModifiers())
+      return false;
 
-	public Object delete(int index) {
-		if (index < 0 || index >= tableRows.size())
-			return null;
+    List<TicketItem> ticketItems = ticket.getTicketItems();
+    for (TicketItem item : ticketItems) {
+      if (item.getName().equals(ticketItem.getName())) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-		Object object = tableRows.get(String.valueOf(index));
-		if (object instanceof TicketItem) {
-			TicketItem ticketItem = (TicketItem) object;
-			int rowNum = ticketItem.getTableRowNum();
+  public void removeModifier(TicketItem parent, TicketItemModifier modifierToDelete) {
+    TicketItemModifierGroup ticketItemModifierGroup = modifierToDelete.getParent();
+    List<TicketItemModifier> ticketItemModifiers = ticketItemModifierGroup.getTicketItemModifiers();
 
-			List<TicketItem> ticketItems = ticket.getTicketItems();
-			for (Iterator iter = ticketItems.iterator(); iter.hasNext();) {
-				TicketItem item = (TicketItem) iter.next();
-				if (item.getTableRowNum() == rowNum) {
-					iter.remove();
+    for (Iterator iter = ticketItemModifiers.iterator(); iter.hasNext();) {
+      TicketItemModifier modifier = (TicketItemModifier) iter.next();
+      if (modifier.getItemId() == modifierToDelete.getItemId()) {
+        iter.remove();
 
-					if (item.isPrintedToKitchen()) {
-						ticket.addDeletedItems(item);
-					}
+        if (modifier.isPrintedToKitchen()) {
+          ticket.addDeletedItems(modifier);
+        }
 
-					break;
-				}
-			}
-		}
-		else if (object instanceof TicketItemModifier) {
-			TicketItemModifier itemModifier = (TicketItemModifier) object;
-			TicketItemModifierGroup ticketItemModifierGroup = itemModifier.getParent();
-			List<TicketItemModifier> ticketItemModifiers = ticketItemModifierGroup.getTicketItemModifiers();
+        calculateRows();
+        fireTableDataChanged();
+        return;
+      }
+    }
+  }
 
-			if (ticketItemModifiers != null) {
-				for (Iterator iterator = ticketItemModifiers.iterator(); iterator.hasNext();) {
-					TicketItemModifier element = (TicketItemModifier) iterator.next();
-					if (itemModifier.getTableRowNum() == element.getTableRowNum()) {
-						iterator.remove();
+  public Object delete(int index) {
+    if (index < 0 || index >= tableRows.size())
+      return null;
 
-						if (element.isPrintedToKitchen()) {
-							ticket.addDeletedItems(element);
-						}
-					}
-				}
-			}
-		}
-		else if (object instanceof TicketItemCookingInstruction) {
-			TicketItemCookingInstruction cookingInstruction = (TicketItemCookingInstruction) object;
-			int tableRowNum = cookingInstruction.getTableRowNum();
+    Object object = tableRows.get(String.valueOf(index));
+    if (object instanceof TicketItem) {
+      TicketItem ticketItem = (TicketItem) object;
+      int rowNum = ticketItem.getTableRowNum();
 
-			TicketItem ticketItem = null;
-			while (tableRowNum > 0) {
-				Object object2 = tableRows.get(String.valueOf(--tableRowNum));
-				if (object2 instanceof TicketItem) {
-					ticketItem = (TicketItem) object2;
-					break;
-				}
-			}
+      List<TicketItem> ticketItems = ticket.getTicketItems();
+      for (Iterator iter = ticketItems.iterator(); iter.hasNext();) {
+        TicketItem item = (TicketItem) iter.next();
+        if (item.getTableRowNum() == rowNum) {
+          iter.remove();
 
-			if (ticketItem != null) {
-				ticketItem.removeCookingInstruction(cookingInstruction);
-			}
-		}
+          if (item.isPrintedToKitchen()) {
+            ticket.addDeletedItems(item);
+          }
 
-		calculateRows();
-		fireTableDataChanged();
-		return object;
-	}
+          break;
+        }
+      }
+    } else if (object instanceof TicketItemModifier) {
+      TicketItemModifier itemModifier = (TicketItemModifier) object;
+      TicketItemModifierGroup ticketItemModifierGroup = itemModifier.getParent();
+      List<TicketItemModifier> ticketItemModifiers =
+          ticketItemModifierGroup.getTicketItemModifiers();
 
-	public Object get(int index) {
-		if (index < 0 || index >= tableRows.size())
-			return null;
+      if (ticketItemModifiers != null) {
+        for (Iterator iterator = ticketItemModifiers.iterator(); iterator.hasNext();) {
+          TicketItemModifier element = (TicketItemModifier) iterator.next();
+          if (itemModifier.getTableRowNum() == element.getTableRowNum()) {
+            iterator.remove();
 
-		return tableRows.get(String.valueOf(index));
-	}
+            if (element.isPrintedToKitchen()) {
+              ticket.addDeletedItems(element);
+            }
+          }
+        }
+      }
+    } else if (object instanceof TicketItemCookingInstruction) {
+      TicketItemCookingInstruction cookingInstruction = (TicketItemCookingInstruction) object;
+      int tableRowNum = cookingInstruction.getTableRowNum();
 
-	public Ticket getTicket() {
-		return ticket;
-	}
+      TicketItem ticketItem = null;
+      while (tableRowNum > 0) {
+        Object object2 = tableRows.get(String.valueOf(--tableRowNum));
+        if (object2 instanceof TicketItem) {
+          ticketItem = (TicketItem) object2;
+          break;
+        }
+      }
 
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
+      if (ticketItem != null) {
+        ticketItem.removeCookingInstruction(cookingInstruction);
+      }
+    }
 
-		update();
-	}
+    calculateRows();
+    fireTableDataChanged();
+    return object;
+  }
 
-	public void update() {
-		calculateRows();
-		fireTableDataChanged();
-	}
+  public Object get(int index) {
+    if (index < 0 || index >= tableRows.size())
+      return null;
 
-	public boolean isForReciptPrint() {
-		return forReciptPrint;
-	}
+    return tableRows.get(String.valueOf(index));
+  }
 
-	public void setForReciptPrint(boolean forReciptPrint) {
-		this.forReciptPrint = forReciptPrint;
-	}
+  public Ticket getTicket() {
+    return ticket;
+  }
 
-	public boolean isPrintCookingInstructions() {
-		return printCookingInstructions;
-	}
+  public void setTicket(Ticket ticket) {
+    this.ticket = ticket;
 
-	public void setPrintCookingInstructions(boolean printCookingInstructions) {
-		this.printCookingInstructions = printCookingInstructions;
-	}
+    update();
+  }
 
-	public boolean isPriceIncludesTax() {
-		return priceIncludesTax;
-	}
+  public void update() {
+    calculateRows();
+    fireTableDataChanged();
+  }
 
-	public void setPriceIncludesTax(boolean priceIncludesTax) {
-		this.priceIncludesTax = priceIncludesTax;
-	}
+  public boolean isForReciptPrint() {
+    return forReciptPrint;
+  }
+
+  public void setForReciptPrint(boolean forReciptPrint) {
+    this.forReciptPrint = forReciptPrint;
+  }
+
+  public boolean isPrintCookingInstructions() {
+    return printCookingInstructions;
+  }
+
+  public void setPrintCookingInstructions(boolean printCookingInstructions) {
+    this.printCookingInstructions = printCookingInstructions;
+  }
+
+  public boolean isPriceIncludesTax() {
+    return priceIncludesTax;
+  }
+
+  public void setPriceIncludesTax(boolean priceIncludesTax) {
+    this.priceIncludesTax = priceIncludesTax;
+  }
 }

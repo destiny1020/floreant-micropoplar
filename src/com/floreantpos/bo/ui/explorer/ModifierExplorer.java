@@ -22,163 +22,170 @@ import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuModifierForm;
 
 public class ModifierExplorer extends TransparentPanel {
-	private List<MenuModifier> modifierList;
-	ModifierExplorerTableModel tableModel;
-	private String currencySymbol;
-	private JTable table;
+  private List<MenuModifier> modifierList;
+  ModifierExplorerTableModel tableModel;
+  private String currencySymbol;
+  private JTable table;
 
-	public ModifierExplorer() {
-		currencySymbol = Application.getCurrencySymbol();
-		
-		ModifierDAO dao = new ModifierDAO();
-		modifierList = dao.findAll();
+  public ModifierExplorer() {
+    currencySymbol = Application.getCurrencySymbol();
 
-		tableModel = new ModifierExplorerTableModel();
-		table = new JTable(tableModel);
-		table.setDefaultRenderer(Object.class, new PosTableRenderer());
-		//table.packAll();
-		
-		setLayout(new BorderLayout(5, 5));
-		add(new JScrollPane(table));
+    ModifierDAO dao = new ModifierDAO();
+    modifierList = dao.findAll();
 
-		TransparentPanel panel = new TransparentPanel();
-		ExplorerButtonPanel explorerButton = new ExplorerButtonPanel();
-		JButton editButton = explorerButton.getEditButton();
-		JButton addButton = explorerButton.getAddButton();
-		JButton deleteButton = explorerButton.getDeleteButton();
+    tableModel = new ModifierExplorerTableModel();
+    table = new JTable(tableModel);
+    table.setDefaultRenderer(Object.class, new PosTableRenderer());
+    // table.packAll();
 
-		editButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					int index = table.getSelectedRow();
-					if (index < 0)
-						return;
-					MenuModifier modifier = modifierList.get(index);
+    setLayout(new BorderLayout(5, 5));
+    add(new JScrollPane(table));
 
-					MenuModifierForm editor = new MenuModifierForm(modifier);
-					BeanEditorDialog dialog = new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
-					dialog.open();
-					if (dialog.isCanceled())
-						return;
+    TransparentPanel panel = new TransparentPanel();
+    ExplorerButtonPanel explorerButton = new ExplorerButtonPanel();
+    JButton editButton = explorerButton.getEditButton();
+    JButton addButton = explorerButton.getAddButton();
+    JButton deleteButton = explorerButton.getDeleteButton();
 
-					table.repaint();
-				} catch (Throwable x) {
-				BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
-				}
-			}
-		});
+    editButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int index = table.getSelectedRow();
+          if (index < 0)
+            return;
+          MenuModifier modifier = modifierList.get(index);
 
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					MenuModifierForm editor = new MenuModifierForm();
-					BeanEditorDialog dialog = new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
-					dialog.open();
-					if (dialog.isCanceled())
-						return;
-					MenuModifier modifier = (MenuModifier) editor.getBean();
-					tableModel.addModifier(modifier);
-				} catch (Throwable x) {
-				BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
-				}
-			}
+          MenuModifierForm editor = new MenuModifierForm(modifier);
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled())
+            return;
 
-		});
+          table.repaint();
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
+      }
+    });
 
-		deleteButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					int index = table.getSelectedRow();
-					if (index < 0)
-						return;
-					if (ConfirmDeleteDialog.showMessage(ModifierExplorer.this, com.floreantpos.POSConstants.CONFIRM_DELETE, com.floreantpos.POSConstants.DELETE) != ConfirmDeleteDialog.NO) {
-						MenuModifier category = modifierList.get(index);
-						ModifierDAO modifierDAO = new ModifierDAO();
-						modifierDAO.delete(category);
-						tableModel.deleteModifier(category, index);
-					}
-				} catch (Throwable x) {
-				BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
-				}
+    addButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
+          MenuModifierForm editor = new MenuModifierForm();
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled())
+            return;
+          MenuModifier modifier = (MenuModifier) editor.getBean();
+          tableModel.addModifier(modifier);
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
+      }
 
-			}
+    });
 
-		});
+    deleteButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int index = table.getSelectedRow();
+          if (index < 0)
+            return;
+          if (ConfirmDeleteDialog.showMessage(ModifierExplorer.this,
+              com.floreantpos.POSConstants.CONFIRM_DELETE,
+              com.floreantpos.POSConstants.DELETE) != ConfirmDeleteDialog.NO) {
+            MenuModifier category = modifierList.get(index);
+            ModifierDAO modifierDAO = new ModifierDAO();
+            modifierDAO.delete(category);
+            tableModel.deleteModifier(category, index);
+          }
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
 
-		panel.add(addButton);
-		panel.add(editButton);
-		panel.add(deleteButton);
-		add(panel, BorderLayout.SOUTH);
-	}
+      }
 
-	class ModifierExplorerTableModel extends AbstractTableModel {
-		String[] columnNames = {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME, com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")", com.floreantpos.POSConstants.EXTRA_PRICE, com.floreantpos.POSConstants.TAX + "(%)", com.floreantpos.POSConstants.MODIFIER_GROUP }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    });
 
-		public int getRowCount() {
-			if (modifierList == null) {
-				return 0;
-			}
-			return modifierList.size();
-		}
+    panel.add(addButton);
+    panel.add(editButton);
+    panel.add(deleteButton);
+    add(panel, BorderLayout.SOUTH);
+  }
 
-		public int getColumnCount() {
-			return columnNames.length;
-		}
+  class ModifierExplorerTableModel extends AbstractTableModel {
+    String[] columnNames = {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
+        com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")", //$NON-NLS-1$ //$NON-NLS-2$
+        com.floreantpos.POSConstants.EXTRA_PRICE, com.floreantpos.POSConstants.TAX + "(%)", //$NON-NLS-1$
+        com.floreantpos.POSConstants.MODIFIER_GROUP};
 
-		@Override
-		public String getColumnName(int column) {
-			return columnNames[column];
-		}
+    public int getRowCount() {
+      if (modifierList == null) {
+        return 0;
+      }
+      return modifierList.size();
+    }
 
-		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return false;
-		}
+    public int getColumnCount() {
+      return columnNames.length;
+    }
 
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			if (modifierList == null)
-				return ""; //$NON-NLS-1$
+    @Override
+    public String getColumnName(int column) {
+      return columnNames[column];
+    }
 
-			MenuModifier modifier = modifierList.get(rowIndex);
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+      return false;
+    }
 
-			switch (columnIndex) {
-				case 0:
-					return String.valueOf(modifier.getId());
+    public Object getValueAt(int rowIndex, int columnIndex) {
+      if (modifierList == null)
+        return ""; //$NON-NLS-1$
 
-				case 1:
-					return String.valueOf(modifier.getName());
+      MenuModifier modifier = modifierList.get(rowIndex);
 
-				case 2:
-					return Double.valueOf(modifier.getPrice());
-					
-				case 3:
-					return Double.valueOf(modifier.getExtraPrice());
-					
-				case 4:
-					if(modifier.getTax() == null) {
-						return ""; //$NON-NLS-1$
-					}
-					return Double.valueOf(modifier.getTax().getRate());
-					
-				case 5:
-					if(modifier.getModifierGroup() == null) {
-						return ""; //$NON-NLS-1$
-					}
-					return modifier.getModifierGroup().getName();
-			}
-			return null;
-		}
+      switch (columnIndex) {
+        case 0:
+          return String.valueOf(modifier.getId());
 
-		public void addModifier(MenuModifier category) {
-			int size = modifierList.size();
-			modifierList.add(category);
-			fireTableRowsInserted(size, size);
+        case 1:
+          return String.valueOf(modifier.getName());
 
-		}
+        case 2:
+          return Double.valueOf(modifier.getPrice());
 
-		public void deleteModifier(MenuModifier category, int index) {
-			modifierList.remove(category);
-			fireTableRowsDeleted(index, index);
-		}
-	}
+        case 3:
+          return Double.valueOf(modifier.getExtraPrice());
+
+        case 4:
+          if (modifier.getTax() == null) {
+            return ""; //$NON-NLS-1$
+          }
+          return Double.valueOf(modifier.getTax().getRate());
+
+        case 5:
+          if (modifier.getModifierGroup() == null) {
+            return ""; //$NON-NLS-1$
+          }
+          return modifier.getModifierGroup().getName();
+      }
+      return null;
+    }
+
+    public void addModifier(MenuModifier category) {
+      int size = modifierList.size();
+      modifierList.add(category);
+      fireTableRowsInserted(size, size);
+
+    }
+
+    public void deleteModifier(MenuModifier category, int index) {
+      modifierList.remove(category);
+      fireTableRowsDeleted(index, index);
+    }
+  }
 }

@@ -6,146 +6,144 @@ import java.util.List;
 import com.floreantpos.model.base.BaseTicketItemModifierGroup;
 
 public class TicketItemModifierGroup extends BaseTicketItemModifierGroup {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/* [CONSTRUCTOR MARKER BEGIN] */
-	public TicketItemModifierGroup() {
-		super();
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public TicketItemModifierGroup() {
+    super();
+  }
 
-	/**
-	 * Constructor for primary key
-	 */
-	public TicketItemModifierGroup(java.lang.Integer id) {
-		super(id);
-	}
+  /**
+   * Constructor for primary key
+   */
+  public TicketItemModifierGroup(java.lang.Integer id) {
+    super(id);
+  }
 
-	/* [CONSTRUCTOR MARKER END] */
+  /* [CONSTRUCTOR MARKER END] */
 
-	public int countItems(boolean excludeNoModifier) {
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		if (ticketItemModifiers == null)
-			return 0;
+  public int countItems(boolean excludeNoModifier) {
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    if (ticketItemModifiers == null)
+      return 0;
 
-		int count = 0;
-		for (TicketItemModifier modifier : ticketItemModifiers) {
-			if (excludeNoModifier) {
-				if (modifier.getModifierType() != TicketItemModifier.NO_MODIFIER) {
-					count += modifier.getItemCount();
-				}
-			}
-			else {
-				if (modifier.getModifierType() == TicketItemModifier.NO_MODIFIER) {
-					count++;
-				}
-				else {
-					count += modifier.getItemCount();
-				}
-			}
-		}
-		return count;
-	}
+    int count = 0;
+    for (TicketItemModifier modifier : ticketItemModifiers) {
+      if (excludeNoModifier) {
+        if (modifier.getModifierType() != TicketItemModifier.NO_MODIFIER) {
+          count += modifier.getItemCount();
+        }
+      } else {
+        if (modifier.getModifierType() == TicketItemModifier.NO_MODIFIER) {
+          count++;
+        } else {
+          count += modifier.getItemCount();
+        }
+      }
+    }
+    return count;
+  }
 
-	public TicketItemModifier findTicketItemModifier(MenuModifier modifier) {
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		if (ticketItemModifiers == null) {
-			return null;
-		}
-		else {
-			for (TicketItemModifier ticketItemModifier : ticketItemModifiers) {
-				if (modifier.getId().equals(ticketItemModifier.getItemId())) {
-					return ticketItemModifier;
-				}
-			}
-		}
+  public TicketItemModifier findTicketItemModifier(MenuModifier modifier) {
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    if (ticketItemModifiers == null) {
+      return null;
+    } else {
+      for (TicketItemModifier ticketItemModifier : ticketItemModifiers) {
+        if (modifier.getId().equals(ticketItemModifier.getItemId())) {
+          return ticketItemModifier;
+        }
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public TicketItemModifier addTicketItemModifier(MenuModifier menuModifier, int modifierType) {
-		TicketItemModifier ticketItemModifier = new TicketItemModifier();
-		ticketItemModifier.setItemId(menuModifier.getId());
-		ticketItemModifier.setGroupId(menuModifier.getModifierGroup().getId());
-		ticketItemModifier.setItemCount(1);
-		ticketItemModifier.setName(menuModifier.getName());
-		ticketItemModifier.setUnitPrice(menuModifier.getPrice());
-		ticketItemModifier.setExtraUnitPrice(menuModifier.getExtraPrice());
-		ticketItemModifier.setTaxRate(menuModifier.getTax() == null ? 0 : menuModifier.getTax().getRate());
-		ticketItemModifier.setModifierType(modifierType);
-		ticketItemModifier.setShouldPrintToKitchen(menuModifier.isShouldPrintToKitchen());
-		ticketItemModifier.setParent(this);
+  public TicketItemModifier addTicketItemModifier(MenuModifier menuModifier, int modifierType) {
+    TicketItemModifier ticketItemModifier = new TicketItemModifier();
+    ticketItemModifier.setItemId(menuModifier.getId());
+    ticketItemModifier.setGroupId(menuModifier.getModifierGroup().getId());
+    ticketItemModifier.setItemCount(1);
+    ticketItemModifier.setName(menuModifier.getName());
+    ticketItemModifier.setUnitPrice(menuModifier.getPrice());
+    ticketItemModifier.setExtraUnitPrice(menuModifier.getExtraPrice());
+    ticketItemModifier
+        .setTaxRate(menuModifier.getTax() == null ? 0 : menuModifier.getTax().getRate());
+    ticketItemModifier.setModifierType(modifierType);
+    ticketItemModifier.setShouldPrintToKitchen(menuModifier.isShouldPrintToKitchen());
+    ticketItemModifier.setParent(this);
 
-		addToticketItemModifiers(ticketItemModifier);
+    addToticketItemModifiers(ticketItemModifier);
 
-		return ticketItemModifier;
-	}
+    return ticketItemModifier;
+  }
 
-	public TicketItemModifier removeTicketItemModifier(TicketItemModifier ticketItemModifier) {
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		if (ticketItemModifiers == null)
-			return ticketItemModifier;
+  public TicketItemModifier removeTicketItemModifier(TicketItemModifier ticketItemModifier) {
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    if (ticketItemModifiers == null)
+      return ticketItemModifier;
 
-		for (Iterator iter = ticketItemModifiers.iterator(); iter.hasNext();) {
-			TicketItemModifier oldTicketItemModifier = (TicketItemModifier) iter.next();
-			if (oldTicketItemModifier.getItemId().equals(ticketItemModifier.getItemId())) {
-				iter.remove();
-				return oldTicketItemModifier;
-			}
-		}
-		return ticketItemModifier;
-	}
-	
-	public void calculatePrice() {
-		if (getTicketItemModifiers() == null) {
-			return;
-		}
+    for (Iterator iter = ticketItemModifiers.iterator(); iter.hasNext();) {
+      TicketItemModifier oldTicketItemModifier = (TicketItemModifier) iter.next();
+      if (oldTicketItemModifier.getItemId().equals(ticketItemModifier.getItemId())) {
+        iter.remove();
+        return oldTicketItemModifier;
+      }
+    }
+    return ticketItemModifier;
+  }
 
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		for (TicketItemModifier modifier : ticketItemModifiers) {
-			modifier.calculatePrice();
-		}
-	}
+  public void calculatePrice() {
+    if (getTicketItemModifiers() == null) {
+      return;
+    }
 
-	public double getSubtotal() {
-		if (getTicketItemModifiers() == null) {
-			return 0;
-		}
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    for (TicketItemModifier modifier : ticketItemModifiers) {
+      modifier.calculatePrice();
+    }
+  }
 
-		double subtotal = 0;
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		for (TicketItemModifier modifier : ticketItemModifiers) {
-			subtotal += modifier.getSubTotalAmount();
-		}
-		return subtotal;
-	}
+  public double getSubtotal() {
+    if (getTicketItemModifiers() == null) {
+      return 0;
+    }
 
-	public double getTax() {
-		double tax = 0;
-		if (getTicketItemModifiers() == null) {
-			return tax;
-		}
+    double subtotal = 0;
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    for (TicketItemModifier modifier : ticketItemModifiers) {
+      subtotal += modifier.getSubTotalAmount();
+    }
+    return subtotal;
+  }
 
-		List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
-		for (TicketItemModifier modifier : ticketItemModifiers) {
-			tax += modifier.getTaxAmount();
-		}
-		
-		return tax;
-	}
+  public double getTax() {
+    double tax = 0;
+    if (getTicketItemModifiers() == null) {
+      return tax;
+    }
 
-	public double getTotal() {
-		return getSubtotal() + getTax();
-	}
+    List<TicketItemModifier> ticketItemModifiers = getTicketItemModifiers();
+    for (TicketItemModifier modifier : ticketItemModifiers) {
+      tax += modifier.getTaxAmount();
+    }
 
-	public void setPrintedToKitchen(boolean print) {
-		List<TicketItemModifier> modifiers = getTicketItemModifiers();
+    return tax;
+  }
 
-		if (modifiers != null) {
-			for (TicketItemModifier modifier : modifiers) {
-				if (!modifier.isPrintedToKitchen()) {
-					modifier.setPrintedToKitchen(true);
-				}
-			}
-		}
-	}
+  public double getTotal() {
+    return getSubtotal() + getTax();
+  }
+
+  public void setPrintedToKitchen(boolean print) {
+    List<TicketItemModifier> modifiers = getTicketItemModifiers();
+
+    if (modifiers != null) {
+      for (TicketItemModifier modifier : modifiers) {
+        if (!modifier.isPrintedToKitchen()) {
+          modifier.setPrintedToKitchen(true);
+        }
+      }
+    }
+  }
 }

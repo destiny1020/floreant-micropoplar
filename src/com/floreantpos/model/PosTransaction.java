@@ -10,109 +10,104 @@ import com.floreantpos.util.POSUtil;
 
 
 public class PosTransaction extends BasePosTransaction {
-	private static final long serialVersionUID = 1L;
-	
-/*[CONSTRUCTOR MARKER BEGIN]*/
-	public PosTransaction () {
-		super();
-	}
+  private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructor for primary key
-	 */
-	public PosTransaction (java.lang.Integer id) {
-		super(id);
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public PosTransaction() {
+    super();
+  }
 
-	/**
-	 * Constructor for required fields
-	 */
-	public PosTransaction (
-		java.lang.Integer id,
-		java.lang.String transactionType,
-		java.lang.String paymentType) {
+  /**
+   * Constructor for primary key
+   */
+  public PosTransaction(java.lang.Integer id) {
+    super(id);
+  }
 
-		super (
-			id,
-			transactionType,
-			paymentType);
-	}
+  /**
+   * Constructor for required fields
+   */
+  public PosTransaction(java.lang.Integer id, java.lang.String transactionType,
+      java.lang.String paymentType) {
 
-/*[CONSTRUCTOR MARKER END]*/
-	
-	@Override
-	public String getTransactionType() {
-		String type = super.getTransactionType();
-		
-		if(StringUtils.isEmpty(type)) {
-			return TransactionType.CREDIT.name();
-		}
-		
-		return type;
-	}
-	
-	public void updateTerminalBalance() {
-		Terminal terminal = getTerminal();
-		if(terminal == null) {
-			return;
-		}
-		
-		Double amount = getAmount();
-		if(amount == null || amount == 0) {
-			return;
-		}
-		
-		double terminalBalance = terminal.getCurrentBalance();
-		
-		TransactionType transactionType = TransactionType.valueOf(getTransactionType());
-		switch (transactionType) {
-			case CREDIT:
-				terminalBalance += amount;
-				break;
-				
-			case DEBIT:
-				terminalBalance -= amount;
-		}
-		
-		terminal.setCurrentBalance(terminalBalance);
-	}
+    super(id, transactionType, paymentType);
+  }
 
-	public boolean isCard() {
-		return (this instanceof CreditCardTransaction) || (this instanceof DebitCardTransaction);
-	}
-	
-	public void addProperty(String name, String value) {
-		if (getProperties() == null) {
-			setProperties(new HashMap<String, String>());
-		}
+  /* [CONSTRUCTOR MARKER END] */
 
-		getProperties().put(name, value);
-	}
+  @Override
+  public String getTransactionType() {
+    String type = super.getTransactionType();
 
-	public boolean hasProperty(String key) {
-		return getProperty(key) != null;
-	}
+    if (StringUtils.isEmpty(type)) {
+      return TransactionType.CREDIT.name();
+    }
 
-	public String getProperty(String key) {
-		if (getProperties() == null) {
-			return null;
-		}
+    return type;
+  }
 
-		return getProperties().get(key);
-	}
-	
-	public boolean isPropertyValueTrue(String propertyName) {
-		String property = getProperty(propertyName);
-		
-		return POSUtil.getBoolean(property);
-	}
-	
-	public Double calculateTotalAmount() {
-		return getAmount() + getTipsAmount();
-	}
-	
-	public Double calculateAuthorizeAmount() {
-		return getTenderAmount() + getTenderAmount() * 0.2;
-	}
-	
+  public void updateTerminalBalance() {
+    Terminal terminal = getTerminal();
+    if (terminal == null) {
+      return;
+    }
+
+    Double amount = getAmount();
+    if (amount == null || amount == 0) {
+      return;
+    }
+
+    double terminalBalance = terminal.getCurrentBalance();
+
+    TransactionType transactionType = TransactionType.valueOf(getTransactionType());
+    switch (transactionType) {
+      case CREDIT:
+        terminalBalance += amount;
+        break;
+
+      case DEBIT:
+        terminalBalance -= amount;
+    }
+
+    terminal.setCurrentBalance(terminalBalance);
+  }
+
+  public boolean isCard() {
+    return (this instanceof CreditCardTransaction) || (this instanceof DebitCardTransaction);
+  }
+
+  public void addProperty(String name, String value) {
+    if (getProperties() == null) {
+      setProperties(new HashMap<String, String>());
+    }
+
+    getProperties().put(name, value);
+  }
+
+  public boolean hasProperty(String key) {
+    return getProperty(key) != null;
+  }
+
+  public String getProperty(String key) {
+    if (getProperties() == null) {
+      return null;
+    }
+
+    return getProperties().get(key);
+  }
+
+  public boolean isPropertyValueTrue(String propertyName) {
+    String property = getProperty(propertyName);
+
+    return POSUtil.getBoolean(property);
+  }
+
+  public Double calculateTotalAmount() {
+    return getAmount() + getTipsAmount();
+  }
+
+  public Double calculateAuthorizeAmount() {
+    return getTenderAmount() + getTenderAmount() * 0.2;
+  }
+
 }

@@ -19,194 +19,195 @@ import com.floreantpos.model.dao.VirtualPrinterDAO;
 
 @XmlRootElement(name = "printers")
 public class PosPrinters {
-	private String reportPrinter;
-	private String receiptPrinter;
-	
-//	private Printer defaultReceiptPrinter;
-	private Printer defaultKitchenPrinter;
-	
-	//private List<Printer> receiptPrinters;
-	private List<Printer> kitchenPrinters;
-	
-	//private Map<VirtualPrinter, Printer> receiptPrinterMap = new HashMap<VirtualPrinter, Printer>();
-	private Map<VirtualPrinter, Printer> kitchePrinterMap = new HashMap<VirtualPrinter, Printer>();
+  private String reportPrinter;
+  private String receiptPrinter;
 
-	public String getReportPrinter() {
-		return reportPrinter;
-	}
+  // private Printer defaultReceiptPrinter;
+  private Printer defaultKitchenPrinter;
 
-	public void setReportPrinter(String reportPrinter) {
-		this.reportPrinter = reportPrinter;
-	}
-	
-	public String getReceiptPrinter() {
-		return receiptPrinter;
-	}
-	
-	public void setReceiptPrinter(String receiptPrinter) {
-		this.receiptPrinter = receiptPrinter;
-	}
+  // private List<Printer> receiptPrinters;
+  private List<Printer> kitchenPrinters;
 
-//	public List<Printer> getReceiptPrinters() {
-//		if (receiptPrinters == null) {
-//			receiptPrinters = new ArrayList<Printer>(2);
-//		}
-//
-//		return receiptPrinters;
-//	}
-//
-//	public void setReceiptPrinters(List<Printer> receiptPrinters) {
-//		this.receiptPrinters = receiptPrinters;
-//	}
+  // private Map<VirtualPrinter, Printer> receiptPrinterMap = new HashMap<VirtualPrinter,
+  // Printer>();
+  private Map<VirtualPrinter, Printer> kitchePrinterMap = new HashMap<VirtualPrinter, Printer>();
 
-	public List<Printer> getKitchenPrinters() {
-		if (kitchenPrinters == null) {
-			kitchenPrinters = new ArrayList<Printer>(2);
-		}
+  public String getReportPrinter() {
+    return reportPrinter;
+  }
 
-		return kitchenPrinters;
-	}
+  public void setReportPrinter(String reportPrinter) {
+    this.reportPrinter = reportPrinter;
+  }
 
-	public void setKitchenPrinters(List<Printer> kitchenPrinters) {
-		this.kitchenPrinters = kitchenPrinters;
-	}
+  public String getReceiptPrinter() {
+    return receiptPrinter;
+  }
 
-//	public void addReceiptPrinter(Printer printer) {
-//		getReceiptPrinters().add(printer);
-//	}
+  public void setReceiptPrinter(String receiptPrinter) {
+    this.receiptPrinter = receiptPrinter;
+  }
 
-	public void addKitchenPrinter(Printer printer) {
-		getKitchenPrinters().add(printer);
-	}
-	
-//	public void setDefaultReceiptPrinter(Printer defaultReceiptPrinter) {
-//		this.defaultReceiptPrinter = defaultReceiptPrinter;
-//	}
-	
-//	public Printer getDefaultReceiptPrinter() {
-//		if(defaultReceiptPrinter == null && getReceiptPrinters().size() > 0) {
-//			defaultReceiptPrinter = receiptPrinters.get(0);
-//			
-//			for (Printer printer : receiptPrinters) {
-//				if(printer.isDefaultPrinter()) {
-//					defaultReceiptPrinter = printer;
-//					break;
-//				}
-//			}
-//		}
-//		
-//		return defaultReceiptPrinter;
-//	}
-	
-	public void setDefaultKitchenPrinter(Printer defaultKitchenPrinter) {
-		this.defaultKitchenPrinter = defaultKitchenPrinter;
-	}
-	
-	public Printer getDefaultKitchenPrinter() {
-		if(defaultKitchenPrinter == null && getKitchenPrinters().size() > 0) {
-			defaultKitchenPrinter = kitchenPrinters.get(0);
-			
-			for (Printer printer : kitchenPrinters) {
-				if(printer.isDefaultPrinter()) {
-					defaultKitchenPrinter = printer;
-					break;
-				}
-			}
-		}
-		
-		return defaultKitchenPrinter;
-	}
-	
-//	public Printer getReceiptPrinterFor(VirtualPrinter vp) {
-//		return receiptPrinterMap.get(vp);
-//	}
-	
-	public Printer getKitchenPrinterFor(VirtualPrinter vp) {
-		return kitchePrinterMap.get(vp);
-	}
-	
-	private void populatePrinterMaps() {
-		//receiptPrinterMap.clear();
-		kitchePrinterMap.clear();
-		
-//		for (Printer printer : getReceiptPrinters()) {
-//			receiptPrinterMap.put(printer.getVirtualPrinter(), printer);
-//		}
-		
-		for (Printer printer : getKitchenPrinters()) {
-			kitchePrinterMap.put(printer.getVirtualPrinter(), printer);
-		}
-	}
+  // public List<Printer> getReceiptPrinters() {
+  // if (receiptPrinters == null) {
+  // receiptPrinters = new ArrayList<Printer>(2);
+  // }
+  //
+  // return receiptPrinters;
+  // }
+  //
+  // public void setReceiptPrinters(List<Printer> receiptPrinters) {
+  // this.receiptPrinters = receiptPrinters;
+  // }
 
-	public void save() {
-		try {
-//			getDefaultReceiptPrinter();
-			getDefaultKitchenPrinter();
-			
-			populatePrinterMaps();
-			
-			File file = new File("config", "printers.xml");
+  public List<Printer> getKitchenPrinters() {
+    if (kitchenPrinters == null) {
+      kitchenPrinters = new ArrayList<Printer>(2);
+    }
 
-			JAXBContext jaxbContext = JAXBContext.newInstance(PosPrinters.class);
-			Marshaller m = jaxbContext.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			//m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+    return kitchenPrinters;
+  }
 
-			StringWriter writer = new StringWriter();
-			m.marshal(this, writer);
+  public void setKitchenPrinters(List<Printer> kitchenPrinters) {
+    this.kitchenPrinters = kitchenPrinters;
+  }
 
-			FileUtils.write(file, writer.toString());
+  // public void addReceiptPrinter(Printer printer) {
+  // getReceiptPrinters().add(printer);
+  // }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+  public void addKitchenPrinter(Printer printer) {
+    getKitchenPrinters().add(printer);
+  }
 
-	public static PosPrinters load() {
-		try {
+  // public void setDefaultReceiptPrinter(Printer defaultReceiptPrinter) {
+  // this.defaultReceiptPrinter = defaultReceiptPrinter;
+  // }
 
-			File file = new File("config", "printers.xml");
-			if (!file.exists()) {
-				return null;
-			}
+  // public Printer getDefaultReceiptPrinter() {
+  // if(defaultReceiptPrinter == null && getReceiptPrinters().size() > 0) {
+  // defaultReceiptPrinter = receiptPrinters.get(0);
+  //
+  // for (Printer printer : receiptPrinters) {
+  // if(printer.isDefaultPrinter()) {
+  // defaultReceiptPrinter = printer;
+  // break;
+  // }
+  // }
+  // }
+  //
+  // return defaultReceiptPrinter;
+  // }
 
-			FileReader reader = new FileReader(file);
+  public void setDefaultKitchenPrinter(Printer defaultKitchenPrinter) {
+    this.defaultKitchenPrinter = defaultKitchenPrinter;
+  }
 
-			JAXBContext jaxbContext = JAXBContext.newInstance(PosPrinters.class);
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			PosPrinters printers = (PosPrinters) unmarshaller.unmarshal(reader);
-			
-			printers.populatePrinterMaps();
-			
-			initVirtualPrinter(printers.defaultKitchenPrinter);
-			
-			List<Printer> kitchenPrinters2 = printers.kitchenPrinters;
-			for (Printer printer : kitchenPrinters2) {
-				initVirtualPrinter(printer);
-			}
+  public Printer getDefaultKitchenPrinter() {
+    if (defaultKitchenPrinter == null && getKitchenPrinters().size() > 0) {
+      defaultKitchenPrinter = kitchenPrinters.get(0);
 
-			return printers;
+      for (Printer printer : kitchenPrinters) {
+        if (printer.isDefaultPrinter()) {
+          defaultKitchenPrinter = printer;
+          break;
+        }
+      }
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    return defaultKitchenPrinter;
+  }
 
-		return null;
-	}
-	
-	private static void initVirtualPrinter(Printer printer) {
-		if(printer == null) return;
-		
-		VirtualPrinter virtualPrinter = printer.getVirtualPrinter();
-		
-		VirtualPrinterDAO dao = VirtualPrinterDAO.getInstance();
-		VirtualPrinter printerByName = dao.findPrinterByName(virtualPrinter.getName());
-		if(printerByName != null) {
-			printer.setVirtualPrinter(printerByName);
-		}
-		else {
-			dao.saveOrUpdate(virtualPrinter);
-		}
-	}
+  // public Printer getReceiptPrinterFor(VirtualPrinter vp) {
+  // return receiptPrinterMap.get(vp);
+  // }
+
+  public Printer getKitchenPrinterFor(VirtualPrinter vp) {
+    return kitchePrinterMap.get(vp);
+  }
+
+  private void populatePrinterMaps() {
+    // receiptPrinterMap.clear();
+    kitchePrinterMap.clear();
+
+    // for (Printer printer : getReceiptPrinters()) {
+    // receiptPrinterMap.put(printer.getVirtualPrinter(), printer);
+    // }
+
+    for (Printer printer : getKitchenPrinters()) {
+      kitchePrinterMap.put(printer.getVirtualPrinter(), printer);
+    }
+  }
+
+  public void save() {
+    try {
+      // getDefaultReceiptPrinter();
+      getDefaultKitchenPrinter();
+
+      populatePrinterMaps();
+
+      File file = new File("config", "printers.xml");
+
+      JAXBContext jaxbContext = JAXBContext.newInstance(PosPrinters.class);
+      Marshaller m = jaxbContext.createMarshaller();
+      m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+      // m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+
+      StringWriter writer = new StringWriter();
+      m.marshal(this, writer);
+
+      FileUtils.write(file, writer.toString());
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static PosPrinters load() {
+    try {
+
+      File file = new File("config", "printers.xml");
+      if (!file.exists()) {
+        return null;
+      }
+
+      FileReader reader = new FileReader(file);
+
+      JAXBContext jaxbContext = JAXBContext.newInstance(PosPrinters.class);
+      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+      PosPrinters printers = (PosPrinters) unmarshaller.unmarshal(reader);
+
+      printers.populatePrinterMaps();
+
+      initVirtualPrinter(printers.defaultKitchenPrinter);
+
+      List<Printer> kitchenPrinters2 = printers.kitchenPrinters;
+      for (Printer printer : kitchenPrinters2) {
+        initVirtualPrinter(printer);
+      }
+
+      return printers;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  private static void initVirtualPrinter(Printer printer) {
+    if (printer == null)
+      return;
+
+    VirtualPrinter virtualPrinter = printer.getVirtualPrinter();
+
+    VirtualPrinterDAO dao = VirtualPrinterDAO.getInstance();
+    VirtualPrinter printerByName = dao.findPrinterByName(virtualPrinter.getName());
+    if (printerByName != null) {
+      printer.setVirtualPrinter(printerByName);
+    } else {
+      dao.saveOrUpdate(virtualPrinter);
+    }
+  }
 
 }

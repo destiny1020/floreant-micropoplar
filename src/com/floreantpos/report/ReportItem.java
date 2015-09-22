@@ -1,63 +1,63 @@
 package com.floreantpos.report;
 
 public class ReportItem {
-	private String id;
-	private String name;
-	private double price;
-	private int quantity;
-	private double taxRate;
-	private double total;
-	
-	public ReportItem() {
-		super();
-	}
+  private String id;
+  private String name;
+  private double price;
+  private int quantity;
+  private double taxRate;
+  private double total;
 
-	public String getName() {
-		return name;
-	}
+  public ReportItem() {
+    super();
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public int getQuantity() {
-		return quantity;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+  public int getQuantity() {
+    return quantity;
+  }
 
-	public double getTaxRate() {
-		return taxRate;
-	}
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 
-	public void setTaxRate(double taxRate) {
-		this.taxRate = taxRate;
-	}
+  public double getTaxRate() {
+    return taxRate;
+  }
 
-	public double getTotal() {
-		return total;
-	}
+  public void setTaxRate(double taxRate) {
+    this.taxRate = taxRate;
+  }
 
-	public void setTotal(double total) {
-		this.total = total;
-	}
+  public double getTotal() {
+    return total;
+  }
 
-	public double getPrice() {
-		return price;
-	}
+  public void setTotal(double total) {
+    this.total = total;
+  }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+  public double getPrice() {
+    return price;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public void setPrice(double price) {
+    this.price = price;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
 }

@@ -22,62 +22,63 @@ import com.floreantpos.util.ShiftUtil;
 
 public class AutoDrawerPullAction implements ActionListener {
 
-	public void actionPerformed(ActionEvent e) {
-		PosWindow posWindow = Application.getPosWindow();
-		try {
-			RestaurantDAO restaurantDAO = RestaurantDAO.getInstance();
-			Restaurant restaurant = restaurantDAO.get(Integer.valueOf(1));
-			if(!restaurant.isAutoDrawerPullEnable()) {
-				return;
-			}
-			Calendar currentTime = Calendar.getInstance();
-			
-			int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
-			int currentMin = currentTime.get(Calendar.MINUTE);
-			
-			if(currentHour >= restaurant.getDrawerPullHour() && currentMin >= restaurant.getDrawerPullMin() 
-					&& currentMin < restaurant.getDrawerPullMin() + 1) {
-				
-			}
-			else {
-				return;
-			}
-			//((GlassPane) posWindow.getGlassPane()).setMessage(com.floreantpos.POSConstants.PERFORMING_AUTO_DRAWER_PULL);
-			posWindow.setGlassPaneVisible(true);
-			DrawerPullReport report = DrawerpullReportService.buildDrawerPullReport();
+  public void actionPerformed(ActionEvent e) {
+    PosWindow posWindow = Application.getPosWindow();
+    try {
+      RestaurantDAO restaurantDAO = RestaurantDAO.getInstance();
+      Restaurant restaurant = restaurantDAO.get(Integer.valueOf(1));
+      if (!restaurant.isAutoDrawerPullEnable()) {
+        return;
+      }
+      Calendar currentTime = Calendar.getInstance();
 
-			TerminalDAO dao = new TerminalDAO();
-			Terminal terminal = Application.getInstance().getTerminal();
-			dao.resetCashDrawer(report, terminal, null);
-			
-			Shift currentShift = ShiftUtil.getCurrentShift();
-			
-			UserDAO userDAO = new UserDAO();
-			List<User> loggedInUsers = userDAO.getClockedInUser(terminal);
-			for (User user : loggedInUsers) {
-				AttendenceHistoryDAO attendenceHistoryDAO = new AttendenceHistoryDAO();
+      int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+      int currentMin = currentTime.get(Calendar.MINUTE);
 
-				AttendenceHistory attendenceHistory = attendenceHistoryDAO.findHistoryByClockedInTime(user);
-				if (attendenceHistory == null) {
-					attendenceHistory = new AttendenceHistory();
-					Date lastClockInTime = user.getLastClockInTime();
-					Calendar c = Calendar.getInstance();
-					c.setTime(lastClockInTime);
-					attendenceHistory.setClockInTime(lastClockInTime);
-					attendenceHistory.setClockInHour(Short.valueOf((short) c.get(Calendar.HOUR)));
-					attendenceHistory.setUser(user);
-					attendenceHistory.setTerminal(terminal);
-					attendenceHistory.setShift(user.getCurrentShift());
-				}
+      if (currentHour >= restaurant.getDrawerPullHour()
+          && currentMin >= restaurant.getDrawerPullMin()
+          && currentMin < restaurant.getDrawerPullMin() + 1) {
 
-				user.doClockOut(attendenceHistory, currentShift, currentTime);
-				user.doClockIn(terminal, currentShift, currentTime);
-			}
-		} catch (Exception ex) {
-			POSMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, ex);
-		} finally {
-			posWindow.setGlassPaneVisible(false);
-		}
-	}
+      } else {
+        return;
+      }
+      // ((GlassPane)
+      // posWindow.getGlassPane()).setMessage(com.floreantpos.POSConstants.PERFORMING_AUTO_DRAWER_PULL);
+      posWindow.setGlassPaneVisible(true);
+      DrawerPullReport report = DrawerpullReportService.buildDrawerPullReport();
+
+      TerminalDAO dao = new TerminalDAO();
+      Terminal terminal = Application.getInstance().getTerminal();
+      dao.resetCashDrawer(report, terminal, null);
+
+      Shift currentShift = ShiftUtil.getCurrentShift();
+
+      UserDAO userDAO = new UserDAO();
+      List<User> loggedInUsers = userDAO.getClockedInUser(terminal);
+      for (User user : loggedInUsers) {
+        AttendenceHistoryDAO attendenceHistoryDAO = new AttendenceHistoryDAO();
+
+        AttendenceHistory attendenceHistory = attendenceHistoryDAO.findHistoryByClockedInTime(user);
+        if (attendenceHistory == null) {
+          attendenceHistory = new AttendenceHistory();
+          Date lastClockInTime = user.getLastClockInTime();
+          Calendar c = Calendar.getInstance();
+          c.setTime(lastClockInTime);
+          attendenceHistory.setClockInTime(lastClockInTime);
+          attendenceHistory.setClockInHour(Short.valueOf((short) c.get(Calendar.HOUR)));
+          attendenceHistory.setUser(user);
+          attendenceHistory.setTerminal(terminal);
+          attendenceHistory.setShift(user.getCurrentShift());
+        }
+
+        user.doClockOut(attendenceHistory, currentShift, currentTime);
+        user.doClockIn(terminal, currentShift, currentTime);
+      }
+    } catch (Exception ex) {
+      POSMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, ex);
+    } finally {
+      posWindow.setGlassPaneVisible(false);
+    }
+  }
 
 }

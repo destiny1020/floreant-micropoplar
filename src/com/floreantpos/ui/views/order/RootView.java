@@ -10,77 +10,77 @@ import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.payment.SettleTicketDialog;
 
 public class RootView extends com.floreantpos.swing.TransparentPanel {
-	private CardLayout layout = new CardLayout();
-	
-	private LoginScreen loginScreen;
-	private SwitchboardView switchboardView;
-	private OrderView orderView;
-	private SettleTicketDialog paymentView;
+  private CardLayout layout = new CardLayout();
 
-	
-	private static RootView instance;
-	
-	private RootView() {
-		setLayout(layout);
-		setBorder(new EmptyBorder(3,3,3,3));
-		
-		loginScreen = new LoginScreen();
-		addView(LoginScreen.VIEW_NAME, loginScreen);
-		
-		switchboardView = new SwitchboardView();
-		addView(SwitchboardView.VIEW_NAME, switchboardView);
-		
-		orderView = OrderView.getInstance();
-		orderView.init();
-		addView(OrderView.VIEW_NAME, orderView);
-		
-		//paymentView = SettleTicketView.getInstance();
-		//addView(SettleTicketView.VIEW_NAME, paymentView);
-		
-		showView(LoginScreen.VIEW_NAME);
-	}
-	
-	public void addView(String viewName, Component view) {
-		add(view, viewName);
-	}
-	
-	public void showView(String viewName) {
-		// reset auto search item dialog when display other views
-		if(!viewName.equals(OrderView.VIEW_NAME)) {
-			orderView.setHasClosedSearchDialog(false);
-		}
-		
-		layout.show(this, viewName);
-	}
+  private LoginScreen loginScreen;
+  private SwitchboardView switchboardView;
+  private OrderView orderView;
+  private SettleTicketDialog paymentView;
 
-	public OrderView getOrderView() {
-		return orderView;
-	}
-	
-	public void setOrderView(OrderView orderView) {
-		this.orderView = orderView;
-	}
-	
-	public LoginScreen getLoginScreen() {
-		return loginScreen;
-	}
 
-	public SwitchboardView getSwitchboadView() {
-		return switchboardView;
-	}
+  private static RootView instance;
 
-	public void setSwitchboardView(SwitchboardView switchboardView) {
-		this.switchboardView = switchboardView;
-	}
+  private RootView() {
+    setLayout(layout);
+    setBorder(new EmptyBorder(3, 3, 3, 3));
 
-	public synchronized static RootView getInstance() {
-		if(instance == null) {
-			instance = new RootView();
-		}
-		return instance;
-	}
+    loginScreen = new LoginScreen();
+    addView(LoginScreen.VIEW_NAME, loginScreen);
 
-	public SettleTicketDialog getPaymentView() {
-		return paymentView;
-	}
+    switchboardView = new SwitchboardView();
+    addView(SwitchboardView.VIEW_NAME, switchboardView);
+
+    orderView = OrderView.getInstance();
+    orderView.init();
+    addView(OrderView.VIEW_NAME, orderView);
+
+    // paymentView = SettleTicketView.getInstance();
+    // addView(SettleTicketView.VIEW_NAME, paymentView);
+
+    showView(LoginScreen.VIEW_NAME);
+  }
+
+  public void addView(String viewName, Component view) {
+    add(view, viewName);
+  }
+
+  public void showView(String viewName) {
+    // reset auto search item dialog when display other views
+    if (!viewName.equals(OrderView.VIEW_NAME)) {
+      orderView.setHasClosedSearchDialog(false);
+    }
+
+    layout.show(this, viewName);
+  }
+
+  public OrderView getOrderView() {
+    return orderView;
+  }
+
+  public void setOrderView(OrderView orderView) {
+    this.orderView = orderView;
+  }
+
+  public LoginScreen getLoginScreen() {
+    return loginScreen;
+  }
+
+  public SwitchboardView getSwitchboadView() {
+    return switchboardView;
+  }
+
+  public void setSwitchboardView(SwitchboardView switchboardView) {
+    this.switchboardView = switchboardView;
+  }
+
+  public synchronized static RootView getInstance() {
+    if (instance == null) {
+      instance = new RootView();
+    }
+    return instance;
+  }
+
+  public SettleTicketDialog getPaymentView() {
+    return paymentView;
+  }
 }

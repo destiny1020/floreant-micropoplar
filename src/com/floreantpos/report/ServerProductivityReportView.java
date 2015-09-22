@@ -30,72 +30,76 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.util.UiUtil;
 
 public class ServerProductivityReportView extends JPanel {
-	private JXDatePicker fromDatePicker = UiUtil.getCurrentMonthStart();
-	private JXDatePicker toDatePicker = UiUtil.getCurrentMonthEnd();
-	private JButton btnGo = new JButton(com.floreantpos.POSConstants.GO);
-	private JPanel reportContainer;
-	
-	public ServerProductivityReportView() {
-		super(new BorderLayout());
-		
-		JPanel topPanel = new JPanel(new MigLayout());
-		
-		topPanel.add(new JLabel(com.floreantpos.POSConstants.FROM + ":"), "grow");
-		topPanel.add(fromDatePicker,"wrap");
-		topPanel.add(new JLabel(com.floreantpos.POSConstants.TO + ":"), "grow");
-		topPanel.add(toDatePicker,"wrap");
-		topPanel.add(btnGo, "skip 1, al right");
-		add(topPanel, BorderLayout.NORTH);
-		
-		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.setBorder(new EmptyBorder(0, 10,10,10));
-		centerPanel.add(new JSeparator(), BorderLayout.NORTH);
-		
-		reportContainer = new JPanel(new BorderLayout());
-		centerPanel.add(reportContainer);
-		
-		add(centerPanel);
-		
-		btnGo.addActionListener(new ActionListener() {
+  private JXDatePicker fromDatePicker = UiUtil.getCurrentMonthStart();
+  private JXDatePicker toDatePicker = UiUtil.getCurrentMonthEnd();
+  private JButton btnGo = new JButton(com.floreantpos.POSConstants.GO);
+  private JPanel reportContainer;
 
-			public void actionPerformed(ActionEvent e) {
-				try {
-					viewReport();
-				} catch (Exception e1) {
-					POSMessageDialog.showError(ServerProductivityReportView.this, POSConstants.ERROR_MESSAGE, e1);
-				}
-			}
-			
-		});
-	}
-	
-	private void viewReport() throws Exception {
-		Date fromDate = fromDatePicker.getDate();
-		Date toDate = toDatePicker.getDate();
-		
-		if(fromDate.after(toDate)) {
-			POSMessageDialog.showError(BackOfficeWindow.getInstance(), com.floreantpos.POSConstants.FROM_DATE_CANNOT_BE_GREATER_THAN_TO_DATE_);
-			return;
-		}
-		
-		fromDate = DateUtil.startOfDay(fromDate);
-		toDate = DateUtil.endOfDay(toDate);
-		
-		ReportService reportService = new ReportService();
-		ServerProductivityReport report = reportService.getServerProductivityReport(fromDate, toDate);
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("reportTitle", "========= SERVER PRODUCTIVITY REPORT ==========");
-		map.put("fromDate", ReportService.formatShortDate(fromDate));
-		map.put("toDate", ReportService.formatShortDate(toDate));
-		map.put("reportTime", ReportService.formatFullDate(new Date()));
-		
-		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass().getResource("/com/floreantpos/report/template/server_productivity_report.jasper"));
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, new JRTableModelDataSource(report.getTableModel()));
-		JRViewer viewer = new JRViewer(jasperPrint);
-		reportContainer.removeAll();
-		reportContainer.add(viewer);
-		reportContainer.revalidate();
-		
-	}
+  public ServerProductivityReportView() {
+    super(new BorderLayout());
+
+    JPanel topPanel = new JPanel(new MigLayout());
+
+    topPanel.add(new JLabel(com.floreantpos.POSConstants.FROM + ":"), "grow");
+    topPanel.add(fromDatePicker, "wrap");
+    topPanel.add(new JLabel(com.floreantpos.POSConstants.TO + ":"), "grow");
+    topPanel.add(toDatePicker, "wrap");
+    topPanel.add(btnGo, "skip 1, al right");
+    add(topPanel, BorderLayout.NORTH);
+
+    JPanel centerPanel = new JPanel(new BorderLayout());
+    centerPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
+    centerPanel.add(new JSeparator(), BorderLayout.NORTH);
+
+    reportContainer = new JPanel(new BorderLayout());
+    centerPanel.add(reportContainer);
+
+    add(centerPanel);
+
+    btnGo.addActionListener(new ActionListener() {
+
+      public void actionPerformed(ActionEvent e) {
+        try {
+          viewReport();
+        } catch (Exception e1) {
+          POSMessageDialog.showError(ServerProductivityReportView.this, POSConstants.ERROR_MESSAGE,
+              e1);
+        }
+      }
+
+    });
+  }
+
+  private void viewReport() throws Exception {
+    Date fromDate = fromDatePicker.getDate();
+    Date toDate = toDatePicker.getDate();
+
+    if (fromDate.after(toDate)) {
+      POSMessageDialog.showError(BackOfficeWindow.getInstance(),
+          com.floreantpos.POSConstants.FROM_DATE_CANNOT_BE_GREATER_THAN_TO_DATE_);
+      return;
+    }
+
+    fromDate = DateUtil.startOfDay(fromDate);
+    toDate = DateUtil.endOfDay(toDate);
+
+    ReportService reportService = new ReportService();
+    ServerProductivityReport report = reportService.getServerProductivityReport(fromDate, toDate);
+
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put("reportTitle", "========= SERVER PRODUCTIVITY REPORT ==========");
+    map.put("fromDate", ReportService.formatShortDate(fromDate));
+    map.put("toDate", ReportService.formatShortDate(toDate));
+    map.put("reportTime", ReportService.formatFullDate(new Date()));
+
+    JasperReport jasperReport = (JasperReport) JRLoader.loadObject(getClass()
+        .getResource("/com/floreantpos/report/template/server_productivity_report.jasper"));
+    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map,
+        new JRTableModelDataSource(report.getTableModel()));
+    JRViewer viewer = new JRViewer(jasperPrint);
+    reportContainer.removeAll();
+    reportContainer.add(viewer);
+    reportContainer.revalidate();
+
+  }
 }

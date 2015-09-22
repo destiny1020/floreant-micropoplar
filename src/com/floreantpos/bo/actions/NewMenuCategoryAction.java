@@ -12,26 +12,26 @@ import com.floreantpos.ui.model.MenuCategoryForm;
 
 public class NewMenuCategoryAction extends AbstractAction {
 
-	public NewMenuCategoryAction() {
-		super();
-	}
+  public NewMenuCategoryAction() {
+    super();
+  }
 
-	public NewMenuCategoryAction(String name) {
-		super(name);
-	}
+  public NewMenuCategoryAction(String name) {
+    super(name);
+  }
 
-	public NewMenuCategoryAction(String name, Icon icon) {
-		super(name, icon);
-	}
+  public NewMenuCategoryAction(String name, Icon icon) {
+    super(name, icon);
+  }
 
-	public void actionPerformed(ActionEvent e) {
-		try {
-			MenuCategoryForm editor = new MenuCategoryForm();
-			BeanEditorDialog dialog = new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
-			dialog.open();
-		} catch (Exception x) {
-			BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
-		}
-	}
+  public void actionPerformed(ActionEvent e) {
+    try {
+      MenuCategoryForm editor = new MenuCategoryForm();
+      BeanEditorDialog dialog = new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+      dialog.open();
+    } catch (Exception x) {
+      BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+    }
+  }
 
 }

@@ -11,33 +11,32 @@ import com.floreantpos.bo.ui.explorer.GroupExplorer;
 
 public class GroupExplorerAction extends AbstractAction {
 
-	public GroupExplorerAction() {
-		super(com.floreantpos.POSConstants.MENU_GROUPS);
-	}
+  public GroupExplorerAction() {
+    super(com.floreantpos.POSConstants.MENU_GROUPS);
+  }
 
-	public GroupExplorerAction(String name) {
-		super(name);
-	}
+  public GroupExplorerAction(String name) {
+    super(name);
+  }
 
-	public GroupExplorerAction(String name, Icon icon) {
-		super(name, icon);
-	}
+  public GroupExplorerAction(String name, Icon icon) {
+    super(name, icon);
+  }
 
-	public void actionPerformed(ActionEvent e) {
-		BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
-		JTabbedPane tabbedPane;
-		GroupExplorer group;
-		tabbedPane = backOfficeWindow.getTabbedPane();
-		int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.GROUP_EXPLORER);
-		if (index == -1) {
-			group = new GroupExplorer();
-			tabbedPane.addTab(com.floreantpos.POSConstants.GROUP_EXPLORER, group);
-		}
-		else {
-			group = (GroupExplorer) tabbedPane.getComponentAt(index);
-		}
-		tabbedPane.setSelectedComponent(group);
+  public void actionPerformed(ActionEvent e) {
+    BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
+    JTabbedPane tabbedPane;
+    GroupExplorer group;
+    tabbedPane = backOfficeWindow.getTabbedPane();
+    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.GROUP_EXPLORER);
+    if (index == -1) {
+      group = new GroupExplorer();
+      tabbedPane.addTab(com.floreantpos.POSConstants.GROUP_EXPLORER, group);
+    } else {
+      group = (GroupExplorer) tabbedPane.getComponentAt(index);
+    }
+    tabbedPane.setSelectedComponent(group);
 
-	}
+  }
 
 }

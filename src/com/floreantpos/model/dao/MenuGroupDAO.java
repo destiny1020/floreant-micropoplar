@@ -13,24 +13,24 @@ import com.floreantpos.model.MenuGroup;
 
 public class MenuGroupDAO extends BaseMenuGroupDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public MenuGroupDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public MenuGroupDAO() {}
 
-	@SuppressWarnings("unchecked")
-	public List<MenuGroup> findEnabledByParent(MenuCategory category) throws PosException {
-		Session session = null;
-		
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(MenuGroup.PROP_VISIBLE, Boolean.TRUE));
-			criteria.add(Restrictions.eq(MenuGroup.PROP_PARENT, category));
-			
-			return criteria.list();
-		} finally {
-			closeSession(session);
-		}
-	}
+  @SuppressWarnings("unchecked")
+  public List<MenuGroup> findEnabledByParent(MenuCategory category) throws PosException {
+    Session session = null;
+
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(MenuGroup.PROP_VISIBLE, Boolean.TRUE));
+      criteria.add(Restrictions.eq(MenuGroup.PROP_PARENT, category));
+
+      return criteria.list();
+    } finally {
+      closeSession(session);
+    }
+  }
 }

@@ -16,115 +16,115 @@ import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
 public class CookingInstructionSelectionView extends BeanEditor {
-	private JTable table;
-	
-	private List<TicketItemCookingInstruction> ticketItemCookingInstructions;
+  private JTable table;
 
-	public CookingInstructionSelectionView() {
-		createUI();
-	}
+  private List<TicketItemCookingInstruction> ticketItemCookingInstructions;
 
-	private void createUI() {
-		setLayout(new BorderLayout(0, 0));
+  public CookingInstructionSelectionView() {
+    createUI();
+  }
 
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
+  private void createUI() {
+    setLayout(new BorderLayout(0, 0));
 
-		table = new JTable();
-		table.setRowHeight(35);
-		scrollPane.setViewportView(table);
-		
-		setBorder(new EmptyBorder(10, 10, 10, 10));
-	}
+    JScrollPane scrollPane = new JScrollPane();
+    add(scrollPane, BorderLayout.CENTER);
 
-	@Override
-	public boolean save() {
-		int[] selectedRows = table.getSelectedRows();
-		
-		if(selectedRows.length == 0) {
-			POSMessageDialog.showError("没有选择烹饪说明");
-			return false;
-		}
-		
-		if(ticketItemCookingInstructions == null) {
-			ticketItemCookingInstructions = new ArrayList<TicketItemCookingInstruction>(selectedRows.length);
-		}
-		
-		CookingInstructionTableModel model = (CookingInstructionTableModel) table.getModel();
-		for (int i = 0; i < selectedRows.length; i++) {
-			CookingInstruction ci = model.rowsList.get(selectedRows[i]);
-			TicketItemCookingInstruction cookingInstruction = new TicketItemCookingInstruction();
-			cookingInstruction.setDescription(ci.getDescription());
-			ticketItemCookingInstructions.add(cookingInstruction);
-		}
-		
-		return true;
-	}
+    table = new JTable();
+    table.setRowHeight(35);
+    scrollPane.setViewportView(table);
 
-	@Override
-	protected void updateView() {
-		List<CookingInstruction> cookingInstructions = (List<CookingInstruction>) getBean();
-		table.setModel(new CookingInstructionTableModel(cookingInstructions));
-	}
+    setBorder(new EmptyBorder(10, 10, 10, 10));
+  }
 
-	@Override
-	protected boolean updateModel() throws IllegalModelStateException {
-		return true;
-	}
+  @Override
+  public boolean save() {
+    int[] selectedRows = table.getSelectedRows();
 
-	@Override
-	public String getDisplayText() {
-		return "选择烹饪说明";
-	}
-	
-	public List<TicketItemCookingInstruction> getTicketItemCookingInstructions() {
-		return ticketItemCookingInstructions;
-	}
+    if (selectedRows.length == 0) {
+      POSMessageDialog.showError("没有选择烹饪说明");
+      return false;
+    }
 
-	class CookingInstructionTableModel extends AbstractTableModel {
-		private final String[] columns = { "烹饪说明" };
+    if (ticketItemCookingInstructions == null) {
+      ticketItemCookingInstructions =
+          new ArrayList<TicketItemCookingInstruction>(selectedRows.length);
+    }
 
-		private List<CookingInstruction> rowsList;
+    CookingInstructionTableModel model = (CookingInstructionTableModel) table.getModel();
+    for (int i = 0; i < selectedRows.length; i++) {
+      CookingInstruction ci = model.rowsList.get(selectedRows[i]);
+      TicketItemCookingInstruction cookingInstruction = new TicketItemCookingInstruction();
+      cookingInstruction.setDescription(ci.getDescription());
+      ticketItemCookingInstructions.add(cookingInstruction);
+    }
 
-		public CookingInstructionTableModel() {
-		}
+    return true;
+  }
 
-		public CookingInstructionTableModel(List<CookingInstruction> rows) {
-			this.rowsList = rows;
-		}
+  @Override
+  protected void updateView() {
+    List<CookingInstruction> cookingInstructions = (List<CookingInstruction>) getBean();
+    table.setModel(new CookingInstructionTableModel(cookingInstructions));
+  }
 
-		@Override
-		public int getRowCount() {
-			if (rowsList == null) {
-				return 0;
-			}
+  @Override
+  protected boolean updateModel() throws IllegalModelStateException {
+    return true;
+  }
 
-			return rowsList.size();
-		}
+  @Override
+  public String getDisplayText() {
+    return "选择烹饪说明";
+  }
 
-		@Override
-		public int getColumnCount() {
-			return columns.length;
-		}
+  public List<TicketItemCookingInstruction> getTicketItemCookingInstructions() {
+    return ticketItemCookingInstructions;
+  }
 
-		@Override
-		public String getColumnName(int column) {
-			return columns[column];
-		}
+  class CookingInstructionTableModel extends AbstractTableModel {
+    private final String[] columns = {"烹饪说明"};
 
-		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			if (rowsList == null) {
-				return null;
-			}
+    private List<CookingInstruction> rowsList;
 
-			CookingInstruction row = rowsList.get(rowIndex);
+    public CookingInstructionTableModel() {}
 
-			switch (columnIndex) {
-				case 0:
-					return row.getDescription();
-			}
-			return null;
-		}
-	}
+    public CookingInstructionTableModel(List<CookingInstruction> rows) {
+      this.rowsList = rows;
+    }
+
+    @Override
+    public int getRowCount() {
+      if (rowsList == null) {
+        return 0;
+      }
+
+      return rowsList.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+      return columns.length;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+      return columns[column];
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+      if (rowsList == null) {
+        return null;
+      }
+
+      CookingInstruction row = rowsList.get(rowIndex);
+
+      switch (columnIndex) {
+        case 0:
+          return row.getDescription();
+      }
+      return null;
+    }
+  }
 }

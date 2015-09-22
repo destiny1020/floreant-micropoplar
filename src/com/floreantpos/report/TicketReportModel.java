@@ -9,63 +9,64 @@ import javax.swing.table.AbstractTableModel;
 import com.floreantpos.model.Ticket;
 
 public class TicketReportModel extends AbstractTableModel {
-	private static DecimalFormat formatter = new DecimalFormat("#,##0.00");
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
-//	private String currencySymbol;
-	
-	private String[] columnNames = {"id", "date", "tableNum", "status", "total"};
-	private List<Ticket> items;
-	
-	public TicketReportModel() {
-		super();
-	}
+  private static DecimalFormat formatter = new DecimalFormat("#,##0.00");
+  private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy");
+  // private String currencySymbol;
 
-	public int getRowCount() {
-		if(items == null) return 0;
-		
-		return items.size();
-	}
+  private String[] columnNames = {"id", "date", "tableNum", "status", "total"};
+  private List<Ticket> items;
 
-	public int getColumnCount() {
-		return columnNames.length;
-	}
-	
-	@Override
-	public String getColumnName(int column) {
-		return columnNames[column];
-	}
+  public TicketReportModel() {
+    super();
+  }
 
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		Ticket ticket = items.get(rowIndex);
-		
-		switch(columnIndex) {
-			case 0:
-				return String.valueOf(ticket.getId());
-				
-			case 1: 
-				return dateFormat.format(ticket.getCreateDate());
-				
-			case 2:
-				return String.valueOf(ticket.getTableNumbers());
-				
-			case 3:
-				if(ticket.isClosed()) {
-					return com.floreantpos.POSConstants.CLOSED;
-				}
-				return com.floreantpos.POSConstants.OPEN;
-				
-			case 4:
-				return formatter.format(ticket.getTotalAmount());
-		}
-		return null;
-	}
+  public int getRowCount() {
+    if (items == null)
+      return 0;
 
-	public List<Ticket> getItems() {
-		return items;
-	}
+    return items.size();
+  }
 
-	public void setItems(List<Ticket> items) {
-		this.items = items;
-	}
+  public int getColumnCount() {
+    return columnNames.length;
+  }
+
+  @Override
+  public String getColumnName(int column) {
+    return columnNames[column];
+  }
+
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    Ticket ticket = items.get(rowIndex);
+
+    switch (columnIndex) {
+      case 0:
+        return String.valueOf(ticket.getId());
+
+      case 1:
+        return dateFormat.format(ticket.getCreateDate());
+
+      case 2:
+        return String.valueOf(ticket.getTableNumbers());
+
+      case 3:
+        if (ticket.isClosed()) {
+          return com.floreantpos.POSConstants.CLOSED;
+        }
+        return com.floreantpos.POSConstants.OPEN;
+
+      case 4:
+        return formatter.format(ticket.getTotalAmount());
+    }
+    return null;
+  }
+
+  public List<Ticket> getItems() {
+    return items;
+  }
+
+  public void setItems(List<Ticket> items) {
+    this.items = items;
+  }
 
 }

@@ -5,10 +5,10 @@ import com.floreantpos.model.dao.BaseVoidTransactionDAO;
 
 public class VoidTransactionDAO extends BaseVoidTransactionDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public VoidTransactionDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public VoidTransactionDAO() {}
 
 
 }

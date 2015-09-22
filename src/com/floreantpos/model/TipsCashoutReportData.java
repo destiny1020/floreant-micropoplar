@@ -1,59 +1,58 @@
 package com.floreantpos.model;
 
 public class TipsCashoutReportData {
-	private Integer ticketId;
+  private Integer ticketId;
 
-	private String saleType;
+  private String saleType;
 
-	private Double ticketTotal;
+  private Double ticketTotal;
 
-	private Double tips;
-	
-	private boolean paid;
+  private Double tips;
 
-	public String getSaleType() {
-		return saleType;
-	}
+  private boolean paid;
 
-	public void setSaleType(String saleType) {
-		this.saleType = saleType;
-		if(this.saleType == null) {
-			this.saleType = "*CASH*";
-		}
-		else {
-			this.saleType = this.saleType.replaceAll("_", " ");
-		}
-	}
+  public String getSaleType() {
+    return saleType;
+  }
 
-	public Integer getTicketId() {
-		return ticketId;
-	}
+  public void setSaleType(String saleType) {
+    this.saleType = saleType;
+    if (this.saleType == null) {
+      this.saleType = "*CASH*";
+    } else {
+      this.saleType = this.saleType.replaceAll("_", " ");
+    }
+  }
 
-	public void setTicketId(Integer ticketId) {
-		this.ticketId = ticketId;
-	}
+  public Integer getTicketId() {
+    return ticketId;
+  }
 
-	public Double getTicketTotal() {
-		return ticketTotal;
-	}
+  public void setTicketId(Integer ticketId) {
+    this.ticketId = ticketId;
+  }
 
-	public void setTicketTotal(Double ticketTotal) {
-		this.ticketTotal = ticketTotal;
-	}
+  public Double getTicketTotal() {
+    return ticketTotal;
+  }
 
-	public Double getTips() {
-		return tips;
-	}
+  public void setTicketTotal(Double ticketTotal) {
+    this.ticketTotal = ticketTotal;
+  }
 
-	public void setTips(Double tips) {
-		this.tips = tips;
-	}
+  public Double getTips() {
+    return tips;
+  }
 
-	public boolean isPaid() {
-		return paid;
-	}
+  public void setTips(Double tips) {
+    this.tips = tips;
+  }
 
-	public void setPaid(boolean paid) {
-		this.paid = paid;
-	}
+  public boolean isPaid() {
+    return paid;
+  }
+
+  public void setPaid(boolean paid) {
+    this.paid = paid;
+  }
 }

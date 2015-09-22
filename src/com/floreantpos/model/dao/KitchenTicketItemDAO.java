@@ -5,10 +5,10 @@ import com.floreantpos.model.dao.BaseKitchenTicketItemDAO;
 
 public class KitchenTicketItemDAO extends BaseKitchenTicketItemDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public KitchenTicketItemDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public KitchenTicketItemDAO() {}
 
 
 }

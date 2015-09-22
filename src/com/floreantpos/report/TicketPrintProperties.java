@@ -2,81 +2,82 @@ package com.floreantpos.report;
 
 
 public class TicketPrintProperties {
-	private String receiptTypeName;
-	private boolean showHeader;
-	private boolean showFooter;
-	private boolean showSubtotal;
-	
-	private String receiptCopyType;
-	
-	boolean printModifers = true;
-	boolean printCookingInstructions = true;
-	
-	public TicketPrintProperties() {
-		super();
-	}
+  private String receiptTypeName;
+  private boolean showHeader;
+  private boolean showFooter;
+  private boolean showSubtotal;
 
-	public TicketPrintProperties(String receiptTypeName, boolean showHeader, boolean showFooter, boolean showSubtotal) {
-		super();
-		this.receiptTypeName = receiptTypeName;
-		this.showHeader = showHeader;
-		this.showFooter = showFooter;
-		this.showSubtotal = showSubtotal;
-	}
+  private String receiptCopyType;
 
-	public String getReceiptTypeName() {
-		return receiptTypeName;
-	}
+  boolean printModifers = true;
+  boolean printCookingInstructions = true;
 
-	public void setReceiptTypeName(String receiptTypeName) {
-		this.receiptTypeName = receiptTypeName;
-	}
+  public TicketPrintProperties() {
+    super();
+  }
 
-	public boolean isShowHeader() {
-		return showHeader;
-	}
+  public TicketPrintProperties(String receiptTypeName, boolean showHeader, boolean showFooter,
+      boolean showSubtotal) {
+    super();
+    this.receiptTypeName = receiptTypeName;
+    this.showHeader = showHeader;
+    this.showFooter = showFooter;
+    this.showSubtotal = showSubtotal;
+  }
 
-	public void setShowHeader(boolean showHeader) {
-		this.showHeader = showHeader;
-	}
+  public String getReceiptTypeName() {
+    return receiptTypeName;
+  }
 
-	public boolean isShowFooter() {
-		return showFooter;
-	}
+  public void setReceiptTypeName(String receiptTypeName) {
+    this.receiptTypeName = receiptTypeName;
+  }
 
-	public void setShowFooter(boolean showFooter) {
-		this.showFooter = showFooter;
-	}
+  public boolean isShowHeader() {
+    return showHeader;
+  }
 
-	public boolean isShowSubtotal() {
-		return showSubtotal;
-	}
+  public void setShowHeader(boolean showHeader) {
+    this.showHeader = showHeader;
+  }
 
-	public void setShowSubtotal(boolean showSubtotal) {
-		this.showSubtotal = showSubtotal;
-	}
+  public boolean isShowFooter() {
+    return showFooter;
+  }
 
-	public boolean isPrintModifers() {
-		return printModifers;
-	}
+  public void setShowFooter(boolean showFooter) {
+    this.showFooter = showFooter;
+  }
 
-	public void setPrintModifers(boolean printModifers) {
-		this.printModifers = printModifers;
-	}
+  public boolean isShowSubtotal() {
+    return showSubtotal;
+  }
 
-	public boolean isPrintCookingInstructions() {
-		return printCookingInstructions;
-	}
+  public void setShowSubtotal(boolean showSubtotal) {
+    this.showSubtotal = showSubtotal;
+  }
 
-	public void setPrintCookingInstructions(boolean printCookingInstructions) {
-		this.printCookingInstructions = printCookingInstructions;
-	}
+  public boolean isPrintModifers() {
+    return printModifers;
+  }
 
-	public String getReceiptCopyType() {
-		return receiptCopyType;
-	}
+  public void setPrintModifers(boolean printModifers) {
+    this.printModifers = printModifers;
+  }
 
-	public void setReceiptCopyType(String receiptCopyName) {
-		this.receiptCopyType = receiptCopyName;
-	}
+  public boolean isPrintCookingInstructions() {
+    return printCookingInstructions;
+  }
+
+  public void setPrintCookingInstructions(boolean printCookingInstructions) {
+    this.printCookingInstructions = printCookingInstructions;
+  }
+
+  public String getReceiptCopyType() {
+    return receiptCopyType;
+  }
+
+  public void setReceiptCopyType(String receiptCopyName) {
+    this.receiptCopyType = receiptCopyName;
+  }
 }

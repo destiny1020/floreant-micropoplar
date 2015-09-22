@@ -1,27 +1,27 @@
 package com.floreantpos.model.util;
 
 public class TicketSummary {
-	private int totalTicket;
-	private double totalPrice;
-	
-	public TicketSummary() {
-		super();
-	}
+  private int totalTicket;
+  private double totalPrice;
 
-	public double getTotalPrice() {
-		return totalPrice;
-	}
+  public TicketSummary() {
+    super();
+  }
 
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+  public double getTotalPrice() {
+    return totalPrice;
+  }
 
-	public int getTotalTicket() {
-		return totalTicket;
-	}
+  public void setTotalPrice(double totalPrice) {
+    this.totalPrice = totalPrice;
+  }
 
-	public void setTotalTicket(int totalTicket) {
-		this.totalTicket = totalTicket;
-	}
+  public int getTotalTicket() {
+    return totalTicket;
+  }
+
+  public void setTotalTicket(int totalTicket) {
+    this.totalTicket = totalTicket;
+  }
 
 }

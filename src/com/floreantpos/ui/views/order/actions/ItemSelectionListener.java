@@ -4,6 +4,7 @@ import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
 
 public interface ItemSelectionListener {
-	void itemSelected(MenuItem menuItem);
-	void itemSelectionFinished(MenuGroup parent);
+  void itemSelected(MenuItem menuItem);
+
+  void itemSelectionFinished(MenuGroup parent);
 }

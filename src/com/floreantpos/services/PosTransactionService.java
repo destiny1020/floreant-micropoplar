@@ -28,223 +28,225 @@ import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.util.NumberUtil;
 
 public class PosTransactionService {
-	private static PosTransactionService paymentService = new PosTransactionService();
+  private static PosTransactionService paymentService = new PosTransactionService();
 
-	public void settleTicket(Ticket ticket, PosTransaction transaction) throws Exception {
-		Application application = Application.getInstance();
-		User currentUser = Application.getCurrentUser();
-		Terminal terminal = application.getTerminal();
+  public void settleTicket(Ticket ticket, PosTransaction transaction) throws Exception {
+    Application application = Application.getInstance();
+    User currentUser = Application.getCurrentUser();
+    Terminal terminal = application.getTerminal();
 
-		Session session = null;
-		Transaction tx = null;
+    Session session = null;
+    Transaction tx = null;
 
-		GenericDAO dao = new GenericDAO();
+    GenericDAO dao = new GenericDAO();
 
-		try {
-			Date currentDate = new Date();
+    try {
+      Date currentDate = new Date();
 
-			session = dao.createNewSession();
-			tx = session.beginTransaction();
+      session = dao.createNewSession();
+      tx = session.beginTransaction();
 
-			ticket.setVoided(false);
-			ticket.setDrawerResetted(false);
-			ticket.setTerminal(terminal);
-			ticket.setPaidAmount(ticket.getPaidAmount() + transaction.getAmount());
+      ticket.setVoided(false);
+      ticket.setDrawerResetted(false);
+      ticket.setTerminal(terminal);
+      ticket.setPaidAmount(ticket.getPaidAmount() + transaction.getAmount());
 
-			ticket.calculatePrice();
+      ticket.calculatePrice();
 
-			// 将折扣平摊到Item
-			if (transaction instanceof TakeoutTransaction) {
-				if (transaction.getDiscountRate() != null) {
-					distributeAmounts(ticket.getTicketItems(), transaction.getTenderAmount(),
-							transaction.getDiscountRate());
-				}
-			}
+      // 将折扣平摊到Item
+      if (transaction instanceof TakeoutTransaction) {
+        if (transaction.getDiscountRate() != null) {
+          distributeAmounts(ticket.getTicketItems(), transaction.getTenderAmount(),
+              transaction.getDiscountRate());
+        }
+      }
 
-			if (ticket.getDueAmount() == 0.0) {
-				ticket.setPaid(true);
-				closeTicketIfApplicable(ticket, currentDate);
-			} else {
-				ticket.setPaid(false);
-				ticket.setClosed(false);
-			}
+      if (ticket.getDueAmount() == 0.0) {
+        ticket.setPaid(true);
+        closeTicketIfApplicable(ticket, currentDate);
+      } else {
+        ticket.setPaid(false);
+        ticket.setClosed(false);
+      }
 
-			transaction.setTransactionType(TransactionType.CREDIT.name());
-			// transaction.setPaymentType(transaction.getPaymentType());
-			transaction.setTerminal(terminal);
-			transaction.setUser(currentUser);
-			transaction.setTransactionTime(currentDate);
+      transaction.setTransactionType(TransactionType.CREDIT.name());
+      // transaction.setPaymentType(transaction.getPaymentType());
+      transaction.setTerminal(terminal);
+      transaction.setUser(currentUser);
+      transaction.setTransactionTime(currentDate);
 
-			ticket.addTotransactions(transaction);
+      ticket.addTotransactions(transaction);
 
-			if (ticket.getType() == TicketType.BAR_TAB) {
-				ticket.removeProperty(Ticket.PROPERTY_PAYMENT_METHOD);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_NAME);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_TRANSACTION_ID);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_TRACKS);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_READER);
-				ticket.removeProperty(Ticket.PROPERTY_ADVANCE_PAYMENT);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_NUMBER);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_EXP_YEAR);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_EXP_MONTH);
-				ticket.removeProperty(Ticket.PROPERTY_CARD_AUTH_CODE);
-			}
+      if (ticket.getType() == TicketType.BAR_TAB) {
+        ticket.removeProperty(Ticket.PROPERTY_PAYMENT_METHOD);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_NAME);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_TRANSACTION_ID);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_TRACKS);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_READER);
+        ticket.removeProperty(Ticket.PROPERTY_ADVANCE_PAYMENT);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_NUMBER);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_EXP_YEAR);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_EXP_MONTH);
+        ticket.removeProperty(Ticket.PROPERTY_CARD_AUTH_CODE);
+      }
 
-			adjustTerminalBalance(transaction);
+      adjustTerminalBalance(transaction);
 
-			session.update(terminal);
-			session.saveOrUpdate(ticket);
+      session.update(terminal);
+      session.saveOrUpdate(ticket);
 
-			// User assignedDriver = ticket.getAssignedDriver();
-			// if(assignedDriver != null) {
-			// assignedDriver.setAvailableForDelivery(true);
-			// UserDAO.getInstance().saveOrUpdate(assignedDriver, session);
-			// }
+      // User assignedDriver = ticket.getAssignedDriver();
+      // if(assignedDriver != null) {
+      // assignedDriver.setAvailableForDelivery(true);
+      // UserDAO.getInstance().saveOrUpdate(assignedDriver, session);
+      // }
 
-			tx.commit();
-		} catch (Exception e) {
-			try {
-				tx.rollback();
-			} catch (Exception x) {
-			}
-			throw e;
-		} finally {
-			dao.closeSession(session);
-		}
+      tx.commit();
+    } catch (Exception e) {
+      try {
+        tx.rollback();
+      } catch (Exception x) {
+      }
+      throw e;
+    } finally {
+      dao.closeSession(session);
+    }
 
-		// SETTLE ACTION
-		String actionMessage = com.floreantpos.POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ":" + ticket.getId();
-		actionMessage += ";" + com.floreantpos.POSConstants.TOTAL + ":"
-				+ NumberUtil.formatNumber(ticket.getTotalAmount());
-		ActionHistoryDAO.getInstance().saveHistory(Application.getCurrentUser(), ActionHistory.SETTLE_CHECK,
-				actionMessage);
-	}
+    // SETTLE ACTION
+    String actionMessage =
+        com.floreantpos.POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ":" + ticket.getId();
+    actionMessage += ";" + com.floreantpos.POSConstants.TOTAL + ":"
+        + NumberUtil.formatNumber(ticket.getTotalAmount());
+    ActionHistoryDAO.getInstance().saveHistory(Application.getCurrentUser(),
+        ActionHistory.SETTLE_CHECK, actionMessage);
+  }
 
-	private void distributeAmounts(List<TicketItem> ticketItems, double tenderAmount, double discountRate) {
-		if (ticketItems.size() > 0) {
-			double totalPrice = 0.0;
-			for (TicketItem item : ticketItems) {
-				item.setDiscountRate(discountRate);
-				item.calculatePrice(true);
-				totalPrice += item.getTotalAmountWithoutModifiers();
-			}
+  private void distributeAmounts(List<TicketItem> ticketItems, double tenderAmount,
+      double discountRate) {
+    if (ticketItems.size() > 0) {
+      double totalPrice = 0.0;
+      for (TicketItem item : ticketItems) {
+        item.setDiscountRate(discountRate);
+        item.calculatePrice(true);
+        totalPrice += item.getTotalAmountWithoutModifiers();
+      }
 
-			double offset = NumberUtil.roundToTwoDigit(tenderAmount - totalPrice);
+      double offset = NumberUtil.roundToTwoDigit(tenderAmount - totalPrice);
 
-			// 如果offset大于0，那么需要添加offset到某个Item上
-			// 如果offset小于0，那么需要从某个Item上减去offset
-			ticketItems.get(0).setDiscountOffsetAmount(offset);
-		}
-	}
+      // 如果offset大于0，那么需要添加offset到某个Item上
+      // 如果offset小于0，那么需要从某个Item上减去offset
+      ticketItems.get(0).setDiscountOffsetAmount(offset);
+    }
+  }
 
-	public static void adjustTerminalBalance(PosTransaction transaction) {
-		Terminal terminal = transaction.getTerminal();
+  public static void adjustTerminalBalance(PosTransaction transaction) {
+    Terminal terminal = transaction.getTerminal();
 
-		if (transaction instanceof CashTransaction) {
+    if (transaction instanceof CashTransaction) {
 
-			double currentBalance = terminal.getCurrentBalance();
-			double newBalance = currentBalance + transaction.getAmount();
+      double currentBalance = terminal.getCurrentBalance();
+      double newBalance = currentBalance + transaction.getAmount();
 
-			terminal.setCurrentBalance(newBalance);
+      terminal.setCurrentBalance(newBalance);
 
-		} else if (transaction instanceof GiftCertificateTransaction) {
+    } else if (transaction instanceof GiftCertificateTransaction) {
 
-			double currentBalance = terminal.getCurrentBalance();
-			double newBalance = currentBalance - transaction.getGiftCertCashBackAmount();
+      double currentBalance = terminal.getCurrentBalance();
+      double newBalance = currentBalance - transaction.getGiftCertCashBackAmount();
 
-			terminal.setCurrentBalance(newBalance);
+      terminal.setCurrentBalance(newBalance);
 
-		} else if (transaction instanceof VoidTransaction) {
+    } else if (transaction instanceof VoidTransaction) {
 
-			double currentBalance = terminal.getCurrentBalance();
-			double newBalance = currentBalance - transaction.getAmount();
+      double currentBalance = terminal.getCurrentBalance();
+      double newBalance = currentBalance - transaction.getAmount();
 
-			terminal.setCurrentBalance(newBalance);
+      terminal.setCurrentBalance(newBalance);
 
-		}
-	}
+    }
+  }
 
-	private void closeTicketIfApplicable(Ticket ticket, Date currentDate) {
-		TicketType ticketType = ticket.getType();
+  private void closeTicketIfApplicable(Ticket ticket, Date currentDate) {
+    TicketType ticketType = ticket.getType();
 
-		switch (ticketType) {
-		case DINE_IN:
-		case BAR_TAB:
-		case TAKE_OUT:
-			ticket.setClosed(true);
-			ticket.setClosingDate(currentDate);
-			break;
+    switch (ticketType) {
+      case DINE_IN:
+      case BAR_TAB:
+      case TAKE_OUT:
+        ticket.setClosed(true);
+        ticket.setClosingDate(currentDate);
+        break;
 
-		default:
-			break;
-		}
+      default:
+        break;
+    }
 
-	}
+  }
 
-	public void refundTicket(Ticket ticket, final double refundAmount) throws Exception {
-		User currentUser = Application.getCurrentUser();
-		Terminal terminal = ticket.getTerminal();
+  public void refundTicket(Ticket ticket, final double refundAmount) throws Exception {
+    User currentUser = Application.getCurrentUser();
+    Terminal terminal = ticket.getTerminal();
 
-		Session session = null;
-		Transaction tx = null;
+    Session session = null;
+    Transaction tx = null;
 
-		GenericDAO dao = new GenericDAO();
+    GenericDAO dao = new GenericDAO();
 
-		try {
-			Double currentBalance = terminal.getCurrentBalance();
-			Double totalPrice = ticket.getTotalAmount();
-			double newBalance = currentBalance - totalPrice;
-			terminal.setCurrentBalance(newBalance);
+    try {
+      Double currentBalance = terminal.getCurrentBalance();
+      Double totalPrice = ticket.getTotalAmount();
+      double newBalance = currentBalance - totalPrice;
+      terminal.setCurrentBalance(newBalance);
 
-			// double refundAmount = ticket.getPaidAmount();
-			// if(ticket.getGratuity() != null) {
-			// refundAmount -= ticket.getGratuity().getAmount();
-			// }
+      // double refundAmount = ticket.getPaidAmount();
+      // if(ticket.getGratuity() != null) {
+      // refundAmount -= ticket.getGratuity().getAmount();
+      // }
 
-			RefundTransaction posTransaction = new RefundTransaction();
-			posTransaction.setTicket(ticket);
-			posTransaction.setPaymentType(PaymentType.CASH.name());
-			posTransaction.setTransactionType(TransactionType.DEBIT.name());
-			posTransaction.setAmount(refundAmount);
-			posTransaction.setTerminal(terminal);
-			posTransaction.setUser(currentUser);
-			posTransaction.setTransactionTime(new Date());
+      RefundTransaction posTransaction = new RefundTransaction();
+      posTransaction.setTicket(ticket);
+      posTransaction.setPaymentType(PaymentType.CASH.name());
+      posTransaction.setTransactionType(TransactionType.DEBIT.name());
+      posTransaction.setAmount(refundAmount);
+      posTransaction.setTerminal(terminal);
+      posTransaction.setUser(currentUser);
+      posTransaction.setTransactionTime(new Date());
 
-			ticket.setVoided(false);
-			ticket.setRefunded(true);
-			ticket.setClosed(true);
-			ticket.setDrawerResetted(false);
-			ticket.setClosingDate(new Date());
+      ticket.setVoided(false);
+      ticket.setRefunded(true);
+      ticket.setClosed(true);
+      ticket.setDrawerResetted(false);
+      ticket.setClosingDate(new Date());
 
-			ticket.addTotransactions(posTransaction);
+      ticket.addTotransactions(posTransaction);
 
-			session = dao.getSession();
-			tx = session.beginTransaction();
+      session = dao.getSession();
+      tx = session.beginTransaction();
 
-			dao.saveOrUpdate(ticket, session);
+      dao.saveOrUpdate(ticket, session);
 
-			tx.commit();
+      tx.commit();
 
-			// String title = "- REFUND RECEIPT -";
-			// String data = "Ticket #" + ticket.getId() + ", amount " +
-			// refundAmount + " was refunded.";
+      // String title = "- REFUND RECEIPT -";
+      // String data = "Ticket #" + ticket.getId() + ", amount " +
+      // refundAmount + " was refunded.";
 
-			JReportPrintService.printRefundTicket(ticket, posTransaction);
+      JReportPrintService.printRefundTicket(ticket, posTransaction);
 
-		} catch (Exception e) {
-			try {
-				tx.rollback();
-			} catch (Exception x) {
-			}
+    } catch (Exception e) {
+      try {
+        tx.rollback();
+      } catch (Exception x) {
+      }
 
-			throw e;
-		} finally {
-			dao.closeSession(session);
-		}
+      throw e;
+    } finally {
+      dao.closeSession(session);
+    }
 
-	}
+  }
 
-	public static PosTransactionService getInstance() {
-		return paymentService;
-	}
+  public static PosTransactionService getInstance() {
+    return paymentService;
+  }
 }

@@ -9,290 +9,288 @@ import com.floreantpos.model.base.BaseTicketItem;
 import com.floreantpos.util.NumberUtil;
 
 public class TicketItem extends BaseTicketItem implements ITicketItem {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	/*[CONSTRUCTOR MARKER BEGIN]*/
-	public TicketItem () {
-		super();
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public TicketItem() {
+    super();
+  }
 
-	/**
-	 * Constructor for primary key
-	 */
-	public TicketItem (java.lang.Integer id) {
-		super(id);
-	}
+  /**
+   * Constructor for primary key
+   */
+  public TicketItem(java.lang.Integer id) {
+    super(id);
+  }
 
-	/**
-	 * Constructor for required fields
-	 */
-	public TicketItem (
-		java.lang.Integer id,
-		com.floreantpos.model.Ticket ticket) {
+  /**
+   * Constructor for required fields
+   */
+  public TicketItem(java.lang.Integer id, com.floreantpos.model.Ticket ticket) {
 
-		super (
-			id,
-			ticket);
-	}
+    super(id, ticket);
+  }
 
-	/*[CONSTRUCTOR MARKER END]*/
+  /* [CONSTRUCTOR MARKER END] */
 
-	private boolean priceIncludesTax;
+  private boolean priceIncludesTax;
 
-	private int tableRowNum;
+  private int tableRowNum;
 
-	public int getTableRowNum() {
-		return tableRowNum;
-	}
+  public int getTableRowNum() {
+    return tableRowNum;
+  }
 
-	public void setTableRowNum(int tableRowNum) {
-		this.tableRowNum = tableRowNum;
-	}
+  public void setTableRowNum(int tableRowNum) {
+    this.tableRowNum = tableRowNum;
+  }
 
-	public boolean canAddCookingInstruction() {
-		if (isPrintedToKitchen())
-			return false;
+  public boolean canAddCookingInstruction() {
+    if (isPrintedToKitchen())
+      return false;
 
-		return true;
-	}
+    return true;
+  }
 
-	public java.lang.Double getTaxAmount() {
-		if(getTicket().isTaxExempt()) {
-			return 0.0;
-		}
-		
-		return super.getTaxAmount();
-	}
+  public java.lang.Double getTaxAmount() {
+    if (getTicket().isTaxExempt()) {
+      return 0.0;
+    }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+    return super.getTaxAmount();
+  }
 
-	public void addCookingInstruction(TicketItemCookingInstruction cookingInstruction) {
-		List<TicketItemCookingInstruction> cookingInstructions = getCookingInstructions();
+  @Override
+  public String toString() {
+    return getName();
+  }
 
-		if (cookingInstructions == null) {
-			cookingInstructions = new ArrayList<TicketItemCookingInstruction>(2);
-			setCookingInstructions(cookingInstructions);
-		}
+  public void addCookingInstruction(TicketItemCookingInstruction cookingInstruction) {
+    List<TicketItemCookingInstruction> cookingInstructions = getCookingInstructions();
 
-		cookingInstructions.add(cookingInstruction);
-	}
+    if (cookingInstructions == null) {
+      cookingInstructions = new ArrayList<TicketItemCookingInstruction>(2);
+      setCookingInstructions(cookingInstructions);
+    }
 
-	public void addCookingInstructions(List<TicketItemCookingInstruction> instructions) {
-		List<TicketItemCookingInstruction> cookingInstructions = getCookingInstructions();
+    cookingInstructions.add(cookingInstruction);
+  }
 
-		if (cookingInstructions == null) {
-			cookingInstructions = new ArrayList<TicketItemCookingInstruction>(2);
-			setCookingInstructions(cookingInstructions);
-		}
+  public void addCookingInstructions(List<TicketItemCookingInstruction> instructions) {
+    List<TicketItemCookingInstruction> cookingInstructions = getCookingInstructions();
 
-		cookingInstructions.addAll(instructions);
-	}
+    if (cookingInstructions == null) {
+      cookingInstructions = new ArrayList<TicketItemCookingInstruction>(2);
+      setCookingInstructions(cookingInstructions);
+    }
 
-	public void removeCookingInstruction(TicketItemCookingInstruction itemCookingInstruction) {
-		List<TicketItemCookingInstruction> cookingInstructions2 = getCookingInstructions();
-		if (cookingInstructions2 == null) {
-			return;
-		}
+    cookingInstructions.addAll(instructions);
+  }
 
-		for (Iterator iterator = cookingInstructions2.iterator(); iterator.hasNext();) {
-			TicketItemCookingInstruction ticketItemCookingInstruction = (TicketItemCookingInstruction) iterator.next();
-			if (ticketItemCookingInstruction.getTableRowNum() == itemCookingInstruction.getTableRowNum()) {
-				iterator.remove();
-				return;
-			}
-		}
-	}
+  public void removeCookingInstruction(TicketItemCookingInstruction itemCookingInstruction) {
+    List<TicketItemCookingInstruction> cookingInstructions2 = getCookingInstructions();
+    if (cookingInstructions2 == null) {
+      return;
+    }
 
-	public TicketItemModifierGroup findTicketItemModifierGroup(MenuModifier menuModifier, boolean createNew) {
-		MenuItemModifierGroup menuItemModifierGroup = menuModifier.getMenuItemModifierGroup();
+    for (Iterator iterator = cookingInstructions2.iterator(); iterator.hasNext();) {
+      TicketItemCookingInstruction ticketItemCookingInstruction =
+          (TicketItemCookingInstruction) iterator.next();
+      if (ticketItemCookingInstruction.getTableRowNum() == itemCookingInstruction
+          .getTableRowNum()) {
+        iterator.remove();
+        return;
+      }
+    }
+  }
 
-		List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
+  public TicketItemModifierGroup findTicketItemModifierGroup(MenuModifier menuModifier,
+      boolean createNew) {
+    MenuItemModifierGroup menuItemModifierGroup = menuModifier.getMenuItemModifierGroup();
 
-		if (ticketItemModifierGroups != null) {
-			for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-				if (ticketItemModifierGroup.getModifierGroupId().equals(menuItemModifierGroup.getId())) {
-					return ticketItemModifierGroup;
-				}
-			}
-		}
+    List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
 
-		TicketItemModifierGroup ticketItemModifierGroup = new TicketItemModifierGroup();
-		ticketItemModifierGroup.setModifierGroupId(menuItemModifierGroup.getId());
-		ticketItemModifierGroup.setMinQuantity(menuItemModifierGroup.getMinQuantity());
-		ticketItemModifierGroup.setMaxQuantity(menuItemModifierGroup.getMaxQuantity());
-		ticketItemModifierGroup.setParent(this);
-		addToticketItemModifierGroups(ticketItemModifierGroup);
+    if (ticketItemModifierGroups != null) {
+      for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
+        if (ticketItemModifierGroup.getModifierGroupId().equals(menuItemModifierGroup.getId())) {
+          return ticketItemModifierGroup;
+        }
+      }
+    }
 
-		return ticketItemModifierGroup;
-	}
+    TicketItemModifierGroup ticketItemModifierGroup = new TicketItemModifierGroup();
+    ticketItemModifierGroup.setModifierGroupId(menuItemModifierGroup.getId());
+    ticketItemModifierGroup.setMinQuantity(menuItemModifierGroup.getMinQuantity());
+    ticketItemModifierGroup.setMaxQuantity(menuItemModifierGroup.getMaxQuantity());
+    ticketItemModifierGroup.setParent(this);
+    addToticketItemModifierGroups(ticketItemModifierGroup);
 
-	public void calculatePrice(boolean needDiscount) {
-		priceIncludesTax = Application.getInstance().isPriceIncludesTax();
+    return ticketItemModifierGroup;
+  }
 
-		List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
-		if (ticketItemModifierGroups != null) {
-			for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-				ticketItemModifierGroup.calculatePrice();
-			}
-		}
+  public void calculatePrice(boolean needDiscount) {
+    priceIncludesTax = Application.getInstance().isPriceIncludesTax();
 
-		setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));
-		setSubtotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateSubtotal(false)));
-		if(needDiscount) {
-			setDiscountAmount(NumberUtil.roundToTwoDigit(calculateDiscount()));
-		}
-//		setTaxAmount(NumberUtil.roundToTwoDigit(calculateTax(true)));
-//		setTaxAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTax(false)));
-		setTotalAmount(NumberUtil.roundToTwoDigit(calculateTotal(true)));
-		setTotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTotal(false)));
-	}
+    List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
+    if (ticketItemModifierGroups != null) {
+      for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
+        ticketItemModifierGroup.calculatePrice();
+      }
+    }
 
-	//	public double calculateSubtotal() {
-	//		double subtotal = NumberUtil.roundToTwoDigit(calculateSubtotal(true));
-	//		
-	//		return subtotal;
-	//	}
-	//	
-	//	public double calculateSubtotalWithoutModifiers() {
-	//		double subtotalWithoutModifiers = NumberUtil.roundToTwoDigit(calculateSubtotal(false));
-	//		
-	//		return subtotalWithoutModifiers;
-	//	}
+    setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));
+    setSubtotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateSubtotal(false)));
+    if (needDiscount) {
+      setDiscountAmount(NumberUtil.roundToTwoDigit(calculateDiscount()));
+    }
+    // setTaxAmount(NumberUtil.roundToTwoDigit(calculateTax(true)));
+    // setTaxAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTax(false)));
+    setTotalAmount(NumberUtil.roundToTwoDigit(calculateTotal(true)));
+    setTotalAmountWithoutModifiers(NumberUtil.roundToTwoDigit(calculateTotal(false)));
+  }
 
-	private double calculateSubtotal(boolean includeModifierPrice) {
-		double subTotalAmount = NumberUtil.roundToTwoDigit(getUnitPrice() * getItemCount());
+  // public double calculateSubtotal() {
+  // double subtotal = NumberUtil.roundToTwoDigit(calculateSubtotal(true));
+  //
+  // return subtotal;
+  // }
+  //
+  // public double calculateSubtotalWithoutModifiers() {
+  // double subtotalWithoutModifiers = NumberUtil.roundToTwoDigit(calculateSubtotal(false));
+  //
+  // return subtotalWithoutModifiers;
+  // }
 
-		if (includeModifierPrice) {
-			List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
-			if (ticketItemModifierGroups != null) {
-				for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-					subTotalAmount += ticketItemModifierGroup.getSubtotal();
-				}
-			}
-		}
+  private double calculateSubtotal(boolean includeModifierPrice) {
+    double subTotalAmount = NumberUtil.roundToTwoDigit(getUnitPrice() * getItemCount());
 
-		return subTotalAmount;
-	}
+    if (includeModifierPrice) {
+      List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
+      if (ticketItemModifierGroups != null) {
+        for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
+          subTotalAmount += ticketItemModifierGroup.getSubtotal();
+        }
+      }
+    }
 
-	private double calculateDiscount() {
-		double subtotalWithoutModifiers = getSubtotalAmountWithoutModifiers();
-		double discountRate = getDiscountRate();
+    return subTotalAmount;
+  }
 
-		double discount = 0;
-		if (discountRate > 0) {
-			discount = NumberUtil.roundToTwoDigit(subtotalWithoutModifiers * (100 - discountRate * 10) / 100.0);
-		}
+  private double calculateDiscount() {
+    double subtotalWithoutModifiers = getSubtotalAmountWithoutModifiers();
+    double discountRate = getDiscountRate();
 
-		return discount;
-	}
+    double discount = 0;
+    if (discountRate > 0) {
+      discount =
+          NumberUtil.roundToTwoDigit(subtotalWithoutModifiers * (100 - discountRate * 10) / 100.0);
+    }
 
-//	private double calculateTax(boolean includeModifierTax) {
-//		double subtotal = 0;
-//
-//		subtotal = getSubtotalAmountWithoutModifiers();
-//
-//		double discount = getDiscountAmount();
-//
-//		subtotal = subtotal - discount;
-//
-//		double taxRate = getTaxRate();
-//		double tax = 0;
-//
-//		if (taxRate > 0) {
-//			if (priceIncludesTax) {
-//				tax = subtotal - (subtotal / (1 + (taxRate / 100.0)));
-//			}
-//			else {
-//				tax = subtotal * (taxRate / 100.0);
-//			}
-//		}
-//
-//		if (includeModifierTax) {
-//			List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
-//			if (ticketItemModifierGroups != null) {
-//				for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-//					tax += ticketItemModifierGroup.getTax();
-//				}
-//			}
-//		}
-//
-//		return tax;
-//	}
+    return discount;
+  }
 
-	private double calculateTotal(boolean includeModifiers) {
-		double total = 0;
+  // private double calculateTax(boolean includeModifierTax) {
+  // double subtotal = 0;
+  //
+  // subtotal = getSubtotalAmountWithoutModifiers();
+  //
+  // double discount = getDiscountAmount();
+  //
+  // subtotal = subtotal - discount;
+  //
+  // double taxRate = getTaxRate();
+  // double tax = 0;
+  //
+  // if (taxRate > 0) {
+  // if (priceIncludesTax) {
+  // tax = subtotal - (subtotal / (1 + (taxRate / 100.0)));
+  // }
+  // else {
+  // tax = subtotal * (taxRate / 100.0);
+  // }
+  // }
+  //
+  // if (includeModifierTax) {
+  // List<TicketItemModifierGroup> ticketItemModifierGroups = getTicketItemModifierGroups();
+  // if (ticketItemModifierGroups != null) {
+  // for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
+  // tax += ticketItemModifierGroup.getTax();
+  // }
+  // }
+  // }
+  //
+  // return tax;
+  // }
 
-		if (includeModifiers) {
-			if (priceIncludesTax) {
-				total = getSubtotalAmount() - getDiscountAmount();
-			}
-			else {
-//				total = getSubtotalAmount() - getDiscountAmount() + getTaxAmount();
-				total = getSubtotalAmount() - getDiscountAmount();
-			}
-		}
-		else {
-			if (priceIncludesTax) {
-				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
-			}
-			else {
-//				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount() + getTaxAmountWithoutModifiers();
-				total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
-			}
-		}
+  private double calculateTotal(boolean includeModifiers) {
+    double total = 0;
 
-		return total;
-	}
+    if (includeModifiers) {
+      if (priceIncludesTax) {
+        total = getSubtotalAmount() - getDiscountAmount();
+      } else {
+        // total = getSubtotalAmount() - getDiscountAmount() + getTaxAmount();
+        total = getSubtotalAmount() - getDiscountAmount();
+      }
+    } else {
+      if (priceIncludesTax) {
+        total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
+      } else {
+        // total = getSubtotalAmountWithoutModifiers() - getDiscountAmount() +
+        // getTaxAmountWithoutModifiers();
+        total = getSubtotalAmountWithoutModifiers() - getDiscountAmount();
+      }
+    }
 
-	@Override
-	public String getNameDisplay() {
-		return getName();
-	}
+    return total;
+  }
 
-	@Override
-	public Double getUnitPriceDisplay() {
-		return getUnitPrice();
-	}
+  @Override
+  public String getNameDisplay() {
+    return getName();
+  }
 
-	@Override
-	public Integer getItemCountDisplay() {
-		return getItemCount();
-	}
+  @Override
+  public Double getUnitPriceDisplay() {
+    return getUnitPrice();
+  }
 
-	@Override
-	public Double getTaxAmountWithoutModifiersDisplay() {
-		return getTaxAmountWithoutModifiers();
-	}
+  @Override
+  public Integer getItemCountDisplay() {
+    return getItemCount();
+  }
 
-	@Override
-	public Double getTotalAmountWithoutModifiersDisplay() {
-		return getTotalAmountWithoutModifiers();
-	}
+  @Override
+  public Double getTaxAmountWithoutModifiersDisplay() {
+    return getTaxAmountWithoutModifiers();
+  }
 
-	public boolean isPriceIncludesTax() {
-		return priceIncludesTax;
-	}
+  @Override
+  public Double getTotalAmountWithoutModifiersDisplay() {
+    return getTotalAmountWithoutModifiers();
+  }
 
-	public void setPriceIncludesTax(boolean priceIncludesTax) {
-		this.priceIncludesTax = priceIncludesTax;
-	}
-	
-	@Override
-	public String getItemCode() {
-		return String.valueOf(getId());
-	}
-	
-	public Printer getPrinter() {
-		PosPrinters printers = Application.getPrinters();
-		VirtualPrinter virtualPrinter = getVirtualPrinter();
-		
-		if(virtualPrinter == null) {
-			return printers.getDefaultKitchenPrinter();
-		}
-		
-		return printers.getKitchenPrinterFor(virtualPrinter);
-	}
+  public boolean isPriceIncludesTax() {
+    return priceIncludesTax;
+  }
+
+  public void setPriceIncludesTax(boolean priceIncludesTax) {
+    this.priceIncludesTax = priceIncludesTax;
+  }
+
+  @Override
+  public String getItemCode() {
+    return String.valueOf(getId());
+  }
+
+  public Printer getPrinter() {
+    PosPrinters printers = Application.getPrinters();
+    VirtualPrinter virtualPrinter = getVirtualPrinter();
+
+    if (virtualPrinter == null) {
+      return printers.getDefaultKitchenPrinter();
+    }
+
+    return printers.getKitchenPrinterFor(virtualPrinter);
+  }
 }

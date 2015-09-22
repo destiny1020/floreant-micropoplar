@@ -8,39 +8,39 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.model.base.BaseRestaurant;
 
 
-@XmlRootElement(name="restaurant")
+@XmlRootElement(name = "restaurant")
 public class Restaurant extends BaseRestaurant {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-/*[CONSTRUCTOR MARKER BEGIN]*/
-	public Restaurant () {
-		super();
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public Restaurant() {
+    super();
+  }
 
-	/**
-	 * Constructor for primary key
-	 */
-	public Restaurant (java.lang.Integer id) {
-		super(id);
-	}
+  /**
+   * Constructor for primary key
+   */
+  public Restaurant(java.lang.Integer id) {
+    super(id);
+  }
 
-/*[CONSTRUCTOR MARKER END]*/
+  /* [CONSTRUCTOR MARKER END] */
 
-	@Override
-	public String getCurrencyName() {
-		String currencyName = super.getCurrencyName();
-		if(StringUtils.isEmpty(currencyName)) {
-			return POSConstants.DEFAULT_CURRENCY_NAME;
-		}
-		return currencyName;
-	}
-	
-	@Override
-	public String getCurrencySymbol() {
-		String currencySymbol = super.getCurrencySymbol();
-		if(StringUtils.isEmpty(currencySymbol)) {
-			currencySymbol = "￥";
-		}
-		return currencySymbol;
-	}
+  @Override
+  public String getCurrencyName() {
+    String currencyName = super.getCurrencyName();
+    if (StringUtils.isEmpty(currencyName)) {
+      return POSConstants.DEFAULT_CURRENCY_NAME;
+    }
+    return currencyName;
+  }
+
+  @Override
+  public String getCurrencySymbol() {
+    String currencySymbol = super.getCurrencySymbol();
+    if (StringUtils.isEmpty(currencySymbol)) {
+      currencySymbol = "￥";
+    }
+    return currencySymbol;
+  }
 }

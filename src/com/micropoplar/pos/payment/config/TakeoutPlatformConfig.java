@@ -17,37 +17,37 @@ import com.micropoplar.pos.model.TakeoutPlatform;
 @SuppressWarnings("unchecked")
 public class TakeoutPlatformConfig {
 
-	private static Map<String, TakeoutPlatform> mappings;
+  private static Map<String, TakeoutPlatform> mappings;
 
-	static {
-		List<TakeoutPlatform> allPlatforms = TakeoutPlatformDao.getInstance().findAll();
+  static {
+    List<TakeoutPlatform> allPlatforms = TakeoutPlatformDao.getInstance().findAll();
 
-		if (allPlatforms.size() > 0) {
-			mappings = new HashMap<>(allPlatforms.size());
-			for (TakeoutPlatform platform : allPlatforms) {
-				mappings.put(platform.getName(), platform);
-			}
-		} else {
-			throw new RuntimeException("无法读取外卖平台的配置信息，请联系管理员");
-		}
-	}
+    if (allPlatforms.size() > 0) {
+      mappings = new HashMap<>(allPlatforms.size());
+      for (TakeoutPlatform platform : allPlatforms) {
+        mappings.put(platform.getName(), platform);
+      }
+    } else {
+      throw new RuntimeException("无法读取外卖平台的配置信息，请联系管理员");
+    }
+  }
 
-	public static boolean isPaymentEnabled(PaymentType paymentType) {
-		TakeoutPlatform takeoutPlatform = mappings.get(paymentType.name().toLowerCase());
-		if (takeoutPlatform == null) {
-			return false;
-		}
+  public static boolean isPaymentEnabled(PaymentType paymentType) {
+    TakeoutPlatform takeoutPlatform = mappings.get(paymentType.name().toLowerCase());
+    if (takeoutPlatform == null) {
+      return false;
+    }
 
-		return takeoutPlatform.getEnabled();
-	}
+    return takeoutPlatform.getEnabled();
+  }
 
-	public static double getPaymentDiscount(PaymentType paymentType) {
-		TakeoutPlatform takeoutPlatform = mappings.get(paymentType.name().toLowerCase());
-		if (takeoutPlatform == null) {
-			return 1.0;
-		}
+  public static double getPaymentDiscount(PaymentType paymentType) {
+    TakeoutPlatform takeoutPlatform = mappings.get(paymentType.name().toLowerCase());
+    if (takeoutPlatform == null) {
+      return 1.0;
+    }
 
-		return takeoutPlatform.getDiscount();
-	}
+    return takeoutPlatform.getDiscount();
+  }
 
 }

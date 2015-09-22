@@ -12,40 +12,39 @@ import com.floreantpos.model.Customer;
 
 public class CustomerDAO extends BaseCustomerDAO {
 
-	/**
-	 * Default constructor. Can be used in place of getInstance()
-	 */
-	public CustomerDAO() {
-	}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public CustomerDAO() {}
 
-	public List<Customer> findBy(String phone, String loyalty, String name) {
-		Session session = null;
-		
+  public List<Customer> findBy(String phone, String loyalty, String name) {
+    Session session = null;
 
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			Disjunction disjunction = Restrictions.disjunction();
-			
-			if(StringUtils.isNotEmpty(phone))
-				disjunction.add(Restrictions.like(Customer.PROP_TELEPHONE_NO, "%" + phone + "%"));
-			
-			if(StringUtils.isNotEmpty(loyalty))
-				disjunction.add(Restrictions.like(Customer.PROP_LOYALTY_NO, "%" + loyalty + "%"));
-			
-			if(StringUtils.isNotEmpty(name))
-				disjunction.add(Restrictions.like(Customer.PROP_NAME, "%" + name + "%"));
-			
-			criteria.add(disjunction);
 
-			return criteria.list();
-			
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      Disjunction disjunction = Restrictions.disjunction();
 
-	}
+      if (StringUtils.isNotEmpty(phone))
+        disjunction.add(Restrictions.like(Customer.PROP_TELEPHONE_NO, "%" + phone + "%"));
+
+      if (StringUtils.isNotEmpty(loyalty))
+        disjunction.add(Restrictions.like(Customer.PROP_LOYALTY_NO, "%" + loyalty + "%"));
+
+      if (StringUtils.isNotEmpty(name))
+        disjunction.add(Restrictions.like(Customer.PROP_NAME, "%" + name + "%"));
+
+      criteria.add(disjunction);
+
+      return criteria.list();
+
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+
+  }
 
 }

@@ -29,121 +29,121 @@ import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
  * @author MShahriar
  */
 public class MenuItemView extends SelectionView {
-	public final static String VIEW_NAME = "ITEM_VIEW";
+  public final static String VIEW_NAME = "ITEM_VIEW";
 
-	private Vector<ItemSelectionListener> listenerList = new Vector<ItemSelectionListener>();
+  private Vector<ItemSelectionListener> listenerList = new Vector<ItemSelectionListener>();
 
-	private MenuGroup menuGroup;
+  private MenuGroup menuGroup;
 
-	/** Creates new form GroupView */
-	public MenuItemView() {
-		super(com.floreantpos.POSConstants.ITEMS);
-		
-		setBackEnable(false);
-	}
+  /** Creates new form GroupView */
+  public MenuItemView() {
+    super(com.floreantpos.POSConstants.ITEMS);
 
-	public MenuGroup getMenuGroup() {
-		return menuGroup;
-	}
+    setBackEnable(false);
+  }
 
-	public void setMenuGroup(MenuGroup menuGroup) {
-		this.menuGroup = menuGroup;
+  public MenuGroup getMenuGroup() {
+    return menuGroup;
+  }
 
-		reset();
+  public void setMenuGroup(MenuGroup menuGroup) {
+    this.menuGroup = menuGroup;
 
-		if (menuGroup == null) {
-			return;
-		}
+    reset();
 
-		MenuItemDAO dao = new MenuItemDAO();
-		try {
-			List<MenuItem> items = dao.findByParent(menuGroup, false);
-			setBackEnable(items.size() > 0);
-			
-			setItems(items);
-			
-//			for (int i = 0; i < items.size(); i++) {
-//				MenuItem menuItem = items.get(i);
-//				ItemButton itemButton = new ItemButton(menuItem);
-//				addButton(itemButton);
-//			}
-//			revalidate();
-//			repaint();
-		} catch (PosException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	protected AbstractButton createItemButton(Object item) {
-		MenuItem menuItem = (MenuItem) item;
-		ItemButton itemButton = new ItemButton(menuItem);
-		
-		return itemButton;
-	}
+    if (menuGroup == null) {
+      return;
+    }
 
-	public void addItemSelectionListener(ItemSelectionListener listener) {
-		listenerList.add(listener);
-	}
+    MenuItemDAO dao = new MenuItemDAO();
+    try {
+      List<MenuItem> items = dao.findByParent(menuGroup, false);
+      setBackEnable(items.size() > 0);
 
-	public void removeItemSelectionListener(ItemSelectionListener listener) {
-		listenerList.remove(listener);
-	}
+      setItems(items);
 
-	private void fireItemSelected(MenuItem foodItem) {
-		for (ItemSelectionListener listener : listenerList) {
-			listener.itemSelected(foodItem);
-		}
-	}
+      // for (int i = 0; i < items.size(); i++) {
+      // MenuItem menuItem = items.get(i);
+      // ItemButton itemButton = new ItemButton(menuItem);
+      // addButton(itemButton);
+      // }
+      // revalidate();
+      // repaint();
+    } catch (PosException e) {
+      e.printStackTrace();
+    }
+  }
 
-	private void fireBackFromItemSelected() {
-		for (ItemSelectionListener listener : listenerList) {
-			listener.itemSelectionFinished(menuGroup);
-		}
-	}
+  @Override
+  protected AbstractButton createItemButton(Object item) {
+    MenuItem menuItem = (MenuItem) item;
+    ItemButton itemButton = new ItemButton(menuItem);
 
-	private class ItemButton extends PosButton implements ActionListener {
-		private static final int BUTTON_SIZE = 100;
-		MenuItem foodItem;
+    return itemButton;
+  }
 
-		ItemButton(MenuItem foodItem) {
-			this.foodItem = foodItem;
-			setVerticalTextPosition(SwingConstants.BOTTOM);
-			setHorizontalTextPosition(SwingConstants.CENTER);
-			
-			if(foodItem.getImage() != null) {
-				int w = BUTTON_SIZE - 10;
-				int h = BUTTON_SIZE - 10;
-				
-				if(foodItem.isShowImageOnly()) {
-					ImageIcon imageIcon = new ImageIcon(new ImageIcon(foodItem.getImage()).getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH));
-					setIcon(imageIcon);
-				}
-				else {
-					w = 80;
-					h = 80;
-					
-					ImageIcon imageIcon = new ImageIcon(new ImageIcon(foodItem.getImage()).getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH));
-					setIcon(imageIcon);
-					setText("<html><body><center>" + foodItem.getName() + "</center></body></html>");
-				}
-				
-			}
-			else {
-				setText("<html><body><center>" + foodItem.getName() + "</center></body></html>");
-			}
-			
-			setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
-			addActionListener(this);
-		}
+  public void addItemSelectionListener(ItemSelectionListener listener) {
+    listenerList.add(listener);
+  }
 
-		public void actionPerformed(ActionEvent e) {
-			fireItemSelected(foodItem);
-		}
-	}
+  public void removeItemSelectionListener(ItemSelectionListener listener) {
+    listenerList.remove(listener);
+  }
 
-	@Override
-	public void doGoBack() {
-		fireBackFromItemSelected();
-	}
+  private void fireItemSelected(MenuItem foodItem) {
+    for (ItemSelectionListener listener : listenerList) {
+      listener.itemSelected(foodItem);
+    }
+  }
+
+  private void fireBackFromItemSelected() {
+    for (ItemSelectionListener listener : listenerList) {
+      listener.itemSelectionFinished(menuGroup);
+    }
+  }
+
+  private class ItemButton extends PosButton implements ActionListener {
+    private static final int BUTTON_SIZE = 100;
+    MenuItem foodItem;
+
+    ItemButton(MenuItem foodItem) {
+      this.foodItem = foodItem;
+      setVerticalTextPosition(SwingConstants.BOTTOM);
+      setHorizontalTextPosition(SwingConstants.CENTER);
+
+      if (foodItem.getImage() != null) {
+        int w = BUTTON_SIZE - 10;
+        int h = BUTTON_SIZE - 10;
+
+        if (foodItem.isShowImageOnly()) {
+          ImageIcon imageIcon = new ImageIcon(new ImageIcon(foodItem.getImage()).getImage()
+              .getScaledInstance(w, h, Image.SCALE_SMOOTH));
+          setIcon(imageIcon);
+        } else {
+          w = 80;
+          h = 80;
+
+          ImageIcon imageIcon = new ImageIcon(new ImageIcon(foodItem.getImage()).getImage()
+              .getScaledInstance(w, h, Image.SCALE_SMOOTH));
+          setIcon(imageIcon);
+          setText("<html><body><center>" + foodItem.getName() + "</center></body></html>");
+        }
+
+      } else {
+        setText("<html><body><center>" + foodItem.getName() + "</center></body></html>");
+      }
+
+      setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+      addActionListener(this);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+      fireItemSelected(foodItem);
+    }
+  }
+
+  @Override
+  public void doGoBack() {
+    fireBackFromItemSelected();
+  }
 }

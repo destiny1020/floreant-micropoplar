@@ -17,185 +17,184 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.util.NumberUtil;
 
 public class TransactionCompletionDialog extends POSDialog {
-	//private List<Ticket> tickets;
-	private double tenderedAmount;
-	private double totalAmount;
-	private double paidAmount;
-	private double dueAmount;
-	private double gratuityAmount;
-	private double changeAmount;
+  // private List<Ticket> tickets;
+  private double tenderedAmount;
+  private double totalAmount;
+  private double paidAmount;
+  private double dueAmount;
+  private double gratuityAmount;
+  private double changeAmount;
 
-	private JLabel lblTenderedAmount;
-	private JLabel lblTotalAmount;
-	private JLabel lblPaidAmount;
-	private JLabel lblDueAmount;
-	private JLabel lblChangeDue;
-	private JLabel lblGratuityAmount;
+  private JLabel lblTenderedAmount;
+  private JLabel lblTotalAmount;
+  private JLabel lblPaidAmount;
+  private JLabel lblDueAmount;
+  private JLabel lblChangeDue;
+  private JLabel lblGratuityAmount;
 
-	private PosTransaction completedTransaction;
+  private PosTransaction completedTransaction;
 
-	public TransactionCompletionDialog(Frame parent, PosTransaction transaction) {
-		super(parent, true);
-		
-		this.completedTransaction = transaction;
+  public TransactionCompletionDialog(Frame parent, PosTransaction transaction) {
+    super(parent, true);
 
-		setTitle(com.floreantpos.POSConstants.TRANSACTION_COMPLETED);
+    this.completedTransaction = transaction;
 
-		setLayout(new MigLayout("align 50% 0%, ins 20", "[]20[]", ""));
+    setTitle(com.floreantpos.POSConstants.TRANSACTION_COMPLETED);
 
-		add(createLabel("商品小计" + ":", JLabel.LEFT), "grow");
-		lblTotalAmount = createLabel("0.0", JLabel.RIGHT);
-		add(lblTotalAmount, "span, grow");
+    setLayout(new MigLayout("align 50% 0%, ins 20", "[]20[]", ""));
 
-		add(createLabel("实收金额" + ":", JLabel.LEFT), "newline,grow");
-		lblTenderedAmount = createLabel("0.0", JLabel.RIGHT);
-		add(lblTenderedAmount, "span, grow");
+    add(createLabel("商品小计" + ":", JLabel.LEFT), "grow");
+    lblTotalAmount = createLabel("0.0", JLabel.RIGHT);
+    add(lblTotalAmount, "span, grow");
 
-		add(new JSeparator(), "newline,span, grow");
+    add(createLabel("实收金额" + ":", JLabel.LEFT), "newline,grow");
+    lblTenderedAmount = createLabel("0.0", JLabel.RIGHT);
+    add(lblTenderedAmount, "span, grow");
 
-		// add(createLabel("付款金额" + ":", JLabel.LEFT), "newline,grow");
-		// lblPaidAmount = createLabel("0.0", JLabel.RIGHT);
-		// add(lblPaidAmount, "span, grow");
+    add(new JSeparator(), "newline,span, grow");
 
-		// add(createLabel("DUE AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-		// lblDueAmount = createLabel("0.0", JLabel.RIGHT);
-		// add(lblDueAmount, "span, grow");
+    // add(createLabel("付款金额" + ":", JLabel.LEFT), "newline,grow");
+    // lblPaidAmount = createLabel("0.0", JLabel.RIGHT);
+    // add(lblPaidAmount, "span, grow");
 
-		// add(new JSeparator(), "newline,span, grow");
+    // add(createLabel("DUE AMOUNT" + ":", JLabel.LEFT), "newline,grow");
+    // lblDueAmount = createLabel("0.0", JLabel.RIGHT);
+    // add(lblDueAmount, "span, grow");
 
-		// add(createLabel("GRATUITY AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-		// lblGratuityAmount = createLabel("0.0", JLabel.RIGHT);
-		// add(lblGratuityAmount, "span, grow");
+    // add(new JSeparator(), "newline,span, grow");
 
-		// add(new JSeparator(), "newline,span, grow");
+    // add(createLabel("GRATUITY AMOUNT" + ":", JLabel.LEFT), "newline,grow");
+    // lblGratuityAmount = createLabel("0.0", JLabel.RIGHT);
+    // add(lblGratuityAmount, "span, grow");
 
-		add(createLabel("找零" + ":", JLabel.LEFT), "grow");
-		lblChangeDue = createLabel("0.0", JLabel.RIGHT);
-		add(lblChangeDue, "span, grow");
+    // add(new JSeparator(), "newline,span, grow");
 
-		add(new JSeparator(), "sg mygroup,newline,span,grow");
-		PosButton btnClose = new PosButton("关闭");
-		btnClose.addActionListener(new ActionListener() {
+    add(createLabel("找零" + ":", JLabel.LEFT), "grow");
+    lblChangeDue = createLabel("0.0", JLabel.RIGHT);
+    add(lblChangeDue, "span, grow");
 
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
+    add(new JSeparator(), "sg mygroup,newline,span,grow");
+    PosButton btnClose = new PosButton("关闭");
+    btnClose.addActionListener(new ActionListener() {
 
-		});
+      public void actionPerformed(ActionEvent e) {
+        dispose();
+      }
 
-		PosButton btnPrintStoreCopy = new PosButton("PRINT STORE COPY");
-		btnPrintStoreCopy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
+    });
 
-					JReportPrintService.printTransaction(completedTransaction, false);
+    PosButton btnPrintStoreCopy = new PosButton("PRINT STORE COPY");
+    btnPrintStoreCopy.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
 
-				} catch (Exception ee) {
-					POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
-				}
-				dispose();
-			}
-		});
+          JReportPrintService.printTransaction(completedTransaction, false);
 
-		PosButton btnPrintAllCopy = new PosButton("PRINT STORE & MERCHANT COPY");
-		btnPrintAllCopy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
+        } catch (Exception ee) {
+          POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
+        }
+        dispose();
+      }
+    });
 
-					JReportPrintService.printTransaction(completedTransaction, true);
+    PosButton btnPrintAllCopy = new PosButton("PRINT STORE & MERCHANT COPY");
+    btnPrintAllCopy.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
 
-				} catch (Exception ee) {
-					POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
-				}
-				dispose();
-			}
-		});
+          JReportPrintService.printTransaction(completedTransaction, true);
 
-		JPanel p = new JPanel();
+        } catch (Exception ee) {
+          POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
+        }
+        dispose();
+      }
+    });
 
-		if (completedTransaction.isCard()) {
-			p.add(btnPrintAllCopy, "newline,skip, h 50");
-			p.add(btnPrintStoreCopy, "skip, h 50");
-			p.add(btnClose, "skip, h 50");
-		}
-		else {
-			btnPrintStoreCopy.setText("打印");
-			p.add(btnPrintStoreCopy, "skip, h 50");
-			p.add(btnClose, "skip, h 50");
-		}
+    JPanel p = new JPanel();
 
-		add(p, "newline, span 2, grow, gaptop 15px");
-		//setResizable(false);
-	}
+    if (completedTransaction.isCard()) {
+      p.add(btnPrintAllCopy, "newline,skip, h 50");
+      p.add(btnPrintStoreCopy, "skip, h 50");
+      p.add(btnClose, "skip, h 50");
+    } else {
+      btnPrintStoreCopy.setText("打印");
+      p.add(btnPrintStoreCopy, "skip, h 50");
+      p.add(btnClose, "skip, h 50");
+    }
 
-	protected JLabel createLabel(String text, int alignment) {
-		JLabel label = new JLabel(text);
-		label.setFont(new java.awt.Font("微软雅黑", 1, 24));
-		//label.setForeground(new java.awt.Color(255, 102, 0));
-		label.setHorizontalAlignment(alignment);
-		label.setText(text);
-		return label;
-	}
+    add(p, "newline, span 2, grow, gaptop 15px");
+    // setResizable(false);
+  }
 
-	public double getTenderedAmount() {
-		return tenderedAmount;
-	}
+  protected JLabel createLabel(String text, int alignment) {
+    JLabel label = new JLabel(text);
+    label.setFont(new java.awt.Font("微软雅黑", 1, 24));
+    // label.setForeground(new java.awt.Color(255, 102, 0));
+    label.setHorizontalAlignment(alignment);
+    label.setText(text);
+    return label;
+  }
 
-	public void setTenderedAmount(double amountTendered) {
-		this.tenderedAmount = amountTendered;
-	}
+  public double getTenderedAmount() {
+    return tenderedAmount;
+  }
 
-	public void updateView() {
-		lblTotalAmount.setText(NumberUtil.formatNumber(totalAmount));
-		lblTenderedAmount.setText(NumberUtil.formatNumber(tenderedAmount));
-//		lblPaidAmount.setText(NumberUtil.formatNumber(paidAmount));
-//		lblDueAmount.setText(NumberUtil.formatNumber(dueAmount));
-//		lblGratuityAmount.setText(NumberUtil.formatNumber(gratuityAmount));
-		lblChangeDue.setText(NumberUtil.formatNumber(changeAmount));
-	}
+  public void setTenderedAmount(double amountTendered) {
+    this.tenderedAmount = amountTendered;
+  }
+
+  public void updateView() {
+    lblTotalAmount.setText(NumberUtil.formatNumber(totalAmount));
+    lblTenderedAmount.setText(NumberUtil.formatNumber(tenderedAmount));
+    // lblPaidAmount.setText(NumberUtil.formatNumber(paidAmount));
+    // lblDueAmount.setText(NumberUtil.formatNumber(dueAmount));
+    // lblGratuityAmount.setText(NumberUtil.formatNumber(gratuityAmount));
+    lblChangeDue.setText(NumberUtil.formatNumber(changeAmount));
+  }
 
 
-	public double getDueAmount() {
-		return dueAmount;
-	}
+  public double getDueAmount() {
+    return dueAmount;
+  }
 
-	public void setDueAmount(double dueAmount) {
-		this.dueAmount = dueAmount;
-	}
+  public void setDueAmount(double dueAmount) {
+    this.dueAmount = dueAmount;
+  }
 
-	public double getPaidAmount() {
-		return paidAmount;
-	}
+  public double getPaidAmount() {
+    return paidAmount;
+  }
 
-	public void setPaidAmount(double paidAmount) {
-		this.paidAmount = paidAmount;
-	}
+  public void setPaidAmount(double paidAmount) {
+    this.paidAmount = paidAmount;
+  }
 
-	public double getTotalAmount() {
-		return totalAmount;
-	}
+  public double getTotalAmount() {
+    return totalAmount;
+  }
 
-	public void setTotalAmount(double totalAmount) {
-		this.totalAmount = totalAmount;
-	}
+  public void setTotalAmount(double totalAmount) {
+    this.totalAmount = totalAmount;
+  }
 
-	public double getGratuityAmount() {
-		return gratuityAmount;
-	}
+  public double getGratuityAmount() {
+    return gratuityAmount;
+  }
 
-	public void setGratuityAmount(double gratuityAmount) {
-		this.gratuityAmount = gratuityAmount;
-	}
+  public void setGratuityAmount(double gratuityAmount) {
+    this.gratuityAmount = gratuityAmount;
+  }
 
-	public double getChangeAmount() {
-		return changeAmount;
-	}
+  public double getChangeAmount() {
+    return changeAmount;
+  }
 
-	public void setChangeAmount(double changeAmount) {
-		this.changeAmount = changeAmount;
-	}
+  public void setChangeAmount(double changeAmount) {
+    this.changeAmount = changeAmount;
+  }
 
-	public void setCompletedTransaction(PosTransaction completedTransaction) {
-		this.completedTransaction = completedTransaction;
-	}
+  public void setCompletedTransaction(PosTransaction completedTransaction) {
+    this.completedTransaction = completedTransaction;
+  }
 }

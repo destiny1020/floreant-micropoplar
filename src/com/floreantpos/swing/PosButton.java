@@ -16,71 +16,71 @@ import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.config.UIConfig;
 
 public class PosButton extends JButton {
-	public static Border border = new LineBorder(Color.BLACK, 1);
-	static Insets margin = new Insets(0, 0, 0, 0);
+  public static Border border = new LineBorder(Color.BLACK, 1);
+  static Insets margin = new Insets(0, 0, 0, 0);
 
-	static POSButtonUI ui = new POSButtonUI();
+  static POSButtonUI ui = new POSButtonUI();
 
-	static {
-		UIManager.put("PosButtonUI", "com.floreantpos.swing.POSButtonUI");
-	}
+  static {
+    UIManager.put("PosButtonUI", "com.floreantpos.swing.POSButtonUI");
+  }
 
-	public PosButton() {
-		this("");
-	}
+  public PosButton() {
+    this("");
+  }
 
-	public PosButton(String text) {
-		super(text);
-		setFont(UIConfig.getButtonFont());
+  public PosButton(String text) {
+    super(text);
+    setFont(UIConfig.getButtonFont());
 
-		setFocusPainted(false);
-		setMargin(margin);
-	}
-	
-	public PosButton(Action a) {
-		super(a);
-		
-		setFont(UIConfig.getButtonFont());
+    setFocusPainted(false);
+    setMargin(margin);
+  }
 
-		setFocusPainted(false);
-		setMargin(margin);
-	}
-	
-	public PosButton(ActionCommand command) {
-		this(command.toString());
-		
-		setActionCommand(command.name());
-	}
-	
-	public PosButton(ActionCommand command, ActionListener listener) {
-		this(command.toString());
-		
-		setActionCommand(command.name());
-		addActionListener(listener);
-	}
+  public PosButton(Action a) {
+    super(a);
 
-	@Override
-	public String getUIClassID() {
-		return "PosButtonUI";
-	}
+    setFont(UIConfig.getButtonFont());
 
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension size = super.getPreferredSize();
+    setFocusPainted(false);
+    setMargin(margin);
+  }
 
-		if (isPreferredSizeSet()) {
-			return size;
-		}
-		
-		if (ui != null) {
-			size = ui.getPreferredSize(this);
-		}
-		
-		if(size != null) {
-			size.setSize(size.width + 20, TerminalConfig.getTouchScreenButtonHeight());
-		}
-		
-		
-		return (size != null) ? size : super.getPreferredSize();
-	}
+  public PosButton(ActionCommand command) {
+    this(command.toString());
+
+    setActionCommand(command.name());
+  }
+
+  public PosButton(ActionCommand command, ActionListener listener) {
+    this(command.toString());
+
+    setActionCommand(command.name());
+    addActionListener(listener);
+  }
+
+  @Override
+  public String getUIClassID() {
+    return "PosButtonUI";
+  }
+
+  @Override
+  public Dimension getPreferredSize() {
+    Dimension size = super.getPreferredSize();
+
+    if (isPreferredSizeSet()) {
+      return size;
+    }
+
+    if (ui != null) {
+      size = ui.getPreferredSize(this);
+    }
+
+    if (size != null) {
+      size.setSize(size.width + 20, TerminalConfig.getTouchScreenButtonHeight());
+    }
+
+
+    return (size != null) ? size : super.getPreferredSize();
+  }
 }

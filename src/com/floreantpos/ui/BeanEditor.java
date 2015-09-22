@@ -7,78 +7,77 @@ import com.floreantpos.model.util.IllegalModelStateException;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 
 public abstract class BeanEditor<E> extends com.floreantpos.swing.TransparentPanel {
-	protected E bean;
-	protected BeanEditorDialog editorDialog;
-	protected boolean editMode;
+  protected E bean;
+  protected BeanEditorDialog editorDialog;
+  protected boolean editMode;
 
-	public BeanEditor(LayoutManager layout) {
-		super(layout);
-	}
+  public BeanEditor(LayoutManager layout) {
+    super(layout);
+  }
 
-	public BeanEditor() {
-		super();
-	}
+  public BeanEditor() {
+    super();
+  }
 
-	public void createNew() {
+  public void createNew() {
 
-	}
+  }
 
-	public void clearFields() {
+  public void clearFields() {
 
-	}
-	
-	public boolean delete() {
-		return false;
-	}
-	
-	public void setFieldsEnable(boolean enable) {
-		
-	}
+  }
 
-	public abstract boolean save();
+  public boolean delete() {
+    return false;
+  }
 
-	protected abstract void updateView();
+  public void setFieldsEnable(boolean enable) {
 
-	protected abstract boolean updateModel() throws IllegalModelStateException;
+  }
 
-	public abstract String getDisplayText();
+  public abstract boolean save();
 
-	public E getBean() {
-		return bean;
-	}
+  protected abstract void updateView();
 
-	public void setBean(E bean) {
-		setBean(bean, true);
-	}
+  protected abstract boolean updateModel() throws IllegalModelStateException;
 
-	public void setBean(E bean, boolean updateView) {
-		this.bean = bean;
+  public abstract String getDisplayText();
 
-		if (bean == null) {
-			clearFields();
-		}
-		else if (updateView) {
-			updateView();
-		}
-	}
+  public E getBean() {
+    return bean;
+  }
 
-	public Frame getParentFrame() {
-		return (Frame) editorDialog.getOwner();
-	}
+  public void setBean(E bean) {
+    setBean(bean, true);
+  }
 
-	public BeanEditorDialog getEditorDialog() {
-		return editorDialog;
-	}
+  public void setBean(E bean, boolean updateView) {
+    this.bean = bean;
 
-	public void setEditorDialog(BeanEditorDialog editorDialog) {
-		this.editorDialog = editorDialog;
-	}
+    if (bean == null) {
+      clearFields();
+    } else if (updateView) {
+      updateView();
+    }
+  }
 
-	public boolean isEditMode() {
-		return editMode;
-	}
+  public Frame getParentFrame() {
+    return (Frame) editorDialog.getOwner();
+  }
 
-	public void setEditMode(boolean editMode) {
-		this.editMode = editMode;
-	}
+  public BeanEditorDialog getEditorDialog() {
+    return editorDialog;
+  }
+
+  public void setEditorDialog(BeanEditorDialog editorDialog) {
+    this.editorDialog = editorDialog;
+  }
+
+  public boolean isEditMode() {
+    return editMode;
+  }
+
+  public void setEditMode(boolean editMode) {
+    this.editMode = editMode;
+  }
 }

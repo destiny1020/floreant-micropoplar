@@ -7,38 +7,38 @@ import com.floreantpos.model.base.BasePackagingUnit;
 
 
 public class PackagingUnit extends BasePackagingUnit {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-/*[CONSTRUCTOR MARKER BEGIN]*/
-	public PackagingUnit () {
-		super();
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public PackagingUnit() {
+    super();
+  }
 
-	/**
-	 * Constructor for primary key
-	 */
-	public PackagingUnit (java.lang.Integer id) {
-		super(id);
-	}
+  /**
+   * Constructor for primary key
+   */
+  public PackagingUnit(java.lang.Integer id) {
+    super(id);
+  }
 
-/*[CONSTRUCTOR MARKER END]*/
+  /* [CONSTRUCTOR MARKER END] */
 
-	public void setPackagingDimension(PackagingDimension dimension) {
-		setDimension(dimension.name());
-	}
-	
-	public PackagingDimension getPackagingDimension() {
-		String dimension2 = getDimension();
-		
-		if(StringUtils.isEmpty(dimension2)) {
-			return null;
-		}
-		
-		return PackagingDimension.valueOf(dimension2);
-	}
+  public void setPackagingDimension(PackagingDimension dimension) {
+    setDimension(dimension.name());
+  }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+  public PackagingDimension getPackagingDimension() {
+    String dimension2 = getDimension();
+
+    if (StringUtils.isEmpty(dimension2)) {
+      return null;
+    }
+
+    return PackagingDimension.valueOf(dimension2);
+  }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
 }

@@ -7,45 +7,40 @@ import com.floreantpos.model.base.BasePayOutTransaction;
 
 
 public class PayOutTransaction extends BasePayOutTransaction {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-/*[CONSTRUCTOR MARKER BEGIN]*/
-	public PayOutTransaction () {
-		super();
-	}
+  /* [CONSTRUCTOR MARKER BEGIN] */
+  public PayOutTransaction() {
+    super();
+  }
 
-	/**
-	 * Constructor for primary key
-	 */
-	public PayOutTransaction (java.lang.Integer id) {
-		super(id);
-	}
+  /**
+   * Constructor for primary key
+   */
+  public PayOutTransaction(java.lang.Integer id) {
+    super(id);
+  }
 
-	/**
-	 * Constructor for required fields
-	 */
-	public PayOutTransaction (
-		java.lang.Integer id,
-		java.lang.String transactionType,
-		java.lang.String paymentType) {
+  /**
+   * Constructor for required fields
+   */
+  public PayOutTransaction(java.lang.Integer id, java.lang.String transactionType,
+      java.lang.String paymentType) {
 
-		super (
-			id,
-			transactionType,
-			paymentType);
-	}
+    super(id, transactionType, paymentType);
+  }
 
-/*[CONSTRUCTOR MARKER END]*/
+  /* [CONSTRUCTOR MARKER END] */
 
-	@Override
-	public String getTransactionType() {
-		String type = super.getTransactionType();
-		
-		if(StringUtils.isEmpty(type)) {
-			return TransactionType.DEBIT.name();
-		}
-		
-		return type;
-	}
+  @Override
+  public String getTransactionType() {
+    String type = super.getTransactionType();
+
+    if (StringUtils.isEmpty(type)) {
+      return TransactionType.DEBIT.name();
+    }
+
+    return type;
+  }
 
 }

@@ -10,31 +10,30 @@ import com.floreantpos.model.inventory.base.BaseInventoryItemDAO;
 
 public class InventoryItemDAO extends BaseInventoryItemDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public InventoryItemDAO() {
-	}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public InventoryItemDAO() {}
 
-	public boolean hasInventoryItemByName(String name) {
-		Session session = null;
+  public boolean hasInventoryItemByName(String name) {
+    Session session = null;
 
-		try {
-			
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(MenuItem.PROP_NAME, name));
+    try {
 
-			return criteria.list().size() > 0;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new PosException("Error occured while finding food items");
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(MenuItem.PROP_NAME, name));
 
-	}
+      return criteria.list().size() > 0;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new PosException("Error occured while finding food items");
+    } finally {
+      if (session != null) {
+        session.close();
+      }
+    }
+
+  }
 }

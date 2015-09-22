@@ -10,17 +10,17 @@ import com.floreantpos.model.dao.BaseVirtualPrinterDAO;
 
 public class VirtualPrinterDAO extends BaseVirtualPrinterDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public VirtualPrinterDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public VirtualPrinterDAO() {}
 
-	public VirtualPrinter findPrinterByName(String name) {
-		Session session = getSession();
-		Criteria criteria = session.createCriteria(getReferenceClass());
-		criteria.add(Restrictions.eq(VirtualPrinter.PROP_NAME, name));
-		
-		return (VirtualPrinter) criteria.uniqueResult();
-	}
+  public VirtualPrinter findPrinterByName(String name) {
+    Session session = getSession();
+    Criteria criteria = session.createCriteria(getReferenceClass());
+    criteria.add(Restrictions.eq(VirtualPrinter.PROP_NAME, name));
+
+    return (VirtualPrinter) criteria.uniqueResult();
+  }
 
 }

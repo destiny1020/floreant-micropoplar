@@ -1,44 +1,44 @@
 package com.floreantpos.model.util;
 
 public class TransactionSummary {
-	private int count;
-	private double amount;
-	private double tipsAmount;
-	private double changeAmount;
-	
-	public TransactionSummary() {
-		super();
-	}
+  private int count;
+  private double amount;
+  private double tipsAmount;
+  private double changeAmount;
 
-	public double getAmount() {
-		return amount;
-	}
+  public TransactionSummary() {
+    super();
+  }
 
-	public void setAmount(double totalPrice) {
-		this.amount = totalPrice;
-	}
+  public double getAmount() {
+    return amount;
+  }
 
-	public int getCount() {
-		return count;
-	}
+  public void setAmount(double totalPrice) {
+    this.amount = totalPrice;
+  }
 
-	public void setCount(int totalTicket) {
-		this.count = totalTicket;
-	}
+  public int getCount() {
+    return count;
+  }
 
-	public double getChangeAmount() {
-		return changeAmount;
-	}
+  public void setCount(int totalTicket) {
+    this.count = totalTicket;
+  }
 
-	public void setChangeAmount(double changeAmount) {
-		this.changeAmount = changeAmount;
-	}
+  public double getChangeAmount() {
+    return changeAmount;
+  }
 
-	public double getTipsAmount() {
-		return tipsAmount;
-	}
+  public void setChangeAmount(double changeAmount) {
+    this.changeAmount = changeAmount;
+  }
 
-	public void setTipsAmount(double tipsAmount) {
-		this.tipsAmount = tipsAmount;
-	}
+  public double getTipsAmount() {
+    return tipsAmount;
+  }
+
+  public void setTipsAmount(double tipsAmount) {
+    this.tipsAmount = tipsAmount;
+  }
 }

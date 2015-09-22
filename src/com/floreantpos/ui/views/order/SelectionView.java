@@ -23,231 +23,228 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.swing.PosButton;
 
 public abstract class SelectionView extends JPanel implements ComponentListener {
-	private final static int HORIZONTAL_GAP = 15;
-	private final static int VERTICAL_GAP = 15;
+  private final static int HORIZONTAL_GAP = 15;
+  private final static int VERTICAL_GAP = 15;
 
-	private Dimension buttonSize;
+  private Dimension buttonSize;
 
-	protected final JPanel buttonsPanel = new JPanel();
+  protected final JPanel buttonsPanel = new JPanel();
 
-	protected List items;
-	
-	protected int previousBlockIndex = -1;
-	protected int currentBlockIndex = 0;
-	protected int nextBlockIndex;
+  protected List items;
 
-	protected com.floreantpos.swing.PosButton btnBack;
-	protected com.floreantpos.swing.PosButton btnNext;
-	protected com.floreantpos.swing.PosButton btnPrev;
-	
-	@SuppressWarnings("unused")
-	private String title;
+  protected int previousBlockIndex = -1;
+  protected int currentBlockIndex = 0;
+  protected int nextBlockIndex;
 
-	public SelectionView(String title, int buttonWidth, int buttonHeight) {
-		this.title = title;
-		this.buttonSize = new Dimension(buttonWidth, buttonHeight);
+  protected com.floreantpos.swing.PosButton btnBack;
+  protected com.floreantpos.swing.PosButton btnNext;
+  protected com.floreantpos.swing.PosButton btnPrev;
 
-		TitledBorder border = new TitledBorder(title);
-		border.setTitleJustification(TitledBorder.CENTER);
+  @SuppressWarnings("unused")
+  private String title;
 
-		setBorder(border);
+  public SelectionView(String title, int buttonWidth, int buttonHeight) {
+    this.title = title;
+    this.buttonSize = new Dimension(buttonWidth, buttonHeight);
 
-		setLayout(new BorderLayout(HORIZONTAL_GAP, VERTICAL_GAP));
+    TitledBorder border = new TitledBorder(title);
+    border.setTitleJustification(TitledBorder.CENTER);
 
-		buttonsPanel.addComponentListener(this);
-		add(buttonsPanel);
+    setBorder(border);
 
-		MigLayout migLayout2 = new MigLayout("fill,hidemode 3", "grow", "");
-		JPanel southPanel = new JPanel(migLayout2);
-		southPanel.add(new JSeparator(JSeparator.HORIZONTAL), "wrap, span, grow, gaptop 5");
+    setLayout(new BorderLayout(HORIZONTAL_GAP, VERTICAL_GAP));
 
-		btnBack = new PosButton();
-		btnBack.setText(POSConstants.CAPITAL_BACK);
-		southPanel.add(btnBack, "grow,shrink, align center, height 50");
+    buttonsPanel.addComponentListener(this);
+    add(buttonsPanel);
 
-		btnPrev = new PosButton();
-		btnPrev.setText(POSConstants.CAPITAL_PREV);
-		southPanel.add(btnPrev, "grow, align center, height 50");
+    MigLayout migLayout2 = new MigLayout("fill,hidemode 3", "grow", "");
+    JPanel southPanel = new JPanel(migLayout2);
+    southPanel.add(new JSeparator(JSeparator.HORIZONTAL), "wrap, span, grow, gaptop 5");
 
-		btnNext = new PosButton();
-		btnNext.setText(POSConstants.CAPITAL_NEXT);
-		southPanel.add(btnNext, "grow, align center, height 50");
+    btnBack = new PosButton();
+    btnBack.setText(POSConstants.CAPITAL_BACK);
+    southPanel.add(btnBack, "grow,shrink, align center, height 50");
 
-		add(southPanel, BorderLayout.SOUTH);
+    btnPrev = new PosButton();
+    btnPrev.setText(POSConstants.CAPITAL_PREV);
+    southPanel.add(btnPrev, "grow, align center, height 50");
 
-		ScrollAction action = new ScrollAction();
-		btnBack.addActionListener(action);
-		btnPrev.addActionListener(action);
-		btnNext.addActionListener(action);
+    btnNext = new PosButton();
+    btnNext.setText(POSConstants.CAPITAL_NEXT);
+    southPanel.add(btnNext, "grow, align center, height 50");
 
-	}
+    add(southPanel, BorderLayout.SOUTH);
 
-	public SelectionView(String title) {
-		this(title, 120, 120);
-	}
+    ScrollAction action = new ScrollAction();
+    btnBack.addActionListener(action);
+    btnPrev.addActionListener(action);
+    btnNext.addActionListener(action);
 
-	public void setItems(List items) {
-		this.items = items;
-		currentBlockIndex = 0;
-		nextBlockIndex = 0;
-		
-		renderItems();
-	}
+  }
 
-	public List getItems() {
-		return items;
-	}
+  public SelectionView(String title) {
+    this(title, 120, 120);
+  }
 
-	public Dimension getButtonSize() {
-		return buttonSize;
-	}
+  public void setItems(List items) {
+    this.items = items;
+    currentBlockIndex = 0;
+    nextBlockIndex = 0;
 
-	public void setButtonSize(Dimension buttonSize) {
-		this.buttonSize = buttonSize;
-	}
+    renderItems();
+  }
 
-	protected abstract AbstractButton createItemButton(Object item);
+  public List getItems() {
+    return items;
+  }
 
-	public void reset() {
-		//btnBack.setEnabled(false);
-		btnNext.setEnabled(false);
-		btnPrev.setEnabled(false);
-		
-		Component[] components = buttonsPanel.getComponents();
-		for (int i = 0; i < components.length; i++) {
-			Component c = components[i];
-			if (c instanceof AbstractButton) {
-				AbstractButton button = (AbstractButton) c;
-				button.setPreferredSize(null);
+  public Dimension getButtonSize() {
+    return buttonSize;
+  }
 
-				ActionListener[] actionListeners = button.getActionListeners();
-				if (actionListeners != null) {
-					for (int j = 0; j < actionListeners.length; j++) {
-						button.removeActionListener(actionListeners[j]);
-					}
-				}
-			}
-		}
-		buttonsPanel.removeAll();
-		buttonsPanel.revalidate();
-		buttonsPanel.repaint();
-	}
+  public void setButtonSize(Dimension buttonSize) {
+    this.buttonSize = buttonSize;
+  }
 
-	protected void renderItems() {
-		reset();
+  protected abstract AbstractButton createItemButton(Object item);
 
-		if (this.items == null || items.size() == 0) {
-			return;
-		}
+  public void reset() {
+    // btnBack.setEnabled(false);
+    btnNext.setEnabled(false);
+    btnPrev.setEnabled(false);
 
-		Dimension size = buttonsPanel.getSize();
-		Dimension itemButtonSize = getButtonSize();
+    Component[] components = buttonsPanel.getComponents();
+    for (int i = 0; i < components.length; i++) {
+      Component c = components[i];
+      if (c instanceof AbstractButton) {
+        AbstractButton button = (AbstractButton) c;
+        button.setPreferredSize(null);
 
-		int horizontalButtonCount = getButtonCount(size.width, getButtonSize().width);
-		int verticalButtonCount = getButtonCount(size.height, getButtonSize().height);
-		
-		buttonsPanel.setLayout(new MigLayout("alignx 50%, wrap " + horizontalButtonCount));
-		
-		int totalItem = horizontalButtonCount * verticalButtonCount;
-		
-		previousBlockIndex = currentBlockIndex - totalItem;
-		nextBlockIndex = currentBlockIndex + totalItem;
-		
-		try {
-			for (int i = currentBlockIndex; i < nextBlockIndex; i++) {
+        ActionListener[] actionListeners = button.getActionListeners();
+        if (actionListeners != null) {
+          for (int j = 0; j < actionListeners.length; j++) {
+            button.removeActionListener(actionListeners[j]);
+          }
+        }
+      }
+    }
+    buttonsPanel.removeAll();
+    buttonsPanel.revalidate();
+    buttonsPanel.repaint();
+  }
 
-				Object item = items.get(i);
+  protected void renderItems() {
+    reset();
 
-				AbstractButton itemButton = createItemButton(item);
-				buttonsPanel.add(itemButton, "width " + itemButtonSize.width + "!, height " + itemButtonSize.height + "!");
+    if (this.items == null || items.size() == 0) {
+      return;
+    }
 
-				if (i == items.size() - 1) {
-					break;
-				}
-			}
-		} catch (Exception e) {
-			// TODO: fix it.
-		}
-		
-		if(previousBlockIndex >= 0 && currentBlockIndex != 0) {
-			btnPrev.setEnabled(true);
-		}
-		
-		if(nextBlockIndex < items.size()) {
-			btnNext.setEnabled(true);
-		}
-		
-		revalidate();
-		repaint();
-	}
-	
-	public void addButton(AbstractButton button) {
-		button.setPreferredSize(buttonSize);
-		button.setText("<html><body><center>" + button.getText() + "</center></body></html>");
-		buttonsPanel.add(button);
-	}
+    Dimension size = buttonsPanel.getSize();
+    Dimension itemButtonSize = getButtonSize();
 
-	public void addSeparator(String text) {
-		buttonsPanel.add(new JXTitledSeparator(text, JLabel.CENTER), "alignx 50%, newline, span, growx, height 30!");
-	}
+    int horizontalButtonCount = getButtonCount(size.width, getButtonSize().width);
+    int verticalButtonCount = getButtonCount(size.height, getButtonSize().height);
 
-	private void scrollDown() {
-		currentBlockIndex = nextBlockIndex;
-		renderItems();
-	}
+    buttonsPanel.setLayout(new MigLayout("alignx 50%, wrap " + horizontalButtonCount));
 
-	private void scrollUp() {
-		currentBlockIndex = previousBlockIndex;
-		renderItems();
-	}
+    int totalItem = horizontalButtonCount * verticalButtonCount;
 
-	public void setBackEnable(boolean enable) {
-		btnBack.setEnabled(enable);
-	}
+    previousBlockIndex = currentBlockIndex - totalItem;
+    nextBlockIndex = currentBlockIndex + totalItem;
 
-	public void setBackVisible(boolean enable) {
-		btnBack.setVisible(enable);
-	}
+    try {
+      for (int i = currentBlockIndex; i < nextBlockIndex; i++) {
 
-	public abstract void doGoBack();
+        Object item = items.get(i);
 
-	private class ScrollAction implements ActionListener {
+        AbstractButton itemButton = createItemButton(item);
+        buttonsPanel.add(itemButton,
+            "width " + itemButtonSize.width + "!, height " + itemButtonSize.height + "!");
 
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == btnBack) {
-				doGoBack();
-			}
-			else if (source == btnPrev) {
-				scrollUp();
-			}
-			else if (source == btnNext) {
-				scrollDown();
-			}
-		}
+        if (i == items.size() - 1) {
+          break;
+        }
+      }
+    } catch (Exception e) {
+      // TODO: fix it.
+    }
 
-	}
+    if (previousBlockIndex >= 0 && currentBlockIndex != 0) {
+      btnPrev.setEnabled(true);
+    }
 
-	public JPanel getButtonsPanel() {
-		return buttonsPanel;
-	}
+    if (nextBlockIndex < items.size()) {
+      btnNext.setEnabled(true);
+    }
 
-	protected int getButtonCount(int containerSize, int itemSize) {
-		int buttonCount = containerSize / itemSize;
-		buttonCount = (containerSize - ((containerSize / itemSize) * 5)) / itemSize;
-		return buttonCount;
-	}
+    revalidate();
+    repaint();
+  }
 
-	public void componentResized(ComponentEvent e) {
-		renderItems();
-	}
+  public void addButton(AbstractButton button) {
+    button.setPreferredSize(buttonSize);
+    button.setText("<html><body><center>" + button.getText() + "</center></body></html>");
+    buttonsPanel.add(button);
+  }
 
-	public void componentMoved(ComponentEvent e) {
-	}
+  public void addSeparator(String text) {
+    buttonsPanel.add(new JXTitledSeparator(text, JLabel.CENTER),
+        "alignx 50%, newline, span, growx, height 30!");
+  }
 
-	public void componentShown(ComponentEvent e) {
-	}
+  private void scrollDown() {
+    currentBlockIndex = nextBlockIndex;
+    renderItems();
+  }
 
-	public void componentHidden(ComponentEvent e) {
-	}
+  private void scrollUp() {
+    currentBlockIndex = previousBlockIndex;
+    renderItems();
+  }
+
+  public void setBackEnable(boolean enable) {
+    btnBack.setEnabled(enable);
+  }
+
+  public void setBackVisible(boolean enable) {
+    btnBack.setVisible(enable);
+  }
+
+  public abstract void doGoBack();
+
+  private class ScrollAction implements ActionListener {
+
+    public void actionPerformed(ActionEvent e) {
+      Object source = e.getSource();
+      if (source == btnBack) {
+        doGoBack();
+      } else if (source == btnPrev) {
+        scrollUp();
+      } else if (source == btnNext) {
+        scrollDown();
+      }
+    }
+
+  }
+
+  public JPanel getButtonsPanel() {
+    return buttonsPanel;
+  }
+
+  protected int getButtonCount(int containerSize, int itemSize) {
+    int buttonCount = containerSize / itemSize;
+    buttonCount = (containerSize - ((containerSize / itemSize) * 5)) / itemSize;
+    return buttonCount;
+  }
+
+  public void componentResized(ComponentEvent e) {
+    renderItems();
+  }
+
+  public void componentMoved(ComponentEvent e) {}
+
+  public void componentShown(ComponentEvent e) {}
+
+  public void componentHidden(ComponentEvent e) {}
 }

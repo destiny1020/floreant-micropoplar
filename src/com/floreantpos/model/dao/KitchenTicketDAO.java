@@ -11,24 +11,23 @@ import com.floreantpos.model.KitchenTicket.KitchenTicketStatus;
 
 public class KitchenTicketDAO extends BaseKitchenTicketDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public KitchenTicketDAO() {
-	}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public KitchenTicketDAO() {}
 
-	public List<KitchenTicket> findAllOpen() {
-		Session session = null;
+  public List<KitchenTicket> findAllOpen() {
+    Session session = null;
 
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(KitchenTicket.PROP_STATUS, KitchenTicketStatus.WAITING.name()));
-			List list = criteria.list();
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(KitchenTicket.PROP_STATUS, KitchenTicketStatus.WAITING.name()));
+      List list = criteria.list();
 
-			return list;
-		} finally {
-			closeSession(session);
-		}
-	}
+      return list;
+    } finally {
+      closeSession(session);
+    }
+  }
 }

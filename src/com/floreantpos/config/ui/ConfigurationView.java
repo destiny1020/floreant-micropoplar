@@ -8,39 +8,41 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 public abstract class ConfigurationView extends JPanel {
-	private boolean initialized = false;
-	
-	public ConfigurationView() {
-		setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
-	}
-	
-	protected JLabel createLabel(String text) {
-		JLabel label = new JLabel(text);
-		label.setHorizontalAlignment(JLabel.RIGHT);
-		return label;
-	}
+  private boolean initialized = false;
+
+  public ConfigurationView() {
+    setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(10, 10, 10, 10)));
+  }
+
+  protected JLabel createLabel(String text) {
+    JLabel label = new JLabel(text);
+    label.setHorizontalAlignment(JLabel.RIGHT);
+    return label;
+  }
 
 
-	protected void addRow(String title, JTextField textField) {
-		add(createLabel(title), "newline, grow");
-		add(textField, "w 250,height pref");
-	}
-	
-	protected void addRow(String title, JTextField textField, String constraints) {
-		add(createLabel(title), "newline, grow");
-		add(textField, constraints);
-	}
-	
-	public abstract boolean save() throws Exception;
-	public abstract void initialize() throws Exception;
-	public abstract String getName();
+  protected void addRow(String title, JTextField textField) {
+    add(createLabel(title), "newline, grow");
+    add(textField, "w 250,height pref");
+  }
 
-	public boolean isInitialized() {
-		return initialized;
-	}
+  protected void addRow(String title, JTextField textField, String constraints) {
+    add(createLabel(title), "newline, grow");
+    add(textField, constraints);
+  }
+
+  public abstract boolean save() throws Exception;
+
+  public abstract void initialize() throws Exception;
+
+  public abstract String getName();
+
+  public boolean isInitialized() {
+    return initialized;
+  }
 
 
-	public void setInitialized(boolean initialized) {
-		this.initialized = initialized;
-	}
+  public void setInitialized(boolean initialized) {
+    this.initialized = initialized;
+  }
 }

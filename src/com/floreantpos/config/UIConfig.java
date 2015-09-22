@@ -5,16 +5,17 @@ import java.awt.Font;
 import javax.swing.UIManager;
 
 public class UIConfig {
-	public final static Font buttonFont = UIManager.getFont("Button.font").deriveFont(Font.BOLD, TerminalConfig.getTouchScreenFontSize()); //$NON-NLS-1$
-	public final static Font largeFont = UIManager.getFont("Button.font").deriveFont(Font.BOLD, 16); //$NON-NLS-1$
-	
-	public UIConfig() {
-		super();
-	}
+  public final static Font buttonFont = UIManager.getFont("Button.font").deriveFont(Font.BOLD, //$NON-NLS-1$
+      TerminalConfig.getTouchScreenFontSize());
+  public final static Font largeFont = UIManager.getFont("Button.font").deriveFont(Font.BOLD, 16); //$NON-NLS-1$
 
-	public static Font getButtonFont() {
-		return buttonFont;
-	}
-	
-	
+  public UIConfig() {
+    super();
+  }
+
+  public static Font getButtonFont() {
+    return buttonFont;
+  }
+
+
 }

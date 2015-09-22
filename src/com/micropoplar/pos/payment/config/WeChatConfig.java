@@ -17,101 +17,95 @@ import com.tencent.WXPay;
  */
 public class WeChatConfig {
 
-	public static final String WECHAT_ENABLE = "wechat_enable";
-	public static final String WECHAT_SIGN_KEY = "wechat_sign_key";
-	public static final String WECHAT_APP_ID = "wechat_app_id";
-	public static final String WECHAT_MCH_ID = "wechat_mch_id";
-	public static final String WECHAT_SUB_MCH_ID = "wechat_sub_mch_id";
-	public static final String WECHAT_CREDENTIAL_PATH = "wechat_credential_path";
-	public static final String WECHAT_CREDENTIAL_PASS = "wechat_credential_pass";
-	public static final String WECHAT_NOTIFY_URL = "wechat_notify_url";
-	public static final String WECHAT_QRCODES_FOLDER = "wechat_qrcodes_folder";
+  public static final String WECHAT_ENABLE = "wechat_enable";
+  public static final String WECHAT_SIGN_KEY = "wechat_sign_key";
+  public static final String WECHAT_APP_ID = "wechat_app_id";
+  public static final String WECHAT_MCH_ID = "wechat_mch_id";
+  public static final String WECHAT_SUB_MCH_ID = "wechat_sub_mch_id";
+  public static final String WECHAT_CREDENTIAL_PATH = "wechat_credential_path";
+  public static final String WECHAT_CREDENTIAL_PASS = "wechat_credential_pass";
+  public static final String WECHAT_NOTIFY_URL = "wechat_notify_url";
+  public static final String WECHAT_QRCODES_FOLDER = "wechat_qrcodes_folder";
 
-	private static PropertiesConfiguration config;
+  private static PropertiesConfiguration config;
 
-	static {
-		try {
-			File configFile = new File("config/wechat.properties");
-			if (!configFile.exists()) {
-				configFile.createNewFile();
-			}
-			
-			config = new PropertiesConfiguration(configFile);
-			
-			// 创建二维码本地路径
-			String folderPath = getWeChatQrCodesFolder();
-			if(!Files.exists(Paths.get(folderPath))) {
-				Files.createDirectories(Paths.get(folderPath));
-			}
-			
-			// 初始化微信支付环境
-			WXPay.initSDKConfiguration(
-					WeChatConfig.getWeChatSignKey(), 
-					WeChatConfig.getWeChatAppId(), 
-					WeChatConfig.getWeChatMchId(), 
-					WeChatConfig.getWeChatSubMchId(), 
-					WeChatConfig.getWeChatCredentialPath(), 
-					WeChatConfig.getWeChatCredentialPass()
-			);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static boolean isWeChatSupported() {
-		return config.getBoolean(WECHAT_ENABLE, false);
-	}
-	
-	public static boolean isWeChatPaymentValid() {
-		return StringUtils.isNotBlank(getWeChatSignKey()) &&
-				StringUtils.isNotBlank(getWeChatAppId()) &&
-				StringUtils.isNotBlank(getWeChatMchId()) &&
-				StringUtils.isNotBlank(getWeChatCredentialPath()) &&
-				StringUtils.isNotBlank(getWeChatCredentialPass());
-	}
+  static {
+    try {
+      File configFile = new File("config/wechat.properties");
+      if (!configFile.exists()) {
+        configFile.createNewFile();
+      }
 
-	public static PropertiesConfiguration getConfig() {
-		return config;
-	}
+      config = new PropertiesConfiguration(configFile);
 
-	public static String getString(String key) {
-		return config.getString(key, null);
-	}
+      // 创建二维码本地路径
+      String folderPath = getWeChatQrCodesFolder();
+      if (!Files.exists(Paths.get(folderPath))) {
+        Files.createDirectories(Paths.get(folderPath));
+      }
 
-	public static String getString(String key, String defaultValue) {
-		return config.getString(key, defaultValue);
-	}
+      // 初始化微信支付环境
+      WXPay.initSDKConfiguration(WeChatConfig.getWeChatSignKey(), WeChatConfig.getWeChatAppId(),
+          WeChatConfig.getWeChatMchId(), WeChatConfig.getWeChatSubMchId(),
+          WeChatConfig.getWeChatCredentialPath(), WeChatConfig.getWeChatCredentialPass());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
-	public static String getWeChatSignKey() {
-		return getString(WECHAT_SIGN_KEY, "");
-	}
+  public static boolean isWeChatSupported() {
+    return config.getBoolean(WECHAT_ENABLE, false);
+  }
 
-	public static String getWeChatAppId() {
-		return getString(WECHAT_APP_ID, "");
-	}
+  public static boolean isWeChatPaymentValid() {
+    return StringUtils.isNotBlank(getWeChatSignKey()) && StringUtils.isNotBlank(getWeChatAppId())
+        && StringUtils.isNotBlank(getWeChatMchId())
+        && StringUtils.isNotBlank(getWeChatCredentialPath())
+        && StringUtils.isNotBlank(getWeChatCredentialPass());
+  }
 
-	public static String getWeChatMchId() {
-		return getString(WECHAT_MCH_ID, "");
-	}
+  public static PropertiesConfiguration getConfig() {
+    return config;
+  }
 
-	public static String getWeChatSubMchId() {
-		return getString(WECHAT_SUB_MCH_ID, "");
-	}
+  public static String getString(String key) {
+    return config.getString(key, null);
+  }
 
-	public static String getWeChatCredentialPath() {
-		return getString(WECHAT_CREDENTIAL_PATH, "");
-	}
+  public static String getString(String key, String defaultValue) {
+    return config.getString(key, defaultValue);
+  }
 
-	public static String getWeChatCredentialPass() {
-		return getString(WECHAT_CREDENTIAL_PASS, "");
-	}
-	
-	public static String getWeChatNotifyUrl() {
-		return getString(WECHAT_NOTIFY_URL, "");
-	}
-	
-	public static String getWeChatQrCodesFolder() {
-		return getString(WECHAT_QRCODES_FOLDER, "qrcodes/");
-	}
+  public static String getWeChatSignKey() {
+    return getString(WECHAT_SIGN_KEY, "");
+  }
+
+  public static String getWeChatAppId() {
+    return getString(WECHAT_APP_ID, "");
+  }
+
+  public static String getWeChatMchId() {
+    return getString(WECHAT_MCH_ID, "");
+  }
+
+  public static String getWeChatSubMchId() {
+    return getString(WECHAT_SUB_MCH_ID, "");
+  }
+
+  public static String getWeChatCredentialPath() {
+    return getString(WECHAT_CREDENTIAL_PATH, "");
+  }
+
+  public static String getWeChatCredentialPass() {
+    return getString(WECHAT_CREDENTIAL_PASS, "");
+  }
+
+  public static String getWeChatNotifyUrl() {
+    return getString(WECHAT_NOTIFY_URL, "");
+  }
+
+  public static String getWeChatQrCodesFolder() {
+    return getString(WECHAT_QRCODES_FOLDER, "qrcodes/");
+  }
 
 }

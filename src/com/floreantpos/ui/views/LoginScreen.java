@@ -21,50 +21,50 @@ import com.floreantpos.swing.ImageComponent;
 
 /**
  *
- * @author  MShahriar
+ * @author MShahriar
  */
 public class LoginScreen extends JPanel {
-	public final static String VIEW_NAME = "LOGIN_VIEW";
+  public final static String VIEW_NAME = "LOGIN_VIEW";
 
-	private PasswordScreen passwordScreen;
+  private PasswordScreen passwordScreen;
 
-	/** Creates new form LoginScreen */
-	public LoginScreen() {
-		//setLayout(new MigLayout("ins 20 10 20 10, fill","[fill,growprio 100,grow][]",""));
-		setLayout(new BorderLayout(5, 5));
+  /** Creates new form LoginScreen */
+  public LoginScreen() {
+    // setLayout(new MigLayout("ins 20 10 20 10, fill","[fill,growprio 100,grow][]",""));
+    setLayout(new BorderLayout(5, 5));
 
-		JLabel titleLabel = new JLabel(IconFactory.getIcon("title.png"));
-		titleLabel.setOpaque(true);
-		titleLabel.setBackground(Color.WHITE);
-		
-		add(titleLabel, BorderLayout.NORTH);
+    JLabel titleLabel = new JLabel(IconFactory.getIcon("title.png"));
+    titleLabel.setOpaque(true);
+    titleLabel.setBackground(Color.WHITE);
 
-		JPanel centerPanel = new JPanel(new BorderLayout());
-		centerPanel.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(20, 20, 20, 20)));
-		ImageIcon icon = IconFactory.getIcon("/", "logo.png");
-		
-		if(icon == null) {
-			icon = IconFactory.getIcon("floreant-pos.png");
-		}
-		
-		centerPanel.add(new ImageComponent(icon.getImage()));
+    add(titleLabel, BorderLayout.NORTH);
 
-		add(centerPanel);
+    JPanel centerPanel = new JPanel(new BorderLayout());
+    centerPanel.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(20, 20, 20, 20)));
+    ImageIcon icon = IconFactory.getIcon("/", "logo.png");
 
-		passwordScreen = new PasswordScreen();
-		passwordScreen.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(5, 5, 12, 5)));
-		
-		add(passwordScreen, BorderLayout.EAST);
-	}
+    if (icon == null) {
+      icon = IconFactory.getIcon("floreant-pos.png");
+    }
 
-	public void setVisible(boolean aFlag) {
-		super.setVisible(aFlag);
-		if (aFlag) {
-			passwordScreen.setFocus();
-		}
-	}
+    centerPanel.add(new ImageComponent(icon.getImage()));
 
-	public void setTerminalId(int terminalId) {
-		passwordScreen.setTerminalId(terminalId);
-	}
+    add(centerPanel);
+
+    passwordScreen = new PasswordScreen();
+    passwordScreen.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(5, 5, 12, 5)));
+
+    add(passwordScreen, BorderLayout.EAST);
+  }
+
+  public void setVisible(boolean aFlag) {
+    super.setVisible(aFlag);
+    if (aFlag) {
+      passwordScreen.setFocus();
+    }
+  }
+
+  public void setTerminalId(int terminalId) {
+    passwordScreen.setTerminalId(terminalId);
+  }
 }

@@ -6,8 +6,8 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 public class SalesReportDatasource extends JRTableModelDataSource {
 
-	public SalesReportDatasource(TableModel arg0) {
-		super(arg0);
-	}
+  public SalesReportDatasource(TableModel arg0) {
+    super(arg0);
+  }
 
 }

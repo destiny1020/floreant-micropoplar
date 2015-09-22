@@ -36,173 +36,182 @@ import com.micropoplar.pos.dao.TakeoutPlatformDao;
 import com.micropoplar.pos.model.TakeoutPlatform;
 
 public class DatabaseUtil {
-	private static Log logger = LogFactory.getLog(DatabaseUtil.class);
+  private static Log logger = LogFactory.getLog(DatabaseUtil.class);
 
-	public static void checkConnection(String connectionString, String hibernateDialect, String hibernateConnectionDriverClass, String user, String password)
-			throws DatabaseConnectionException {
-		Configuration configuration = _RootDAO.getNewConfiguration(null);
+  public static void checkConnection(String connectionString, String hibernateDialect,
+      String hibernateConnectionDriverClass, String user, String password)
+          throws DatabaseConnectionException {
+    Configuration configuration = _RootDAO.getNewConfiguration(null);
 
-		configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
-		configuration = configuration.setProperty("hibernate.connection.driver_class", hibernateConnectionDriverClass);
+    configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
+    configuration = configuration.setProperty("hibernate.connection.driver_class",
+        hibernateConnectionDriverClass);
 
-		configuration = configuration.setProperty("hibernate.connection.url", connectionString);
-		configuration = configuration.setProperty("hibernate.connection.username", user);
-		configuration = configuration.setProperty("hibernate.connection.password", password);
+    configuration = configuration.setProperty("hibernate.connection.url", connectionString);
+    configuration = configuration.setProperty("hibernate.connection.username", user);
+    configuration = configuration.setProperty("hibernate.connection.password", password);
 
-		checkConnection(configuration);
-	}
+    checkConnection(configuration);
+  }
 
-	public static void checkConnection() throws DatabaseConnectionException {
-		Configuration configuration = _RootDAO.getNewConfiguration(null);
-		checkConnection(configuration);
-	}
+  public static void checkConnection() throws DatabaseConnectionException {
+    Configuration configuration = _RootDAO.getNewConfiguration(null);
+    checkConnection(configuration);
+  }
 
-	public static void checkConnection(Configuration configuration) throws DatabaseConnectionException {
-		try {
-			SessionFactory sessionFactory = configuration.buildSessionFactory();
-			Session session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.close();
-		} catch (Exception e) {
-			throw new DatabaseConnectionException(e);
-		}
-	}
+  public static void checkConnection(Configuration configuration)
+      throws DatabaseConnectionException {
+    try {
+      SessionFactory sessionFactory = configuration.buildSessionFactory();
+      Session session = sessionFactory.openSession();
+      session.beginTransaction();
+      session.close();
+    } catch (Exception e) {
+      throw new DatabaseConnectionException(e);
+    }
+  }
 
-	public static boolean createDatabase(String connectionString, String hibernateDialect, String hibernateConnectionDriverClass, String user, String password, boolean exportSampleData) {
-		try {
-			Configuration configuration = _RootDAO.getNewConfiguration(null);
+  public static boolean createDatabase(String connectionString, String hibernateDialect,
+      String hibernateConnectionDriverClass, String user, String password,
+      boolean exportSampleData) {
+    try {
+      Configuration configuration = _RootDAO.getNewConfiguration(null);
 
-			configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
-			configuration = configuration.setProperty("hibernate.connection.driver_class", hibernateConnectionDriverClass);
+      configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
+      configuration = configuration.setProperty("hibernate.connection.driver_class",
+          hibernateConnectionDriverClass);
 
-			configuration = configuration.setProperty("hibernate.connection.url", connectionString);
-			configuration = configuration.setProperty("hibernate.connection.username", user);
-			configuration = configuration.setProperty("hibernate.connection.password", password);
-			configuration = configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+      configuration = configuration.setProperty("hibernate.connection.url", connectionString);
+      configuration = configuration.setProperty("hibernate.connection.username", user);
+      configuration = configuration.setProperty("hibernate.connection.password", password);
+      configuration = configuration.setProperty("hibernate.hbm2ddl.auto", "create");
 
-			SchemaExport schemaExport = new SchemaExport(configuration);
-			schemaExport.create(true, true);
+      SchemaExport schemaExport = new SchemaExport(configuration);
+      schemaExport.create(true, true);
 
-			_RootDAO.initialize();
+      _RootDAO.initialize();
 
-			Restaurant restaurant = new Restaurant();
-			restaurant.setId(Integer.valueOf(1));
-			restaurant.setName("Sample Restaurant");
-			restaurant.setAddressLine1("Somewhere");
-			restaurant.setTelephone("+0123456789");
-			restaurant.setItemPriceIncludesTax(true);
-			RestaurantDAO.getInstance().saveOrUpdate(restaurant);
+      Restaurant restaurant = new Restaurant();
+      restaurant.setId(Integer.valueOf(1));
+      restaurant.setName("Sample Restaurant");
+      restaurant.setAddressLine1("Somewhere");
+      restaurant.setTelephone("+0123456789");
+      restaurant.setItemPriceIncludesTax(true);
+      RestaurantDAO.getInstance().saveOrUpdate(restaurant);
 
-			Tax tax = new Tax();
-			tax.setName("中国");
-			tax.setRate(Double.valueOf(0));
-			TaxDAO.getInstance().saveOrUpdate(tax);
+      Tax tax = new Tax();
+      tax.setName("中国");
+      tax.setRate(Double.valueOf(0));
+      TaxDAO.getInstance().saveOrUpdate(tax);
 
-			Shift shift = new Shift();
-			shift.setName(com.floreantpos.POSConstants.GENERAL);
-			java.util.Date shiftStartTime = ShiftUtil.buildShiftStartTime(0, 0, 0, 11, 59, 1);
-			java.util.Date shiftEndTime = ShiftUtil.buildShiftEndTime(0, 0, 0, 11, 59, 1);
+      Shift shift = new Shift();
+      shift.setName(com.floreantpos.POSConstants.GENERAL);
+      java.util.Date shiftStartTime = ShiftUtil.buildShiftStartTime(0, 0, 0, 11, 59, 1);
+      java.util.Date shiftEndTime = ShiftUtil.buildShiftEndTime(0, 0, 0, 11, 59, 1);
 
-			shift.setStartTime(shiftStartTime);
-			shift.setEndTime(shiftEndTime);
-			long length = Math.abs(shiftStartTime.getTime() - shiftEndTime.getTime());
+      shift.setStartTime(shiftStartTime);
+      shift.setEndTime(shiftEndTime);
+      long length = Math.abs(shiftStartTime.getTime() - shiftEndTime.getTime());
 
-			shift.setShiftLength(Long.valueOf(length));
-			ShiftDAO.getInstance().saveOrUpdate(shift);
+      shift.setShiftLength(Long.valueOf(length));
+      ShiftDAO.getInstance().saveOrUpdate(shift);
 
-			UserType type = new UserType();
-			type.setName(com.floreantpos.POSConstants.ADMINISTRATOR);
-			type.setPermissions(new HashSet<UserPermission>(Arrays.asList(UserPermission.permissions)));
-			UserTypeDAO.getInstance().saveOrUpdate(type);
+      UserType type = new UserType();
+      type.setName(com.floreantpos.POSConstants.ADMINISTRATOR);
+      type.setPermissions(new HashSet<UserPermission>(Arrays.asList(UserPermission.permissions)));
+      UserTypeDAO.getInstance().saveOrUpdate(type);
 
-			User u = new User();
-			u.setUserId("123");
-			u.setSsn("123");
-			u.setPassword("1111");
-//			u.setFirstName("Administrator");
-			u.setLastName("Administrator");
-			u.setType(type);
+      User u = new User();
+      u.setUserId("123");
+      u.setSsn("123");
+      u.setPassword("1111");
+      // u.setFirstName("Administrator");
+      u.setLastName("Administrator");
+      u.setType(type);
 
-			UserDAO dao = new UserDAO();
-			dao.saveOrUpdate(u);
-			
-			Generator gen = new Generator();
-			gen.setGenName(TicketUniqIdGenerator.COLUMN_TICKET_UNIQ_ID);
-			gen.setNextValue("1");
-			
-			GenDAO genDao = new GenDAO();
-			genDao.saveOrUpdate(gen);
-			
-			// Takeout platform
-			TakeoutPlatformDao tpDao = new TakeoutPlatformDao();
-			
-			tpDao.saveOrUpdate(new TakeoutPlatform("meituan", true, 8.5));
-			tpDao.saveOrUpdate(new TakeoutPlatform("eleme", true, 9.0));
-			tpDao.saveOrUpdate(new TakeoutPlatform("daojia", true, 9.5));
-			tpDao.saveOrUpdate(new TakeoutPlatform("linezero", true, 8.0));
-			
-			if(!exportSampleData) {
-				return true;
-			}
-			
-			DataImportAction.importMenuItems(DatabaseUtil.class.getResourceAsStream("/floreantpos-menu-items.xml"));
+      UserDAO dao = new UserDAO();
+      dao.saveOrUpdate(u);
 
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-			return false;
-		}
-	}
-	
-	public static boolean updateDatabase(String connectionString, String hibernateDialect, String hibernateConnectionDriverClass, String user, String password) {
-		try {
-			Configuration configuration = _RootDAO.getNewConfiguration(null);
+      Generator gen = new Generator();
+      gen.setGenName(TicketUniqIdGenerator.COLUMN_TICKET_UNIQ_ID);
+      gen.setNextValue("1");
 
-			configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
-			configuration = configuration.setProperty("hibernate.connection.driver_class", hibernateConnectionDriverClass);
+      GenDAO genDao = new GenDAO();
+      genDao.saveOrUpdate(gen);
 
-			configuration = configuration.setProperty("hibernate.connection.url", connectionString);
-			configuration = configuration.setProperty("hibernate.connection.username", user);
-			configuration = configuration.setProperty("hibernate.connection.password", password);
-			configuration = configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+      // Takeout platform
+      TakeoutPlatformDao tpDao = new TakeoutPlatformDao();
 
-			SchemaUpdate schemaUpdate = new SchemaUpdate(configuration);
-			schemaUpdate.execute(true, true);
+      tpDao.saveOrUpdate(new TakeoutPlatform("meituan", true, 8.5));
+      tpDao.saveOrUpdate(new TakeoutPlatform("eleme", true, 9.0));
+      tpDao.saveOrUpdate(new TakeoutPlatform("daojia", true, 9.5));
+      tpDao.saveOrUpdate(new TakeoutPlatform("linezero", true, 8.0));
 
-			_RootDAO.initialize();
+      if (!exportSampleData) {
+        return true;
+      }
 
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-			return false;
-		}
-	}
+      DataImportAction
+          .importMenuItems(DatabaseUtil.class.getResourceAsStream("/floreantpos-menu-items.xml"));
 
-	public static Configuration initialize() throws DatabaseConnectionException {
-		try {
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error(e);
+      return false;
+    }
+  }
 
-			return _RootDAO.reInitialize();
+  public static boolean updateDatabase(String connectionString, String hibernateDialect,
+      String hibernateConnectionDriverClass, String user, String password) {
+    try {
+      Configuration configuration = _RootDAO.getNewConfiguration(null);
 
-		} catch (Exception e) {
-			logger.error(e);
-			throw new DatabaseConnectionException(e);
-		}
+      configuration = configuration.setProperty("hibernate.dialect", hibernateDialect);
+      configuration = configuration.setProperty("hibernate.connection.driver_class",
+          hibernateConnectionDriverClass);
 
-	}
+      configuration = configuration.setProperty("hibernate.connection.url", connectionString);
+      configuration = configuration.setProperty("hibernate.connection.username", user);
+      configuration = configuration.setProperty("hibernate.connection.password", password);
+      configuration = configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
-	public static void main(String[] args) throws Exception {
-		initialize();
+      SchemaUpdate schemaUpdate = new SchemaUpdate(configuration);
+      schemaUpdate.execute(true, true);
 
-		List<PosTransaction> findAll = PosTransactionDAO.getInstance().findAll();
-		for (PosTransaction posTransaction : findAll) {
-			PosTransactionDAO.getInstance().delete(posTransaction);
-		}
+      _RootDAO.initialize();
 
-		List<Ticket> list = TicketDAO.getInstance().findAll();
-		for (Ticket ticket : list) {
-			TicketDAO.getInstance().delete(ticket);
-		}
-	}
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      logger.error(e);
+      return false;
+    }
+  }
+
+  public static Configuration initialize() throws DatabaseConnectionException {
+    try {
+
+      return _RootDAO.reInitialize();
+
+    } catch (Exception e) {
+      logger.error(e);
+      throw new DatabaseConnectionException(e);
+    }
+
+  }
+
+  public static void main(String[] args) throws Exception {
+    initialize();
+
+    List<PosTransaction> findAll = PosTransactionDAO.getInstance().findAll();
+    for (PosTransaction posTransaction : findAll) {
+      PosTransactionDAO.getInstance().delete(posTransaction);
+    }
+
+    List<Ticket> list = TicketDAO.getInstance().findAll();
+    for (Ticket ticket : list) {
+      TicketDAO.getInstance().delete(ticket);
+    }
+  }
 }

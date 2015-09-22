@@ -25,329 +25,329 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.TitlePanel;
 
 public class NumberSelectionDialog2 extends POSDialog implements ActionListener {
-	private int defaultValue;
+  private int defaultValue;
 
-	private TitlePanel titlePanel;
-	private JTextField tfNumber;
+  private TitlePanel titlePanel;
+  private JTextField tfNumber;
 
-	private boolean floatingPoint;
-	private PosButton btnOK;
-	private PosButton btnCancel;
+  private boolean floatingPoint;
+  private PosButton btnOK;
+  private PosButton btnCancel;
 
-	public NumberSelectionDialog2() {
-		this(Application.getPosWindow());
-	}
+  public NumberSelectionDialog2() {
+    this(Application.getPosWindow());
+  }
 
-	public NumberSelectionDialog2(Frame parent) {
-		super(parent, true);
-		init();
-	}
+  public NumberSelectionDialog2(Frame parent) {
+    super(parent, true);
+    init();
+  }
 
-	public NumberSelectionDialog2(Dialog parent) {
-		super(parent, true);
+  public NumberSelectionDialog2(Dialog parent) {
+    super(parent, true);
 
-		init();
-	}
+    init();
+  }
 
-	private void init() {
-		setResizable(true);
+  private void init() {
+    setResizable(true);
 
-		Container contentPane = getContentPane();
+    Container contentPane = getContentPane();
 
-		MigLayout layout = new MigLayout("fillx", "[60px,fill][60px,fill][60px,fill]", "[][][][][]");
-		contentPane.setLayout(layout);
+    MigLayout layout = new MigLayout("fillx", "[60px,fill][60px,fill][60px,fill]", "[][][][][]");
+    contentPane.setLayout(layout);
 
-		titlePanel = new TitlePanel();
-		contentPane.add(titlePanel, "spanx ,growy,height 60,wrap");
+    titlePanel = new TitlePanel();
+    contentPane.add(titlePanel, "spanx ,growy,height 60,wrap");
 
-		tfNumber = new JTextField();
-		tfNumber.setText(String.valueOf(defaultValue));
-		tfNumber.setFont(tfNumber.getFont().deriveFont(Font.BOLD, 24));
-		// tfNumber.setEditable(false);
-		tfNumber.setFocusable(true);
-		tfNumber.requestFocus();
-		tfNumber.setBackground(Color.WHITE);
-		// tfNumber.setHorizontalAlignment(JTextField.RIGHT);
-		contentPane.add(tfNumber, "span 2, grow");
-		
-		// let number field respond to ENTER input
-		tfNumber.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
-					btnOK.doClick();
-				}
-			}
-		});
+    tfNumber = new JTextField();
+    tfNumber.setText(String.valueOf(defaultValue));
+    tfNumber.setFont(tfNumber.getFont().deriveFont(Font.BOLD, 24));
+    // tfNumber.setEditable(false);
+    tfNumber.setFocusable(true);
+    tfNumber.requestFocus();
+    tfNumber.setBackground(Color.WHITE);
+    // tfNumber.setHorizontalAlignment(JTextField.RIGHT);
+    contentPane.add(tfNumber, "span 2, grow");
 
-		PosButton posButton = new PosButton(POSConstants.CLEAR_ALL);
-		posButton.setFocusable(false);
-		posButton.setMinimumSize(new Dimension(25, 23));
-		posButton.addActionListener(this);
-		contentPane.add(posButton, "growy,height 55,wrap");
+    // let number field respond to ENTER input
+    tfNumber.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+          btnOK.doClick();
+        }
+      }
+    });
 
-		String[][] numbers = { { "7", "8", "9" }, { "4", "5", "6" }, { "1", "2", "3" }, { ".", "0", "清除" } };
-		String[][] iconNames = new String[][] { { "7_32.png", "8_32.png", "9_32.png" },
-				{ "4_32.png", "5_32.png", "6_32.png" }, { "1_32.png", "2_32.png", "3_32.png" },
-				{ "dot_32.png", "0_32.png", "clear_32.png" } };
+    PosButton posButton = new PosButton(POSConstants.CLEAR_ALL);
+    posButton.setFocusable(false);
+    posButton.setMinimumSize(new Dimension(25, 23));
+    posButton.addActionListener(this);
+    contentPane.add(posButton, "growy,height 55,wrap");
 
-		for (int i = 0; i < numbers.length; i++) {
-			for (int j = 0; j < numbers[i].length; j++) {
-				posButton = new PosButton();
-				posButton.setFocusable(false);
-				ImageIcon icon = IconFactory.getIcon(iconNames[i][j]);
-				String buttonText = String.valueOf(numbers[i][j]);
+    String[][] numbers = {{"7", "8", "9"}, {"4", "5", "6"}, {"1", "2", "3"}, {".", "0", "清除"}};
+    String[][] iconNames =
+        new String[][] {{"7_32.png", "8_32.png", "9_32.png"}, {"4_32.png", "5_32.png", "6_32.png"},
+            {"1_32.png", "2_32.png", "3_32.png"}, {"dot_32.png", "0_32.png", "clear_32.png"}};
 
-				if (icon == null) {
-					posButton.setText(buttonText);
-				} else {
-					posButton.setIcon(icon);
-					if (POSConstants.CLEAR.equals(buttonText)) {
-						posButton.setText(buttonText);
-					}
-				}
+    for (int i = 0; i < numbers.length; i++) {
+      for (int j = 0; j < numbers[i].length; j++) {
+        posButton = new PosButton();
+        posButton.setFocusable(false);
+        ImageIcon icon = IconFactory.getIcon(iconNames[i][j]);
+        String buttonText = String.valueOf(numbers[i][j]);
 
-				posButton.setActionCommand(buttonText);
-				posButton.addActionListener(this);
-				String constraints = "grow, height 55";
-				if (j == numbers[i].length - 1) {
-					constraints += ", wrap";
-				}
-				contentPane.add(posButton, constraints);
-			}
-		}
-		contentPane.add(new JSeparator(), "newline,spanx ,growy,gapy 20");
+        if (icon == null) {
+          posButton.setText(buttonText);
+        } else {
+          posButton.setIcon(icon);
+          if (POSConstants.CLEAR.equals(buttonText)) {
+            posButton.setText(buttonText);
+          }
+        }
 
-		btnOK = new PosButton(POSConstants.OK);
-		btnOK.setFocusable(false);
-		btnOK.addActionListener(this);
-		contentPane.add(btnOK, "skip 1,grow");
+        posButton.setActionCommand(buttonText);
+        posButton.addActionListener(this);
+        String constraints = "grow, height 55";
+        if (j == numbers[i].length - 1) {
+          constraints += ", wrap";
+        }
+        contentPane.add(posButton, constraints);
+      }
+    }
+    contentPane.add(new JSeparator(), "newline,spanx ,growy,gapy 20");
 
-		btnCancel = new PosButton(POSConstants.CANCEL);
-		btnCancel.setFocusable(false);
-		btnCancel.addActionListener(this);
-		contentPane.add(btnCancel, "grow");
-	}
+    btnOK = new PosButton(POSConstants.OK);
+    btnOK.setFocusable(false);
+    btnOK.addActionListener(this);
+    contentPane.add(btnOK, "skip 1,grow");
 
-	private void doOk() {
-		if (!validate(tfNumber.getText())) {
-			POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
-			return;
-		}
-		setCanceled(false);
-		dispose();
-	}
+    btnCancel = new PosButton(POSConstants.CANCEL);
+    btnCancel.setFocusable(false);
+    btnCancel.addActionListener(this);
+    contentPane.add(btnCancel, "grow");
+  }
 
-	private void doCancel() {
-		setCanceled(true);
-		dispose();
-	}
+  private void doOk() {
+    if (!validate(tfNumber.getText())) {
+      POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
+      return;
+    }
+    setCanceled(false);
+    dispose();
+  }
 
-	private void doClearAll() {
-		tfNumber.setText(String.valueOf(defaultValue));
-	}
+  private void doCancel() {
+    setCanceled(true);
+    dispose();
+  }
 
-	private void doClear() {
-		String s = tfNumber.getText();
-		if (s.length() > 1) {
-			s = s.substring(0, s.length() - 1);
-		} else {
-			s = String.valueOf(defaultValue);
-		}
-		tfNumber.setText(s);
-	}
+  private void doClearAll() {
+    tfNumber.setText(String.valueOf(defaultValue));
+  }
 
-	private void doInsertNumber(String number) {
-		String s = tfNumber.getText();
-		double d = 0;
+  private void doClear() {
+    String s = tfNumber.getText();
+    if (s.length() > 1) {
+      s = s.substring(0, s.length() - 1);
+    } else {
+      s = String.valueOf(defaultValue);
+    }
+    tfNumber.setText(s);
+  }
 
-		try {
-			d = Double.parseDouble(s);
-		} catch (Exception x) {
-		}
+  private void doInsertNumber(String number) {
+    String s = tfNumber.getText();
+    double d = 0;
 
-		if (d == 0) {
-			tfNumber.setText(number);
-			return;
-		}
+    try {
+      d = Double.parseDouble(s);
+    } catch (Exception x) {
+    }
 
-		s = s + number;
-		if (!validate(s)) {
-			POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
-			return;
-		}
-		tfNumber.setText(s);
-	}
+    if (d == 0) {
+      tfNumber.setText(number);
+      return;
+    }
 
-	private void doInsertDot() {
-		// if (isFloatingPoint() && tfNumber.getText().indexOf('.') < 0) {
-		String string = tfNumber.getText() + ".";
-		if (!validate(string)) {
-			POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
-			return;
-		}
-		tfNumber.setText(string);
-		// }
-	}
+    s = s + number;
+    if (!validate(s)) {
+      POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
+      return;
+    }
+    tfNumber.setText(s);
+  }
 
-	public void actionPerformed(ActionEvent e) {
-		String actionCommand = e.getActionCommand();
+  private void doInsertDot() {
+    // if (isFloatingPoint() && tfNumber.getText().indexOf('.') < 0) {
+    String string = tfNumber.getText() + ".";
+    if (!validate(string)) {
+      POSMessageDialog.showError(this, POSConstants.INVALID_NUMBER);
+      return;
+    }
+    tfNumber.setText(string);
+    // }
+  }
 
-		if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
-			doCancel();
-		} else if (POSConstants.OK.equalsIgnoreCase(actionCommand)) {
-			doOk();
-		} else if (actionCommand.equals(POSConstants.CLEAR_ALL)) {
-			doClearAll();
-		} else if (actionCommand.equals(POSConstants.CLEAR)) {
-			doClear();
-		} else if (actionCommand.equals(".")) {
-			doInsertDot();
-		} else {
-			doInsertNumber(actionCommand);
-		}
+  public void actionPerformed(ActionEvent e) {
+    String actionCommand = e.getActionCommand();
 
-	}
+    if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
+      doCancel();
+    } else if (POSConstants.OK.equalsIgnoreCase(actionCommand)) {
+      doOk();
+    } else if (actionCommand.equals(POSConstants.CLEAR_ALL)) {
+      doClearAll();
+    } else if (actionCommand.equals(POSConstants.CLEAR)) {
+      doClear();
+    } else if (actionCommand.equals(".")) {
+      doInsertDot();
+    } else {
+      doInsertNumber(actionCommand);
+    }
 
-	private boolean validate(String str) {
-		if (isFloatingPoint()) {
-			try {
-				Double.parseDouble(str);
-			} catch (Exception x) {
-				return false;
-			}
-		} else {
-			// input is for ticket id or item id
-//			try {
-//				Integer.parseInt(str);
-//			} catch (Exception x) {
-//				return false;
-//			}
-			return true;
-		}
-		return true;
-	}
+  }
 
-	public void setTitle(String title) {
-		titlePanel.setTitle(title);
+  private boolean validate(String str) {
+    if (isFloatingPoint()) {
+      try {
+        Double.parseDouble(str);
+      } catch (Exception x) {
+        return false;
+      }
+    } else {
+      // input is for ticket id or item id
+      // try {
+      // Integer.parseInt(str);
+      // } catch (Exception x) {
+      // return false;
+      // }
+      return true;
+    }
+    return true;
+  }
 
-		super.setTitle(title);
-	}
+  public void setTitle(String title) {
+    titlePanel.setTitle(title);
 
-	public void setDialogTitle(String title) {
-		super.setTitle(title);
-	}
+    super.setTitle(title);
+  }
 
-	public String getValueString() {
-		return tfNumber.getText();
-	}
+  public void setDialogTitle(String title) {
+    super.setTitle(title);
+  }
 
-	public double getValue() {
-		return Double.parseDouble(tfNumber.getText());
-	}
+  public String getValueString() {
+    return tfNumber.getText();
+  }
 
-	public void setValue(double value) {
-		if (value == 0) {
-			tfNumber.setText("0");
-		} else if (isFloatingPoint()) {
-			tfNumber.setText(String.valueOf(value));
-		} else {
-			tfNumber.setText(String.valueOf((int) value));
-		}
-	}
+  public double getValue() {
+    return Double.parseDouble(tfNumber.getText());
+  }
 
-	public boolean isFloatingPoint() {
-		return floatingPoint;
-	}
+  public void setValue(double value) {
+    if (value == 0) {
+      tfNumber.setText("0");
+    } else if (isFloatingPoint()) {
+      tfNumber.setText(String.valueOf(value));
+    } else {
+      tfNumber.setText(String.valueOf((int) value));
+    }
+  }
 
-	public void setFloatingPoint(boolean decimalAllowed) {
-		this.floatingPoint = decimalAllowed;
-	}
+  public boolean isFloatingPoint() {
+    return floatingPoint;
+  }
 
-	public static void main(String[] args) {
-		NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
-		dialog2.pack();
-		dialog2.setVisible(true);
-	}
+  public void setFloatingPoint(boolean decimalAllowed) {
+    this.floatingPoint = decimalAllowed;
+  }
 
-	public int getDefaultValue() {
-		return defaultValue;
-	}
+  public static void main(String[] args) {
+    NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
+    dialog2.pack();
+    dialog2.setVisible(true);
+  }
 
-	public void setDefaultValue(int defaultValue) {
-		this.defaultValue = defaultValue;
-		tfNumber.setText(String.valueOf(defaultValue));
-	}
+  public int getDefaultValue() {
+    return defaultValue;
+  }
 
-	/**
-	 * Return the input result as String.
-	 * 
-	 * @param title
-	 * @return
-	 */
-	public static String takeStringInput(String title) {
-		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
-		dialog.setTitle(title);
-		dialog.pack();
-		dialog.setOptionSize(1.5);
-		dialog.open();
+  public void setDefaultValue(int defaultValue) {
+    this.defaultValue = defaultValue;
+    tfNumber.setText(String.valueOf(defaultValue));
+  }
 
-		if (dialog.isCanceled()) {
-			return "";
-		}
+  /**
+   * Return the input result as String.
+   * 
+   * @param title
+   * @return
+   */
+  public static String takeStringInput(String title) {
+    NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
+    dialog.setTitle(title);
+    dialog.pack();
+    dialog.setOptionSize(1.5);
+    dialog.open();
 
-		return dialog.getValueString();
-	}
+    if (dialog.isCanceled()) {
+      return "";
+    }
 
-	public static int takeIntInput(String title) {
-		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
-		dialog.setTitle(title);
-		dialog.pack();
-		dialog.setOptionSize(1.5);
-		dialog.open();
+    return dialog.getValueString();
+  }
 
-		if (dialog.isCanceled()) {
-			return -1;
-		}
+  public static int takeIntInput(String title) {
+    NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
+    dialog.setTitle(title);
+    dialog.pack();
+    dialog.setOptionSize(1.5);
+    dialog.open();
 
-		return (int) dialog.getValue();
-	}
+    if (dialog.isCanceled()) {
+      return -1;
+    }
 
-	private void setOptionSize(double d) {
-		// expand for more space
-		Dimension currentSize = getSize();
-		setSize((int) (currentSize.width * d), currentSize.height);
-	}
+    return (int) dialog.getValue();
+  }
 
-	public static double takeDoubleInput(String title, String dialogTitle, double initialAmount) {
-		NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
-		dialog.setFloatingPoint(true);
-		dialog.setValue(initialAmount);
-		dialog.setTitle(title);
-		dialog.setDialogTitle(dialogTitle);
-		dialog.pack();
-		dialog.open();
+  private void setOptionSize(double d) {
+    // expand for more space
+    Dimension currentSize = getSize();
+    setSize((int) (currentSize.width * d), currentSize.height);
+  }
 
-		if (dialog.isCanceled()) {
-			return Double.NaN;
-		}
+  public static double takeDoubleInput(String title, String dialogTitle, double initialAmount) {
+    NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
+    dialog.setFloatingPoint(true);
+    dialog.setValue(initialAmount);
+    dialog.setTitle(title);
+    dialog.setDialogTitle(dialogTitle);
+    dialog.pack();
+    dialog.open();
 
-		return dialog.getValue();
-	}
+    if (dialog.isCanceled()) {
+      return Double.NaN;
+    }
 
-	public static double show(Component parent, String title, double initialAmount) {
-		NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
-		dialog2.setFloatingPoint(true);
-		dialog2.setTitle(title);
-		dialog2.pack();
-		dialog2.setLocationRelativeTo(parent);
-		dialog2.setValue(initialAmount);
-		dialog2.setVisible(true);
+    return dialog.getValue();
+  }
 
-		if (dialog2.isCanceled()) {
-			return Double.NaN;
-		}
+  public static double show(Component parent, String title, double initialAmount) {
+    NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
+    dialog2.setFloatingPoint(true);
+    dialog2.setTitle(title);
+    dialog2.pack();
+    dialog2.setLocationRelativeTo(parent);
+    dialog2.setValue(initialAmount);
+    dialog2.setVisible(true);
 
-		return dialog2.getValue();
-	}
+    if (dialog2.isCanceled()) {
+      return Double.NaN;
+    }
+
+    return dialog2.getValue();
+  }
 }

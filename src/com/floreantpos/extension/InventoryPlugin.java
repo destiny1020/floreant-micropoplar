@@ -6,13 +6,14 @@ import javax.swing.JTabbedPane;
 import net.xeoh.plugins.base.Plugin;
 
 public interface InventoryPlugin extends Plugin {
-//	void showInventoryItemEntryDialog();
-//	void showInventoryGroupEntryDialog();
-//	void showInventoryLocationEntryDialog();
-//	void showInventoryMetacodeEntryDialog();
-//	void showInventoryVendorEntryDialog();
-//	void showInventoryWarehouseEntryDialog();
-	
-	AbstractAction[] getActions();
-	void addRecepieView(JTabbedPane tabbedPane);
+  // void showInventoryItemEntryDialog();
+  // void showInventoryGroupEntryDialog();
+  // void showInventoryLocationEntryDialog();
+  // void showInventoryMetacodeEntryDialog();
+  // void showInventoryVendorEntryDialog();
+  // void showInventoryWarehouseEntryDialog();
+
+  AbstractAction[] getActions();
+
+  void addRecepieView(JTabbedPane tabbedPane);
 }

@@ -38,116 +38,120 @@ import com.floreantpos.model.dao.MenuModifierDAO;
 import com.floreantpos.model.dao.TicketDAO;
 
 public class TicketImportAction extends AbstractAction {
-	private TicketImporter TICKET_IMPORTER = new TicketImporter();
-	private Component parentComponent;
+  private TicketImporter TICKET_IMPORTER = new TicketImporter();
+  private Component parentComponent;
 
-	JTextArea ta = new JTextArea();
+  JTextArea ta = new JTextArea();
 
-	Timer timer = new Timer(60*1000, TICKET_IMPORTER);
+  Timer timer = new Timer(60 * 1000, TICKET_IMPORTER);
 
-	public TicketImportAction(Component parentComponent) {
-		super("ONLINE TICKETS");
+  public TicketImportAction(Component parentComponent) {
+    super("ONLINE TICKETS");
 
-		this.parentComponent = parentComponent;
-	}
+    this.parentComponent = parentComponent;
+  }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JFrame frame = new JFrame("Online tickt importer") {
-			@Override
-			public void setVisible(boolean b) {
-				super.setVisible(b);
-				
-				if(b) {
-					timer.start();
-				}
-				else {
-					timer.stop();
-				}
-			}
-			
-			@Override
-			public void dispose() {
-				timer.stop();
-				super.dispose();
-			}
-		};
-		//ta.setEditable(false);
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(new JScrollPane(ta));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(800, 600);
-		frame.setVisible(true);
-		TICKET_IMPORTER.actionPerformed(null);
-	}
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    JFrame frame = new JFrame("Online tickt importer") {
+      @Override
+      public void setVisible(boolean b) {
+        super.setVisible(b);
 
-	class TicketImporter implements ActionListener {
+        if (b) {
+          timer.start();
+        } else {
+          timer.stop();
+        }
+      }
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
-				TicketDAO ticketDAO = TicketDAO.getInstance();
-				Session session = ticketDAO.createNewSession();
+      @Override
+      public void dispose() {
+        timer.stop();
+        super.dispose();
+      }
+    };
+    // ta.setEditable(false);
+    frame.getContentPane().setLayout(new BorderLayout());
+    frame.getContentPane().add(new JScrollPane(ta));
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setSize(800, 600);
+    frame.setVisible(true);
+    TICKET_IMPORTER.actionPerformed(null);
+  }
 
-				Ticket ticket = new Ticket();
-				ticket.setPriceIncludesTax(Application.getInstance().isPriceIncludesTax());
-				ticket.setType(TicketType.TAKE_OUT);
-				ticket.setTerminal(Application.getInstance().getTerminal());
-				ticket.setOwner(Application.getCurrentUser());
-				ticket.setShift(Application.getInstance().getCurrentShift());
+  class TicketImporter implements ActionListener {
 
-				Calendar currentTime = Calendar.getInstance();
-				ticket.setCreateDate(currentTime.getTime());
-				ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        TicketDAO ticketDAO = TicketDAO.getInstance();
+        Session session = ticketDAO.createNewSession();
 
-				SAXBuilder jdomBuilder = new SAXBuilder();
-				Document document = jdomBuilder.build(new URL("http://cloud.floreantpos.org/webstore/go.php?id=11&item=1"));
+        Ticket ticket = new Ticket();
+        ticket.setPriceIncludesTax(Application.getInstance().isPriceIncludesTax());
+        ticket.setType(TicketType.TAKE_OUT);
+        ticket.setTerminal(Application.getInstance().getTerminal());
+        ticket.setOwner(Application.getCurrentUser());
+        ticket.setShift(Application.getInstance().getCurrentShift());
 
-				XPathFactory xFactory = XPathFactory.instance();
-				XPathExpression<Element> xPathExpression = xFactory.compile("//ticketItem", Filters.element());
-				List<Element> list = xPathExpression.evaluate(document);
+        Calendar currentTime = Calendar.getInstance();
+        ticket.setCreateDate(currentTime.getTime());
+        ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
 
-				for (Element element : list) {
-					String id = element.getChildText("id");
-					MenuItemDAO dao = MenuItemDAO.getInstance();
-					MenuItem menuItem = dao.get(Integer.parseInt(id), session);
+        SAXBuilder jdomBuilder = new SAXBuilder();
+        Document document =
+            jdomBuilder.build(new URL("http://cloud.floreantpos.org/webstore/go.php?id=11&item=1"));
 
-					TicketItem ticketItem = menuItem.convertToTicketItem();
-					ticketItem.setTicket(ticket);
-					ticket.addToticketItems(ticketItem);
+        XPathFactory xFactory = XPathFactory.instance();
+        XPathExpression<Element> xPathExpression =
+            xFactory.compile("//ticketItem", Filters.element());
+        List<Element> list = xPathExpression.evaluate(document);
 
-					XPathExpression<Element> xPathExpression2 = xFactory.compile("//modifier", Filters.element());
-					List<Element> list2 = xPathExpression2.evaluate(element);
+        for (Element element : list) {
+          String id = element.getChildText("id");
+          MenuItemDAO dao = MenuItemDAO.getInstance();
+          MenuItem menuItem = dao.get(Integer.parseInt(id), session);
 
-					for (Element modifierElement : list2) {
-						MenuModifierDAO menuModifierDAO = MenuModifierDAO.getInstance();
-						MenuModifier menuModifier = menuModifierDAO.get(Integer.parseInt(modifierElement.getChildText("id")), session);
-						List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
+          TicketItem ticketItem = menuItem.convertToTicketItem();
+          ticketItem.setTicket(ticket);
+          ticket.addToticketItems(ticketItem);
 
-						for (MenuItemModifierGroup menuItemModifierGroup : menuItemModiferGroups) {
-							MenuModifierGroup modifierGroup = menuItemModifierGroup.getModifierGroup();
-							if (modifierGroup.equals(menuModifier.getModifierGroup())) {
-								menuModifier.setMenuItemModifierGroup(menuItemModifierGroup);
-								break;
-							}
-						}
+          XPathExpression<Element> xPathExpression2 =
+              xFactory.compile("//modifier", Filters.element());
+          List<Element> list2 = xPathExpression2.evaluate(element);
 
-						TicketItemModifierGroup modifierGroup = ticketItem.findTicketItemModifierGroup(menuModifier, true);
-						modifierGroup.addTicketItemModifier(menuModifier, TicketItemModifier.NORMAL_MODIFIER);
-					}
-				}
-				
-				ticketDAO.save(ticket);
-				
-				ta.append("\nImported ticket with id: " + ticket.getId());
-				if(parentComponent instanceof ITicketList) {
-					((ITicketList) parentComponent).updateTicketList();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
+          for (Element modifierElement : list2) {
+            MenuModifierDAO menuModifierDAO = MenuModifierDAO.getInstance();
+            MenuModifier menuModifier =
+                menuModifierDAO.get(Integer.parseInt(modifierElement.getChildText("id")), session);
+            List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
 
-	}
+            for (MenuItemModifierGroup menuItemModifierGroup : menuItemModiferGroups) {
+              MenuModifierGroup modifierGroup = menuItemModifierGroup.getModifierGroup();
+              if (modifierGroup.equals(menuModifier.getModifierGroup())) {
+                menuModifier.setMenuItemModifierGroup(menuItemModifierGroup);
+                break;
+              }
+            }
+
+            TicketItemModifierGroup modifierGroup =
+                ticketItem.findTicketItemModifierGroup(menuModifier, true);
+            modifierGroup.addTicketItemModifier(menuModifier, TicketItemModifier.NORMAL_MODIFIER);
+          }
+        }
+
+        ticketDAO.save(ticket);
+
+        ta.append("\nImported ticket with id: " + ticket.getId());
+        if (parentComponent instanceof ITicketList) {
+          ((ITicketList) parentComponent).updateTicketList();
+        }
+      } catch (Exception e2) {
+        e2.printStackTrace();
+      }
+    }
+
+  }
 
 }

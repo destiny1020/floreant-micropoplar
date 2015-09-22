@@ -8,23 +8,23 @@ package com.floreantpos.model;
  */
 public class Generator {
 
-	private String genName;
-	private String nextValue;
+  private String genName;
+  private String nextValue;
 
-	public String getGenName() {
-		return genName;
-	}
+  public String getGenName() {
+    return genName;
+  }
 
-	public void setGenName(String genName) {
-		this.genName = genName;
-	}
+  public void setGenName(String genName) {
+    this.genName = genName;
+  }
 
-	public String getNextValue() {
-		return nextValue;
-	}
+  public String getNextValue() {
+    return nextValue;
+  }
 
-	public void setNextValue(String nextValue) {
-		this.nextValue = nextValue;
-	}
+  public void setNextValue(String nextValue) {
+    this.nextValue = nextValue;
+  }
 
 }

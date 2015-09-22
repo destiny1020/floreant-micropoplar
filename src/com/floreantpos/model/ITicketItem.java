@@ -1,19 +1,21 @@
 package com.floreantpos.model;
 
 public interface ITicketItem {
-	String getItemCode();
-	boolean canAddCookingInstruction();
-	Boolean isPrintedToKitchen();
-	
-	String getNameDisplay();
+  String getItemCode();
 
-	Double getUnitPriceDisplay();
+  boolean canAddCookingInstruction();
 
-	Integer getItemCountDisplay();
-	
-	Double getDiscountAmount();
+  Boolean isPrintedToKitchen();
 
-	Double getTaxAmountWithoutModifiersDisplay();
+  String getNameDisplay();
 
-	Double getTotalAmountWithoutModifiersDisplay();
+  Double getUnitPriceDisplay();
+
+  Integer getItemCountDisplay();
+
+  Double getDiscountAmount();
+
+  Double getTaxAmountWithoutModifiersDisplay();
+
+  Double getTotalAmountWithoutModifiersDisplay();
 }

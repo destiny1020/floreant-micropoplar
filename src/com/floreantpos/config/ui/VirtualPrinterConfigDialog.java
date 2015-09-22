@@ -21,93 +21,93 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import javax.swing.JSeparator;
 
 public class VirtualPrinterConfigDialog extends POSDialog {
-	private VirtualPrinter printer;
-	private FixedLengthTextField tfName;
+  private VirtualPrinter printer;
+  private FixedLengthTextField tfName;
 
-	public VirtualPrinterConfigDialog() throws HeadlessException {
-		super(BackOfficeWindow.getInstance(), true);
-		setTitle("添加/编辑 虚拟打印机");
-		
-		setSize(400, 150);
-		setResizable(false);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
+  public VirtualPrinterConfigDialog() throws HeadlessException {
+    super(BackOfficeWindow.getInstance(), true);
+    setTitle("添加/编辑 虚拟打印机");
 
-	@Override
-	public void initUI() {
-		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][]"));
-		
-		JLabel lblName = new JLabel("名称: ");
-		getContentPane().add(lblName, "cell 0 0,alignx trailing");
-		
-		tfName = new FixedLengthTextField(60);
-		getContentPane().add(tfName, "cell 1 0,growx");
-		
-		JSeparator separator = new JSeparator();
-		getContentPane().add(separator, "cell 0 1 2 1,growx, gap top 50px");
-		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, "cell 0 4 2 1,grow");
-		
-		JButton btnOk = new JButton("确定");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doAddPrinter();
-			}
-		});
-		panel.add(btnOk);
-		
-		JButton btnCancel = new JButton("取消");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setCanceled(true);
-				dispose();
-			}
-		});
-		panel.add(btnCancel);
-	}
+    setSize(400, 150);
+    setResizable(false);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+  }
 
-	protected void doAddPrinter() {
-		try {
-			
-			String name = tfName.getText();
-			if (StringUtils.isEmpty(name)) {
-				POSMessageDialog.showMessage(this, "请给它取一个名字");
-				return;
-			}
+  @Override
+  public void initUI() {
+    getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][]"));
 
-			VirtualPrinterDAO printerDAO = VirtualPrinterDAO.getInstance();
+    JLabel lblName = new JLabel("名称: ");
+    getContentPane().add(lblName, "cell 0 0,alignx trailing");
 
-			if (printerDAO.findPrinterByName(name) != null) {
-				POSMessageDialog.showMessage(this, "名字重复了.");
-				return;
-			}
+    tfName = new FixedLengthTextField(60);
+    getContentPane().add(tfName, "cell 1 0,growx");
 
-			if (printer == null) {
-				printer = new VirtualPrinter();
-			}
+    JSeparator separator = new JSeparator();
+    getContentPane().add(separator, "cell 0 1 2 1,growx, gap top 50px");
 
-			printer.setName(name);
+    JPanel panel = new JPanel();
+    getContentPane().add(panel, "cell 0 4 2 1,grow");
 
-			printerDAO.saveOrUpdate(printer);
+    JButton btnOk = new JButton("确定");
+    btnOk.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        doAddPrinter();
+      }
+    });
+    panel.add(btnOk);
 
-			setCanceled(false);
-			dispose();
-			
-		} catch (Exception e) {
-			POSMessageDialog.showError(this, e.getMessage(), e);
-		}
-	}
+    JButton btnCancel = new JButton("取消");
+    btnCancel.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        setCanceled(true);
+        dispose();
+      }
+    });
+    panel.add(btnCancel);
+  }
 
-	public VirtualPrinter getPrinter() {
-		return printer;
-	}
+  protected void doAddPrinter() {
+    try {
 
-	public void setPrinter(VirtualPrinter printer) {
-		this.printer = printer;
-		
-		if (printer != null) {
-			tfName.setText(printer.getName());
-		}
-	}
+      String name = tfName.getText();
+      if (StringUtils.isEmpty(name)) {
+        POSMessageDialog.showMessage(this, "请给它取一个名字");
+        return;
+      }
+
+      VirtualPrinterDAO printerDAO = VirtualPrinterDAO.getInstance();
+
+      if (printerDAO.findPrinterByName(name) != null) {
+        POSMessageDialog.showMessage(this, "名字重复了.");
+        return;
+      }
+
+      if (printer == null) {
+        printer = new VirtualPrinter();
+      }
+
+      printer.setName(name);
+
+      printerDAO.saveOrUpdate(printer);
+
+      setCanceled(false);
+      dispose();
+
+    } catch (Exception e) {
+      POSMessageDialog.showError(this, e.getMessage(), e);
+    }
+  }
+
+  public VirtualPrinter getPrinter() {
+    return printer;
+  }
+
+  public void setPrinter(VirtualPrinter printer) {
+    this.printer = printer;
+
+    if (printer != null) {
+      tfName.setText(printer.getName());
+    }
+  }
 }

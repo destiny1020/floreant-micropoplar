@@ -9,31 +9,32 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class Messages {
-	private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = "messages"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME, new ResourceControl());
+  private static final ResourceBundle RESOURCE_BUNDLE =
+      ResourceBundle.getBundle(BUNDLE_NAME, new ResourceControl());
 
-	private Messages() {
-	}
+  private Messages() {}
 
-	public static String getString(String key) {
-		try {
-			String string = RESOURCE_BUNDLE.getString(key);
-			return string;
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
-	}
+  public static String getString(String key) {
+    try {
+      String string = RESOURCE_BUNDLE.getString(key);
+      return string;
+    } catch (MissingResourceException e) {
+      return '!' + key + '!';
+    }
+  }
 
-	private static class ResourceControl extends ResourceBundle.Control {
-		@Override
-		public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IllegalAccessException,
-				InstantiationException, IOException {
-			String bundlename = toBundleName(baseName, locale);
-			String resName = toResourceName(bundlename, "properties"); //$NON-NLS-1$
-			InputStream stream = loader.getResourceAsStream(resName);
-			return new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8")); //$NON-NLS-1$
-		}
+  private static class ResourceControl extends ResourceBundle.Control {
+    @Override
+    public ResourceBundle newBundle(String baseName, Locale locale, String format,
+        ClassLoader loader, boolean reload)
+            throws IllegalAccessException, InstantiationException, IOException {
+      String bundlename = toBundleName(baseName, locale);
+      String resName = toResourceName(bundlename, "properties"); //$NON-NLS-1$
+      InputStream stream = loader.getResourceAsStream(resName);
+      return new PropertyResourceBundle(new InputStreamReader(stream, "UTF-8")); //$NON-NLS-1$
+    }
 
-	}
+  }
 }

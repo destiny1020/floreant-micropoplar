@@ -27,92 +27,93 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 
 /**
  *
- * @author  MShahriar
+ * @author MShahriar
  */
 public class TicketDetailView extends JPanel {
 
-	public final static String VIEW_NAME = "TICKET_DETAIL";
+  public final static String VIEW_NAME = "TICKET_DETAIL";
 
-	private JPanel topPanel;
+  private JPanel topPanel;
 
-	private List<Ticket> tickets;
+  private List<Ticket> tickets;
 
-	/** Creates new form TicketInfoView */
-	public TicketDetailView() {
+  /** Creates new form TicketInfoView */
+  public TicketDetailView() {
 
-		setLayout(new BorderLayout(5, 5));
-		setBorder(new EmptyBorder(15, 15, 15, 15));
+    setLayout(new BorderLayout(5, 5));
+    setBorder(new EmptyBorder(15, 15, 15, 15));
 
-		topPanel = new JPanel(new GridLayout());
-		add(topPanel, BorderLayout.CENTER);
+    topPanel = new JPanel(new GridLayout());
+    add(topPanel, BorderLayout.CENTER);
 
-		setOpaque(false);
-	}
+    setOpaque(false);
+  }
 
-	public void clearView() {
-		topPanel.removeAll();
-	}
+  public void clearView() {
+    topPanel.removeAll();
+  }
 
-	public void updateView() {
-		try {
-			clearView();
-			
-			List<Ticket> tickets = getTickets();
+  public void updateView() {
+    try {
+      clearView();
 
-			int totalTicket = tickets.size();
-			
-			if (totalTicket <= 0) {
-				return;
-			}
-			
-			JPanel reportPanel = new JPanel(new MigLayout("wrap 1, ax 50%","",""));
-			JScrollPane scrollPane = new JScrollPane(reportPanel);
-			scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+      List<Ticket> tickets = getTickets();
 
-			for (Iterator iter = tickets.iterator(); iter.hasNext();) {
-				Ticket ticket = (Ticket) iter.next();
-				
-				TicketPrintProperties printProperties = new TicketPrintProperties("*** 订单 " + ticket.getId() + " ***", false, true, true);
-				HashMap map = JReportPrintService.populateTicketProperties(ticket, printProperties, null);
-				JasperPrint jasperPrint = JReportPrintService.createPrint(ticket, map, null);
+      int totalTicket = tickets.size();
 
-				TicketReceiptView receiptView = new TicketReceiptView(jasperPrint);
-				reportPanel.add(receiptView.getReportPanel());
-			}
-			
-			topPanel.add(scrollPane, BorderLayout.CENTER);
-			
-			revalidate();
-			repaint();
-		} catch (Exception e) {
-			e.printStackTrace();
-			POSMessageDialog.showError(e.getMessage(), e);
-		}
-	}
+      if (totalTicket <= 0) {
+        return;
+      }
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
+      JPanel reportPanel = new JPanel(new MigLayout("wrap 1, ax 50%", "", ""));
+      JScrollPane scrollPane = new JScrollPane(reportPanel);
+      scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
-	// End of variables declaration//GEN-END:variables
+      for (Iterator iter = tickets.iterator(); iter.hasNext();) {
+        Ticket ticket = (Ticket) iter.next();
+
+        TicketPrintProperties printProperties =
+            new TicketPrintProperties("*** 订单 " + ticket.getId() + " ***", false, true, true);
+        HashMap map = JReportPrintService.populateTicketProperties(ticket, printProperties, null);
+        JasperPrint jasperPrint = JReportPrintService.createPrint(ticket, map, null);
+
+        TicketReceiptView receiptView = new TicketReceiptView(jasperPrint);
+        reportPanel.add(receiptView.getReportPanel());
+      }
+
+      topPanel.add(scrollPane, BorderLayout.CENTER);
+
+      revalidate();
+      repaint();
+    } catch (Exception e) {
+      e.printStackTrace();
+      POSMessageDialog.showError(e.getMessage(), e);
+    }
+  }
+
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+
+  // End of variables declaration//GEN-END:variables
 
 
-	public List<Ticket> getTickets() {
-		return tickets;
-	}
+  public List<Ticket> getTickets() {
+    return tickets;
+  }
 
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
+  public void setTickets(List<Ticket> tickets) {
+    this.tickets = tickets;
 
-		updateView();
-	}
+    updateView();
+  }
 
-	public void setTicket(Ticket ticket) {
-		tickets = new ArrayList<Ticket>(1);
-		tickets.add(ticket);
+  public void setTicket(Ticket ticket) {
+    tickets = new ArrayList<Ticket>(1);
+    tickets.add(ticket);
 
-		updateView();
-	}
+    updateView();
+  }
 
-	public void cleanup() {
-		tickets = null;
-	}
+  public void cleanup() {
+    tickets = null;
+  }
 }

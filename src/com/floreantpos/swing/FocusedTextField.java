@@ -10,60 +10,60 @@ import org.apache.commons.lang.StringUtils;
 
 public class FocusedTextField extends JTextField implements FocusListener {
 
-	public FocusedTextField() {
-		init();
-	}
+  public FocusedTextField() {
+    init();
+  }
 
-//	public FocusedTextField(boolean numeric) {
-//		this.numeric = numeric;
-//
-//		init();
-//	}
+  // public FocusedTextField(boolean numeric) {
+  // this.numeric = numeric;
+  //
+  // init();
+  // }
 
-	public FocusedTextField(String text) {
-		super(text);
+  public FocusedTextField(String text) {
+    super(text);
 
-		init();
-	}
+    init();
+  }
 
-	public FocusedTextField(int columns) {
-		super(columns);
+  public FocusedTextField(int columns) {
+    super(columns);
 
-		init();
-	}
+    init();
+  }
 
-	public FocusedTextField(String text, int columns) {
-		super(text, columns);
+  public FocusedTextField(String text, int columns) {
+    super(text, columns);
 
-		init();
-	}
+    init();
+  }
 
-	public FocusedTextField(Document doc, String text, int columns) {
-		super(doc, text, columns);
+  public FocusedTextField(Document doc, String text, int columns) {
+    super(doc, text, columns);
 
-		init();
-	}
+    init();
+  }
 
-	private void init() {
-		installFocusHandler();
-	}
-	
-	public boolean isEmpty() {
-		return StringUtils.isEmpty(getText());
-	}
+  private void init() {
+    installFocusHandler();
+  }
 
-	private void installFocusHandler() {
-		addFocusListener(this);
-	}
+  public boolean isEmpty() {
+    return StringUtils.isEmpty(getText());
+  }
 
-	public void focusGained(FocusEvent e) {
-//		setBackground(Color.YELLOW);
-		
-		selectAll();
-	}
+  private void installFocusHandler() {
+    addFocusListener(this);
+  }
 
-	public void focusLost(FocusEvent e) {
-//		setBackground(Color.WHITE);
-	}
+  public void focusGained(FocusEvent e) {
+    // setBackground(Color.YELLOW);
+
+    selectAll();
+  }
+
+  public void focusLost(FocusEvent e) {
+    // setBackground(Color.WHITE);
+  }
 
 }

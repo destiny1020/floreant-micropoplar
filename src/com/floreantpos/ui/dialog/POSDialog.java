@@ -12,92 +12,90 @@ import com.floreantpos.main.Application;
 import com.floreantpos.swing.GlassPane;
 
 public class POSDialog extends JDialog {
-	protected boolean canceled = true;
-	private GlassPane glassPane;
+  protected boolean canceled = true;
+  private GlassPane glassPane;
 
-	public POSDialog() throws HeadlessException {
-		super(Application.getPosWindow(), true);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+  public POSDialog() throws HeadlessException {
+    super(Application.getPosWindow(), true);
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		glassPane = new GlassPane();
-		setGlassPane(glassPane);
-		
-		initUI();
-	}
+    glassPane = new GlassPane();
+    setGlassPane(glassPane);
 
-	public POSDialog(Dialog owner, boolean modal) {
-		super(owner, modal);
+    initUI();
+  }
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+  public POSDialog(Dialog owner, boolean modal) {
+    super(owner, modal);
 
-		glassPane = new GlassPane();
-		setGlassPane(glassPane);
-		
-		initUI();
-	}
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-	public POSDialog(Dialog owner, String title, boolean modal) {
-		super(owner, title, modal);
+    glassPane = new GlassPane();
+    setGlassPane(glassPane);
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    initUI();
+  }
 
-		glassPane = new GlassPane();
-		setGlassPane(glassPane);
-		
-		initUI();
-	}
+  public POSDialog(Dialog owner, String title, boolean modal) {
+    super(owner, title, modal);
 
-	public POSDialog(Frame owner, boolean modal) throws HeadlessException {
-		super(owner, modal);
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		glassPane = new GlassPane();
-		setGlassPane(glassPane);
-		
-		initUI();
-	}
+    glassPane = new GlassPane();
+    setGlassPane(glassPane);
 
-	public POSDialog(Frame owner, boolean modal, boolean unDecorated) throws HeadlessException {
-		super(owner, modal);
-		//setUndecorated(unDecorated);
+    initUI();
+  }
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+  public POSDialog(Frame owner, boolean modal) throws HeadlessException {
+    super(owner, modal);
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		glassPane = new GlassPane();
-		setGlassPane(glassPane);
-		initUI();
-	}
-	
-	protected void initUI() {}
+    glassPane = new GlassPane();
+    setGlassPane(glassPane);
 
-	public void open() {
-		canceled = false;
-		if (isUndecorated()) {
-			Window owner = getOwner();
-			if (owner instanceof JFrame) {
-				JFrame frame = (JFrame) owner;
-				setLocationRelativeTo(frame.getContentPane());
-			}
-			else {
-				setLocationRelativeTo(owner);
-			}
+    initUI();
+  }
 
-		}
-		else {
-			setLocationRelativeTo(getOwner());
-		}
-		setVisible(true);
-	}
+  public POSDialog(Frame owner, boolean modal, boolean unDecorated) throws HeadlessException {
+    super(owner, modal);
+    // setUndecorated(unDecorated);
 
-	public boolean isCanceled() {
-		return canceled;
-	}
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-	public void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
+    glassPane = new GlassPane();
+    setGlassPane(glassPane);
+    initUI();
+  }
 
-	public void setGlassPaneVisible(boolean b) {
-		glassPane.setVisible(b);
-	}
+  protected void initUI() {}
+
+  public void open() {
+    canceled = false;
+    if (isUndecorated()) {
+      Window owner = getOwner();
+      if (owner instanceof JFrame) {
+        JFrame frame = (JFrame) owner;
+        setLocationRelativeTo(frame.getContentPane());
+      } else {
+        setLocationRelativeTo(owner);
+      }
+
+    } else {
+      setLocationRelativeTo(getOwner());
+    }
+    setVisible(true);
+  }
+
+  public boolean isCanceled() {
+    return canceled;
+  }
+
+  public void setCanceled(boolean canceled) {
+    this.canceled = canceled;
+  }
+
+  public void setGlassPaneVisible(boolean b) {
+    glassPane.setVisible(b);
+  }
 }

@@ -6,154 +6,152 @@ import java.util.List;
 
 
 public class TipsCashoutReport {
-	private String server;
+  private String server;
 
-	private Date fromDate;
+  private Date fromDate;
 
-	private Date toDate;
+  private Date toDate;
 
-	private Date reportTime;
-	
-	private int cashTipsCount;
-	private double cashTipsAmount;
-	private int chargedTipsCount;
-	private double chargedTipsAmount;
-	private double totalTips;
-	private double averageTips;
-	private double paidTips;
-	private double tipsDue;
-	
-	private List<TipsCashoutReportData> datas;
+  private Date reportTime;
 
-	public Date getFromDate() {
-		return fromDate;
-	}
+  private int cashTipsCount;
+  private double cashTipsAmount;
+  private int chargedTipsCount;
+  private double chargedTipsAmount;
+  private double totalTips;
+  private double averageTips;
+  private double paidTips;
+  private double tipsDue;
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
+  private List<TipsCashoutReportData> datas;
 
-	public Date getReportTime() {
-		return reportTime;
-	}
+  public Date getFromDate() {
+    return fromDate;
+  }
 
-	public void setReportTime(Date reportTime) {
-		this.reportTime = reportTime;
-	}
+  public void setFromDate(Date fromDate) {
+    this.fromDate = fromDate;
+  }
 
-	public String getServer() {
-		return server;
-	}
+  public Date getReportTime() {
+    return reportTime;
+  }
 
-	public void setServer(String server) {
-		this.server = server;
-	}
+  public void setReportTime(Date reportTime) {
+    this.reportTime = reportTime;
+  }
 
-	public Date getToDate() {
-		return toDate;
-	}
+  public String getServer() {
+    return server;
+  }
 
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
+  public void setServer(String server) {
+    this.server = server;
+  }
 
-	public void addReportData(TipsCashoutReportData data) {
-		if (datas == null) {
-			datas = new ArrayList<TipsCashoutReportData>();
-		}
+  public Date getToDate() {
+    return toDate;
+  }
 
-		datas.add(data);
-	}
-	
-	public List<TipsCashoutReportData> getDatas() {
-		return datas;
-	}
-	
-	public void calculateOthers() {
-		if(datas == null) {
-			return;
-		}
-		for (TipsCashoutReportData data : datas) {
-			if("*CASH*".equals(data.getSaleType())) {
-				++cashTipsCount;
-				cashTipsAmount += data.getTips();
-			}
-			else {
-				++chargedTipsCount;
-				chargedTipsAmount += data.getTips();
-			}
-			totalTips += data.getTips();
-			if(data.isPaid()) {
-				++paidTips;
-			}
-			else {
-				tipsDue += data.getTips();
-			}
-		}
-		averageTips = totalTips / datas.size();
-	}
-	
-	public double getAverageTips() {
-		return averageTips;
-	}
+  public void setToDate(Date toDate) {
+    this.toDate = toDate;
+  }
 
-	public void setAverageTips(double averageTips) {
-		this.averageTips = averageTips;
-	}
+  public void addReportData(TipsCashoutReportData data) {
+    if (datas == null) {
+      datas = new ArrayList<TipsCashoutReportData>();
+    }
 
-	public int getCashTipsCount() {
-		return cashTipsCount;
-	}
+    datas.add(data);
+  }
 
-	public void setCashTipsCount(int cashTipsCount) {
-		this.cashTipsCount = cashTipsCount;
-	}
+  public List<TipsCashoutReportData> getDatas() {
+    return datas;
+  }
 
-	public int getChargedTipsCount() {
-		return chargedTipsCount;
-	}
+  public void calculateOthers() {
+    if (datas == null) {
+      return;
+    }
+    for (TipsCashoutReportData data : datas) {
+      if ("*CASH*".equals(data.getSaleType())) {
+        ++cashTipsCount;
+        cashTipsAmount += data.getTips();
+      } else {
+        ++chargedTipsCount;
+        chargedTipsAmount += data.getTips();
+      }
+      totalTips += data.getTips();
+      if (data.isPaid()) {
+        ++paidTips;
+      } else {
+        tipsDue += data.getTips();
+      }
+    }
+    averageTips = totalTips / datas.size();
+  }
 
-	public void setChargedTipsCount(int chargedTipsCount) {
-		this.chargedTipsCount = chargedTipsCount;
-	}
+  public double getAverageTips() {
+    return averageTips;
+  }
 
-	public double getPaidTips() {
-		return paidTips;
-	}
+  public void setAverageTips(double averageTips) {
+    this.averageTips = averageTips;
+  }
 
-	public void setPaidTips(double paidTips) {
-		this.paidTips = paidTips;
-	}
+  public int getCashTipsCount() {
+    return cashTipsCount;
+  }
 
-	public double getTotalTips() {
-		return totalTips;
-	}
+  public void setCashTipsCount(int cashTipsCount) {
+    this.cashTipsCount = cashTipsCount;
+  }
 
-	public void setTotalTips(double totalTips) {
-		this.totalTips = totalTips;
-	}
+  public int getChargedTipsCount() {
+    return chargedTipsCount;
+  }
 
-	public double getCashTipsAmount() {
-		return cashTipsAmount;
-	}
+  public void setChargedTipsCount(int chargedTipsCount) {
+    this.chargedTipsCount = chargedTipsCount;
+  }
 
-	public void setCashTipsAmount(double cashTipsAmount) {
-		this.cashTipsAmount = cashTipsAmount;
-	}
+  public double getPaidTips() {
+    return paidTips;
+  }
 
-	public double getChargedTipsAmount() {
-		return chargedTipsAmount;
-	}
+  public void setPaidTips(double paidTips) {
+    this.paidTips = paidTips;
+  }
 
-	public void setChargedTipsAmount(double chargedTipsAmount) {
-		this.chargedTipsAmount = chargedTipsAmount;
-	}
+  public double getTotalTips() {
+    return totalTips;
+  }
 
-	public double getTipsDue() {
-		return tipsDue;
-	}
+  public void setTotalTips(double totalTips) {
+    this.totalTips = totalTips;
+  }
 
-	public void setTipsDue(double tipsDue) {
-		this.tipsDue = tipsDue;
-	}
+  public double getCashTipsAmount() {
+    return cashTipsAmount;
+  }
+
+  public void setCashTipsAmount(double cashTipsAmount) {
+    this.cashTipsAmount = cashTipsAmount;
+  }
+
+  public double getChargedTipsAmount() {
+    return chargedTipsAmount;
+  }
+
+  public void setChargedTipsAmount(double chargedTipsAmount) {
+    this.chargedTipsAmount = chargedTipsAmount;
+  }
+
+  public double getTipsDue() {
+    return tipsDue;
+  }
+
+  public void setTipsDue(double tipsDue) {
+    this.tipsDue = tipsDue;
+  }
 }

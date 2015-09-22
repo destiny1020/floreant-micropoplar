@@ -10,22 +10,22 @@ import com.floreantpos.config.ui.ConfigurationDialog;
 
 public class ConfigureRestaurantAction extends AbstractAction {
 
-	public ConfigureRestaurantAction() {
-		super(com.floreantpos.POSConstants.CONFIGURATION);
-	}
+  public ConfigureRestaurantAction() {
+    super(com.floreantpos.POSConstants.CONFIGURATION);
+  }
 
-	public ConfigureRestaurantAction(String name) {
-		super(name);
-	}
+  public ConfigureRestaurantAction(String name) {
+    super(name);
+  }
 
-	public ConfigureRestaurantAction(String name, Icon icon) {
-		super(name, icon);
-	}
+  public ConfigureRestaurantAction(String name, Icon icon) {
+    super(name, icon);
+  }
 
-	public void actionPerformed(ActionEvent e) {
-		ConfigurationDialog dialog = new ConfigurationDialog(BackOfficeWindow.getInstance());
-		dialog.pack();
-		dialog.open();
-	}
+  public void actionPerformed(ActionEvent e) {
+    ConfigurationDialog dialog = new ConfigurationDialog(BackOfficeWindow.getInstance());
+    dialog.pack();
+    dialog.open();
+  }
 
 }

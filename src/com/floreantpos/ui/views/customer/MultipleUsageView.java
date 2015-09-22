@@ -8,62 +8,62 @@ import javax.swing.border.EmptyBorder;
 
 public class MultipleUsageView extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	private CardLayout layout = new CardLayout();
+  private CardLayout layout = new CardLayout();
 
-	private static MultipleUsageView instance;
+  private static MultipleUsageView instance;
 
-	private AdvertisementView advertisementView;
-	private QRCodeView qrCodeView;
+  private AdvertisementView advertisementView;
+  private QRCodeView qrCodeView;
 
-	public MultipleUsageView() {
-		setLayout(layout);
-		setBorder(new EmptyBorder(3, 3, 3, 3));
+  public MultipleUsageView() {
+    setLayout(layout);
+    setBorder(new EmptyBorder(3, 3, 3, 3));
 
-		advertisementView = new AdvertisementView();
-		addView(AdvertisementView.VIEW_NAME, advertisementView);
+    advertisementView = new AdvertisementView();
+    addView(AdvertisementView.VIEW_NAME, advertisementView);
 
-		qrCodeView = new QRCodeView();
-		addView(QRCodeView.VIEW_NAME, qrCodeView);
-	}
+    qrCodeView = new QRCodeView();
+    addView(QRCodeView.VIEW_NAME, qrCodeView);
+  }
 
-	public void addView(String viewName, Component view) {
-		add(view, viewName);
-	}
+  public void addView(String viewName, Component view) {
+    add(view, viewName);
+  }
 
-	public void showView(String viewName) {
-		layout.show(this, viewName);
-	}
+  public void showView(String viewName) {
+    layout.show(this, viewName);
+  }
 
-	public synchronized static MultipleUsageView getInstance() {
-		if (instance == null) {
-			instance = new MultipleUsageView();
-		}
-		return instance;
-	}
+  public synchronized static MultipleUsageView getInstance() {
+    if (instance == null) {
+      instance = new MultipleUsageView();
+    }
+    return instance;
+  }
 
-	public AdvertisementView getAdvertisementView() {
-		return advertisementView;
-	}
+  public AdvertisementView getAdvertisementView() {
+    return advertisementView;
+  }
 
-	public QRCodeView getQrCodeView() {
-		return qrCodeView;
-	}
+  public QRCodeView getQrCodeView() {
+    return qrCodeView;
+  }
 
-	/**
-	 * Used to show the generated qr code to customer
-	 * 
-	 * @param qrCodeLocation
-	 */
-	public boolean switchToQRCode(String qrCodeLocation) {
-		boolean successful = qrCodeView.renderQrCode(qrCodeLocation);
-		showView(QRCodeView.VIEW_NAME);
-		
-		return successful;
-	}
-	
+  /**
+   * Used to show the generated qr code to customer
+   * 
+   * @param qrCodeLocation
+   */
+  public boolean switchToQRCode(String qrCodeLocation) {
+    boolean successful = qrCodeView.renderQrCode(qrCodeLocation);
+    showView(QRCodeView.VIEW_NAME);
+
+    return successful;
+  }
+
 }

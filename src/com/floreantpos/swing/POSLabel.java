@@ -8,30 +8,30 @@ import com.floreantpos.config.UIConfig;
 
 public class POSLabel extends JLabel {
 
-	public POSLabel(String text, Icon icon, int horizontalAlignment) {
-		super(text, icon, horizontalAlignment);
-		
-		setFont(UIConfig.largeFont);
-	}
+  public POSLabel(String text, Icon icon, int horizontalAlignment) {
+    super(text, icon, horizontalAlignment);
 
-	public POSLabel(String text, int horizontalAlignment) {
-		this(text,null, horizontalAlignment);
-	}
+    setFont(UIConfig.largeFont);
+  }
 
-	public POSLabel(String text) {
-		this(text, null, JLabel.LEFT);
-	}
+  public POSLabel(String text, int horizontalAlignment) {
+    this(text, null, horizontalAlignment);
+  }
 
-	public POSLabel(Icon image, int horizontalAlignment) {
-		this("", image, horizontalAlignment);
-	}
+  public POSLabel(String text) {
+    this(text, null, JLabel.LEFT);
+  }
 
-	public POSLabel(Icon image) {
-		this("", image, SwingConstants.LEFT);
-	}
+  public POSLabel(Icon image, int horizontalAlignment) {
+    this("", image, horizontalAlignment);
+  }
 
-	public POSLabel() {
-		this("", null, SwingConstants.LEFT);
-	}
+  public POSLabel(Icon image) {
+    this("", image, SwingConstants.LEFT);
+  }
+
+  public POSLabel() {
+    this("", null, SwingConstants.LEFT);
+  }
 
 }

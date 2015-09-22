@@ -30,123 +30,129 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.util.UiUtil;
 
 public class DrawerPullReportExplorer extends TransparentPanel {
-	private JXDatePicker fromDatePicker = UiUtil.getCurrentMonthStart();
-	private JXDatePicker toDatePicker = UiUtil.getCurrentMonthEnd();
-	private JButton btnGo = new JButton(com.floreantpos.POSConstants.GO);
-	private JButton btnEditActualAmount = new JButton(com.floreantpos.POSConstants.EDIT_ACTUAL_AMOUNT);
-	
-	private JTable table;
+  private JXDatePicker fromDatePicker = UiUtil.getCurrentMonthStart();
+  private JXDatePicker toDatePicker = UiUtil.getCurrentMonthEnd();
+  private JButton btnGo = new JButton(com.floreantpos.POSConstants.GO);
+  private JButton btnEditActualAmount =
+      new JButton(com.floreantpos.POSConstants.EDIT_ACTUAL_AMOUNT);
 
-	public DrawerPullReportExplorer() {
-		super(new BorderLayout());
+  private JTable table;
 
-		JPanel topPanel = new JPanel(new MigLayout());
+  public DrawerPullReportExplorer() {
+    super(new BorderLayout());
 
-		topPanel.add(new JLabel(com.floreantpos.POSConstants.FROM), "grow"); //$NON-NLS-1$
-		topPanel.add(fromDatePicker, "wrap"); //$NON-NLS-1$
-		topPanel.add(new JLabel(com.floreantpos.POSConstants.TO), "grow"); //$NON-NLS-1$
-		topPanel.add(toDatePicker, "wrap"); //$NON-NLS-1$
-		topPanel.add(btnGo, "skip 1, al right"); //$NON-NLS-1$
-		add(topPanel, BorderLayout.NORTH);
+    JPanel topPanel = new JPanel(new MigLayout());
 
-		add(new JScrollPane(table = new JTable(new DrawerPullExplorerTableModel(null))));
-		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultRenderer(Object.class, new PosTableRenderer());
-		
-		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		bottomPanel.add(btnEditActualAmount);
-		add(bottomPanel, BorderLayout.SOUTH);
+    topPanel.add(new JLabel(com.floreantpos.POSConstants.FROM), "grow"); //$NON-NLS-1$
+    topPanel.add(fromDatePicker, "wrap"); //$NON-NLS-1$
+    topPanel.add(new JLabel(com.floreantpos.POSConstants.TO), "grow"); //$NON-NLS-1$
+    topPanel.add(toDatePicker, "wrap"); //$NON-NLS-1$
+    topPanel.add(btnGo, "skip 1, al right"); //$NON-NLS-1$
+    add(topPanel, BorderLayout.NORTH);
 
-		btnGo.addActionListener(new ActionListener() {
+    add(new JScrollPane(table = new JTable(new DrawerPullExplorerTableModel(null))));
+    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    table.setDefaultRenderer(Object.class, new PosTableRenderer());
 
-			public void actionPerformed(ActionEvent e) {
-				try {
-					viewReport();
-				} catch (Exception e1) {
-					BOMessageDialog.showError(DrawerPullReportExplorer.this, POSConstants.ERROR_MESSAGE, e1);
-				}
-			}
+    JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    bottomPanel.add(btnEditActualAmount);
+    add(bottomPanel, BorderLayout.SOUTH);
 
-		});
-		btnEditActualAmount.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				try {
-					int selectedRow = table.getSelectedRow();
-					if(selectedRow < 0) {
-						BOMessageDialog.showError(DrawerPullReportExplorer.this, com.floreantpos.POSConstants.SELECT_DRAWER_PULL_TO_EDIT);
-						return;
-					}
-					
-					String amountString = JOptionPane.showInputDialog(DrawerPullReportExplorer.this, com.floreantpos.POSConstants.ENTER_ACTUAL_AMOUNT + ":"); //$NON-NLS-1$
-					if(amountString == null) {
-						return;
-					}
-					double amount = 0;
-					try {
-						amount = Double.parseDouble(amountString);
-					}catch(Exception x) {
-						BOMessageDialog.showError(DrawerPullReportExplorer.this, com.floreantpos.POSConstants.INVALID_AMOUNT);
-						return;
-					}
-					
-					DrawerPullExplorerTableModel model = (DrawerPullExplorerTableModel) table.getModel();
-					DrawerPullReport report = (DrawerPullReport) model.getRowData(selectedRow);
-					report.setCashToDeposit(amount);
-					
-					DrawerPullReportDAO dao = new DrawerPullReportDAO();
-					dao.saveOrUpdate(report);
-					model.updateItem(selectedRow);
-				} catch (Exception e1) {
-					BOMessageDialog.showError(DrawerPullReportExplorer.this, POSConstants.ERROR_MESSAGE, e1);
-				}
-			}
-			
-		});
-	}
+    btnGo.addActionListener(new ActionListener() {
 
-	private void viewReport() {
-		try {
-			Date fromDate = fromDatePicker.getDate();
-			Date toDate = toDatePicker.getDate();
+      public void actionPerformed(ActionEvent e) {
+        try {
+          viewReport();
+        } catch (Exception e1) {
+          BOMessageDialog.showError(DrawerPullReportExplorer.this, POSConstants.ERROR_MESSAGE, e1);
+        }
+      }
 
-			fromDate = DateUtil.startOfDay(fromDate);
-			toDate = DateUtil.endOfDay(toDate);
+    });
+    btnEditActualAmount.addActionListener(new ActionListener() {
 
-			List<DrawerPullReport> list = new DrawerPullReportDAO().findReports(fromDate, toDate);
-			table.setModel(new DrawerPullExplorerTableModel(list));
-		} catch (Exception e) {
-			BOMessageDialog.showError(this, POSConstants.ERROR_MESSAGE, e);
-		}
-	}
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int selectedRow = table.getSelectedRow();
+          if (selectedRow < 0) {
+            BOMessageDialog.showError(DrawerPullReportExplorer.this,
+                com.floreantpos.POSConstants.SELECT_DRAWER_PULL_TO_EDIT);
+            return;
+          }
 
-	class DrawerPullExplorerTableModel extends ListTableModel {
-		String[] columnNames = { com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.TIME, com.floreantpos.POSConstants.DRAWER_PULL_AMOUNT, com.floreantpos.POSConstants.ACTUAL_AMOUNT };
-		
-		
-		DrawerPullExplorerTableModel(List<DrawerPullReport> list) {
-			setRows(list);
-			setColumnNames(columnNames);
-		}
+          String amountString = JOptionPane.showInputDialog(DrawerPullReportExplorer.this,
+              com.floreantpos.POSConstants.ENTER_ACTUAL_AMOUNT + ":"); //$NON-NLS-1$
+          if (amountString == null) {
+            return;
+          }
+          double amount = 0;
+          try {
+            amount = Double.parseDouble(amountString);
+          } catch (Exception x) {
+            BOMessageDialog.showError(DrawerPullReportExplorer.this,
+                com.floreantpos.POSConstants.INVALID_AMOUNT);
+            return;
+          }
 
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			DrawerPullReport report = (DrawerPullReport) rows.get(rowIndex);
+          DrawerPullExplorerTableModel model = (DrawerPullExplorerTableModel) table.getModel();
+          DrawerPullReport report = (DrawerPullReport) model.getRowData(selectedRow);
+          report.setCashToDeposit(amount);
 
-			switch (columnIndex) {
-			case 0:
-				return report.getId().toString();
+          DrawerPullReportDAO dao = new DrawerPullReportDAO();
+          dao.saveOrUpdate(report);
+          model.updateItem(selectedRow);
+        } catch (Exception e1) {
+          BOMessageDialog.showError(DrawerPullReportExplorer.this, POSConstants.ERROR_MESSAGE, e1);
+        }
+      }
 
-			case 1:
-				return DateUtil.getReportFullDate(report.getReportTime());
+    });
+  }
 
-			case 2:
-				return report.getDrawerAccountable();
+  private void viewReport() {
+    try {
+      Date fromDate = fromDatePicker.getDate();
+      Date toDate = toDatePicker.getDate();
 
-			case 3:
-				return report.getCashToDeposit();
+      fromDate = DateUtil.startOfDay(fromDate);
+      toDate = DateUtil.endOfDay(toDate);
 
-			}
-			return null;
-		}
-	}
+      List<DrawerPullReport> list = new DrawerPullReportDAO().findReports(fromDate, toDate);
+      table.setModel(new DrawerPullExplorerTableModel(list));
+    } catch (Exception e) {
+      BOMessageDialog.showError(this, POSConstants.ERROR_MESSAGE, e);
+    }
+  }
+
+  class DrawerPullExplorerTableModel extends ListTableModel {
+    String[] columnNames = {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.TIME,
+        com.floreantpos.POSConstants.DRAWER_PULL_AMOUNT,
+        com.floreantpos.POSConstants.ACTUAL_AMOUNT};
+
+
+    DrawerPullExplorerTableModel(List<DrawerPullReport> list) {
+      setRows(list);
+      setColumnNames(columnNames);
+    }
+
+    public Object getValueAt(int rowIndex, int columnIndex) {
+      DrawerPullReport report = (DrawerPullReport) rows.get(rowIndex);
+
+      switch (columnIndex) {
+        case 0:
+          return report.getId().toString();
+
+        case 1:
+          return DateUtil.getReportFullDate(report.getReportTime());
+
+        case 2:
+          return report.getDrawerAccountable();
+
+        case 3:
+          return report.getCashToDeposit();
+
+      }
+      return null;
+    }
+  }
 }

@@ -20,281 +20,279 @@ import com.floreantpos.model.User;
 import com.floreantpos.util.UserNotFoundException;
 
 public class UserDAO extends BaseUserDAO {
-	public final static UserDAO instance = new UserDAO();
+  public final static UserDAO instance = new UserDAO();
 
-	/**
-	 * Default constructor. Can be used in place of getInstance()
-	 */
-	public UserDAO() {
-	}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public UserDAO() {}
 
-	public List<User> findDrivers() {
-		Session session = null;
-		
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(User.PROP_DRIVER, Boolean.TRUE));
-			
-			return criteria.list();
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
-	
-	public User findUser(String id) {
-		Session session = null;
-		
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(User.PROP_USER_ID, id));
-			
-			Object result = criteria.uniqueResult();
-			if(result != null) {
-				return (User) result;
-			}
-			else {
-				//TODO: externalize string
-				throw new UserNotFoundException("用户ID: " + id + " 不存在");
-			}
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
-	
-	public User findUserBySecretKey(String username, String secretKey) {
-		Session session = null;
-		
-		try {
-			
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(User.PROP_USER_ID, username));
-			criteria.add(Restrictions.eq(User.PROP_PASSWORD, secretKey));
-			
-			Object result = criteria.uniqueResult();
-			return (User) result;
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
-	
-	public boolean isUserExist(String id) {
-		try {
-			User user  = findUser(id);
-			
-			return user != null;
-			
-		} catch (UserNotFoundException x) {
-			return false;
-		}
-	}
-	
-	public Integer findUserWithMaxId() {
-		Session session = null;
-		
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.setProjection(Projections.max(User.PROP_USER_ID));
+  public List<User> findDrivers() {
+    Session session = null;
 
-			List list = criteria.list();
-			if(list != null && list.size() > 0) {
-				return (Integer) list.get(0);
-			}
-			
-			return null;
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(User.PROP_DRIVER, Boolean.TRUE));
 
-	public List<User> getClockedInUser(Terminal terminal) {
-		Session session = null;
+      return criteria.list();
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
 
-		try {
-			session = getSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(User.PROP_CLOCKED_IN, Boolean.TRUE));
-			criteria.add(Restrictions.eq(User.PROP_CURRENT_TERMINAL, terminal));
+  public User findUser(String id) {
+    Session session = null;
 
-			return criteria.list();
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(User.PROP_USER_ID, id));
 
-	}
+      Object result = criteria.uniqueResult();
+      if (result != null) {
+        return (User) result;
+      } else {
+        // TODO: externalize string
+        throw new UserNotFoundException("用户ID: " + id + " 不存在");
+      }
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
 
-	public void saveClockIn(User user, AttendenceHistory attendenceHistory,
-			Shift shift, Calendar currentTime) {
-		Session session = null;
-		Transaction tx = null;
+  public User findUserBySecretKey(String username, String secretKey) {
+    Session session = null;
 
-		try {
-			session = getSession();
-			tx = session.beginTransaction();
+    try {
 
-			session.saveOrUpdate(user);
-			session.saveOrUpdate(attendenceHistory);
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(User.PROP_USER_ID, username));
+      criteria.add(Restrictions.eq(User.PROP_PASSWORD, secretKey));
 
-			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
+      Object result = criteria.uniqueResult();
+      return (User) result;
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
 
-			if (tx != null) {
-				try {
-					tx.rollback();
-				} catch (Exception x) {
-				}
-			}
-			// TODO: find why such exception throws when enters a new day
-			throw new PosException("Unable to store clock in information", e);
+  public boolean isUserExist(String id) {
+    try {
+      User user = findUser(id);
 
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
+      return user != null;
 
-	public User saveClockOut(User user, AttendenceHistory attendenceHistory,
-			Shift shift, Calendar currentTime) {
-		Session session = null;
-		Transaction tx = null;
+    } catch (UserNotFoundException x) {
+      return false;
+    }
+  }
 
-		try {
-			session = getSession();
-			tx = session.beginTransaction();
+  public Integer findUserWithMaxId() {
+    Session session = null;
 
-			session.saveOrUpdate(user);
-			session.saveOrUpdate(attendenceHistory);
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.setProjection(Projections.max(User.PROP_USER_ID));
 
-			tx.commit();
-			session.refresh(user);
-			
-			return user;
-		} catch (Exception e) {
-			if (tx != null) {
-				try {
-					tx.rollback();
-				} catch (Exception x) {
-				}
-			}
-			throw new PosException("Unable to store clock out information", e);
+      List list = criteria.list();
+      if (list != null && list.size() > 0) {
+        return (Integer) list.get(0);
+      }
 
-		} finally {
-			if (session != null) {
-				closeSession(session);
-			}
-		}
-	}
+      return null;
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
 
-	private boolean validate(User user, boolean editMode) throws PosException {
-		String hql = "from User u where u.userId=:userId and u.type=:userType";
+  public List<User> getClockedInUser(Terminal terminal) {
+    Session session = null;
 
-		Session session = getSession();
-		Query query = session.createQuery(hql);
-		query = query.setParameter("userId", user.getUserId());
-		query = query.setParameter("userType", user.getType());
-		
-		if (query.list().size() > 0) {
-			throw new PosException("该用户ID已经被使用了");
-		}
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(User.PROP_CLOCKED_IN, Boolean.TRUE));
+      criteria.add(Restrictions.eq(User.PROP_CURRENT_TERMINAL, terminal));
 
-		return true;
-	}
+      return criteria.list();
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
 
-	public void saveOrUpdate(User user, boolean editMode) {
-		Session session = null;
+  }
 
-		try {
-			if (!editMode) {
-				validate(user, editMode);
-			}
-			super.saveOrUpdate(user);
-		} catch (Exception x) {
-			throw new PosException("无法保存用户", x);
-		} finally {
-			closeSession(session);
-		}
+  public void saveClockIn(User user, AttendenceHistory attendenceHistory, Shift shift,
+      Calendar currentTime) {
+    Session session = null;
+    Transaction tx = null;
 
-	}
+    try {
+      session = getSession();
+      tx = session.beginTransaction();
 
-	// public User findByPassword(String password) throws PosException {
-	// Session session = null;
-	// Transaction tx = null;
-	//		
-	// String hql = "from User u where u.password=:password";
-	//		
-	// try {
-	// session = getSession();
-	// tx = session.beginTransaction();
-	// Query query = session.createQuery(hql);
-	// query = query.setParameter("password", password);
-	// User user = (User) query.uniqueResult();
-	// tx.commit();
-	// if(user == null) {
-	// throw new PosException("User not found");
-	// }
-	// return user;
-	// } catch(PosException x) {
-	// throw x;
-	// } catch (Exception e) {
-	// try {
-	// if(tx != null) {
-	// tx.rollback();
-	// }
-	// }catch(Exception e2) {}
-	// throw new PosException("Unnable to find user", e);
-	// } finally {
-	// if(session != null) {
-	// session.close();
-	// }
-	// }
-	// }
+      session.saveOrUpdate(user);
+      session.saveOrUpdate(attendenceHistory);
 
-	public int findNumberOfOpenTickets(User user) throws PosException {
-		Session session = null;
-		Transaction tx = null;
+      tx.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
 
-		String hql = "select count(*) from Ticket ticket where ticket.owner=:owner and ticket."
-				+ Ticket.PROP_CLOSED + "settled=false";
-		int count = 0;
-		try {
-			session = getSession();
-			tx = session.beginTransaction();
-			Query query = session.createQuery(hql);
-			query = query.setEntity("owner", user);
-			Iterator iterator = query.iterate();
-			if (iterator.hasNext()) {
-				count = ((Integer) iterator.next()).intValue();
-			}
-			tx.commit();
-			return count;
-		} catch (Exception e) {
-			try {
-				if (tx != null) {
-					tx.rollback();
-				}
-			} catch (Exception e2) {
-			}
-			throw new PosException("无法找到用户", e);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-	}
+      if (tx != null) {
+        try {
+          tx.rollback();
+        } catch (Exception x) {
+        }
+      }
+      // TODO: find why such exception throws when enters a new day
+      throw new PosException("Unable to store clock in information", e);
+
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
+
+  public User saveClockOut(User user, AttendenceHistory attendenceHistory, Shift shift,
+      Calendar currentTime) {
+    Session session = null;
+    Transaction tx = null;
+
+    try {
+      session = getSession();
+      tx = session.beginTransaction();
+
+      session.saveOrUpdate(user);
+      session.saveOrUpdate(attendenceHistory);
+
+      tx.commit();
+      session.refresh(user);
+
+      return user;
+    } catch (Exception e) {
+      if (tx != null) {
+        try {
+          tx.rollback();
+        } catch (Exception x) {
+        }
+      }
+      throw new PosException("Unable to store clock out information", e);
+
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
+
+  private boolean validate(User user, boolean editMode) throws PosException {
+    String hql = "from User u where u.userId=:userId and u.type=:userType";
+
+    Session session = getSession();
+    Query query = session.createQuery(hql);
+    query = query.setParameter("userId", user.getUserId());
+    query = query.setParameter("userType", user.getType());
+
+    if (query.list().size() > 0) {
+      throw new PosException("该用户ID已经被使用了");
+    }
+
+    return true;
+  }
+
+  public void saveOrUpdate(User user, boolean editMode) {
+    Session session = null;
+
+    try {
+      if (!editMode) {
+        validate(user, editMode);
+      }
+      super.saveOrUpdate(user);
+    } catch (Exception x) {
+      throw new PosException("无法保存用户", x);
+    } finally {
+      closeSession(session);
+    }
+
+  }
+
+  // public User findByPassword(String password) throws PosException {
+  // Session session = null;
+  // Transaction tx = null;
+  //
+  // String hql = "from User u where u.password=:password";
+  //
+  // try {
+  // session = getSession();
+  // tx = session.beginTransaction();
+  // Query query = session.createQuery(hql);
+  // query = query.setParameter("password", password);
+  // User user = (User) query.uniqueResult();
+  // tx.commit();
+  // if(user == null) {
+  // throw new PosException("User not found");
+  // }
+  // return user;
+  // } catch(PosException x) {
+  // throw x;
+  // } catch (Exception e) {
+  // try {
+  // if(tx != null) {
+  // tx.rollback();
+  // }
+  // }catch(Exception e2) {}
+  // throw new PosException("Unnable to find user", e);
+  // } finally {
+  // if(session != null) {
+  // session.close();
+  // }
+  // }
+  // }
+
+  public int findNumberOfOpenTickets(User user) throws PosException {
+    Session session = null;
+    Transaction tx = null;
+
+    String hql = "select count(*) from Ticket ticket where ticket.owner=:owner and ticket."
+        + Ticket.PROP_CLOSED + "settled=false";
+    int count = 0;
+    try {
+      session = getSession();
+      tx = session.beginTransaction();
+      Query query = session.createQuery(hql);
+      query = query.setEntity("owner", user);
+      Iterator iterator = query.iterate();
+      if (iterator.hasNext()) {
+        count = ((Integer) iterator.next()).intValue();
+      }
+      tx.commit();
+      return count;
+    } catch (Exception e) {
+      try {
+        if (tx != null) {
+          tx.rollback();
+        }
+      } catch (Exception e2) {
+      }
+      throw new PosException("无法找到用户", e);
+    } finally {
+      if (session != null) {
+        session.close();
+      }
+    }
+  }
 
 }

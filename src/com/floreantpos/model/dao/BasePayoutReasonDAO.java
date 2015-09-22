@@ -9,216 +9,213 @@ import org.hibernate.criterion.Order;
  */
 public abstract class BasePayoutReasonDAO extends com.floreantpos.model.dao._RootDAO {
 
-	// query name references
+  // query name references
 
 
-	public static PayoutReasonDAO instance;
+  public static PayoutReasonDAO instance;
 
-	/**
-	 * Return a singleton of the DAO
-	 */
-	public static PayoutReasonDAO getInstance () {
-		if (null == instance) instance = new PayoutReasonDAO();
-		return instance;
-	}
+  /**
+   * Return a singleton of the DAO
+   */
+  public static PayoutReasonDAO getInstance() {
+    if (null == instance)
+      instance = new PayoutReasonDAO();
+    return instance;
+  }
 
-	public Class getReferenceClass () {
-		return com.floreantpos.model.PayoutReason.class;
-	}
+  public Class getReferenceClass() {
+    return com.floreantpos.model.PayoutReason.class;
+  }
 
-    public Order getDefaultOrder () {
-		return null;
+  public Order getDefaultOrder() {
+    return null;
+  }
+
+  /**
+   * Cast the object as a com.floreantpos.model.PayoutReason
+   */
+  public com.floreantpos.model.PayoutReason cast(Object object) {
+    return (com.floreantpos.model.PayoutReason) object;
+  }
+
+  public com.floreantpos.model.PayoutReason get(java.lang.Integer key) {
+    return (com.floreantpos.model.PayoutReason) get(getReferenceClass(), key);
+  }
+
+  public com.floreantpos.model.PayoutReason get(java.lang.Integer key, Session s) {
+    return (com.floreantpos.model.PayoutReason) get(getReferenceClass(), key, s);
+  }
+
+  public com.floreantpos.model.PayoutReason load(java.lang.Integer key) {
+    return (com.floreantpos.model.PayoutReason) load(getReferenceClass(), key);
+  }
+
+  public com.floreantpos.model.PayoutReason load(java.lang.Integer key, Session s) {
+    return (com.floreantpos.model.PayoutReason) load(getReferenceClass(), key, s);
+  }
+
+  public com.floreantpos.model.PayoutReason loadInitialize(java.lang.Integer key, Session s) {
+    com.floreantpos.model.PayoutReason obj = load(key, s);
+    if (!Hibernate.isInitialized(obj)) {
+      Hibernate.initialize(obj);
     }
+    return obj;
+  }
 
-	/**
-	 * Cast the object as a com.floreantpos.model.PayoutReason
-	 */
-	public com.floreantpos.model.PayoutReason cast (Object object) {
-		return (com.floreantpos.model.PayoutReason) object;
-	}
+  /* Generic methods */
 
-	public com.floreantpos.model.PayoutReason get(java.lang.Integer key)
-	{
-		return (com.floreantpos.model.PayoutReason) get(getReferenceClass(), key);
-	}
+  /**
+   * Return all objects related to the implementation of this DAO with no filter.
+   */
+  public java.util.List<com.floreantpos.model.PayoutReason> findAll() {
+    return super.findAll();
+  }
 
-	public com.floreantpos.model.PayoutReason get(java.lang.Integer key, Session s)
-	{
-		return (com.floreantpos.model.PayoutReason) get(getReferenceClass(), key, s);
-	}
+  /**
+   * Return all objects related to the implementation of this DAO with no filter.
+   */
+  public java.util.List<com.floreantpos.model.PayoutReason> findAll(Order defaultOrder) {
+    return super.findAll(defaultOrder);
+  }
 
-	public com.floreantpos.model.PayoutReason load(java.lang.Integer key)
-	{
-		return (com.floreantpos.model.PayoutReason) load(getReferenceClass(), key);
-	}
+  /**
+   * Return all objects related to the implementation of this DAO with no filter. Use the session
+   * given.
+   * 
+   * @param s the Session
+   */
+  public java.util.List<com.floreantpos.model.PayoutReason> findAll(Session s, Order defaultOrder) {
+    return super.findAll(s, defaultOrder);
+  }
 
-	public com.floreantpos.model.PayoutReason load(java.lang.Integer key, Session s)
-	{
-		return (com.floreantpos.model.PayoutReason) load(getReferenceClass(), key, s);
-	}
+  /**
+   * Persist the given transient instance, first assigning a generated identifier. (Or using the
+   * current value of the identifier property if the assigned generator is used.)
+   * 
+   * @param payoutReason a transient instance of a persistent class
+   * @return the class identifier
+   */
+  public java.lang.Integer save(com.floreantpos.model.PayoutReason payoutReason) {
+    return (java.lang.Integer) super.save(payoutReason);
+  }
 
-	public com.floreantpos.model.PayoutReason loadInitialize(java.lang.Integer key, Session s) 
-	{ 
-		com.floreantpos.model.PayoutReason obj = load(key, s); 
-		if (!Hibernate.isInitialized(obj)) {
-			Hibernate.initialize(obj);
-		} 
-		return obj; 
-	}
+  /**
+   * Persist the given transient instance, first assigning a generated identifier. (Or using the
+   * current value of the identifier property if the assigned generator is used.) Use the Session
+   * given.
+   * 
+   * @param payoutReason a transient instance of a persistent class
+   * @param s the Session
+   * @return the class identifier
+   */
+  public java.lang.Integer save(com.floreantpos.model.PayoutReason payoutReason, Session s) {
+    return (java.lang.Integer) save((Object) payoutReason, s);
+  }
 
-/* Generic methods */
+  /**
+   * Either save() or update() the given instance, depending upon the value of its identifier
+   * property. By default the instance is always saved. This behaviour may be adjusted by specifying
+   * an unsaved-value attribute of the identifier property mapping.
+   * 
+   * @param payoutReason a transient instance containing new or updated state
+   */
+  public void saveOrUpdate(com.floreantpos.model.PayoutReason payoutReason) {
+    saveOrUpdate((Object) payoutReason);
+  }
 
-	/**
-	 * Return all objects related to the implementation of this DAO with no filter.
-	 */
-	public java.util.List<com.floreantpos.model.PayoutReason> findAll () {
-		return super.findAll();
-	}
+  /**
+   * Either save() or update() the given instance, depending upon the value of its identifier
+   * property. By default the instance is always saved. This behaviour may be adjusted by specifying
+   * an unsaved-value attribute of the identifier property mapping. Use the Session given.
+   * 
+   * @param payoutReason a transient instance containing new or updated state.
+   * @param s the Session.
+   */
+  public void saveOrUpdate(com.floreantpos.model.PayoutReason payoutReason, Session s) {
+    saveOrUpdate((Object) payoutReason, s);
+  }
 
-	/**
-	 * Return all objects related to the implementation of this DAO with no filter.
-	 */
-	public java.util.List<com.floreantpos.model.PayoutReason> findAll (Order defaultOrder) {
-		return super.findAll(defaultOrder);
-	}
+  /**
+   * Update the persistent state associated with the given identifier. An exception is thrown if
+   * there is a persistent instance with the same identifier in the current session.
+   * 
+   * @param payoutReason a transient instance containing updated state
+   */
+  public void update(com.floreantpos.model.PayoutReason payoutReason) {
+    update((Object) payoutReason);
+  }
 
-	/**
-	 * Return all objects related to the implementation of this DAO with no filter.
-	 * Use the session given.
-	 * @param s the Session
-	 */
-	public java.util.List<com.floreantpos.model.PayoutReason> findAll (Session s, Order defaultOrder) {
-		return super.findAll(s, defaultOrder);
-	}
+  /**
+   * Update the persistent state associated with the given identifier. An exception is thrown if
+   * there is a persistent instance with the same identifier in the current session. Use the Session
+   * given.
+   * 
+   * @param payoutReason a transient instance containing updated state
+   * @param the Session
+   */
+  public void update(com.floreantpos.model.PayoutReason payoutReason, Session s) {
+    update((Object) payoutReason, s);
+  }
 
-	/**
-	 * Persist the given transient instance, first assigning a generated identifier. (Or using the current value
-	 * of the identifier property if the assigned generator is used.) 
-	 * @param payoutReason a transient instance of a persistent class 
-	 * @return the class identifier
-	 */
-	public java.lang.Integer save(com.floreantpos.model.PayoutReason payoutReason)
-	{
-		return (java.lang.Integer) super.save(payoutReason);
-	}
+  /**
+   * Remove a persistent instance from the datastore. The argument may be an instance associated
+   * with the receiving Session or a transient instance with an identifier associated with existing
+   * persistent state.
+   * 
+   * @param id the instance ID to be removed
+   */
+  public void delete(java.lang.Integer id) {
+    delete((Object) load(id));
+  }
 
-	/**
-	 * Persist the given transient instance, first assigning a generated identifier. (Or using the current value
-	 * of the identifier property if the assigned generator is used.) 
-	 * Use the Session given.
-	 * @param payoutReason a transient instance of a persistent class
-	 * @param s the Session
-	 * @return the class identifier
-	 */
-	public java.lang.Integer save(com.floreantpos.model.PayoutReason payoutReason, Session s)
-	{
-		return (java.lang.Integer) save((Object) payoutReason, s);
-	}
+  /**
+   * Remove a persistent instance from the datastore. The argument may be an instance associated
+   * with the receiving Session or a transient instance with an identifier associated with existing
+   * persistent state. Use the Session given.
+   * 
+   * @param id the instance ID to be removed
+   * @param s the Session
+   */
+  public void delete(java.lang.Integer id, Session s) {
+    delete((Object) load(id, s), s);
+  }
 
-	/**
-	 * Either save() or update() the given instance, depending upon the value of its identifier property. By default
-	 * the instance is always saved. This behaviour may be adjusted by specifying an unsaved-value attribute of the
-	 * identifier property mapping. 
-	 * @param payoutReason a transient instance containing new or updated state 
-	 */
-	public void saveOrUpdate(com.floreantpos.model.PayoutReason payoutReason)
-	{
-		saveOrUpdate((Object) payoutReason);
-	}
+  /**
+   * Remove a persistent instance from the datastore. The argument may be an instance associated
+   * with the receiving Session or a transient instance with an identifier associated with existing
+   * persistent state.
+   * 
+   * @param payoutReason the instance to be removed
+   */
+  public void delete(com.floreantpos.model.PayoutReason payoutReason) {
+    delete((Object) payoutReason);
+  }
 
-	/**
-	 * Either save() or update() the given instance, depending upon the value of its identifier property. By default the
-	 * instance is always saved. This behaviour may be adjusted by specifying an unsaved-value attribute of the identifier
-	 * property mapping. 
-	 * Use the Session given.
-	 * @param payoutReason a transient instance containing new or updated state.
-	 * @param s the Session.
-	 */
-	public void saveOrUpdate(com.floreantpos.model.PayoutReason payoutReason, Session s)
-	{
-		saveOrUpdate((Object) payoutReason, s);
-	}
+  /**
+   * Remove a persistent instance from the datastore. The argument may be an instance associated
+   * with the receiving Session or a transient instance with an identifier associated with existing
+   * persistent state. Use the Session given.
+   * 
+   * @param payoutReason the instance to be removed
+   * @param s the Session
+   */
+  public void delete(com.floreantpos.model.PayoutReason payoutReason, Session s) {
+    delete((Object) payoutReason, s);
+  }
 
-	/**
-	 * Update the persistent state associated with the given identifier. An exception is thrown if there is a persistent
-	 * instance with the same identifier in the current session.
-	 * @param payoutReason a transient instance containing updated state
-	 */
-	public void update(com.floreantpos.model.PayoutReason payoutReason) 
-	{
-		update((Object) payoutReason);
-	}
-
-	/**
-	 * Update the persistent state associated with the given identifier. An exception is thrown if there is a persistent
-	 * instance with the same identifier in the current session.
-	 * Use the Session given.
-	 * @param payoutReason a transient instance containing updated state
-	 * @param the Session
-	 */
-	public void update(com.floreantpos.model.PayoutReason payoutReason, Session s)
-	{
-		update((Object) payoutReason, s);
-	}
-
-	/**
-	 * Remove a persistent instance from the datastore. The argument may be an instance associated with the receiving
-	 * Session or a transient instance with an identifier associated with existing persistent state. 
-	 * @param id the instance ID to be removed
-	 */
-	public void delete(java.lang.Integer id)
-	{
-		delete((Object) load(id));
-	}
-
-	/**
-	 * Remove a persistent instance from the datastore. The argument may be an instance associated with the receiving
-	 * Session or a transient instance with an identifier associated with existing persistent state. 
-	 * Use the Session given.
-	 * @param id the instance ID to be removed
-	 * @param s the Session
-	 */
-	public void delete(java.lang.Integer id, Session s)
-	{
-		delete((Object) load(id, s), s);
-	}
-
-	/**
-	 * Remove a persistent instance from the datastore. The argument may be an instance associated with the receiving
-	 * Session or a transient instance with an identifier associated with existing persistent state. 
-	 * @param payoutReason the instance to be removed
-	 */
-	public void delete(com.floreantpos.model.PayoutReason payoutReason)
-	{
-		delete((Object) payoutReason);
-	}
-
-	/**
-	 * Remove a persistent instance from the datastore. The argument may be an instance associated with the receiving
-	 * Session or a transient instance with an identifier associated with existing persistent state. 
-	 * Use the Session given.
-	 * @param payoutReason the instance to be removed
-	 * @param s the Session
-	 */
-	public void delete(com.floreantpos.model.PayoutReason payoutReason, Session s)
-	{
-		delete((Object) payoutReason, s);
-	}
-	
-	/**
-	 * Re-read the state of the given instance from the underlying database. It is inadvisable to use this to implement
-	 * long-running sessions that span many business tasks. This method is, however, useful in certain special circumstances.
-	 * For example 
-	 * <ul> 
-	 * <li>where a database trigger alters the object state upon insert or update</li>
-	 * <li>after executing direct SQL (eg. a mass update) in the same session</li>
-	 * <li>after inserting a Blob or Clob</li>
-	 * </ul>
-	 */
-	public void refresh (com.floreantpos.model.PayoutReason payoutReason, Session s)
-	{
-		refresh((Object) payoutReason, s);
-	}
+  /**
+   * Re-read the state of the given instance from the underlying database. It is inadvisable to use
+   * this to implement long-running sessions that span many business tasks. This method is, however,
+   * useful in certain special circumstances. For example
+   * <ul>
+   * <li>where a database trigger alters the object state upon insert or update</li>
+   * <li>after executing direct SQL (eg. a mass update) in the same session</li>
+   * <li>after inserting a Blob or Clob</li>
+   * </ul>
+   */
+  public void refresh(com.floreantpos.model.PayoutReason payoutReason, Session s) {
+    refresh((Object) payoutReason, s);
+  }
 
 
 }

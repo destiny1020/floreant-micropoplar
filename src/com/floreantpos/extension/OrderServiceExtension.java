@@ -8,14 +8,21 @@ import com.floreantpos.model.TicketType;
 import com.floreantpos.util.TicketAlreadyExistsException;
 
 public interface OrderServiceExtension extends Plugin {
-	String getName();
-	String getDescription();
-	
-	void init();
-	void createNewTicket(TicketType ticketType) throws TicketAlreadyExistsException;
-	void setCustomerToTicket(int ticketId);
-	void setDeliveryDate(int ticketId);
-	void assignDriver(int ticketId);
-	boolean finishOrder(int ticketId);
-	void createCustomerMenu(JMenu menu);
+  String getName();
+
+  String getDescription();
+
+  void init();
+
+  void createNewTicket(TicketType ticketType) throws TicketAlreadyExistsException;
+
+  void setCustomerToTicket(int ticketId);
+
+  void setDeliveryDate(int ticketId);
+
+  void assignDriver(int ticketId);
+
+  boolean finishOrder(int ticketId);
+
+  void createCustomerMenu(JMenu menu);
 }

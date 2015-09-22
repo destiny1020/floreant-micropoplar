@@ -12,65 +12,71 @@ import com.floreantpos.model.Terminal;
 
 public class CashDropTransactionDAO extends BaseCashDropTransactionDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public CashDropTransactionDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public CashDropTransactionDAO() {}
 
-	public List<CashDropTransaction> findUnsettled(Terminal terminal) throws Exception {
-		Session session = null;
-		
-		try {
-			session = createNewSession();
-			Criteria criteria = session.createCriteria(getReferenceClass());
-			criteria.add(Restrictions.eq(CashDropTransaction.PROP_DRAWER_RESETTED, Boolean.FALSE));
-			criteria.add(Restrictions.eq(CashDropTransaction.PROP_TERMINAL, terminal));
+  public List<CashDropTransaction> findUnsettled(Terminal terminal) throws Exception {
+    Session session = null;
 
-			return criteria.list();
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			closeSession(session);
-		}
-	}
-	
-	public void deleteCashDrop(CashDropTransaction transaction, Terminal terminal) {
-		Session session = null;
-		org.hibernate.Transaction tx = null;
-		
-		terminal.setCurrentBalance(terminal.getCurrentBalance() + transaction.getAmount());
-		try {
-			session = createNewSession();
-			tx = session.beginTransaction();
+    try {
+      session = createNewSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.eq(CashDropTransaction.PROP_DRAWER_RESETTED, Boolean.FALSE));
+      criteria.add(Restrictions.eq(CashDropTransaction.PROP_TERMINAL, terminal));
 
-			session.delete(transaction);
-			session.update(terminal);
-			tx.commit();
-		} catch (Exception e) {
-			try { tx.rollback(); }catch(Exception x) {}
-		} finally {
-			closeSession(session);
-		}
-		
-	}
-	
-	public void saveNewCashDrop(CashDropTransaction transaction, Terminal terminal) {
-		Session session = null;
-		org.hibernate.Transaction tx = null;
-		
-		terminal.setCurrentBalance(terminal.getCurrentBalance() - transaction.getAmount());
-		try {
-			session = createNewSession();
-			tx = session.beginTransaction();
+      return criteria.list();
+    } catch (Exception e) {
+      throw e;
+    } finally {
+      closeSession(session);
+    }
+  }
 
-			session.save(transaction);
-			session.update(terminal);
-			tx.commit();
-		} catch (Exception e) {
-			try { tx.rollback(); }catch(Exception x) {}
-		} finally {
-			closeSession(session);
-		}
-		
-	}
+  public void deleteCashDrop(CashDropTransaction transaction, Terminal terminal) {
+    Session session = null;
+    org.hibernate.Transaction tx = null;
+
+    terminal.setCurrentBalance(terminal.getCurrentBalance() + transaction.getAmount());
+    try {
+      session = createNewSession();
+      tx = session.beginTransaction();
+
+      session.delete(transaction);
+      session.update(terminal);
+      tx.commit();
+    } catch (Exception e) {
+      try {
+        tx.rollback();
+      } catch (Exception x) {
+      }
+    } finally {
+      closeSession(session);
+    }
+
+  }
+
+  public void saveNewCashDrop(CashDropTransaction transaction, Terminal terminal) {
+    Session session = null;
+    org.hibernate.Transaction tx = null;
+
+    terminal.setCurrentBalance(terminal.getCurrentBalance() - transaction.getAmount());
+    try {
+      session = createNewSession();
+      tx = session.beginTransaction();
+
+      session.save(transaction);
+      session.update(terminal);
+      tx.commit();
+    } catch (Exception e) {
+      try {
+        tx.rollback();
+      } catch (Exception x) {
+      }
+    } finally {
+      closeSession(session);
+    }
+
+  }
 }

@@ -24,112 +24,110 @@ import com.floreantpos.util.TicketAlreadyExistsException;
 
 public class DefaultOrderServiceExtension implements OrderServiceExtension {
 
-	@Override
-	public String getName() {
-		return "Order Handler";
-	}
+  @Override
+  public String getName() {
+    return "Order Handler";
+  }
 
-	@Override
-	public String getDescription() {
-		return "Default order handler";
-	}
+  @Override
+  public String getDescription() {
+    return "Default order handler";
+  }
 
-	@Override
-	public void init() {
-	}
+  @Override
+  public void init() {}
 
-	@Override
-	public void createNewTicket(TicketType ticketType) throws TicketAlreadyExistsException {
-		List<ShopTable> tables = null;
-		
-		FloorLayoutPlugin floorLayoutPlugin = Application.getPluginManager().getPlugin(FloorLayoutPlugin.class);
-		if(floorLayoutPlugin != null) {
-			tables = floorLayoutPlugin.captureTableNumbers(null);
-		}
-		else {
-			tables = PosGuiUtil.captureTable(null);
-		}
+  @Override
+  public void createNewTicket(TicketType ticketType) throws TicketAlreadyExistsException {
+    List<ShopTable> tables = null;
 
-		if(tables == null) {
-			return;
-		}
-		
-		int numberOfGuests = PosGuiUtil.captureGuestNumber();
-		if (numberOfGuests == -1) {
-			return;
-		}
+    FloorLayoutPlugin floorLayoutPlugin =
+        Application.getPluginManager().getPlugin(FloorLayoutPlugin.class);
+    if (floorLayoutPlugin != null) {
+      tables = floorLayoutPlugin.captureTableNumbers(null);
+    } else {
+      tables = PosGuiUtil.captureTable(null);
+    }
 
-		Application application = Application.getInstance();
-		
-		Ticket ticket = new Ticket();
-		ticket.setPriceIncludesTax(application.isPriceIncludesTax());
-		ticket.setType(ticketType);
-		ticket.setNumberOfGuests(numberOfGuests);
-		ticket.setTerminal(application.getTerminal());
-		ticket.setOwner(Application.getCurrentUser());
-		ticket.setShift(application.getCurrentShift());
-		
-		for (ShopTable shopTable : tables) {
-			shopTable.setOccupied(true);
-			ticket.addTotables(shopTable);
-		}
+    if (tables == null) {
+      return;
+    }
 
-		Calendar currentTime = Calendar.getInstance();
-		ticket.setCreateDate(currentTime.getTime());
-		ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
+    int numberOfGuests = PosGuiUtil.captureGuestNumber();
+    if (numberOfGuests == -1) {
+      return;
+    }
 
-		OrderView.getInstance().setCurrentTicket(ticket);
-		RootView.getInstance().showView(OrderView.VIEW_NAME);
-	}
+    Application application = Application.getInstance();
 
-	@Override
-	public void setCustomerToTicket(int ticketId) {
-	}
+    Ticket ticket = new Ticket();
+    ticket.setPriceIncludesTax(application.isPriceIncludesTax());
+    ticket.setType(ticketType);
+    ticket.setNumberOfGuests(numberOfGuests);
+    ticket.setTerminal(application.getTerminal());
+    ticket.setOwner(Application.getCurrentUser());
+    ticket.setShift(application.getCurrentShift());
 
-	public void setDeliveryDate(int ticketId) {
-	}
+    for (ShopTable shopTable : tables) {
+      shopTable.setOccupied(true);
+      ticket.addTotables(shopTable);
+    }
 
-	@Override
-	public void assignDriver(int ticketId) {
+    Calendar currentTime = Calendar.getInstance();
+    ticket.setCreateDate(currentTime.getTime());
+    ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
 
-	};
+    OrderView.getInstance().setCurrentTicket(ticket);
+    RootView.getInstance().showView(OrderView.VIEW_NAME);
+  }
 
-	@Override
-	public boolean finishOrder(int ticketId) {
-		Ticket ticket = TicketDAO.getInstance().get(ticketId);
+  @Override
+  public void setCustomerToTicket(int ticketId) {}
 
-//		if (ticket.getType() == TicketType.DINE_IN) {
-//			POSMessageDialog.showError("Please select tickets of type HOME DELIVERY or PICKUP or DRIVE THRU");
-//			return false;
-//		}
+  public void setDeliveryDate(int ticketId) {}
 
-		int due = (int) POSUtil.getDouble(ticket.getDueAmount());
-		if (due != 0) {
-			POSMessageDialog.showError("Ticket is not fully paid");
-			return false;
-		}
+  @Override
+  public void assignDriver(int ticketId) {
 
-		int option = JOptionPane.showOptionDialog(Application.getPosWindow(), "Ticket# " + ticket.getId() + " will be closed.", "Confirm",
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+  };
 
-		if (option != JOptionPane.OK_OPTION) {
-			return false;
-		}
+  @Override
+  public boolean finishOrder(int ticketId) {
+    Ticket ticket = TicketDAO.getInstance().get(ticketId);
 
-		ticket.setClosed(true);
-		ticket.setClosingDate(new Date());
-		TicketDAO.getInstance().saveOrUpdate(ticket);
+    // if (ticket.getType() == TicketType.DINE_IN) {
+    // POSMessageDialog.showError("Please select tickets of type HOME DELIVERY or PICKUP or DRIVE
+    // THRU");
+    // return false;
+    // }
 
-		User driver = ticket.getAssignedDriver();
-		if (driver != null) {
-			driver.setAvailableForDelivery(true);
-			UserDAO.getInstance().saveOrUpdate(driver);
-		}
+    int due = (int) POSUtil.getDouble(ticket.getDueAmount());
+    if (due != 0) {
+      POSMessageDialog.showError("Ticket is not fully paid");
+      return false;
+    }
 
-		return true;
-	}
+    int option = JOptionPane.showOptionDialog(Application.getPosWindow(),
+        "Ticket# " + ticket.getId() + " will be closed.", "Confirm", JOptionPane.OK_CANCEL_OPTION,
+        JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
-	@Override
-	public void createCustomerMenu(JMenu menu) {
-	}
+    if (option != JOptionPane.OK_OPTION) {
+      return false;
+    }
+
+    ticket.setClosed(true);
+    ticket.setClosingDate(new Date());
+    TicketDAO.getInstance().saveOrUpdate(ticket);
+
+    User driver = ticket.getAssignedDriver();
+    if (driver != null) {
+      driver.setAvailableForDelivery(true);
+      UserDAO.getInstance().saveOrUpdate(driver);
+    }
+
+    return true;
+  }
+
+  @Override
+  public void createCustomerMenu(JMenu menu) {}
 }

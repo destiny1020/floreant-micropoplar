@@ -8,52 +8,52 @@ import com.floreantpos.model.Ticket;
 import com.floreantpos.ui.ticket.TicketItemRowCreator;
 
 public class TicketDataSource extends AbstractReportDataSource {
-	
-	public TicketDataSource() {
-		super(new String[] { "itemName", "itemQty", "itemSubtotal" });
-	}
 
-	public TicketDataSource(Ticket ticket) {
-		super(new String[] { "itemName", "itemQty", "itemSubtotal" });
+  public TicketDataSource() {
+    super(new String[] {"itemName", "itemQty", "itemSubtotal"});
+  }
 
-		setTicket(ticket);
-	}
-	
-	private void setTicket(Ticket ticket) {
-		ArrayList<ITicketItem> rows = new ArrayList<ITicketItem>();
+  public TicketDataSource(Ticket ticket) {
+    super(new String[] {"itemName", "itemQty", "itemSubtotal"});
 
-		LinkedHashMap<String, ITicketItem> tableRows = new LinkedHashMap<String, ITicketItem>();
-		TicketItemRowCreator.calculateTicketRows(ticket, tableRows);
+    setTicket(ticket);
+  }
 
-		rows.addAll(tableRows.values());
-		setRows(rows);
-	}
+  private void setTicket(Ticket ticket) {
+    ArrayList<ITicketItem> rows = new ArrayList<ITicketItem>();
 
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		ITicketItem item = (ITicketItem) rows.get(rowIndex);
+    LinkedHashMap<String, ITicketItem> tableRows = new LinkedHashMap<String, ITicketItem>();
+    TicketItemRowCreator.calculateTicketRows(ticket, tableRows);
 
-		switch (columnIndex) {
-			case 0:
-				return item.getNameDisplay();
+    rows.addAll(tableRows.values());
+    setRows(rows);
+  }
 
-			case 1:
-				Integer itemCountDisplay = item.getItemCountDisplay();
-				
-				if(itemCountDisplay == null) {
-					return null;
-				}
-				
-				return String.valueOf(itemCountDisplay);
+  public Object getValueAt(int rowIndex, int columnIndex) {
+    ITicketItem item = (ITicketItem) rows.get(rowIndex);
 
-			case 2:
-				Double total = item.getTotalAmountWithoutModifiersDisplay();
-				if(total == null) {
-					return null;
-				}
-				
-				return String.valueOf(total);
-		}
+    switch (columnIndex) {
+      case 0:
+        return item.getNameDisplay();
 
-		return null;
-	}
+      case 1:
+        Integer itemCountDisplay = item.getItemCountDisplay();
+
+        if (itemCountDisplay == null) {
+          return null;
+        }
+
+        return String.valueOf(itemCountDisplay);
+
+      case 2:
+        Double total = item.getTotalAmountWithoutModifiersDisplay();
+        if (total == null) {
+          return null;
+        }
+
+        return String.valueOf(total);
+    }
+
+    return null;
+  }
 }

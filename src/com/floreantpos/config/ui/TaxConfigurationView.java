@@ -9,43 +9,44 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JCheckBox;
 
 public class TaxConfigurationView extends ConfigurationView {
-	public static final String CONFIG_TAB_TAX = "Tax";
-	private Restaurant restaurant;
-	private JCheckBox cbItemSalesPriceIncludesTax;
-	
-	public TaxConfigurationView() {
-		setLayout(new MigLayout("", "[]", "[]"));
+  public static final String CONFIG_TAB_TAX = "Tax";
+  private Restaurant restaurant;
+  private JCheckBox cbItemSalesPriceIncludesTax;
 
-		cbItemSalesPriceIncludesTax = new JCheckBox("Item sales price includes tax");
-		add(cbItemSalesPriceIncludesTax, "cell 0 0");
-	}
+  public TaxConfigurationView() {
+    setLayout(new MigLayout("", "[]", "[]"));
 
-	@Override
-	public boolean save() throws Exception {
-		if (!isInitialized()) {
-			return true;
-		}
+    cbItemSalesPriceIncludesTax = new JCheckBox("Item sales price includes tax");
+    add(cbItemSalesPriceIncludesTax, "cell 0 0");
+  }
 
-		restaurant.setItemPriceIncludesTax(cbItemSalesPriceIncludesTax.isSelected());
+  @Override
+  public boolean save() throws Exception {
+    if (!isInitialized()) {
+      return true;
+    }
 
-		RestaurantDAO.getInstance().saveOrUpdate(restaurant);
+    restaurant.setItemPriceIncludesTax(cbItemSalesPriceIncludesTax.isSelected());
 
-		Application.getInstance().refreshRestaurant();
+    RestaurantDAO.getInstance().saveOrUpdate(restaurant);
 
-		return true;
-	}
+    Application.getInstance().refreshRestaurant();
 
-	@Override
-	public void initialize() throws Exception {
-		restaurant = RestaurantDAO.getInstance().get(Integer.valueOf(1));
-		cbItemSalesPriceIncludesTax.setSelected(POSUtil.getBoolean(restaurant.isItemPriceIncludesTax()));
+    return true;
+  }
 
-		setInitialized(true);
-	}
+  @Override
+  public void initialize() throws Exception {
+    restaurant = RestaurantDAO.getInstance().get(Integer.valueOf(1));
+    cbItemSalesPriceIncludesTax
+        .setSelected(POSUtil.getBoolean(restaurant.isItemPriceIncludesTax()));
 
-	@Override
-	public String getName() {
-		return CONFIG_TAB_TAX;
-	}
+    setInitialized(true);
+  }
+
+  @Override
+  public String getName() {
+    return CONFIG_TAB_TAX;
+  }
 
 }

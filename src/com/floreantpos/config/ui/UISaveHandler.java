@@ -1,6 +1,7 @@
 package com.floreantpos.config.ui;
 
 public interface UISaveHandler {
-	boolean canSave();
-	void save();
+  boolean canSave();
+
+  void save();
 }

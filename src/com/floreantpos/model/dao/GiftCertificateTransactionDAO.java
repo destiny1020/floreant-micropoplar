@@ -5,10 +5,10 @@ import com.floreantpos.model.dao.BaseGiftCertificateTransactionDAO;
 
 public class GiftCertificateTransactionDAO extends BaseGiftCertificateTransactionDAO {
 
-	/**
-	 * Default constructor.  Can be used in place of getInstance()
-	 */
-	public GiftCertificateTransactionDAO () {}
+  /**
+   * Default constructor. Can be used in place of getInstance()
+   */
+  public GiftCertificateTransactionDAO() {}
 
 
 }

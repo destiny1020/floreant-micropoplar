@@ -8,30 +8,30 @@ import org.apache.commons.codec.binary.Hex;
 
 public class PasswordHasher {
 
-	public static void main(String[] args) throws Exception {
-		System.out.println(hashPassword("123"));
-	}
+  public static void main(String[] args) throws Exception {
+    System.out.println(hashPassword("123"));
+  }
 
-	public static String hashPassword(String password) {
-		byte[] passwordBytes = null;
-		MessageDigest md = null;
+  public static String hashPassword(String password) {
+    byte[] passwordBytes = null;
+    MessageDigest md = null;
 
-		try {
-			passwordBytes = password.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+    try {
+      passwordBytes = password.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
 
-		try {
-			md = MessageDigest.getInstance("SHA1");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+    try {
+      md = MessageDigest.getInstance("SHA1");
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
 
-		byte[] hashBytes = md.digest(passwordBytes);
+    byte[] hashBytes = md.digest(passwordBytes);
 
-		return Hex.encodeHexString(hashBytes);
+    return Hex.encodeHexString(hashBytes);
 
-	}
+  }
 
 }
