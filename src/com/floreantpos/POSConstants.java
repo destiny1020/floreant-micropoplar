@@ -399,7 +399,16 @@ public class POSConstants {
   public static final String TAKEOUT_PLATFORM_NOT_ENABLED = Messages.getString("PosMessage.335"); //$NON-NLS-1$
   public static final String UNION_PAY_CONFIRM_TITLE = Messages.getString("PosMessage.336"); //$NON-NLS-1$
   public static final String CASH_CONFIRM_TITLE = Messages.getString("PosMessage.337"); //$NON-NLS-1$
-
+  public static final String ABOUT_THIS_SYSTEM = Messages.getString("PosMessage.338"); //$NON-NLS-1$
+  public static final String KITCHEN_ORDER = Messages.getString("PosMessage.339"); //$NON-NLS-1$
+  public static final String NOT_ENOUGH_PERMISSION = Messages.getString("PosMessage.340"); //$NON-NLS-1$
+  public static final String PLEASE_INPUT_OR_SCAN_TICKET = Messages.getString("PosMessage.341"); //$NON-NLS-1$
+  public static final String TICKET_NOT_PAID_YET = Messages.getString("PosMessage.342"); //$NON-NLS-1$
+  public static final String TICKET_REFUND_ALREADY = Messages.getString("PosMessage.343"); //$NON-NLS-1$
+  public static final String REFUND_AMOUNT = Messages.getString("PosMessage.344"); //$NON-NLS-1$
+  public static final String TICKET_ALREADY_PAID = Messages.getString("PosMessage.345"); //$NON-NLS-1$
+  public static final String WECHAT_PAY_STATUS_ERROR = Messages.getString("PosMessage.346"); //$NON-NLS-1$
+  
   public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
   public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$
   public static final String CAPITAL_PREV = Messages.getString("SelectionView.2"); //$NON-NLS-1$

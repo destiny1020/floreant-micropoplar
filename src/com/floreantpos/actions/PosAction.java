@@ -4,12 +4,17 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
 public abstract class PosAction extends AbstractAction {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected UserPermission requiredPermission;
   // protected boolean allowAdministrator = true;
 
@@ -35,17 +40,13 @@ public abstract class PosAction extends AbstractAction {
   public void actionPerformed(ActionEvent e) {
     User user = Application.getCurrentUser();
 
-    // if(allowAdministrator && user.isAdministrator()) {
-    // execute();
-    // }
-
     if (requiredPermission == null) {
       execute();
       return;
     }
 
     if (!user.hasPermission(requiredPermission)) {
-      POSMessageDialog.showError("You do not have permission to execute this action");
+      POSMessageDialog.showError(POSConstants.NOT_ENOUGH_PERMISSION);
       return;
     }
 
@@ -54,11 +55,4 @@ public abstract class PosAction extends AbstractAction {
 
   public abstract void execute();
 
-  // public boolean isAllowAdministrator() {
-  // return allowAdministrator;
-  // }
-  //
-  // public void setAllowAdministrator(boolean allowAdministrator) {
-  // this.allowAdministrator = allowAdministrator;
-  // }
 }

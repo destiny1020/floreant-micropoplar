@@ -3,6 +3,7 @@ package com.floreantpos.actions;
 import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.ITicketList;
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.UserPermission;
@@ -13,6 +14,10 @@ import com.floreantpos.ui.dialog.NumberSelectionDialog2;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
 public class RefundAction extends PosAction {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private ITicketList ticketList;
 
   public RefundAction(ITicketList ticketList) {
@@ -27,7 +32,8 @@ public class RefundAction extends PosAction {
       Ticket ticket = ticketList.getSelectedTicket();
 
       if (ticket == null) {
-        String ticketUniqId = NumberSelectionDialog2.takeStringInput("请输入或者扫描订单ID");
+        String ticketUniqId =
+            NumberSelectionDialog2.takeStringInput(POSConstants.PLEASE_INPUT_OR_SCAN_TICKET);
         if (StringUtils.isBlank(ticketUniqId)) {
           // user clicked without input
           return;
@@ -36,18 +42,18 @@ public class RefundAction extends PosAction {
       }
 
       if (!ticket.isPaid()) {
-        POSMessageDialog.showError("订单还未被支付.");
+        POSMessageDialog.showError(POSConstants.TICKET_NOT_PAID_YET);
         return;
       }
 
       if (ticket.isRefunded()) {
-        POSMessageDialog.showError("订单已经退款.");
+        POSMessageDialog.showError(POSConstants.TICKET_REFUND_ALREADY);
         return;
       }
 
       Double paidAmount = ticket.getPaidAmount();
 
-      String message = "需要退款的金额: " + Application.getCurrencySymbol() + paidAmount;
+      String message = POSConstants.REFUND_AMOUNT + Application.getCurrencySymbol() + paidAmount;
 
       // int option = JOptionPane.showOptionDialog(Application.getPosWindow(), message,
       // POSConstants.CONFIRM,

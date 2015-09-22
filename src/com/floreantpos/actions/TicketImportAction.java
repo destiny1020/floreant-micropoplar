@@ -38,6 +38,10 @@ import com.floreantpos.model.dao.MenuModifierDAO;
 import com.floreantpos.model.dao.TicketDAO;
 
 public class TicketImportAction extends AbstractAction {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private TicketImporter TICKET_IMPORTER = new TicketImporter();
   private Component parentComponent;
 

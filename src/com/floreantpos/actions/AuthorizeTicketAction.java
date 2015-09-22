@@ -8,6 +8,11 @@ import com.floreantpos.ui.dialog.TicketAuthorizationDialog;
 
 public class AuthorizeTicketAction extends PosAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public AuthorizeTicketAction() {
     super("AUTHORIZE", UserPermission.AUTHORIZE_TICKETS);
   }

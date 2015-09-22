@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.Ticket;
@@ -17,6 +18,10 @@ import com.micropoplar.pos.payment.QueryBusiness;
 
 public class SettleTicketAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private int ticketId;
 
   public SettleTicketAction(int ticketId) {
@@ -32,7 +37,7 @@ public class SettleTicketAction extends AbstractAction {
     Ticket ticket = TicketDAO.getInstance().loadFullTicket(ticketId);
 
     if (ticket.isPaid()) {
-      POSMessageDialog.showError("订单已经支付完成");
+      POSMessageDialog.showError(POSConstants.TICKET_ALREADY_PAID);
       return false;
     }
 
@@ -50,7 +55,7 @@ public class SettleTicketAction extends AbstractAction {
           transaction.setAmount(totalFee);
           transaction.setTenderAmount(totalFee);
           transaction.setOuterTransactionId(result.getTransactionId());
-          // FIXME: make settleTicket independent
+          // FIXME: make settleTicket dialog independent
           SettleTicketDialog posDialog = new SettleTicketDialog();
           posDialog.setTicket(ticket);
           posDialog.settleTicket(transaction);
@@ -59,7 +64,7 @@ public class SettleTicketAction extends AbstractAction {
         }
       } catch (Exception e) {
         e.printStackTrace();
-        POSMessageDialog.showError("查询订单微信支付状态是发生异常，请重新尝试");
+        POSMessageDialog.showError(POSConstants.WECHAT_PAY_STATUS_ERROR);
         return false;
       }
     }

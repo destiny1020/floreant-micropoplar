@@ -30,6 +30,10 @@ import com.floreantpos.ui.views.payment.PaymentProcessWaitDialog;
 import com.floreantpos.ui.views.payment.SwipeCardDialog;
 
 public class NewBarTabAction extends AbstractAction implements CardInputListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private Component parentComponent;
   private PaymentType selectedPaymentType;
 

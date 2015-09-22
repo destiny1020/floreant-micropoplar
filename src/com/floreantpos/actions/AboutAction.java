@@ -4,12 +4,18 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.ui.dialog.AboutDialog;
 
 public class AboutAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public AboutAction() {
-    super("关于本系统");
+    super(POSConstants.ABOUT_THIS_SYSTEM);
   }
 
   @Override
