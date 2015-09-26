@@ -408,6 +408,16 @@ public class POSConstants {
   public static final String REFUND_AMOUNT = Messages.getString("PosMessage.344"); //$NON-NLS-1$
   public static final String TICKET_ALREADY_PAID = Messages.getString("PosMessage.345"); //$NON-NLS-1$
   public static final String WECHAT_PAY_STATUS_ERROR = Messages.getString("PosMessage.346"); //$NON-NLS-1$
+  public static final String MENU_ITEM_IMAGE_TOO_LARGE_ERROR = Messages.getString("PosMessage.347"); //$NON-NLS-1$
+
+  // Menu Item Editor
+  public static final String MENU_ITEM_EDITOR_GROUP = Messages.getString("LABEL_GROUP"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_NAME = Messages.getString("LABEL_NAME"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_BARCODE = Messages.getString("LABEL_BARCODE"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_BUY_PRICE = Messages.getString("LABEL_BUY_PRICE"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_IMAGE = Messages.getString("LABEL_IMAGE"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_OMIT = Messages.getString("LABEL_OMIT"); //$NON-NLS-1$
+  public static final String MENU_ITEM_EDITOR_DISCOUNT_UNIT = Messages.getString("LABEL_DISCOUNT_UNIT"); //$NON-NLS-1$
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1"); //$NON-NLS-1$

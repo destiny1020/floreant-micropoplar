@@ -58,5 +58,7 @@
 		<property column="CODE" length="30" name="code" not-null="true" type="java.lang.String" />
 		
 		<property column="MEMBER_PRICE" length="52" name="memberPrice" not-null="false" type="java.lang.Double" />
+		
+		<property column="INVENTORY_COUNT" name="inventoryCount" type="java.lang.Integer" />
 	</class>
 </hibernate-mapping>

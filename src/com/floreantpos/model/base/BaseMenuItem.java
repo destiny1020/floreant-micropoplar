@@ -91,12 +91,11 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
   private UnitName unitName;
   private String code;
   private Double memberPrice;
+  private Integer inventoryCount;
 
   // collections
   private java.util.List<com.floreantpos.model.MenuItemModifierGroup> menuItemModiferGroups;
   private java.util.List<com.floreantpos.model.MenuItemShift> shifts;
-
-
 
   /**
    * Return the unique identifier of this class
@@ -472,6 +471,14 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
 
   public void setMemberPrice(Double memberPrice) {
     this.memberPrice = memberPrice;
+  }
+
+  public Integer getInventoryCount() {
+    return inventoryCount;
+  }
+
+  public void setInventoryCount(Integer inventoryCount) {
+    this.inventoryCount = inventoryCount;
   }
 
 
