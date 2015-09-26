@@ -3,6 +3,8 @@
 .classpath
 .project
 floreantpos.config.properties
+floreantpos.config.local.properties
+floreantpos.config.remote.properties
 target/
 logs/
 *.bak
