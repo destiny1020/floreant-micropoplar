@@ -1,6 +1,9 @@
 package com.floreantpos.model.base;
 
 import java.lang.Comparable;
+
+import com.micropoplar.pos.model.UnitName;
+
 import java.io.Serializable;
 
 
@@ -27,7 +30,9 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
   public static String PROP_IMAGE = "image";
   public static String PROP_ID = "id";
   public static String PROP_VIRTUAL_PRINTER = "virtualPrinter";
-
+  public static String PROP_CODE = "code";
+  public static String PROP_UNIT_NAME = "unitName";
+  public static String PROP_MEMBER_PRICE = "memberPrice";
 
   // constructors
   public BaseMenuItem() {
@@ -81,6 +86,11 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
   private com.floreantpos.model.inventory.Recepie recepie;
   private com.floreantpos.model.Tax tax;
   private com.floreantpos.model.VirtualPrinter virtualPrinter;
+
+  // 新增字段
+  private UnitName unitName;
+  private String code;
+  private Double memberPrice;
 
   // collections
   private java.util.List<com.floreantpos.model.MenuItemModifierGroup> menuItemModiferGroups;
@@ -438,6 +448,30 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
 
   public String toString() {
     return super.toString();
+  }
+
+  public UnitName getUnitName() {
+    return unitName;
+  }
+
+  public void setUnitName(UnitName unitName) {
+    this.unitName = unitName;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public Double getMemberPrice() {
+    return memberPrice;
+  }
+
+  public void setMemberPrice(Double memberPrice) {
+    this.memberPrice = memberPrice;
   }
 
 

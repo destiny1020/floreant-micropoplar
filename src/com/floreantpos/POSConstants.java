@@ -408,6 +408,13 @@ public class POSConstants {
   public static final String REFUND_AMOUNT = Messages.getString("PosMessage.344"); //$NON-NLS-1$
   public static final String TICKET_ALREADY_PAID = Messages.getString("PosMessage.345"); //$NON-NLS-1$
   public static final String WECHAT_PAY_STATUS_ERROR = Messages.getString("PosMessage.346"); //$NON-NLS-1$
+
+  // Unit names
+  public static final String UNITNAME_UNIT = Messages.getString("UnitName.1"); //$NON-NLS-1$
+  public static final String UNITNAME_CUP = Messages.getString("UnitName.2"); //$NON-NLS-1$
+  public static final String UNITNAME_BOWL = Messages.getString("UnitName.3"); //$NON-NLS-1$
+  public static final String UNITNAME_PLATE = Messages.getString("UnitName.4"); //$NON-NLS-1$
+  public static final String UNITNAME_BOTTLE = Messages.getString("UnitName.5"); //$NON-NLS-1$
   
   public static final String CAPITAL_BACK = Messages.getString("SelectionView.0"); //$NON-NLS-1$
   public static final String CAPITAL_NEXT = Messages.getString("SelectionView.1"); //$NON-NLS-1$
