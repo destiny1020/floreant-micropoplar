@@ -1,0 +1,119 @@
+package com.micropoplar.bo.ui.explorer;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import com.floreantpos.bo.ui.BOMessageDialog;
+import com.floreantpos.bo.ui.BackOfficeWindow;
+import com.floreantpos.bo.ui.explorer.ExplorerButtonPanel;
+import com.floreantpos.bo.ui.explorer.ListTableModel;
+import com.floreantpos.main.Application;
+import com.floreantpos.model.MenuItem;
+import com.floreantpos.model.dao.MenuItemDAO;
+import com.floreantpos.swing.TransparentPanel;
+import com.floreantpos.ui.PosTableRenderer;
+import com.floreantpos.ui.dialog.BeanEditorDialog;
+import com.floreantpos.ui.model.MenuItemForm;
+import com.micropolar.ui.model.MenuItemSetForm;
+import com.micropoplar.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.model.MenuItemSet;
+
+public class MenuItemSetExplorer extends TransparentPanel {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+  private List<MenuItemSet> itemSetList;
+
+  private JTable table;
+  private MenuItemSetExplorerTableModel tableModel;
+  private String currencySymbol;
+
+  public MenuItemSetExplorer() {
+    currencySymbol = Application.getCurrencySymbol();
+
+    MenuItemSetDAO dao = new MenuItemSetDAO();
+    itemSetList = dao.findAll();
+
+    tableModel = new MenuItemSetExplorerTableModel();
+    tableModel.setRows(itemSetList);
+    table = new JTable(tableModel);
+    table.setDefaultRenderer(Object.class, new PosTableRenderer());
+
+    setLayout(new BorderLayout(5, 5));
+    add(new JScrollPane(table));
+    ExplorerButtonPanel explorerButton = new ExplorerButtonPanel();
+    JButton editButton = explorerButton.getEditButton();
+    JButton addButton = explorerButton.getAddButton();
+    JButton deleteButton = explorerButton.getDeleteButton();
+
+    // bind actions
+    editButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int index = table.getSelectedRow();
+          if (index < 0)
+            return;
+
+          MenuItemSet menuItem = itemSetList.get(index);
+          menuItem = MenuItemSetDAO.getInstance().initialize(menuItem);
+          itemSetList.set(index, menuItem);
+
+          MenuItemSetForm editor = new MenuItemSetForm(menuItem);
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled())
+            return;
+
+          table.repaint();
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
+      }
+
+    });
+  }
+
+  class MenuItemSetExplorerTableModel extends ListTableModel {
+
+    private String[] columnNames =
+        {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
+            com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")",
+            com.floreantpos.POSConstants.VISIBLE};
+
+    MenuItemSetExplorerTableModel() {
+      setColumnNames(columnNames);
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+      MenuItemSet itemSet = (MenuItemSet) rows.get(rowIndex);
+
+      switch (columnIndex) {
+        case 0:
+          return String.valueOf(itemSet.getId());
+
+        case 1:
+          return itemSet.getName();
+
+        case 2:
+          return Double.valueOf(itemSet.getPrice());
+
+        case 3:
+          return itemSet.getVisible();
+      }
+
+      return null;
+    }
+  }
+
+}

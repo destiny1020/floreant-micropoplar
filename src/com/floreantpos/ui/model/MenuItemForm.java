@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -59,7 +58,6 @@ import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.POSUtil;
-import com.floreantpos.util.ShiftUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -178,7 +176,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     });
     pnlMainEditor.add(btnClearImage, "cell 3 6");
 
-    cbShowTextWithImage = new JCheckBox("仅显示图片");
+    cbShowTextWithImage = new JCheckBox(POSConstants.EDITOR_IMAGE_ONLY);
     cbShowTextWithImage.setActionCommand("Show Text with Image");
     pnlMainEditor.add(cbShowTextWithImage, "cell 1 7 3 1"); //$NON-NLS-1$
     pnlMainEditor.add(lblDiscountRate, "cell 0 5,alignx left,aligny center"); //$NON-NLS-1$
@@ -189,7 +187,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     pnlMainEditor.add(tfDiscountRate, "cell 1 5,growx,aligny top"); //$NON-NLS-1$
     pnlMainEditor.add(tfPrice, "cell 1 4,growx,aligny top"); //$NON-NLS-1$
 
-    lblKitchenPrinter = new JLabel("厨房打印机");
+    lblKitchenPrinter = new JLabel(POSConstants.EDITOR_V_PRINTER);
     pnlMainEditor.add(lblKitchenPrinter, "cell 0 9"); //$NON-NLS-1$
 
     cbPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(
@@ -248,7 +246,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     jScrollPane2 = new javax.swing.JScrollPane();
     shiftTable = new javax.swing.JTable();
 
-    lblName.setText(POSConstants.MENU_ITEM_EDITOR_NAME);
+    lblName.setText(POSConstants.EDITOR_NAME);
     lblGroupName.setText(POSConstants.MENU_ITEM_EDITOR_GROUP);
 
     btnNewGroup.setText(POSConstants.MENU_ITEM_EDITOR_OMIT);
@@ -619,86 +617,6 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
 
         case 2:
           return Integer.valueOf(menuItemModifierGroup.getMaxQuantity());
-      }
-      return null;
-    }
-  }
-
-  class ShiftTableModel extends AbstractTableModel {
-    List<MenuItemShift> shifts;
-    String[] cn = {com.floreantpos.POSConstants.START_TIME, com.floreantpos.POSConstants.END_TIME,
-        com.floreantpos.POSConstants.PRICE};
-    Calendar calendar = Calendar.getInstance();
-
-    ShiftTableModel(List<MenuItemShift> shifts) {
-      if (shifts == null) {
-        this.shifts = new ArrayList<MenuItemShift>();
-      } else {
-        this.shifts = new ArrayList<MenuItemShift>(shifts);
-      }
-    }
-
-    public MenuItemShift get(int index) {
-      return shifts.get(index);
-    }
-
-    public void add(MenuItemShift group) {
-      if (shifts == null) {
-        shifts = new ArrayList<MenuItemShift>();
-      }
-      shifts.add(group);
-      fireTableDataChanged();
-    }
-
-    public void remove(int index) {
-      if (shifts == null) {
-        return;
-      }
-      shifts.remove(index);
-      fireTableDataChanged();
-    }
-
-    public void remove(MenuItemShift group) {
-      if (shifts == null) {
-        return;
-      }
-      shifts.remove(group);
-      fireTableDataChanged();
-    }
-
-    public int getRowCount() {
-      if (shifts == null)
-        return 0;
-
-      return shifts.size();
-
-    }
-
-    public int getColumnCount() {
-      return cn.length;
-    }
-
-    @Override
-    public String getColumnName(int column) {
-      return cn[column];
-    }
-
-    public List<MenuItemShift> getShifts() {
-      return shifts;
-    }
-
-    public Object getValueAt(int rowIndex, int columnIndex) {
-      MenuItemShift shift = shifts.get(rowIndex);
-
-      switch (columnIndex) {
-        case 0:
-          return ShiftUtil.buildShiftTimeRepresentation(shift.getShift().getStartTime());
-
-        case 1:
-          return ShiftUtil.buildShiftTimeRepresentation(shift.getShift().getEndTime());
-
-        case 2:
-          return String.valueOf(shift.getShiftPrice());
       }
       return null;
     }

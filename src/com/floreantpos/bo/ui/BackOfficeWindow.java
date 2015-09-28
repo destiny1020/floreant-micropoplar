@@ -59,6 +59,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
 import com.jidesoft.swing.JideTabbedPane;
+import com.micropoplar.bo.actions.MenuItemSetExplorerAction;
 
 /**
  *
@@ -196,6 +197,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
     explorerMenu.add(new CategoryExplorerAction());
     explorerMenu.add(new GroupExplorerAction());
     explorerMenu.add(new ItemExplorerAction());
+    explorerMenu.add(new MenuItemSetExplorerAction());
     // explorerMenu.add(new ModifierGroupExplorerAction());
     // explorerMenu.add(new ModifierExplorerAction());
     // explorerMenu.add(new ShiftExplorerAction());

@@ -19,6 +19,7 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuItemForm;
+import com.micropoplar.ui.model.MenuItemExplorerTableModel;
 
 public class MenuItemExplorer extends TransparentPanel {
   private List<MenuItem> itemList;
@@ -116,65 +117,5 @@ public class MenuItemExplorer extends TransparentPanel {
     panel.add(editButton);
     panel.add(deleteButton);
     add(panel, BorderLayout.SOUTH);
-  }
-
-  class MenuItemExplorerTableModel extends ListTableModel {
-    // String[] columnNames = { com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
-    // com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")",
-    // com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)",
-    // com.floreantpos.POSConstants.FOOD_GROUP, com.floreantpos.POSConstants.TAX + " (%)" };
-    // //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-    String[] columnNames = {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
-        com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")",
-        com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)",
-        com.floreantpos.POSConstants.FOOD_GROUP};
-
-    MenuItemExplorerTableModel() {
-      setColumnNames(columnNames);
-    }
-
-    public Object getValueAt(int rowIndex, int columnIndex) {
-      MenuItem item = (MenuItem) rows.get(rowIndex);
-
-      switch (columnIndex) {
-        case 0:
-          return String.valueOf(item.getId());
-
-        case 1:
-          return item.getName();
-
-        case 2:
-          return Double.valueOf(item.getPrice());
-
-        case 3:
-          return item.isVisible();
-
-        case 4:
-          return Double.valueOf(item.getDiscountRate());
-
-        case 5:
-          if (item.getParent() != null) {
-            return item.getParent().getName();
-          }
-          return ""; //$NON-NLS-1$
-
-        // case 6:
-        // if (item.getTax() != null) {
-        // return Double.valueOf(item.getTax().getRate());
-        // }
-        // return ""; //$NON-NLS-1$
-
-      }
-      return null;
-    }
-
-    public void addMenuItem(MenuItem menuItem) {
-      super.addItem(menuItem);
-
-    }
-
-    public void deleteMenuItem(MenuItem category, int index) {
-      super.deleteItem(index);
-    }
   }
 }

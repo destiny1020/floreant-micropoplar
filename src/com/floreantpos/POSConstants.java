@@ -409,16 +409,30 @@ public class POSConstants {
   public static final String TICKET_ALREADY_PAID = Messages.getString("PosMessage.345");
   public static final String WECHAT_PAY_STATUS_ERROR = Messages.getString("PosMessage.346");
   public static final String MENU_ITEM_IMAGE_TOO_LARGE_ERROR = Messages.getString("PosMessage.347");
-
+  public static final String BO_MENU_ITEM_SET = Messages.getString("PosMessage.348");
+  
+  // Common Editor Properties
+  public static final String EDITOR_NAME = Messages.getString("LABEL_NAME");
+  public static final String EDITOR_IMAGE_ONLY = Messages.getString("LABEL_IMAGE_ONLY");
+  public static final String EDITOR_V_PRINTER = Messages.getString("LABEL_V_PRINTER");
+  
   // Menu Item Editor
   public static final String MENU_ITEM_EDITOR_GROUP = Messages.getString("LABEL_GROUP");
-  public static final String MENU_ITEM_EDITOR_NAME = Messages.getString("LABEL_NAME");
   public static final String MENU_ITEM_EDITOR_BARCODE = Messages.getString("LABEL_BARCODE");
+  public static final String MENU_ITEM_EDITOR_CODE = Messages.getString("LABEL_CODE");
   public static final String MENU_ITEM_EDITOR_BUY_PRICE = Messages.getString("LABEL_BUY_PRICE");
   public static final String MENU_ITEM_EDITOR_IMAGE = Messages.getString("LABEL_IMAGE");
   public static final String MENU_ITEM_EDITOR_OMIT = Messages.getString("LABEL_OMIT");
   public static final String MENU_ITEM_EDITOR_DISCOUNT_UNIT =
       Messages.getString("LABEL_DISCOUNT_UNIT");
+  
+  // Menu Item Set Editor
+  public static final String MENU_ITEM_SET_EDITOR_BARCODE = Messages.getString("LABEL_BARCODE");
+  public static final String MENU_ITEM_SET_EDITOR_CODE = Messages.getString("LABEL_CODE");
+  public static final String MENU_ITEM_SET_EDITOR_PRICE = Messages.getString("LABEL_PRICE");
+  public static final String MENU_ITEM_SET_EDITOR_MEMBER_PRICE = Messages.getString("LABEL_MEMBER_PRICE");
+  public static final String MENU_ITEM_SET_EDITOR_VISIBLE = Messages.getString("LABEL_VISIBILITY");
+  public static final String MENU_ITEM_SET_EDITOR_DISCOUNT_RATE = Messages.getString("LABEL_DISCOUNT_RATE");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
