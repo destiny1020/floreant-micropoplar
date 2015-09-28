@@ -33,6 +33,7 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
   public static String PROP_CODE = "code";
   public static String PROP_UNIT_NAME = "unitName";
   public static String PROP_MEMBER_PRICE = "memberPrice";
+  public static String PROP_INVENTORY_COUNT = "inventoryCount";
 
   // constructors
   public BaseMenuItem() {
