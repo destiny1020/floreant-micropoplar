@@ -181,7 +181,7 @@ public class BaseMenuItemSet implements Comparable, Serializable {
   }
 
   public java.lang.Boolean getShowImageOnly() {
-    return showImageOnly;
+    return showImageOnly == null ? Boolean.valueOf(true) : showImageOnly;
   }
 
   public void setShowImageOnly(java.lang.Boolean showImageOnly) {
@@ -189,7 +189,7 @@ public class BaseMenuItemSet implements Comparable, Serializable {
   }
 
   public java.lang.Boolean getVisible() {
-    return visible;
+    return visible == null ? Boolean.valueOf(true) : visible;
   }
 
   public void setVisible(java.lang.Boolean visible) {

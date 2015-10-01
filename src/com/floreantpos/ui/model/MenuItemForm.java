@@ -149,7 +149,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     pnlMainEditor.add(tfBuyPrice, "cell 1 3,growx");
     pnlMainEditor.add(lblGroupName, "cell 0 2,alignx left,aligny center");
 
-    JLabel lblImage = new JLabel(POSConstants.MENU_ITEM_EDITOR_IMAGE);
+    JLabel lblImage = new JLabel(POSConstants.EDITOR_IMAGE);
     lblImage.setHorizontalAlignment(SwingConstants.TRAILING);
     pnlMainEditor.add(lblImage, "cell 0 6,aligny center");
     setLayout(new BorderLayout(0, 0));
@@ -160,7 +160,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     lblImagePreview.setPreferredSize(new Dimension(60, 120));
     pnlMainEditor.add(lblImagePreview, "cell 1 6,grow");
 
-    JButton btnSelectImage = new JButton(POSConstants.MENU_ITEM_EDITOR_OMIT);
+    JButton btnSelectImage = new JButton(POSConstants.EDITOR_OMIT);
     btnSelectImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         doSelectImageFile();
@@ -168,7 +168,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     });
     pnlMainEditor.add(btnSelectImage, "cell 2 6");
 
-    btnClearImage = new JButton("清除");
+    btnClearImage = new JButton(POSConstants.EDITOR_CLEAR);
     btnClearImage.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         doClearImage();
@@ -249,7 +249,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ActionListener,
     lblName.setText(POSConstants.EDITOR_NAME);
     lblGroupName.setText(POSConstants.MENU_ITEM_EDITOR_GROUP);
 
-    btnNewGroup.setText(POSConstants.MENU_ITEM_EDITOR_OMIT);
+    btnNewGroup.setText(POSConstants.EDITOR_OMIT);
     btnNewGroup.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doCreateNewGroup(evt);

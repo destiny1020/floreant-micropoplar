@@ -1,14 +1,18 @@
 package com.micropolar.ui.model;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -29,8 +33,11 @@ import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItemShift;
 import com.floreantpos.model.VirtualPrinter;
+import com.floreantpos.model.dao.MenuCategoryDAO;
+import com.floreantpos.model.dao.MenuGroupDAO;
 import com.floreantpos.model.dao.VirtualPrinterDAO;
 import com.floreantpos.model.util.IllegalModelStateException;
+import com.floreantpos.swing.ComboBoxModel;
 import com.floreantpos.swing.DoubleTextField;
 import com.floreantpos.swing.FixedLengthDocument;
 import com.floreantpos.swing.FixedLengthTextField;
@@ -62,6 +69,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   private JPanel pnlMainEditor;
 
+  private JLabel lblCode;
+  private FixedLengthTextField tfCode;
   private JLabel lblName;
   private FixedLengthTextField tfName;
   private JLabel lblBarcode;
@@ -72,18 +81,33 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private DoubleTextField tfDiscountRate;
   private JLabel lblMemberPrice;
   private DoubleTextField tfMemberPrice;
-  private JLabel lblVisible;
   private JCheckBox chkVisible;
+
+  private JLabel lblImage;
   private JLabel lblImagePreview;
-  private JCheckBox cbShowTextWithImage;
+  private JButton btnImageSelect;
+  private JButton btnImageClear;
+
+  private JCheckBox chkShowTextWithImage;
   private JLabel lblVirtualPrinter;
   private JComboBox<VirtualPrinter> cbVirtualPrinter;
 
+  private JLabel lblCategory;
   private JComboBox<MenuCategory> cbCategory;
+  private JLabel lblGroup;
   private JComboBox<MenuGroup> cbGroup;
+
+  public MenuItemSetForm() throws Exception {
+    this(new MenuItemSet());
+  }
 
   public MenuItemSetForm(MenuItemSet menuItemSet) {
     initComponents();
+    initData();
+    initActions();
+
+    add(tabbedPane);
+    setBean(menuItemSet);
   }
 
   @Override
@@ -143,7 +167,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
     tfDiscountRate.setText(String.valueOf(menuItemSet.getDiscountRate()));
     chkVisible.setSelected(menuItemSet.getVisible());
-    cbShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
+    chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
     if (menuItemSet.getImage() != null) {
       ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
           .getScaledInstance(60, 60, Image.SCALE_SMOOTH));
@@ -176,7 +200,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
     menuItem.setPrice(Double.valueOf(tfPrice.getText()));
     menuItem.setVisible(chkVisible.isSelected());
-    menuItem.setShowImageOnly(cbShowTextWithImage.isSelected());
+    menuItem.setShowImageOnly(chkShowTextWithImage.isSelected());
 
     try {
       menuItem.setDiscountRate(Double.parseDouble(tfDiscountRate.getText()));
@@ -207,9 +231,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   public String getDisplayText() {
     MenuItemSet menuItemSet = (MenuItemSet) getBean();
     if (menuItemSet.getId() == null) {
-      return POSConstants.NEW_MENU_ITEM;
+      return POSConstants.NEW_MENU_ITEM_SET;
     }
-    return POSConstants.EDIT_MENU_ITEM;
+    return POSConstants.EDIT_MENU_ITEM_SET;
   }
 
   private void addShift() {
@@ -231,9 +255,17 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   }
 
   private void initComponents() {
+    setLayout(new BorderLayout(0, 0));
+
     tabbedPane = new JTabbedPane();
     pnlMainEditor = new JPanel();
     shiftTable = new JTable();
+
+    lblCode = new JLabel();
+    lblCode.setHorizontalAlignment(SwingConstants.TRAILING);
+    lblCode.setText(POSConstants.EDITOR_CODE);
+    tfCode = new FixedLengthTextField();
+    tfCode.setDocument(new FixedLengthDocument(30));
 
     lblName = new JLabel();
     lblName.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -252,18 +284,23 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tfPrice = new DoubleTextField();
     tfPrice.setHorizontalAlignment(SwingConstants.TRAILING);
 
-    lblVisible = new JLabel();
-    lblVisible.setHorizontalAlignment(SwingConstants.TRAILING);
-    lblVisible.setText(POSConstants.MENU_ITEM_SET_EDITOR_VISIBLE);
-    chkVisible = new javax.swing.JCheckBox();
-    chkVisible.setText(POSConstants.MENU_ITEM_SET_EDITOR_VISIBLE);
+    chkVisible = new JCheckBox();
+    chkVisible.setText(POSConstants.EDITOR_VISIBLE);
+    chkVisible.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+    chkVisible.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
+    lblImage = new JLabel();
+    lblImage.setHorizontalAlignment(SwingConstants.TRAILING);
+    lblImage.setText(POSConstants.EDITOR_IMAGE);
     lblImagePreview = new JLabel("");
     lblImagePreview.setHorizontalAlignment(JLabel.CENTER);
     lblImagePreview.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     lblImagePreview.setPreferredSize(new Dimension(60, 120));
-    cbShowTextWithImage = new JCheckBox(POSConstants.EDITOR_IMAGE_ONLY);
-    cbShowTextWithImage.setActionCommand("Show Text with Image");
+    btnImageSelect = new JButton(POSConstants.EDITOR_OMIT);
+    btnImageClear = new JButton(POSConstants.EDITOR_CLEAR);
+
+    chkShowTextWithImage = new JCheckBox(POSConstants.EDITOR_IMAGE_ONLY);
+    chkShowTextWithImage.setActionCommand("Show Text with Image");
 
     lblDiscountRate = new JLabel();
     lblDiscountRate.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -283,18 +320,84 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     cbVirtualPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(
         VirtualPrinterDAO.getInstance().findAll().toArray(new VirtualPrinter[0])));
 
+    lblCategory = new JLabel();
+    lblCategory.setHorizontalAlignment(SwingConstants.TRAILING);
+    lblCategory.setText(POSConstants.EDITOR_CATEGORY);
     cbGroup = new JComboBox<>();
+
+    lblGroup = new JLabel();
+    lblGroup.setHorizontalAlignment(SwingConstants.TRAILING);
+    lblGroup.setText(POSConstants.EDITOR_GROUP);
     cbCategory = new JComboBox<>();
 
     // layout
-    pnlMainEditor.setLayout(new MigLayout("", "[104px][100px,grow][][49px]",
-        "[19px][][25px][][19px][19px][][][25px][][15px]"));
-
-    pnlMainEditor.add(lblBarcode, "cell 0 1,alignx leading");
-    pnlMainEditor.add(tfBarcode, "cell 1 1,growx");
-
     tabbedPane.addTab(POSConstants.GENERAL, pnlMainEditor);
+    pnlMainEditor.setLayout(new MigLayout("", "[104px][100px,grow][][49px]",
+        "[19px][][25px][][19px][][][][25px][][15px]"));
+
+    // add components into container
+    pnlMainEditor.add(lblCode, "cell 0 0, alignx left, aligny center");
+    pnlMainEditor.add(tfCode, "cell 1 0 3 1, growx, aligny top");
+
+    pnlMainEditor.add(lblName, "cell 0 1, alignx left, aligny center");
+    pnlMainEditor.add(tfName, "cell 1 1 3 1, growx, aligny top");
+
+    pnlMainEditor.add(lblBarcode, "cell 0 2, alignx leading");
+    pnlMainEditor.add(tfBarcode, "cell 1 2 3 1, growx");
+
+    pnlMainEditor.add(lblCategory, "cell 0 3, alignx leading");
+    pnlMainEditor.add(cbCategory, "cell 1 3 3 1, growx");
+
+    pnlMainEditor.add(lblGroup, "cell 0 4, alignx leading");
+    pnlMainEditor.add(cbGroup, "cell 1 4 3 1, growx");
+
+    pnlMainEditor.add(lblImage, "cell 0 5, aligny center");
+    pnlMainEditor.add(lblImagePreview, "cell 1 5, grow");
+    pnlMainEditor.add(btnImageSelect, "cell 2 5");
+    pnlMainEditor.add(btnImageClear, "cell 3 5");
+
+    pnlMainEditor.add(chkShowTextWithImage, "cell 1 6 3 1");
+
+    pnlMainEditor.add(lblVirtualPrinter, "cell 0 7");
+    pnlMainEditor.add(cbVirtualPrinter, "cell 1 7, growx");
+
+    pnlMainEditor.add(chkVisible, "cell 1 8, alignx left, aligny top");
+
     tabbedPane.addChangeListener(this);
   }
 
+  private void initData() {
+    MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
+    List<MenuGroup> groups = groupDAO.findAll();
+    cbGroup.setModel(new ComboBoxModel(groups));
+
+    MenuCategoryDAO categoryDAO = MenuCategoryDAO.getInstance();
+    List<MenuCategory> categories = categoryDAO.findAll();
+    cbCategory.setModel(new ComboBoxModel(categories));
+  }
+
+  private void initActions() {
+    btnImageSelect.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        doSelectImageFile();
+      }
+    });
+
+    btnImageClear.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        doClearImage();
+      }
+
+    });
+  }
+
+  private void doSelectImageFile() {
+    // TODO Auto-generated method stub
+
+  }
+
+  private void doClearImage() {
+    // TODO Auto-generated method stub
+
+  }
 }

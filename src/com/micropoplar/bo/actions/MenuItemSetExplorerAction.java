@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane;
 import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.explorer.MenuItemExplorer;
+import com.micropoplar.bo.ui.explorer.MenuItemSetExplorer;
 
 public class MenuItemSetExplorerAction extends AbstractAction {
 
@@ -33,16 +34,16 @@ public class MenuItemSetExplorerAction extends AbstractAction {
   public void actionPerformed(ActionEvent e) {
     BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
     JTabbedPane tabbedPane;
-    MenuItemExplorer item;
+    MenuItemSetExplorer itemSetExplorer;
     tabbedPane = backOfficeWindow.getTabbedPane();
-    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.ITEM_EXPLORER);
+    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.ITEM_SET_EXPLORER);
     if (index == -1) {
-      item = new MenuItemExplorer();
-      tabbedPane.addTab(com.floreantpos.POSConstants.ITEM_EXPLORER, item);
+      itemSetExplorer = new MenuItemSetExplorer();
+      tabbedPane.addTab(com.floreantpos.POSConstants.ITEM_SET_EXPLORER, itemSetExplorer);
     } else {
-      item = (MenuItemExplorer) tabbedPane.getComponentAt(index);
+      itemSetExplorer = (MenuItemSetExplorer) tabbedPane.getComponentAt(index);
     }
-    tabbedPane.setSelectedComponent(item);
+    tabbedPane.setSelectedComponent(itemSetExplorer);
   }
 
 }

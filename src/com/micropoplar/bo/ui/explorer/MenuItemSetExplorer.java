@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.explorer.ExplorerButtonPanel;
@@ -19,6 +20,7 @@ import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
+import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuItemForm;
 import com.micropolar.ui.model.MenuItemSetForm;
 import com.micropoplar.model.dao.MenuItemSetDAO;
@@ -81,6 +83,55 @@ public class MenuItemSetExplorer extends TransparentPanel {
       }
 
     });
+
+    addButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          MenuItemSetForm editor = new MenuItemSetForm();
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled()) {
+            return;
+          }
+          MenuItemSet setItem = (MenuItemSet) editor.getBean();
+          tableModel.addItem(setItem);
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
+      }
+    });
+
+    deleteButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int index = table.getSelectedRow();
+          if (index < 0) {
+            return;
+          }
+
+          if (ConfirmDeleteDialog.showMessage(MenuItemSetExplorer.this, POSConstants.CONFIRM_DELETE,
+              POSConstants.DELETE) != ConfirmDeleteDialog.NO) {
+            MenuItemSet setItem = itemSetList.get(index);
+            MenuItemSetDAO setItemDAO = MenuItemSetDAO.getInstance();
+            setItemDAO.delete(setItem);
+            tableModel.deleteMenuItemSet(setItem, index);
+          }
+        } catch (Throwable x) {
+          BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
+        }
+      }
+    });
+
+    TransparentPanel panel = new TransparentPanel();
+    panel.add(addButton);
+    panel.add(editButton);
+    panel.add(deleteButton);
+    add(panel, BorderLayout.SOUTH);
   }
 
   class MenuItemSetExplorerTableModel extends ListTableModel {
@@ -114,6 +165,16 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
       return null;
     }
+
+    public void addMenuItemSet(MenuItemSet menuItemSet) {
+      super.addItem(menuItemSet);
+
+    }
+
+    public void deleteMenuItemSet(MenuItemSet category, int index) {
+      super.deleteItem(index);
+    }
+
   }
 
 }
