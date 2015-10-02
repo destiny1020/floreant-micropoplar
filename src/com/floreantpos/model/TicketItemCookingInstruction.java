@@ -50,12 +50,7 @@ public class TicketItemCookingInstruction extends BaseTicketItemCookingInstructi
   }
 
   @Override
-  public Double getTaxAmountWithoutModifiersDisplay() {
-    return null;
-  }
-
-  @Override
-  public Double getTotalAmountWithoutModifiersDisplay() {
+  public Double getTotalAmount() {
     return null;
   }
 

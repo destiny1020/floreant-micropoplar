@@ -16,7 +16,7 @@ public class TicketItemRowCreator {
     calculateTicketRows(ticket, tableRows, true, true);
   }
 
-  public static void calculateTicketRows(Ticket ticket, Map<String, ITicketItem> tableRows,
+  private static void calculateTicketRows(Ticket ticket, Map<String, ITicketItem> tableRows,
       boolean includeModifiers, boolean includeCookingInstructions) {
     tableRows.clear();
 

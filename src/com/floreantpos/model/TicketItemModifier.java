@@ -182,16 +182,7 @@ public class TicketItemModifier extends BaseTicketItemModifier implements ITicke
   }
 
   @Override
-  public Double getTaxAmountWithoutModifiersDisplay() {
-    if (getModifierType() == TicketItemModifier.NO_MODIFIER) {
-      return null;
-    }
-
-    return getTaxAmount();
-  }
-
-  @Override
-  public Double getTotalAmountWithoutModifiersDisplay() {
+  public Double getTotalAmount() {
     if (getModifierType() == TicketItemModifier.NO_MODIFIER) {
       return null;
     }

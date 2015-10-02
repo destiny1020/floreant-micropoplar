@@ -260,13 +260,12 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
     return getItemCount();
   }
 
-  @Override
   public Double getTaxAmountWithoutModifiersDisplay() {
     return getTaxAmountWithoutModifiers();
   }
 
   @Override
-  public Double getTotalAmountWithoutModifiersDisplay() {
+  public Double getTotalAmount() {
     return getTotalAmountWithoutModifiers();
   }
 

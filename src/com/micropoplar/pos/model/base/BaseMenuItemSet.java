@@ -6,6 +6,7 @@ import java.util.List;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuItem;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.UnitName;
 
 public class BaseMenuItemSet implements Comparable, Serializable {
@@ -82,7 +83,7 @@ public class BaseMenuItemSet implements Comparable, Serializable {
 
   // collections
   private java.util.List<com.floreantpos.model.MenuItemShift> shifts;
-  private List<MenuItem> items;
+  private List<SetItem> items;
 
   public boolean equals(Object obj) {
     if (null == obj)
@@ -268,11 +269,11 @@ public class BaseMenuItemSet implements Comparable, Serializable {
     this.shifts = shifts;
   }
 
-  public List<MenuItem> getItems() {
+  public List<SetItem> getItems() {
     return items;
   }
 
-  public void setItems(List<MenuItem> items) {
+  public void setItems(List<SetItem> items) {
     this.items = items;
   }
 

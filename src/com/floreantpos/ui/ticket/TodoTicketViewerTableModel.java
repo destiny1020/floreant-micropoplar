@@ -69,11 +69,11 @@ public class TodoTicketViewerTableModel extends AbstractTableModel {
       case 2:
         return ticketItem.getItemCountDisplay();
 
-      case 3:
-        return ticketItem.getTaxAmountWithoutModifiersDisplay();
+//      case 3:
+//        return ticketItem.getTaxAmountWithoutModifiersDisplay();
 
       case 4:
-        return ticketItem.getTotalAmountWithoutModifiersDisplay();
+        return ticketItem.getTotalAmount();
     }
 
     return null;

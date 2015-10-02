@@ -5,7 +5,7 @@ import java.util.List;
 import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
-import com.floreantpos.model.MenuItemShift;
+import com.micropoplar.pos.model.SetItem;
 
 public class MenuItemExplorerTableModel extends ListTableModel {
   /**
@@ -13,7 +13,7 @@ public class MenuItemExplorerTableModel extends ListTableModel {
    */
   private static final long serialVersionUID = 1L;
 
-  private List<MenuItem> items;
+  private List<SetItem> items;
   private String[] columnNames =
       {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
           com.floreantpos.POSConstants.PRICE + " (" + Application.getCurrencySymbol() + ")",
@@ -62,7 +62,7 @@ public class MenuItemExplorerTableModel extends ListTableModel {
     super.deleteItem(index);
   }
 
-  public List<MenuItem> getItems() {
+  public List<SetItem> getItems() {
     return items;
   }
 }

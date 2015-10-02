@@ -15,7 +15,5 @@ public interface ITicketItem {
 
   Double getDiscountAmount();
 
-  Double getTaxAmountWithoutModifiersDisplay();
-
-  Double getTotalAmountWithoutModifiersDisplay();
+  Double getTotalAmount();
 }

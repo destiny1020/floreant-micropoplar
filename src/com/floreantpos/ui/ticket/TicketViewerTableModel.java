@@ -22,9 +22,8 @@ public class TicketViewerTableModel extends AbstractTableModel {
   protected Ticket ticket;
   protected final HashMap<String, ITicketItem> tableRows = new LinkedHashMap<String, ITicketItem>();
 
-  private boolean priceIncludesTax = false;
-
-  protected String[] includingTaxColumnNames = {"商品", "单价", "数量", "折扣金额", "商品总价"};
+  // TODO: externalize
+  protected String[] columnNames = {"商品", "单价", "数量", "折扣金额", "商品总价"};
 
   private boolean forReciptPrint;
   private boolean printCookingInstructions;
@@ -53,12 +52,12 @@ public class TicketViewerTableModel extends AbstractTableModel {
   }
 
   public int getColumnCount() {
-    return includingTaxColumnNames.length;
+    return columnNames.length;
   }
 
   @Override
   public String getColumnName(int column) {
-    return includingTaxColumnNames[column];
+    return columnNames[column];
   }
 
   public Object getValueAt(int rowIndex, int columnIndex) {
@@ -82,7 +81,7 @@ public class TicketViewerTableModel extends AbstractTableModel {
         return ticketItem.getDiscountAmount();
 
       case 4:
-        return ticketItem.getTotalAmountWithoutModifiersDisplay();
+        return ticketItem.getTotalAmount();
     }
 
     return null;
@@ -289,11 +288,4 @@ public class TicketViewerTableModel extends AbstractTableModel {
     this.printCookingInstructions = printCookingInstructions;
   }
 
-  public boolean isPriceIncludesTax() {
-    return priceIncludesTax;
-  }
-
-  public void setPriceIncludesTax(boolean priceIncludesTax) {
-    this.priceIncludesTax = priceIncludesTax;
-  }
 }

@@ -46,6 +46,7 @@ import com.floreantpos.swing.MessageDialog;
 import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.model.MenuItemShiftDialog;
 import com.floreantpos.ui.model.ShiftTableModel;
+import com.floreantpos.ui.ticket.TicketViewerTable;
 import com.micropoplar.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.ui.model.MenuItemExplorerTableModel;
@@ -63,7 +64,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private ShiftTableModel shiftTableModel;
   private MenuItemExplorerTableModel menuItemTableModel;
 
-  // components
+  // components --- under general tab
   private JTabbedPane tabbedPane;
   private JTable shiftTable;
 
@@ -96,6 +97,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private JComboBox<MenuCategory> cbCategory;
   private JLabel lblGroup;
   private JComboBox<MenuGroup> cbGroup;
+  
+  private JLabel lblItems;
+  private TicketViewerTable ticketViewerTable;
 
   public MenuItemSetForm() throws Exception {
     this(new MenuItemSet());
@@ -164,8 +168,12 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
     tfName.setText(menuItemSet.getName());
     tfBarcode.setText(menuItemSet.getBarcode());
-    tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
-    tfDiscountRate.setText(String.valueOf(menuItemSet.getDiscountRate()));
+    if (menuItemSet.getPrice() != null) {
+      tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
+    }
+    if (menuItemSet.getDiscountRate() != null) {
+      tfDiscountRate.setText(String.valueOf(menuItemSet.getDiscountRate()));
+    }
     chkVisible.setSelected(menuItemSet.getVisible());
     chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
     if (menuItemSet.getImage() != null) {
