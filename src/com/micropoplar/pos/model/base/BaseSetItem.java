@@ -2,7 +2,6 @@ package com.micropoplar.pos.model.base;
 
 import java.io.Serializable;
 
-import com.floreantpos.model.TicketItemCookingInstruction;
 import com.micropoplar.pos.model.MenuItemSet;
 
 public class BaseSetItem implements Comparable, Serializable {
@@ -69,23 +68,16 @@ public class BaseSetItem implements Comparable, Serializable {
   protected java.lang.Double unitPrice;
   protected java.lang.Double discountRate = 1.0; // 1.0 表示没有打折
   protected java.lang.Double subtotalAmount;
-  protected java.lang.Double subtotalAmountWithoutModifiers;
   protected java.lang.Double discountAmount;
   protected java.lang.Double totalAmount;
-  protected java.lang.Double totalAmountWithoutModifiers;
   protected java.lang.Boolean beverage;
   protected java.lang.Boolean shouldPrintToKitchen;
-  protected java.lang.Boolean hasModifiers;
   protected java.lang.Boolean printedToKitchen;
   protected java.lang.Double discountOffsetAmount;
 
   // many to one
   private MenuItemSet itemSet;
   private com.floreantpos.model.VirtualPrinter virtualPrinter;
-
-  // collections
-  private java.util.List<com.floreantpos.model.TicketItemModifierGroup> ticketItemModifierGroups;
-  private java.util.List<TicketItemCookingInstruction> cookingInstructions;
 
   /**
    * Return the unique identifier of this class
@@ -251,15 +243,6 @@ public class BaseSetItem implements Comparable, Serializable {
   }
 
   /**
-   * Set the value related to the column: SUB_TOTAL_WITHOUT_MODIFIERS
-   * 
-   * @param subtotalAmountWithoutModifiers the SUB_TOTAL_WITHOUT_MODIFIERS value
-   */
-  public void setSubtotalAmountWithoutModifiers(java.lang.Double subtotalAmountWithoutModifiers) {
-    this.subtotalAmountWithoutModifiers = subtotalAmountWithoutModifiers;
-  }
-
-  /**
    * Return the value associated with the column: DISCOUNT
    */
   public java.lang.Double getDiscountAmount() {
@@ -290,26 +273,6 @@ public class BaseSetItem implements Comparable, Serializable {
   public void setTotalAmount(java.lang.Double totalAmount) {
     this.totalAmount = totalAmount;
   }
-
-
-
-  /**
-   * Return the value associated with the column: TOTAL_PRICE_WITHOUT_MODIFIERS
-   */
-  public java.lang.Double getTotalAmountWithoutModifiers() {
-    return totalAmountWithoutModifiers == null ? Double.valueOf(0) : totalAmountWithoutModifiers;
-  }
-
-  /**
-   * Set the value related to the column: TOTAL_PRICE_WITHOUT_MODIFIERS
-   * 
-   * @param totalAmountWithoutModifiers the TOTAL_PRICE_WITHOUT_MODIFIERS value
-   */
-  public void setTotalAmountWithoutModifiers(java.lang.Double totalAmountWithoutModifiers) {
-    this.totalAmountWithoutModifiers = totalAmountWithoutModifiers;
-  }
-
-
 
   /**
    * Return the value associated with the column: BEVERAGE
@@ -352,25 +315,6 @@ public class BaseSetItem implements Comparable, Serializable {
   public static String getShouldPrintToKitchenDefaultValue() {
     return "true";
   }
-
-
-  /**
-   * Return the value associated with the column: HAS_MODIIERS
-   */
-  public java.lang.Boolean isHasModifiers() {
-    return hasModifiers == null ? Boolean.FALSE : hasModifiers;
-  }
-
-  /**
-   * Set the value related to the column: HAS_MODIIERS
-   * 
-   * @param hasModifiers the HAS_MODIIERS value
-   */
-  public void setHasModifiers(java.lang.Boolean hasModifiers) {
-    this.hasModifiers = hasModifiers;
-  }
-
-
 
   /**
    * Return the value associated with the column: PRINTED_TO_KITCHEN
@@ -421,54 +365,6 @@ public class BaseSetItem implements Comparable, Serializable {
   public void setVirtualPrinter(com.floreantpos.model.VirtualPrinter virtualPrinter) {
     this.virtualPrinter = virtualPrinter;
   }
-
-
-
-  /**
-   * Return the value associated with the column: ticketItemModifierGroups
-   */
-  public java.util.List<com.floreantpos.model.TicketItemModifierGroup> getTicketItemModifierGroups() {
-    return ticketItemModifierGroups;
-  }
-
-  /**
-   * Set the value related to the column: ticketItemModifierGroups
-   * 
-   * @param ticketItemModifierGroups the ticketItemModifierGroups value
-   */
-  public void setTicketItemModifierGroups(
-      java.util.List<com.floreantpos.model.TicketItemModifierGroup> ticketItemModifierGroups) {
-    this.ticketItemModifierGroups = ticketItemModifierGroups;
-  }
-
-  public void addToticketItemModifierGroups(
-      com.floreantpos.model.TicketItemModifierGroup ticketItemModifierGroup) {
-    if (null == getTicketItemModifierGroups())
-      setTicketItemModifierGroups(
-          new java.util.ArrayList<com.floreantpos.model.TicketItemModifierGroup>());
-    getTicketItemModifierGroups().add(ticketItemModifierGroup);
-  }
-
-
-
-  /**
-   * Return the value associated with the column: cookingInstructions
-   */
-  public java.util.List<TicketItemCookingInstruction> getCookingInstructions() {
-    return cookingInstructions;
-  }
-
-  /**
-   * Set the value related to the column: cookingInstructions
-   * 
-   * @param cookingInstructions the cookingInstructions value
-   */
-  public void setCookingInstructions(
-      java.util.List<TicketItemCookingInstruction> cookingInstructions) {
-    this.cookingInstructions = cookingInstructions;
-  }
-
-
 
   public boolean equals(Object obj) {
     if (null == obj)

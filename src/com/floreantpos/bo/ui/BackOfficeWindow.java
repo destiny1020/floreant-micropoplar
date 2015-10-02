@@ -59,7 +59,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
 import com.jidesoft.swing.JideTabbedPane;
-import com.micropoplar.bo.actions.MenuItemSetExplorerAction;
+import com.micropoplar.pos.bo.actions.MenuItemSetExplorerAction;
 
 /**
  *

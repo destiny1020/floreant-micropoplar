@@ -1,4 +1,4 @@
-package com.micropoplar.bo.actions;
+package com.micropoplar.pos.bo.actions;
 
 import java.awt.event.ActionEvent;
 
@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.explorer.MenuItemExplorer;
-import com.micropoplar.bo.ui.explorer.MenuItemSetExplorer;
+import com.micropoplar.pos.bo.ui.explorer.MenuItemSetExplorer;
 
 public class MenuItemSetExplorerAction extends AbstractAction {
 

@@ -19,7 +19,7 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuItemForm;
-import com.micropoplar.ui.model.MenuItemExplorerTableModel;
+import com.micropoplar.pos.ui.model.MenuItemExplorerTableModel;
 
 public class MenuItemExplorer extends TransparentPanel {
   private List<MenuItem> itemList;

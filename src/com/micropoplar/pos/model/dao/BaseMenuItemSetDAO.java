@@ -1,4 +1,4 @@
-package com.micropoplar.model.dao;
+package com.micropoplar.pos.model.dao;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;

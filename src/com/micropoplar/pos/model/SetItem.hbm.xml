@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.floreantpos.model">
-	<class lazy="false" name="com.floreantpos.model.TicketItem" optimistic-lock="version" table="TICKET_ITEM">
+<hibernate-mapping package="com.micropoplar.pos.model">
+	<class lazy="false" name="com.micropoplar.pos.model.SetItem" optimistic-lock="version" table="SET_ITEM">
 		<id column="ID" name="id" type="java.lang.Integer">
 			<generator class="identity" />
 		</id>
@@ -13,7 +13,6 @@
 		<property column="CATEGORY_NAME" length="20" name="categoryName" type="string" />
 		<property column="ITEM_PRICE" length="52" name="unitPrice" type="java.lang.Double" />
 		<property column="DISCOUNT_RATE" length="52" name="discountRate" type="java.lang.Double" />
-		<property column="ITEM_TAX_RATE" length="52" name="taxRate" type="java.lang.Double" />
 		<property column="SUB_TOTAL" name="subtotalAmount" type="java.lang.Double" />
 		<property column="DISCOUNT" name="discountAmount" type="java.lang.Double" />
 		<property column="TOTAL_PRICE" name="totalAmount" type="java.lang.Double" />
@@ -21,34 +20,14 @@
 		<property column="PRINT_TO_KITCHEN" name="shouldPrintToKitchen" type="java.lang.Boolean">
 			<meta attribute="defaultValue">true</meta>
 		</property>
-		<!--property name="totalPrice" type="java.lang.Double" column="TOTAL_PRICE" length="52" / -->
-		<property column="HAS_MODIIERS" name="hasModifiers" type="java.lang.Boolean" />
 		<!--to keep track whether this item is printed -->
 		<property column="PRINTED_TO_KITCHEN" name="printedToKitchen" type="java.lang.Boolean" />
 		<property column="DISCOUNT_OFFSET_AMOUNT" name="discountOffsetAmount" type="java.lang.Double" />
 		
-		<list cascade="all" inverse="false" lazy="true" name="ticketItemModifierGroups">
-			<key>
-				<column name="TICKETITEM_ID" />
-			</key>
-			<list-index column="ITEM_ORDER" />
-			<one-to-many class="com.floreantpos.model.TicketItemModifierGroup" />
-		</list>
-		<!-- list name="modifiers" inverse="false" cascade="all" lazy="false"> <key column="TICKET_ITEM_ID"/> <list-index column="INDEX_ORDER"/> <one-to-many class="TicketItemModifier"/> 
-			</list -->
-		<many-to-one class="com.floreantpos.model.Ticket" name="ticket" not-null="true">
-			<column name="TICKET_ID" />
+		<many-to-one class="com.micropoplar.pos.model.MenuItemSet" name="menuItemSet" not-null="true">
+			<column name="MENU_ITEM_SET_ID" />
 		</many-to-one>
 
-		<list cascade="all" inverse="false" lazy="false" name="cookingInstructions" table="TICKET_ITEM_COOKING_INSTRUCTION">
-			<key column="TICKET_ITEM_ID" />
-			<list-index column="ITEM_ORDER" />
-			<composite-element class="TicketItemCookingInstruction">
-				<property length="60" name="description" type="string" />
-				<property name="printedToKitchen" type="java.lang.Boolean" />
-			</composite-element>
-		</list>
-		
 		<many-to-one class="com.floreantpos.model.VirtualPrinter" lazy="false" cascade="none" name="virtualPrinter">
 			<column name="VPRINTER_ID" />
 		</many-to-one>

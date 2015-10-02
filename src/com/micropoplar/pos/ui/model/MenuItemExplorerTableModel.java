@@ -1,4 +1,4 @@
-package com.micropoplar.ui.model;
+package com.micropoplar.pos.ui.model;
 
 import java.util.List;
 

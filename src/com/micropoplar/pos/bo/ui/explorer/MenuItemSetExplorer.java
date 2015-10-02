@@ -1,4 +1,4 @@
-package com.micropoplar.bo.ui.explorer;
+package com.micropoplar.pos.bo.ui.explorer;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -22,9 +22,9 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuItemForm;
-import com.micropolar.ui.model.MenuItemSetForm;
-import com.micropoplar.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.ui.model.MenuItemSetForm;
 
 public class MenuItemSetExplorer extends TransparentPanel {
 

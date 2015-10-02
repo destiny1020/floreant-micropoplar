@@ -60,5 +60,6 @@
 		<mapping resource="com/floreantpos/model/Generator.hbm.xml" />
 		<mapping resource="com/micropoplar/pos/model/TakeoutPlatform.hbm.xml" />
 		<mapping resource="com/micropoplar/pos/model/MenuItemSet.hbm.xml" />
+		<mapping resource="com/micropoplar/pos/model/SetItem.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

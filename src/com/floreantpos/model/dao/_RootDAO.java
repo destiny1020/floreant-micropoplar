@@ -59,6 +59,7 @@ import com.floreantpos.model.inventory.PurchaseOrder;
 import com.floreantpos.model.inventory.Recepie;
 import com.floreantpos.model.inventory.RecepieItem;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.TakeoutPlatform;
 
 public abstract class _RootDAO extends com.floreantpos.model.dao._BaseRootDAO {
@@ -126,6 +127,7 @@ public abstract class _RootDAO extends com.floreantpos.model.dao._BaseRootDAO {
     configuration = configuration.addClass(Generator.class);
     configuration = configuration.addClass(TakeoutPlatform.class);
     configuration = configuration.addClass(MenuItemSet.class);
+    configuration = configuration.addClass(SetItem.class);
 
     configuration = configureInventoryClasses(configuration);
 

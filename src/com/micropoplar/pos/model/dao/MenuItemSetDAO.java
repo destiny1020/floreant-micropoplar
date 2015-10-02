@@ -1,4 +1,4 @@
-package com.micropoplar.model.dao;
+package com.micropoplar.pos.model.dao;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
 package com.mircopoplar.pos.ui.set;
 
+import java.util.List;
 import java.util.Map;
 
 import com.floreantpos.model.ITicketItem;
 import com.micropoplar.pos.model.MenuItemSet;
-
-import antlr.collections.List;
+import com.micropoplar.pos.model.SetItem;
 
 public class SetItemRowCreator {
 
@@ -23,7 +23,12 @@ public class SetItemRowCreator {
       return;
     }
 
-    itemSet.getItems();
+    List<SetItem> items = itemSet.getItems();
+    for (SetItem item : items) {
+      item.setTableRowNum(rowNum);
+      tableRows.put(String.valueOf(rowNum), item);
+      rowNum++;
+    }
   }
 
 

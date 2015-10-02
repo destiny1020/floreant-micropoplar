@@ -1,4 +1,4 @@
-package com.micropolar.ui.model;
+package com.micropoplar.pos.ui.model;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -47,9 +47,8 @@ import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.model.MenuItemShiftDialog;
 import com.floreantpos.ui.model.ShiftTableModel;
 import com.floreantpos.ui.ticket.TicketViewerTable;
-import com.micropoplar.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.model.MenuItemSet;
-import com.micropoplar.ui.model.MenuItemExplorerTableModel;
+import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 
 import net.miginfocom.swing.MigLayout;
 
