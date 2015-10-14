@@ -100,7 +100,7 @@ public class OrderController implements OrderListener, CategorySelectionListener
   }
 
   public void payOrderSelected(Ticket ticket) {
-    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
+//    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
     new SettleTicketAction(ticket.getId()).execute();
     SwitchboardView.getInstance().updateTicketList();
   }

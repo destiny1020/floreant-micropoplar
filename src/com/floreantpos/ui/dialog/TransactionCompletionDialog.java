@@ -10,6 +10,7 @@ import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.report.JReportPrintService;
@@ -43,11 +44,11 @@ public class TransactionCompletionDialog extends POSDialog {
 
     setLayout(new MigLayout("align 50% 0%, ins 20", "[]20[]", ""));
 
-    add(createLabel("商品小计" + ":", JLabel.LEFT), "grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_TOTAL_AMOUNT + POSConstants.COLON, JLabel.LEFT), "grow");
     lblTotalAmount = createLabel("0.0", JLabel.RIGHT);
     add(lblTotalAmount, "span, grow");
 
-    add(createLabel("实收金额" + ":", JLabel.LEFT), "newline,grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_ACTUAL_AMOUNT + POSConstants.COLON, JLabel.LEFT), "newline,grow");
     lblTenderedAmount = createLabel("0.0", JLabel.RIGHT);
     add(lblTenderedAmount, "span, grow");
 
@@ -69,12 +70,12 @@ public class TransactionCompletionDialog extends POSDialog {
 
     // add(new JSeparator(), "newline,span, grow");
 
-    add(createLabel("找零" + ":", JLabel.LEFT), "grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_RETURN_AMOUNT + POSConstants.COLON, JLabel.LEFT), "grow");
     lblChangeDue = createLabel("0.0", JLabel.RIGHT);
     add(lblChangeDue, "span, grow");
 
     add(new JSeparator(), "sg mygroup,newline,span,grow");
-    PosButton btnClose = new PosButton("关闭");
+    PosButton btnClose = new PosButton(POSConstants.CLOSE);
     btnClose.addActionListener(new ActionListener() {
 
       public void actionPerformed(ActionEvent e) {
@@ -83,7 +84,7 @@ public class TransactionCompletionDialog extends POSDialog {
 
     });
 
-    PosButton btnPrintStoreCopy = new PosButton("PRINT STORE COPY");
+    PosButton btnPrintStoreCopy = new PosButton(POSConstants.TRANS_COMPLETE_PRINT);
     btnPrintStoreCopy.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
@@ -91,7 +92,7 @@ public class TransactionCompletionDialog extends POSDialog {
           JReportPrintService.printTransaction(completedTransaction, false);
 
         } catch (Exception ee) {
-          POSMessageDialog.showError(Application.getPosWindow(), "打印时发生了错误.", ee);
+          POSMessageDialog.showError(Application.getPosWindow(), POSConstants.PRINT_ERROR, ee);
         }
         dispose();
       }
@@ -114,11 +115,12 @@ public class TransactionCompletionDialog extends POSDialog {
     JPanel p = new JPanel();
 
     if (completedTransaction.isCard()) {
-      p.add(btnPrintAllCopy, "newline,skip, h 50");
+      // TODO: merchant copy
+//      p.add(btnPrintAllCopy, "newline,skip, h 50");
       p.add(btnPrintStoreCopy, "skip, h 50");
       p.add(btnClose, "skip, h 50");
     } else {
-      btnPrintStoreCopy.setText("打印");
+      btnPrintStoreCopy.setText(POSConstants.PRINT);
       p.add(btnPrintStoreCopy, "skip, h 50");
       p.add(btnClose, "skip, h 50");
     }

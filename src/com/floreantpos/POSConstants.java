@@ -413,6 +413,10 @@ public class POSConstants {
   public static final String ITEM_SET_EXPLORER = Messages.getString("PosMessage.349");
   public static final String NEW_MENU_ITEM_SET = Messages.getString("PosMessage.350");
   public static final String EDIT_MENU_ITEM_SET = Messages.getString("PosMessage.351");
+  public static final String TRANS_COMPLETE_TOTAL_AMOUNT = Messages.getString("PosMessage.352");
+  public static final String TRANS_COMPLETE_ACTUAL_AMOUNT = Messages.getString("PosMessage.353");
+  public static final String TRANS_COMPLETE_RETURN_AMOUNT = Messages.getString("PosMessage.354");
+  public static final String TRANS_COMPLETE_PRINT = Messages.getString("PosMessage.355");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
