@@ -276,7 +276,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
   }
 
-  private void addMenuItem() {
+  private void addMenuItem() {}
+
+  private void editMenuItem() {
     MenuItemDialog dialog = new MenuItemDialog((Dialog) this.getTopLevelAncestor());
 
     dialog.setSize(1024, 768);
@@ -287,16 +289,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
   }
 
-  private void editMenuItem() {
-
-  }
-
-  private void removeMenuItem() {
-    int selectedRow = shiftTable.getSelectedRow();
-    if (selectedRow >= 0) {
-      shiftTableModel.remove(selectedRow);
-    }
-  }
+  private void removeMenuItem() {}
 
   private void initComponents() {
     setLayout(new BorderLayout(0, 0));
@@ -421,20 +414,20 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     // add components into container
     lblItemDetails = new JLabel();
     lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
-    lblItemDetails.setText(POSConstants.EDITOR_CODE);
+    lblItemDetails.setText(POSConstants.MENU_ITEM_SET_EDITOR_ITEMS);
 
-    btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
-    btnAddMenuItem.addActionListener(this);
+    //    btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
+    //    btnAddMenuItem.addActionListener(this);
     btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
     btnEditMenuItem.addActionListener(this);
-    btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
-    btnRemoveMenuItem.addActionListener(this);
+    //    btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
+    //    btnRemoveMenuItem.addActionListener(this);
 
     JPanel pnlButtonGroup = new JPanel();
     pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
-    pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
-    pnlButtonGroup.add(btnEditMenuItem, "cell 1 0");
-    pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
+    //    pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
+    pnlButtonGroup.add(btnEditMenuItem, "cell 0 0 3 1");
+    //    pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
 
     pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
     pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");

@@ -3,8 +3,10 @@ package com.micropoplar.pos.bo.ui.dialog;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -24,19 +26,21 @@ import com.floreantpos.ui.dialog.POSDialog;
 import com.micropoplar.pos.bo.ui.model.MenuItemDialogTableModel;
 import com.micropoplar.pos.bo.ui.model.MenuItemSelectedTableModel;
 import com.micropoplar.pos.model.MenuItemSet;
+
 import net.miginfocom.swing.MigLayout;
 
 public class MenuItemDialog extends POSDialog {
 
-  private static List<MenuItem> itemList;
+  private static List<MenuItem> candidateMenuItemList;
+  private List<MenuItem> selectedMenuItemList;
 
   static {
     MenuItemDAO dao = new MenuItemDAO();
-    itemList = dao.findAll();
+    candidateMenuItemList = dao.findAll();
   }
 
   private JTable tableMenuItems;
-  private MenuItemDialogTableModel tableModel;
+  private MenuItemDialogTableModel candidateTableModel;
 
   private JTable tableSelectedMenuItems;
   private MenuItemSelectedTableModel selectedTableModel;
@@ -57,15 +61,19 @@ public class MenuItemDialog extends POSDialog {
   @SuppressWarnings("unchecked")
   public MenuItemDialog(Dialog parent, MenuItemSet menuItemSet) {
     super(parent, true);
-    getContentPane().setLayout(new MigLayout("", "[470px][60px][470px]", "[15px][720px]"));
+
+    // init the selected menu items
+    selectedMenuItemList = new ArrayList<>();
+
+    getContentPane().setLayout(new MigLayout("", "[470px][60px][470px]", "[15px][720px][20px]"));
 
     JLabel lblTitle = new JLabel();
     lblTitle.setText(POSConstants.MENU_ITEM_SET_EDITOR_AVAILABLE_ITEMS);
     getContentPane().add(lblTitle, "cell 0 0 3 1,alignx center,aligny top");
 
-    tableModel = new MenuItemDialogTableModel();
-    tableModel.setRows(itemList);
-    tableMenuItems = new JTable(tableModel);
+    candidateTableModel = new MenuItemDialogTableModel();
+    candidateTableModel.setRows(candidateMenuItemList);
+    tableMenuItems = new JTable(candidateTableModel);
     tableMenuItems.setDefaultRenderer(Object.class, new PosTableRenderer());
     tableMenuItems.getSelectionModel()
         .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -97,20 +105,61 @@ public class MenuItemDialog extends POSDialog {
     getContentPane().add(pnlButtons, "cell 1 1");
 
     selectedTableModel = new MenuItemSelectedTableModel();
+    selectedTableModel.setRows(selectedMenuItemList);
     tableSelectedMenuItems = new JTable(selectedTableModel);
     tableSelectedMenuItems.getSelectionModel()
         .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     getContentPane().add(new JScrollPane(tableSelectedMenuItems), "cell 2 1,grow");
+
+    JPanel pnlOperationButtons = new JPanel(new GridLayout(1, 2, 5, 5));
+
+    btnOK = new JButton(POSConstants.CONFIRM);
+    btnOK.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        // TODO
+      }
+    });
+
+    btnCancel = new JButton(POSConstants.CANCEL);
+    btnCancel.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        setCanceled(true);
+        dispose();
+      }
+    });
+
+    pnlOperationButtons.add(btnOK);
+    pnlOperationButtons.add(btnCancel);
+
+    getContentPane().add(pnlOperationButtons, "cell 0 2 3 1,grow");
   }
 
+  @SuppressWarnings("unchecked")
   private void doSelect(ActionEvent evt) {
-    // TODO Auto-generated method stub
-
+    int[] selectedRows = tableMenuItems.getSelectedRows();
+    for (int selectedRow : selectedRows) {
+      MenuItem menuItem = candidateMenuItemList.get(selectedRow);
+      if (!alreadySelected(menuItem)) {
+        selectedTableModel.addItem(menuItem);
+      }
+    }
   }
 
   private void doUnselect(ActionEvent evt) {
-    // TODO Auto-generated method stub
+    int[] selectedRows = tableSelectedMenuItems.getSelectedRows();
+    for (int idx = selectedRows.length; idx > 0; idx--) {
+      selectedTableModel.deleteItem(selectedRows[idx - 1]);
+    }
   }
 
+  private boolean alreadySelected(MenuItem menuItem) {
+    for (MenuItem item : selectedMenuItemList) {
+      if (item.getId().intValue() == menuItem.getId().intValue()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

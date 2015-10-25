@@ -452,6 +452,7 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_ADD_ITEMS = Messages.getString("PosMessage.361");
   public static final String MENU_ITEM_SET_EDITOR_REMOVE_ITEMS = Messages.getString("PosMessage.362");
   public static final String MENU_ITEM_SET_EDITOR_EDIT_DLG = Messages.getString("PosMessage.363");
+  public static final String MENU_ITEM_SET_EDITOR_ITEMS = Messages.getString("PosMessage.364");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
