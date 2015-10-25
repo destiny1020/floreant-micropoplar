@@ -13,8 +13,13 @@ import net.miginfocom.swing.MigLayout;
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.PosTransaction;
+import com.floreantpos.model.Ticket;
+import com.floreantpos.model.TicketType;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.swing.PosButton;
+import com.floreantpos.ui.views.SwitchboardView;
+import com.floreantpos.ui.views.order.OrderView;
+import com.floreantpos.ui.views.order.RootView;
 import com.floreantpos.util.NumberUtil;
 
 public class TransactionCompletionDialog extends POSDialog {
@@ -80,6 +85,11 @@ public class TransactionCompletionDialog extends POSDialog {
 
       public void actionPerformed(ActionEvent e) {
         dispose();
+        
+        // generate new ticket after current payment is completed
+        Ticket ticket = SwitchboardView.getInstance().prepareNewTicket(TicketType.TAKE_OUT);
+        OrderView.getInstance().setCurrentTicket(ticket);
+        RootView.getInstance().showView(OrderView.VIEW_NAME);
       }
 
     });
@@ -116,7 +126,7 @@ public class TransactionCompletionDialog extends POSDialog {
 
     if (completedTransaction.isCard()) {
       // TODO: merchant copy
-//      p.add(btnPrintAllCopy, "newline,skip, h 50");
+      //      p.add(btnPrintAllCopy, "newline,skip, h 50");
       p.add(btnPrintStoreCopy, "skip, h 50");
       p.add(btnClose, "skip, h 50");
     } else {

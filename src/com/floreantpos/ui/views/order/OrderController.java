@@ -12,6 +12,7 @@ import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.MenuModifier;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
+import com.floreantpos.model.TicketType;
 import com.floreantpos.model.User;
 import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
@@ -100,6 +101,7 @@ public class OrderController implements OrderListener, CategorySelectionListener
   }
 
   public void payOrderSelected(Ticket ticket) {
+    // not to return to the ticket list view after payment
 //    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
     new SettleTicketAction(ticket.getId()).execute();
     SwitchboardView.getInstance().updateTicketList();

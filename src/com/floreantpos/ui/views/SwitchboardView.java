@@ -700,6 +700,19 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
   }
 
   private void doTakeout(TicketType titcketType) {
+    Ticket ticket = prepareNewTicket(titcketType);
+
+    OrderView.getInstance().setCurrentTicket(ticket);
+    RootView.getInstance().showView(OrderView.VIEW_NAME);
+  }
+
+  /**
+   * This method will be invoked also in the OrderController to generate new ticket.
+   * 
+   * @param titcketType
+   * @return
+   */
+  public Ticket prepareNewTicket(TicketType titcketType) {
     Application application = Application.getInstance();
 
     Ticket ticket = new Ticket();
@@ -714,8 +727,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     ticket.setCreateDate(currentTime.getTime());
     ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
 
-    OrderView.getInstance().setCurrentTicket(ticket);
-    RootView.getInstance().showView(OrderView.VIEW_NAME);
+    return ticket;
   }
 
   private void doPayout() {
