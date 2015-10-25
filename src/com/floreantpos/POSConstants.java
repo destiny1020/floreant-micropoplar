@@ -444,6 +444,14 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_PRICE = Messages.getString("LABEL_PRICE");
   public static final String MENU_ITEM_SET_EDITOR_MEMBER_PRICE = Messages.getString("LABEL_MEMBER_PRICE");
   public static final String MENU_ITEM_SET_EDITOR_DISCOUNT_RATE = Messages.getString("LABEL_DISCOUNT_RATE");
+  public static final String MENU_ITEM_SET_EDITOR_ADD_ITEM = Messages.getString("PosMessage.356");
+  public static final String MENU_ITEM_SET_EDITOR_EDIT_ITEM = Messages.getString("PosMessage.357");
+  public static final String MENU_ITEM_SET_EDITOR_REMOVE_ITEM = Messages.getString("PosMessage.358");
+  public static final String MENU_ITEM_SET_EDITOR_TAB_DETAIL = Messages.getString("PosMessage.359");
+  public static final String MENU_ITEM_SET_EDITOR_AVAILABLE_ITEMS = Messages.getString("PosMessage.360");
+  public static final String MENU_ITEM_SET_EDITOR_ADD_ITEMS = Messages.getString("PosMessage.361");
+  public static final String MENU_ITEM_SET_EDITOR_REMOVE_ITEMS = Messages.getString("PosMessage.362");
+  public static final String MENU_ITEM_SET_EDITOR_EDIT_DLG = Messages.getString("PosMessage.363");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");

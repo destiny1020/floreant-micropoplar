@@ -48,6 +48,7 @@ import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.model.MenuItemShiftDialog;
 import com.floreantpos.ui.model.ShiftTableModel;
 import com.floreantpos.ui.ticket.TicketViewerTable;
+import com.micropoplar.pos.bo.ui.dialog.MenuItemDialog;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
@@ -72,7 +73,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   private JPanel pnlMainEditor;
   private JPanel pnlDetailEditor;
-  
+
   private JLabel lblCode;
   private FixedLengthTextField tfCode;
   private JLabel lblName;
@@ -100,14 +101,18 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private JComboBox<MenuCategory> cbCategory;
   private JLabel lblGroup;
   private JComboBox<MenuGroup> cbGroup;
-  
+
   private JLabel lblItems;
   private TicketViewerTable ticketViewerTable;
-  
+
   // detail view
   private JLabel lblItemDetails;
   private JScrollPane spDetailTable;
   private JTable tableDetail;
+
+  private JButton btnAddMenuItem;
+  private JButton btnEditMenuItem;
+  private JButton btnRemoveMenuItem;
 
   public MenuItemSetForm() throws Exception {
     this(new MenuItemSet());
@@ -138,10 +143,12 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   @Override
   public void actionPerformed(ActionEvent e) {
     String actionCommand = e.getActionCommand();
-    if (actionCommand.equals(com.floreantpos.POSConstants.ADD_SHIFT)) {
-      addShift();
-    } else if (actionCommand.equals(com.floreantpos.POSConstants.DELETE_SHIFT)) {
-      deleteShift();
+    if (actionCommand.equals(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM)) {
+      addMenuItem();
+    } else if (actionCommand.equals(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM)) {
+      editMenuItem();
+    } else if (actionCommand.equals(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM)) {
+      removeMenuItem();
     }
   }
 
@@ -269,6 +276,28 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
   }
 
+  private void addMenuItem() {
+    MenuItemDialog dialog = new MenuItemDialog((Dialog) this.getTopLevelAncestor());
+
+    dialog.setSize(1024, 768);
+    dialog.open();
+
+    if (!dialog.isCanceled()) {
+      // TODO
+    }
+  }
+
+  private void editMenuItem() {
+
+  }
+
+  private void removeMenuItem() {
+    int selectedRow = shiftTable.getSelectedRow();
+    if (selectedRow >= 0) {
+      shiftTableModel.remove(selectedRow);
+    }
+  }
+
   private void initComponents() {
     setLayout(new BorderLayout(0, 0));
 
@@ -378,25 +407,38 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     pnlMainEditor.add(cbVirtualPrinter, "cell 1 7, growx");
 
     pnlMainEditor.add(chkVisible, "cell 1 8, alignx left, aligny top");
-    
+
     // layout for the details tab
-    tabbedPane.addTab("明细", pnlDetailEditor);
-    pnlDetailEditor.setLayout(new MigLayout("", "[]",
-        "[][][]"));
-    
+    tabbedPane.addTab(POSConstants.MENU_ITEM_SET_EDITOR_TAB_DETAIL, pnlDetailEditor);
+    pnlDetailEditor.setLayout(new MigLayout("", "[]", "[][][]"));
+
     spDetailTable = new JScrollPane();
     tableDetail = new JTable();
     menuItemSetTableModel = new MenuItemSetTableModel(tableDetail);
     tableDetail.setModel(menuItemSetTableModel);
     spDetailTable.setViewportView(tableDetail);
-    
+
     // add components into container
     lblItemDetails = new JLabel();
     lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
     lblItemDetails.setText(POSConstants.EDITOR_CODE);
-    
+
+    btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
+    btnAddMenuItem.addActionListener(this);
+    btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
+    btnEditMenuItem.addActionListener(this);
+    btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
+    btnRemoveMenuItem.addActionListener(this);
+
+    JPanel pnlButtonGroup = new JPanel();
+    pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
+    pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
+    pnlButtonGroup.add(btnEditMenuItem, "cell 1 0");
+    pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
+
     pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
     pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");
+    pnlDetailEditor.add(pnlButtonGroup, "cell 0 2, alignx right, aligny top");
 
     tabbedPane.addChangeListener(this);
   }
