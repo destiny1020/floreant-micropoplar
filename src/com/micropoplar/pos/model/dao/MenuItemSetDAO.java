@@ -1,7 +1,5 @@
 package com.micropoplar.pos.model.dao;
 
-import java.util.List;
-
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
@@ -24,7 +22,6 @@ public class MenuItemSetDAO extends BaseMenuItemSetDAO {
       session = createNewSession();
       menuItem = (MenuItemSet) session.merge(menuItem);
 
-      Hibernate.initialize(menuItem.getShifts());
       Hibernate.initialize(menuItem.getItems());
 
       return menuItem;

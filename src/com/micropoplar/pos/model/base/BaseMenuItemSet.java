@@ -82,7 +82,6 @@ public class BaseMenuItemSet implements Comparable, Serializable {
   private com.floreantpos.model.VirtualPrinter virtualPrinter;
 
   // collections
-  private java.util.List<com.floreantpos.model.MenuItemShift> shifts;
   private List<SetItem> items;
 
   public boolean equals(Object obj) {
@@ -259,14 +258,6 @@ public class BaseMenuItemSet implements Comparable, Serializable {
 
   public void setVirtualPrinter(com.floreantpos.model.VirtualPrinter virtualPrinter) {
     this.virtualPrinter = virtualPrinter;
-  }
-
-  public java.util.List<com.floreantpos.model.MenuItemShift> getShifts() {
-    return shifts;
-  }
-
-  public void setShifts(java.util.List<com.floreantpos.model.MenuItemShift> shifts) {
-    this.shifts = shifts;
   }
 
   public List<SetItem> getItems() {

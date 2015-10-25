@@ -39,11 +39,6 @@
 			<column name="VPRINTER_ID" />
 		</many-to-one>
 		
-		<list cascade="all" inverse="false" lazy="true" name="shifts" table="MENUITEM_SHIFT">
-			<key column="MENUITEM_ID" />
-			<list-index column="SHIFT_ORDER" />
-			<one-to-many class="com.floreantpos.model.MenuItemShift" />
-		</list>
 		<list cascade="all" inverse="false" lazy="true" name="items" table="MENU_ITEM">
 			<key>
 				<column name="MENUITEM_ID" />

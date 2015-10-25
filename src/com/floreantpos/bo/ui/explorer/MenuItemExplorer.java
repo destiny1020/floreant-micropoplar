@@ -8,6 +8,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
+import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
@@ -38,6 +41,7 @@ public class MenuItemExplorer extends TransparentPanel {
     tableModel.setRows(itemList);
     table = new JTable(tableModel);
     table.setDefaultRenderer(Object.class, new PosTableRenderer());
+    table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     setLayout(new BorderLayout(5, 5));
     add(new JScrollPane(table));

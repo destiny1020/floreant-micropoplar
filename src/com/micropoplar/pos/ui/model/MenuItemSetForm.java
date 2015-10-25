@@ -17,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -49,6 +50,7 @@ import com.floreantpos.ui.model.ShiftTableModel;
 import com.floreantpos.ui.ticket.TicketViewerTable;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -62,13 +64,15 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   // data
   private ShiftTableModel shiftTableModel;
   private MenuItemExplorerTableModel menuItemTableModel;
+  private MenuItemSetTableModel menuItemSetTableModel;
 
   // components --- under general tab
   private JTabbedPane tabbedPane;
   private JTable shiftTable;
 
   private JPanel pnlMainEditor;
-
+  private JPanel pnlDetailEditor;
+  
   private JLabel lblCode;
   private FixedLengthTextField tfCode;
   private JLabel lblName;
@@ -99,6 +103,11 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   
   private JLabel lblItems;
   private TicketViewerTable ticketViewerTable;
+  
+  // detail view
+  private JLabel lblItemDetails;
+  private JScrollPane spDetailTable;
+  private JTable tableDetail;
 
   public MenuItemSetForm() throws Exception {
     this(new MenuItemSet());
@@ -215,7 +224,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       // TODO: 解析错误处理
     }
 
-    menuItem.setShifts(shiftTableModel.getShifts());
     menuItem.setItems(menuItemTableModel.getItems());
 
     int tabCount = tabbedPane.getTabCount();
@@ -266,6 +274,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
     tabbedPane = new JTabbedPane();
     pnlMainEditor = new JPanel();
+    pnlDetailEditor = new JPanel();
     shiftTable = new JTable();
 
     lblCode = new JLabel();
@@ -337,7 +346,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     lblGroup.setText(POSConstants.EDITOR_GROUP);
     cbCategory = new JComboBox<>();
 
-    // layout
+    // layout for the general tab
     tabbedPane.addTab(POSConstants.GENERAL, pnlMainEditor);
     pnlMainEditor.setLayout(new MigLayout("", "[104px][100px,grow][][49px]",
         "[19px][][25px][][19px][][][][25px][][15px]"));
@@ -369,6 +378,25 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     pnlMainEditor.add(cbVirtualPrinter, "cell 1 7, growx");
 
     pnlMainEditor.add(chkVisible, "cell 1 8, alignx left, aligny top");
+    
+    // layout for the details tab
+    tabbedPane.addTab("明细", pnlDetailEditor);
+    pnlDetailEditor.setLayout(new MigLayout("", "[]",
+        "[][][]"));
+    
+    spDetailTable = new JScrollPane();
+    tableDetail = new JTable();
+    menuItemSetTableModel = new MenuItemSetTableModel(tableDetail);
+    tableDetail.setModel(menuItemSetTableModel);
+    spDetailTable.setViewportView(tableDetail);
+    
+    // add components into container
+    lblItemDetails = new JLabel();
+    lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
+    lblItemDetails.setText(POSConstants.EDITOR_CODE);
+    
+    pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
+    pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");
 
     tabbedPane.addChangeListener(this);
   }
