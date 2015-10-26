@@ -76,8 +76,8 @@ public class BaseSetItem implements Comparable, Serializable {
   protected java.lang.Double discountOffsetAmount;
 
   // many to one
-  private MenuItemSet itemSet;
-  private com.floreantpos.model.VirtualPrinter virtualPrinter;
+  protected MenuItemSet itemSet;
+  protected com.floreantpos.model.VirtualPrinter virtualPrinter;
 
   /**
    * Return the unique identifier of this class

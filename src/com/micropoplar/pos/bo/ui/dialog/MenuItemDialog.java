@@ -29,6 +29,12 @@ import com.micropoplar.pos.model.MenuItemSet;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * This dialog will be used to edit the set items within the MenuItemSet.
+ * 
+ * @author destiny1020
+ *
+ */
 public class MenuItemDialog extends POSDialog {
 
   private static List<MenuItem> candidateMenuItemList;
@@ -53,14 +59,12 @@ public class MenuItemDialog extends POSDialog {
    */
   public MenuItemDialog(Dialog parent) {
     this(parent, null);
-    this.setMinimumSize(new Dimension(1024, 768));
-    setTitle(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_DLG);
-    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
   }
 
   @SuppressWarnings("unchecked")
   public MenuItemDialog(Dialog parent, MenuItemSet menuItemSet) {
     super(parent, true);
+    init();
 
     // init the selected menu items
     selectedMenuItemList = new ArrayList<>();
@@ -134,6 +138,16 @@ public class MenuItemDialog extends POSDialog {
 
     getContentPane().add(pnlOperationButtons, "cell 0 2 3 1,grow");
   }
+  
+  public List<MenuItem> getSelectedMenuItems() {
+	return selectedMenuItemList;
+  }
+  
+  private void init() {
+    this.setMinimumSize(new Dimension(1024, 768));
+    setTitle(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_DLG);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+  }
 
   @SuppressWarnings("unchecked")
   private void doSelect(ActionEvent evt) {
@@ -162,4 +176,5 @@ public class MenuItemDialog extends POSDialog {
 
     return false;
   }
+
 }

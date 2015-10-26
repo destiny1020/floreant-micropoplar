@@ -79,14 +79,6 @@ public class MenuItemSetTableModel extends AbstractTableModel {
     return null;
   }
 
-  public MenuItemSet getItemSet() {
-    return itemSet;
-  }
-
-  public void setItemSet(MenuItemSet itemSet) {
-    this.itemSet = itemSet;
-  }
-
   private void update() {
     calculateRows();
     fireTableDataChanged();

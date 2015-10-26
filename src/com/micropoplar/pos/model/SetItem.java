@@ -2,6 +2,7 @@ package com.micropoplar.pos.model;
 
 import com.floreantpos.main.Application;
 import com.floreantpos.model.ITicketItem;
+import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.PosPrinters;
 import com.floreantpos.model.Printer;
 import com.floreantpos.model.VirtualPrinter;
@@ -29,6 +30,32 @@ public class SetItem extends BaseSetItem implements ITicketItem {
   public SetItem(java.lang.Integer id, MenuItemSet itemSet) {
 
     super(id, itemSet);
+  }
+
+  /**
+   * Create SetItem entity from MenuItem entity.
+   * 
+   * @param item
+   */
+  public SetItem(MenuItem item, MenuItemSet set) {
+    this.itemId = item.getId();
+    this.itemCount = 1; // default to 1
+    this.name = item.getName();
+
+    if (item.getParent() != null) {
+      this.groupName = item.getParent().getName();
+    }
+
+    if (item.getParent() != null && item.getParent().getParent() != null) {
+      this.categoryName = item.getParent().getParent().getName();
+    }
+
+    this.unitPrice = item.getPrice();
+    this.subtotalAmount = this.unitPrice;
+    this.discountAmount = 0.0;
+    this.totalAmount = this.subtotalAmount;
+
+    this.itemSet = set;
   }
 
   /* [CONSTRUCTOR MARKER END] */

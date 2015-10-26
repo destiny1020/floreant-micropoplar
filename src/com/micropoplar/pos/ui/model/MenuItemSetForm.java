@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,6 +33,7 @@ import org.hibernate.Session;
 import com.floreantpos.POSConstants;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
+import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.MenuItemShift;
 import com.floreantpos.model.VirtualPrinter;
 import com.floreantpos.model.dao.MenuCategoryDAO;
@@ -50,19 +52,21 @@ import com.floreantpos.ui.model.ShiftTableModel;
 import com.floreantpos.ui.ticket.TicketViewerTable;
 import com.micropoplar.pos.bo.ui.dialog.MenuItemDialog;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class MenuItemSetForm extends BeanEditor<MenuItemSet>
-    implements ActionListener, ChangeListener {
+public class MenuItemSetForm extends BeanEditor<MenuItemSet> implements ActionListener,
+    ChangeListener {
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
   // data
+  private MenuItemSet menuItemSet;
   private ShiftTableModel shiftTableModel;
   private MenuItemExplorerTableModel menuItemTableModel;
   private MenuItemSetTableModel menuItemSetTableModel;
@@ -119,6 +123,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   }
 
   public MenuItemSetForm(MenuItemSet menuItemSet) {
+    this.menuItemSet = menuItemSet;
+
     initComponents();
     initData();
     initActions();
@@ -192,8 +198,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     chkVisible.setSelected(menuItemSet.getVisible());
     chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
     if (menuItemSet.getImage() != null) {
-      ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
-          .getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+      ImageIcon imageIcon =
+          new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage().getScaledInstance(60, 60,
+              Image.SCALE_SMOOTH));
       lblImagePreview.setIcon(imageIcon);
     }
 
@@ -285,7 +292,17 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     dialog.open();
 
     if (!dialog.isCanceled()) {
-      // TODO
+      List<MenuItem> selectedMenuItems = dialog.getSelectedMenuItems();
+
+      // convert list of MenuItem to list of SetItem
+      List<SetItem> selectedSetItems = new ArrayList<>(selectedMenuItems.size());
+      for (MenuItem item : selectedMenuItems) {
+        selectedSetItems.add(new SetItem(item, menuItemSet));
+      }
+      menuItemSet.setItems(selectedSetItems);
+
+      // set table model for the SetItem table
+      menuItemSetTableModel.setMenuItemSet(menuItemSet);
     }
   }
 
@@ -355,8 +372,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     lblVirtualPrinter = new JLabel();
     lblVirtualPrinter.setHorizontalAlignment(SwingConstants.TRAILING);
     lblVirtualPrinter.setText(POSConstants.EDITOR_V_PRINTER);
-    cbVirtualPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(
-        VirtualPrinterDAO.getInstance().findAll().toArray(new VirtualPrinter[0])));
+    cbVirtualPrinter =
+        new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(VirtualPrinterDAO
+            .getInstance().findAll().toArray(new VirtualPrinter[0])));
 
     lblCategory = new JLabel();
     lblCategory.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -416,18 +434,18 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
     lblItemDetails.setText(POSConstants.MENU_ITEM_SET_EDITOR_ITEMS);
 
-    //    btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
-    //    btnAddMenuItem.addActionListener(this);
+    // btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
+    // btnAddMenuItem.addActionListener(this);
     btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
     btnEditMenuItem.addActionListener(this);
-    //    btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
-    //    btnRemoveMenuItem.addActionListener(this);
+    // btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
+    // btnRemoveMenuItem.addActionListener(this);
 
     JPanel pnlButtonGroup = new JPanel();
     pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
-    //    pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
+    // pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
     pnlButtonGroup.add(btnEditMenuItem, "cell 0 0 3 1");
-    //    pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
+    // pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
 
     pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
     pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");
