@@ -19,7 +19,7 @@ public class SetItemRowCreator {
 
     int rowNum = 0;
 
-    if (itemSet == null || itemSet.getItems() == null) {
+    if (itemSet == null || itemSet.getItems() == null || itemSet.getItems().size() == 0) {
       return;
     }
 

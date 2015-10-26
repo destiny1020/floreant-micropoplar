@@ -24,8 +24,9 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.micropoplar.pos.bo.ui.model.MenuItemDialogTableModel;
-import com.micropoplar.pos.bo.ui.model.MenuItemSelectedTableModel;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
+import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -37,8 +38,10 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuItemDialog extends POSDialog {
 
+  private MenuItemSet menuItemSet;
+
   private static List<MenuItem> candidateMenuItemList;
-  private List<MenuItem> selectedMenuItemList;
+  private List<SetItem> selectedSetItemList;
 
   static {
     MenuItemDAO dao = new MenuItemDAO();
@@ -48,26 +51,28 @@ public class MenuItemDialog extends POSDialog {
   private JTable tableMenuItems;
   private MenuItemDialogTableModel candidateTableModel;
 
-  private JTable tableSelectedMenuItems;
-  private MenuItemSelectedTableModel selectedTableModel;
+  private JTable tableSelectedSetItems;
+  private MenuItemSetTableModel selectedTableModel;
 
   private JButton btnOK;
   private JButton btnCancel;
 
-  /**
-   * @wbp.parser.constructor
-   */
-  public MenuItemDialog(Dialog parent) {
-    this(parent, null);
-  }
-
   @SuppressWarnings("unchecked")
   public MenuItemDialog(Dialog parent, MenuItemSet menuItemSet) {
     super(parent, true);
-    init();
+    this.menuItemSet = menuItemSet;
+
+    this.setMinimumSize(new Dimension(1024, 768));
+    setTitle(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_DLG);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     // init the selected menu items
-    selectedMenuItemList = new ArrayList<>();
+    if (menuItemSet.getItems() == null) {
+      selectedSetItemList = new ArrayList<>();
+      menuItemSet.setItems(selectedSetItemList);
+    } else {
+      selectedSetItemList = menuItemSet.getItems();
+    }
 
     getContentPane().setLayout(new MigLayout("", "[470px][60px][470px]", "[15px][720px][20px]"));
 
@@ -108,20 +113,23 @@ public class MenuItemDialog extends POSDialog {
 
     getContentPane().add(pnlButtons, "cell 1 1");
 
-    selectedTableModel = new MenuItemSelectedTableModel();
-    selectedTableModel.setRows(selectedMenuItemList);
-    tableSelectedMenuItems = new JTable(selectedTableModel);
-    tableSelectedMenuItems.getSelectionModel()
+    tableSelectedSetItems = new JTable();
+    tableSelectedSetItems.getSelectionModel()
         .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+    selectedTableModel = new MenuItemSetTableModel(tableSelectedSetItems);
+    tableSelectedSetItems.setModel(selectedTableModel);
+    selectedTableModel.setMenuItemSet(menuItemSet);
+    selectedTableModel.setRows(selectedSetItemList);
 
-    getContentPane().add(new JScrollPane(tableSelectedMenuItems), "cell 2 1,grow");
+    getContentPane().add(new JScrollPane(tableSelectedSetItems), "cell 2 1,grow");
 
     JPanel pnlOperationButtons = new JPanel(new GridLayout(1, 2, 5, 5));
 
     btnOK = new JButton(POSConstants.CONFIRM);
     btnOK.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
-        // TODO
+        setCanceled(false);
+        dispose();
       }
     });
 
@@ -138,15 +146,13 @@ public class MenuItemDialog extends POSDialog {
 
     getContentPane().add(pnlOperationButtons, "cell 0 2 3 1,grow");
   }
-  
-  public List<MenuItem> getSelectedMenuItems() {
-	return selectedMenuItemList;
+
+  public List<SetItem> getSelectedSetItems() {
+    return selectedSetItemList;
   }
-  
-  private void init() {
-    this.setMinimumSize(new Dimension(1024, 768));
-    setTitle(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_DLG);
-    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+  public void initSelectedMenuItems(List<SetItem> items) {
+    selectedTableModel.setRows(items);
   }
 
   @SuppressWarnings("unchecked")
@@ -155,21 +161,33 @@ public class MenuItemDialog extends POSDialog {
     for (int selectedRow : selectedRows) {
       MenuItem menuItem = candidateMenuItemList.get(selectedRow);
       if (!alreadySelected(menuItem)) {
-        selectedTableModel.addItem(menuItem);
+        // convert MenuItem to SetItem
+        selectedTableModel.addItem(new SetItem(menuItem, menuItemSet));
       }
+    }
+
+    if (selectedRows.length > 0) {
+      menuItemSet.setItems(selectedTableModel.getRows());
+      selectedTableModel.update();
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void doUnselect(ActionEvent evt) {
-    int[] selectedRows = tableSelectedMenuItems.getSelectedRows();
+    int[] selectedRows = tableSelectedSetItems.getSelectedRows();
     for (int idx = selectedRows.length; idx > 0; idx--) {
       selectedTableModel.deleteItem(selectedRows[idx - 1]);
+    }
+
+    if (selectedRows.length > 0) {
+      menuItemSet.setItems(selectedTableModel.getRows());
+      selectedTableModel.update();
     }
   }
 
   private boolean alreadySelected(MenuItem menuItem) {
-    for (MenuItem item : selectedMenuItemList) {
-      if (item.getId().intValue() == menuItem.getId().intValue()) {
+    for (SetItem item : selectedSetItemList) {
+      if (item.getItemId().intValue() == menuItem.getId().intValue()) {
         return true;
       }
     }

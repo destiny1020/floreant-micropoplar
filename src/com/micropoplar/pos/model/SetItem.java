@@ -123,7 +123,7 @@ public class SetItem extends BaseSetItem implements ITicketItem {
 
   @Override
   public Double getTotalAmount() {
-    return getTotalAmount();
+    return totalAmount;
   }
 
   @Override

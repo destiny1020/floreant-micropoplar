@@ -58,8 +58,8 @@ import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class MenuItemSetForm extends BeanEditor<MenuItemSet> implements ActionListener,
-    ChangeListener {
+public class MenuItemSetForm extends BeanEditor<MenuItemSet>
+    implements ActionListener, ChangeListener {
   /**
    * 
    */
@@ -198,9 +198,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet> implements ActionLi
     chkVisible.setSelected(menuItemSet.getVisible());
     chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
     if (menuItemSet.getImage() != null) {
-      ImageIcon imageIcon =
-          new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage().getScaledInstance(60, 60,
-              Image.SCALE_SMOOTH));
+      ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
+          .getScaledInstance(60, 60, Image.SCALE_SMOOTH));
       lblImagePreview.setIcon(imageIcon);
     }
 
@@ -286,20 +285,20 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet> implements ActionLi
   private void addMenuItem() {}
 
   private void editMenuItem() {
-    MenuItemDialog dialog = new MenuItemDialog((Dialog) this.getTopLevelAncestor());
+    MenuItemDialog dialog = new MenuItemDialog((Dialog) this.getTopLevelAncestor(), menuItemSet);
+
+    // init the selecte menu items if necessary
+    if (menuItemSetTableModel.getItemSet() != null
+        && menuItemSetTableModel.getItemSet().getItems() != null) {
+      dialog.initSelectedMenuItems(menuItemSetTableModel.getItemSet().getItems());
+    }
 
     dialog.setSize(1024, 768);
     dialog.open();
 
     if (!dialog.isCanceled()) {
-      List<MenuItem> selectedMenuItems = dialog.getSelectedMenuItems();
-
-      // convert list of MenuItem to list of SetItem
-      List<SetItem> selectedSetItems = new ArrayList<>(selectedMenuItems.size());
-      for (MenuItem item : selectedMenuItems) {
-        selectedSetItems.add(new SetItem(item, menuItemSet));
-      }
-      menuItemSet.setItems(selectedSetItems);
+      List<SetItem> selectedMenuItems = dialog.getSelectedSetItems();
+      menuItemSet.setItems(selectedMenuItems);
 
       // set table model for the SetItem table
       menuItemSetTableModel.setMenuItemSet(menuItemSet);
@@ -372,9 +371,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet> implements ActionLi
     lblVirtualPrinter = new JLabel();
     lblVirtualPrinter.setHorizontalAlignment(SwingConstants.TRAILING);
     lblVirtualPrinter.setText(POSConstants.EDITOR_V_PRINTER);
-    cbVirtualPrinter =
-        new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(VirtualPrinterDAO
-            .getInstance().findAll().toArray(new VirtualPrinter[0])));
+    cbVirtualPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(
+        VirtualPrinterDAO.getInstance().findAll().toArray(new VirtualPrinter[0])));
 
     lblCategory = new JLabel();
     lblCategory.setHorizontalAlignment(SwingConstants.TRAILING);
