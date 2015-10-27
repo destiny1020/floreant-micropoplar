@@ -6,21 +6,15 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.model.PaymentType;
@@ -30,6 +24,7 @@ import com.floreantpos.ui.TitlePanel;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.payment.config.TakeoutPlatformConfig;
+import com.micropoplar.pos.ui.util.ControllerGenerator;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -75,20 +70,7 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
     paymentPanel.add(lblCurrentDiscount, "cell 0 1");
 
     this.actualDiscountRate = TakeoutPlatformConfig.getPaymentDiscount(paymentType);
-    JSpinner spinCurrentDiscount =
-        new JSpinner(new SpinnerNumberModel(actualDiscountRate, 0.0, 10.0, 0.1));
-    spinCurrentDiscount.setEnabled(true);
-
-    // 设置输入格式以及校验
-    spinCurrentDiscount.setInputVerifier(new DiscountVerifier());
-    JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinCurrentDiscount, "0.0");
-    spinCurrentDiscount.setEditor(editor);
-    JFormattedTextField textField =
-        ((JSpinner.NumberEditor) spinCurrentDiscount.getEditor()).getTextField();
-    textField.setEditable(true);
-    DefaultFormatterFactory factory = (DefaultFormatterFactory) textField.getFormatterFactory();
-    NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
-    formatter.setAllowsInvalid(false);
+    JSpinner spinCurrentDiscount = ControllerGenerator.getDiscountSpinner(actualDiscountRate);
 
     // 设置监听器
     spinCurrentDiscount.addChangeListener(new ChangeListener() {
@@ -105,7 +87,6 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
       }
     });
 
-    spinCurrentDiscount.setFont(new Font(POSConstants.DEFAULT_FONT_NAME, 1, 20));
     paymentPanel.add(spinCurrentDiscount, "cell 1 1, alignx leading");
 
     // 第三行：折扣后金额
@@ -160,25 +141,6 @@ public class TakeoutPlatformConfirmDialog extends POSDialog {
 
   private double calculateAmount(double amount, double discount) {
     return NumberUtil.roundToTwoDigit(amount * discount / 10);
-  }
-
-  class DiscountVerifier extends InputVerifier {
-    public boolean verify(JComponent input) {
-      JSpinner spinner = (JSpinner) input;
-
-      try {
-        Double discountValue = Double.valueOf((String) spinner.getValue());
-
-        if (discountValue > 10.0 || discountValue < 0.0) {
-          return false;
-        }
-
-        return true;
-      } catch (NumberFormatException e) {
-        e.printStackTrace();
-        return false;
-      }
-    }
   }
 
   public PaymentType getTakeoutPaymentType() {

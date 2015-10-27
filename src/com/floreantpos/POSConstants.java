@@ -453,6 +453,7 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_REMOVE_ITEMS = Messages.getString("PosMessage.362");
   public static final String MENU_ITEM_SET_EDITOR_EDIT_DLG = Messages.getString("PosMessage.363");
   public static final String MENU_ITEM_SET_EDITOR_ITEMS = Messages.getString("PosMessage.364");
+  public static final String MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT = Messages.getString("PosMessage.365");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
@@ -533,7 +534,10 @@ public class POSConstants {
   public static final String RECEIPT_REPORT_CASH_REFUND_LABEL =
       Messages.getString("RECEIPT_REPORT_CASH_REFUND_LABEL");
 
+  // ERROR related
   public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
+  public static final String ERROR_MEMBER_PRICE_TOO_HIGH = Messages.getString("ERROR_MEMBER_PRICE_TOO_HIGH");
+  public static final String ERROR_CODE_REQUIRED = Messages.getString("ERROR_CODE_REQUIRED");
 
   /**
    * Customer Window constants below

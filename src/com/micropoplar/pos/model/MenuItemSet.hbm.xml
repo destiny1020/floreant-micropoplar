@@ -39,12 +39,12 @@
 			<column name="VPRINTER_ID" />
 		</many-to-one>
 		
-		<list cascade="all" inverse="false" lazy="true" name="items" table="MENU_ITEM">
+		<list cascade="all" inverse="false" lazy="true" name="items" table="SET_ITEM">
 			<key>
-				<column name="MENUITEM_ID" />
+				<column name="MENU_ITEM_SET_ID" />
 			</key>
-			<list-index column="MENU_ITEM_ORDER" />
-			<one-to-many class="com.floreantpos.model.MenuItem" />
+			<list-index column="ITEM_ORDER" />
+			<one-to-many class="com.micropoplar.pos.model.SetItem" />
 		</list>
 	</class>
 </hibernate-mapping>

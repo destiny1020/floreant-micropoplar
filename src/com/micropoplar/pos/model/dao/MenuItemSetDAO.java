@@ -20,7 +20,7 @@ public class MenuItemSetDAO extends BaseMenuItemSetDAO {
 
     try {
       session = createNewSession();
-      menuItem = (MenuItemSet) session.merge(menuItem);
+      menuItem = (MenuItemSet) session.get(MenuItemSet.class, menuItem.getId());
 
       Hibernate.initialize(menuItem.getItems());
 

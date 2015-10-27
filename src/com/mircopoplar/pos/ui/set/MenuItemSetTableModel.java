@@ -16,7 +16,7 @@ public class MenuItemSetTableModel extends ListTableModel {
   protected final Map<String, ITicketItem> tableRows = new LinkedHashMap<>();
 
   //TODO: externalize
-  protected String[] columnNames = {"商品", "单价", "数量", "商品总价"};
+  protected String[] columnNames = {"商品", "单价", "数量", "小计"};
 
   private boolean forReciptPrint;
   private boolean printCookingInstructions;

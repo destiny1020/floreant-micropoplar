@@ -23,7 +23,9 @@ import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuItemForm;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.model.dao.SetItemDAO;
 import com.micropoplar.pos.ui.model.MenuItemSetForm;
 
 public class MenuItemSetExplorer extends TransparentPanel {
@@ -116,10 +118,21 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
           if (ConfirmDeleteDialog.showMessage(MenuItemSetExplorer.this, POSConstants.CONFIRM_DELETE,
               POSConstants.DELETE) != ConfirmDeleteDialog.NO) {
-            MenuItemSet setItem = itemSetList.get(index);
-            MenuItemSetDAO setItemDAO = MenuItemSetDAO.getInstance();
-            setItemDAO.delete(setItem);
-            tableModel.deleteMenuItemSet(setItem, index);
+            MenuItemSet menuitemSet = itemSetList.get(index);
+            MenuItemSetDAO menuItemSetDAO = MenuItemSetDAO.getInstance();
+            menuitemSet = menuItemSetDAO.initialize(menuitemSet);
+
+            // delete set items first
+            if (menuitemSet.getItems() != null) {
+              for (SetItem item : menuitemSet.getItems()) {
+                SetItemDAO setItemDAO = SetItemDAO.getInstance();
+                setItemDAO.delete(item);
+              }
+            }
+
+            menuitemSet = menuItemSetDAO.initialize(menuitemSet);
+            menuItemSetDAO.delete(menuitemSet);
+            tableModel.deleteMenuItemSet(menuitemSet, index);
           }
         } catch (Throwable x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);

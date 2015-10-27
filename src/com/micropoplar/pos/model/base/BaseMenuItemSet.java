@@ -1,6 +1,7 @@
 package com.micropoplar.pos.model.base;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.floreantpos.model.MenuCategory;
@@ -173,6 +174,21 @@ public class BaseMenuItemSet implements Comparable, Serializable {
   }
 
   public java.lang.Double getPrice() {
+    if (price == null && items != null) {
+      // calculate on demand
+      double totalAmount = 0.0;
+      for (SetItem item : items) {
+        Integer itemCount = item.getItemCount();
+        Double unitPrice = item.getUnitPrice();
+        if (itemCount != null && unitPrice != null) {
+          totalAmount += itemCount * unitPrice;
+        }
+      }
+      if (items.size() > 0 && new BigDecimal(totalAmount).compareTo(BigDecimal.ZERO) >= 0) {
+        price = totalAmount;
+      }
+    }
+
     return price;
   }
 
