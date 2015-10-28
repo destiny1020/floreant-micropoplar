@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.floreantpos.model.MenuCategory;
-import com.floreantpos.model.MenuItem;
+import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.UnitName;
@@ -176,20 +176,38 @@ public class BaseMenuItemSet implements Comparable, Serializable {
   public java.lang.Double getPrice() {
     if (price == null && items != null) {
       // calculate on demand
-      double totalAmount = 0.0;
-      for (SetItem item : items) {
-        Integer itemCount = item.getItemCount();
-        Double unitPrice = item.getUnitPrice();
-        if (itemCount != null && unitPrice != null) {
-          totalAmount += itemCount * unitPrice;
-        }
-      }
+      double totalAmount = updatePriceCore();
       if (items.size() > 0 && new BigDecimal(totalAmount).compareTo(BigDecimal.ZERO) >= 0) {
         price = totalAmount;
       }
     }
 
     return price;
+  }
+
+  public void updatePrices() {
+    // update the total price
+    double totalAmount = updatePriceCore();
+    if (items.size() > 0 && new BigDecimal(totalAmount).compareTo(BigDecimal.ZERO) >= 0) {
+      price = totalAmount;
+    }
+
+    // update the member price if necessary
+    if (discountRate != null && price != null) {
+      memberPrice = NumberUtil.roundToTwoDigit(price * discountRate / 10);
+    }
+  }
+
+  private Double updatePriceCore() {
+    double totalAmount = 0.0;
+    for (SetItem item : items) {
+      Integer itemCount = item.getItemCount();
+      Double unitPrice = item.getUnitPrice();
+      if (itemCount != null && unitPrice != null) {
+        totalAmount += itemCount * unitPrice;
+      }
+    }
+    return totalAmount;
   }
 
   public void setPrice(java.lang.Double price) {

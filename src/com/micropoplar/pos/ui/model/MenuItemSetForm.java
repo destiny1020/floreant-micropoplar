@@ -26,6 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
@@ -162,19 +164,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
         return false;
 
       MenuItemSet menuItemSet = (MenuItemSet) getBean();
-
-      // workaround for the data not sync problem
-      // update the count number from the cache
-      if (menuItemSet.getItems() != null && menuItemSet.getItems().size() > 0) {
-        for (int idx = 0; idx < menuItemSet.getItems().size(); idx++) {
-          Integer latestCount = MenuItemSetTableModel.getCacheCount(menuItemSet.getId(), idx);
-          if (latestCount != null) {
-            menuItemSet.getItems().get(idx).setItemCount(latestCount);
-          }
-        }
-      }
-
       MenuItemSetDAO menuItemSetDAO = new MenuItemSetDAO();
+      menuItemSet = menuItemSetDAO.initialize(menuItemSet);
       menuItemSetDAO.saveOrUpdate(menuItemSet);
     } catch (Exception e) {
       MessageDialog.showError(this, POSConstants.ERROR_MESSAGE, e);
@@ -201,6 +192,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tfBarcode.setText(menuItemSet.getBarcode());
     if (menuItemSet.getPrice() != null) {
       tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
+      lblTotalPrice.setVisible(true);
+      lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT + POSConstants.COLON
+          + "   " + menuItemSet.getPrice());
     }
     if (menuItemSet.getDiscountRate() != null) {
       spinDiscountRate.setValue(menuItemSet.getDiscountRate());
@@ -340,23 +334,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
       // set table model for the SetItem table
       menuItemSetTableModel.setMenuItemSet(menuItemSet);
-
-      // show the total price label
-      if (selectedMenuItems != null && selectedMenuItems.size() > 0) {
-        lblTotalPrice.setVisible(true);
-        lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT + POSConstants.COLON
-            + "   " + menuItemSet.getPrice());
-        tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
-        tfMemberPrice.setText(String.valueOf(
-            calculateAmount(menuItemSet.getPrice(), (Double) spinDiscountRate.getValue())));
-        spinDiscountRate.setEnabled(true);
-      } else {
-        lblTotalPrice.setVisible(false);
-        lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);
-        tfPrice.setText("");
-        tfMemberPrice.setText("");
-        spinDiscountRate.setEnabled(false);
-      }
     }
   }
 
@@ -504,6 +481,52 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tableDetail.setModel(menuItemSetTableModel);
     spDetailTable.setViewportView(tableDetail);
     menuItemSetTableModel.setItemCountEditor();
+    menuItemSetTableModel.addTableModelListener(new TableModelListener() {
+
+      @Override
+      public void tableChanged(TableModelEvent e) {
+        boolean changed = false;
+        // workaround for the data not sync problem
+        // update the count number from the cache
+        if (menuItemSet.getItems() != null && menuItemSet.getItems().size() > 0) {
+          for (int idx = 0; idx < menuItemSet.getItems().size(); idx++) {
+            SetItem setItem = MenuItemSetTableModel.getCacheCount(menuItemSet.getId(), idx);
+            if (setItem != null) {
+              menuItemSet.getItems().set(idx, setItem);
+              changed = true;
+            }
+          }
+        }
+
+        if (changed) {
+          // update the total price and member price
+          menuItemSet.updatePrices();
+
+          // For DEBUG use
+          //        for (SetItem item : menuItemSet.getItems()) {
+          //          System.out.println(String.format("count: %d ------ subtotal: %f", item.getItemCount(),
+          //              item.getTotalAmount()));
+          //        }
+
+          // show the total price label
+          if (menuItemSet.getItems() != null && menuItemSet.getItems().size() > 0) {
+            lblTotalPrice.setVisible(true);
+            lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT
+                + POSConstants.COLON + "   " + menuItemSet.getPrice());
+            tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
+            tfMemberPrice.setText(String.valueOf(
+                calculateAmount(menuItemSet.getPrice(), (Double) spinDiscountRate.getValue())));
+            spinDiscountRate.setEnabled(true);
+          } else {
+            lblTotalPrice.setVisible(false);
+            lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);
+            tfPrice.setText("");
+            tfMemberPrice.setText("");
+            spinDiscountRate.setEnabled(false);
+          }
+        }
+      }
+    });
 
     // add components into container
     lblItemDetails = new JLabel();

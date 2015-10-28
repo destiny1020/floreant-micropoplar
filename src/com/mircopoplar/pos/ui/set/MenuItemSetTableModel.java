@@ -10,6 +10,7 @@ import javax.swing.table.TableColumn;
 
 import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.model.ITicketItem;
+import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
@@ -20,11 +21,11 @@ public class MenuItemSetTableModel extends ListTableModel {
   protected MenuItemSet itemSet;
   protected final Map<String, ITicketItem> tableRows = new LinkedHashMap<>();
 
-  // MenuItemSet ID ---> ROW IDX ---> Count Value
-  private static final Map<Integer, Map<Integer, Integer>> countCache;
+  // MenuItemSet ID ---> ROW IDX ---> SetItem entity
+  private static final Map<Integer, Map<Integer, SetItem>> setItemCache;
 
   static {
-    countCache = new HashMap<>();
+    setItemCache = new HashMap<>();
   }
 
   //TODO: externalize
@@ -101,17 +102,26 @@ public class MenuItemSetTableModel extends ListTableModel {
   @Override
   public void setValueAt(Object value, int row, int col) {
     if (col == 2) {
-      itemSet.getItems().get(row).setItemCount((Integer) value);
+      Integer newCount = (Integer) value;
+      Integer originalCount = itemSet.getItems().get(row).getItemCount();
+      if (originalCount.intValue() != newCount.intValue()) {
+        SetItem item = itemSet.getItems().get(row);
+        item.setItemCount(newCount);
 
-      // update the count cache
-      Map<Integer, Integer> map = countCache.get(itemSet.getId());
-      if (map == null) {
-        map = new HashMap<>();
-        countCache.put(itemSet.getId(), map);
-        map.put(row, (Integer) value);
+        // update the total price
+        item.setTotalAmount(NumberUtil.roundToTwoDigit(item.getItemCount() * item.getUnitPrice()));
+
+        // update the count cache
+        Map<Integer, SetItem> map = setItemCache.get(itemSet.getId());
+        if (map == null) {
+          map = new HashMap<>();
+        }
+        setItemCache.put(itemSet.getId(), map);
+        map.put(row, item);
+
+        fireTableDataChanged();
       }
     }
-    fireTableCellUpdated(row, col);
   }
 
   @Override
@@ -138,15 +148,15 @@ public class MenuItemSetTableModel extends ListTableModel {
     return itemSet;
   }
 
-  public static Integer getCacheCount(Integer menuItemSetId, Integer rowIndex) {
-    Map<Integer, Integer> map = countCache.get(menuItemSetId);
+  public static SetItem getCacheCount(Integer menuItemSetId, Integer rowIndex) {
+    Map<Integer, SetItem> map = setItemCache.get(menuItemSetId);
     if (map == null) {
       // means no need to adjust
       return null;
     }
 
-    Integer latestCount = map.get(rowIndex);
-    return latestCount;
+    SetItem latestSetItem = map.get(rowIndex);
+    return latestSetItem;
   }
 
 }
