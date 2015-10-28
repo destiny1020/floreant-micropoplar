@@ -120,6 +120,7 @@ public class MenuItemDialog extends POSDialog {
     tableSelectedSetItems.setModel(selectedTableModel);
     selectedTableModel.setMenuItemSet(menuItemSet);
     selectedTableModel.setRows(selectedSetItemList);
+    selectedTableModel.setItemCountEditor();
 
     getContentPane().add(new JScrollPane(tableSelectedSetItems), "cell 2 1,grow");
 

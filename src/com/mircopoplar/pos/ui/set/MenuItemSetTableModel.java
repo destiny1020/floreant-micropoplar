@@ -1,19 +1,31 @@
 package com.mircopoplar.pos.ui.set;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.model.ITicketItem;
 import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.SetItem;
+import com.micropoplar.pos.ui.util.ControllerGenerator;
 
 public class MenuItemSetTableModel extends ListTableModel {
 
   private JTable table;
   protected MenuItemSet itemSet;
   protected final Map<String, ITicketItem> tableRows = new LinkedHashMap<>();
+
+  // MenuItemSet ID ---> ROW IDX ---> Count Value
+  private static final Map<Integer, Map<Integer, Integer>> countCache;
+
+  static {
+    countCache = new HashMap<>();
+  }
 
   //TODO: externalize
   protected String[] columnNames = {"商品", "单价", "数量", "小计"};
@@ -28,6 +40,14 @@ public class MenuItemSetTableModel extends ListTableModel {
   public MenuItemSetTableModel(JTable table, MenuItemSet itemSet) {
     this.table = table;
     setMenuItemSet(itemSet);
+  }
+
+  /**
+   * Used to create custom editor for the count column
+   */
+  public void setItemCountEditor() {
+    TableColumn countColumn = table.getColumnModel().getColumn(2);
+    countColumn.setCellEditor(new DefaultCellEditor(ControllerGenerator.getCountComboBox()));
   }
 
   public void setMenuItemSet(MenuItemSet itemSet) {
@@ -78,6 +98,33 @@ public class MenuItemSetTableModel extends ListTableModel {
     return null;
   }
 
+  @Override
+  public void setValueAt(Object value, int row, int col) {
+    if (col == 2) {
+      itemSet.getItems().get(row).setItemCount((Integer) value);
+
+      // update the count cache
+      Map<Integer, Integer> map = countCache.get(itemSet.getId());
+      if (map == null) {
+        map = new HashMap<>();
+        countCache.put(itemSet.getId(), map);
+        map.put(row, (Integer) value);
+      }
+    }
+    fireTableCellUpdated(row, col);
+  }
+
+  @Override
+  public boolean isCellEditable(int row, int col) {
+    //Note that the data/cell address is constant,
+    //no matter where the cell appears onscreen.
+    if (col != 2) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   public void update() {
     calculateRows();
     fireTableDataChanged();
@@ -89,6 +136,17 @@ public class MenuItemSetTableModel extends ListTableModel {
 
   public MenuItemSet getItemSet() {
     return itemSet;
+  }
+
+  public static Integer getCacheCount(Integer menuItemSetId, Integer rowIndex) {
+    Map<Integer, Integer> map = countCache.get(menuItemSetId);
+    if (map == null) {
+      // means no need to adjust
+      return null;
+    }
+
+    Integer latestCount = map.get(rowIndex);
+    return latestCount;
   }
 
 }

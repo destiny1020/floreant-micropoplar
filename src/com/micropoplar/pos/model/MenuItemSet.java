@@ -34,10 +34,10 @@ public class MenuItemSet extends BaseMenuItemSet {
     super(id, name, price);
   }
 
-  @Override
-  public String toString() {
-    return getName();
-  }
+  //  @Override
+  //  public String toString() {
+  //    return getName();
+  //  }
 
   public String getUniqueId() {
     return ("menu_item_set" + getName() + "_" + getId()).replaceAll("\\s+", "_");

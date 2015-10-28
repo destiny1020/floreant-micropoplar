@@ -69,10 +69,10 @@ public class SetItem extends BaseSetItem implements ITicketItem {
     this.tableRowNum = tableRowNum;
   }
 
-  @Override
-  public String toString() {
-    return getName();
-  }
+  //  @Override
+  //  public String toString() {
+  //    return getName();
+  //  }
 
   public void calculatePrice(boolean needDiscount) {
     setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));

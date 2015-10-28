@@ -69,7 +69,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   // data
   private MenuItemSet menuItemSet;
   private ShiftTableModel shiftTableModel;
-  private MenuItemExplorerTableModel menuItemTableModel;
   private MenuItemSetTableModel menuItemSetTableModel;
 
   // components --- under general tab
@@ -163,6 +162,18 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
         return false;
 
       MenuItemSet menuItemSet = (MenuItemSet) getBean();
+
+      // workaround for the data not sync problem
+      // update the count number from the cache
+      if (menuItemSet.getItems() != null && menuItemSet.getItems().size() > 0) {
+        for (int idx = 0; idx < menuItemSet.getItems().size(); idx++) {
+          Integer latestCount = MenuItemSetTableModel.getCacheCount(menuItemSet.getId(), idx);
+          if (latestCount != null) {
+            menuItemSet.getItems().get(idx).setItemCount(latestCount);
+          }
+        }
+      }
+
       MenuItemSetDAO menuItemSetDAO = new MenuItemSetDAO();
       menuItemSetDAO.saveOrUpdate(menuItemSet);
     } catch (Exception e) {
@@ -185,6 +196,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       session.close();
     }
 
+    tfCode.setText(menuItemSet.getCode());
     tfName.setText(menuItemSet.getName());
     tfBarcode.setText(menuItemSet.getBarcode());
     if (menuItemSet.getPrice() != null) {
@@ -491,6 +503,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     menuItemSetTableModel = new MenuItemSetTableModel(tableDetail);
     tableDetail.setModel(menuItemSetTableModel);
     spDetailTable.setViewportView(tableDetail);
+    menuItemSetTableModel.setItemCountEditor();
 
     // add components into container
     lblItemDetails = new JLabel();

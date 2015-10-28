@@ -2,6 +2,7 @@ package com.micropoplar.pos.ui.util;
 
 import java.awt.Font;
 
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -50,6 +51,46 @@ public class ControllerGenerator {
     spinCurrentDiscount.setEnabled(true);
 
     return spinCurrentDiscount;
+  }
+
+  /**
+   * After retrieving the controller, you should define the listener for it. 
+   * 
+   * @return
+   */
+  public static JSpinner getCountSpinner() {
+    JSpinner spinCurrentDiscount = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+
+    // 设置输入格式以及校验
+    spinCurrentDiscount.setInputVerifier(new CountVerifier());
+    JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinCurrentDiscount, "0");
+    spinCurrentDiscount.setEditor(editor);
+    JFormattedTextField textField =
+        ((JSpinner.NumberEditor) spinCurrentDiscount.getEditor()).getTextField();
+    textField.setEditable(true);
+    DefaultFormatterFactory factory = (DefaultFormatterFactory) textField.getFormatterFactory();
+    NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
+    formatter.setAllowsInvalid(false);
+
+    spinCurrentDiscount.setFont(new Font(POSConstants.DEFAULT_FONT_NAME, 1, 20));
+    spinCurrentDiscount.setEnabled(true);
+
+    return spinCurrentDiscount;
+  }
+
+  /**
+   * Return the count range.
+   * 
+   * @return
+   */
+  public static JComboBox<Integer> getCountComboBox() {
+    JComboBox<Integer> comboBox = new JComboBox<>();
+
+    for (int i = 1; i <= 20; i++) {
+      comboBox.addItem(i);
+    }
+
+    return comboBox;
   }
 
 }

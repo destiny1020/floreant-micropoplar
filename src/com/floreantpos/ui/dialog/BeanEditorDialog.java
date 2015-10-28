@@ -12,6 +12,7 @@ import java.awt.event.WindowListener;
 
 import com.floreantpos.swing.PosSmallButton;
 import com.floreantpos.ui.BeanEditor;
+import com.micropoplar.pos.model.MenuItemSet;
 
 /**
  *
