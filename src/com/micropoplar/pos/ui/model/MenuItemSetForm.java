@@ -191,8 +191,14 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
     }
     if (menuItemSet.getDiscountRate() != null) {
-      spinDiscountRate.setValue(String.valueOf(menuItemSet.getDiscountRate()));
+      spinDiscountRate.setValue(menuItemSet.getDiscountRate());
+      spinDiscountRate.setEnabled(true);
     }
+    if (menuItemSet.getPrice() != null && menuItemSet.getDiscountRate() != null) {
+      tfMemberPrice.setText(
+          String.valueOf(calculateAmount(menuItemSet.getPrice(), menuItemSet.getDiscountRate())));
+    }
+
     chkVisible.setSelected(menuItemSet.getVisible());
     chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
     if (menuItemSet.getImage() != null) {
@@ -208,6 +214,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
 
     cbVirtualPrinter.setSelectedItem(menuItemSet.getVirtualPrinter());
+
+    // set items init
+    menuItemSetTableModel.setMenuItemSet(menuItemSet);
   }
 
   @Override
