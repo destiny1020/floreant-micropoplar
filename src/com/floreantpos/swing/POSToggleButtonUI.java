@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 
+import com.floreantpos.ui.views.order.CategoryView.CategoryButton;
 import com.jgoodies.looks.plastic.PlasticToggleButtonUI;
 
 public class POSToggleButtonUI extends PlasticToggleButtonUI {
@@ -32,8 +33,14 @@ public class POSToggleButtonUI extends PlasticToggleButtonUI {
         g.fillRect(0, 0, c.getWidth(), c.getHeight());
 
         if (is3D(b)) {
-          Color color1 = UIManager.getColor("control");
-          Color color2 = color1.brighter();
+          Color color1, color2;
+          if (c instanceof CategoryButton && ((CategoryButton) c).isCustomBackground()) {
+            color1 = c.getBackground();
+            color2 = color1.brighter();
+          } else {
+            color1 = UIManager.getColor("control");
+            color2 = color1.brighter();
+          }
 
           int x = 0;
           int y = 0;

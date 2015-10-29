@@ -6,6 +6,7 @@
 
 package com.floreantpos.ui.views.order;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -101,14 +102,25 @@ public class CategoryView extends SelectionView implements ActionListener {
     }
   }
 
-  private static class CategoryButton extends POSToggleButton {
+  public static class CategoryButton extends POSToggleButton {
     MenuCategory foodCategory;
+    boolean customBackground;
 
     CategoryButton(CategoryView view, MenuCategory foodCategory) {
       this.foodCategory = foodCategory;
       setText("<html><body><center>" + foodCategory.getName() + "</center></body></html>");
 
+      // set bg for the beverage category
+      if (foodCategory.isBeverage()) {
+        setBackground(Color.CYAN);
+        customBackground = true;
+      }
+
       addActionListener(view);
+    }
+
+    public boolean isCustomBackground() {
+      return customBackground;
     }
   }
 
