@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -60,6 +62,8 @@ import com.micropoplar.pos.ui.util.ControllerGenerator;
 import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     implements ActionListener, ChangeListener {
@@ -559,13 +563,17 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   }
 
   private void initData() {
-    MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
-    List<MenuGroup> groups = groupDAO.findAll();
-    cbGroup.setModel(new ComboBoxModel(groups));
-
     MenuCategoryDAO categoryDAO = MenuCategoryDAO.getInstance();
     List<MenuCategory> categories = categoryDAO.findAll();
     cbCategory.setModel(new ComboBoxModel(categories));
+
+    if (categories != null && categories.size() > 0) {
+      MenuCategory selectedCategory = categories.get(0);
+
+      MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
+      List<MenuGroup> groups = groupDAO.findEnabledByParent(selectedCategory);
+      cbGroup.setModel(new ComboBoxModel(groups));
+    }
   }
 
   private void initActions() {
@@ -579,7 +587,18 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       public void actionPerformed(ActionEvent e) {
         doClearImage();
       }
+    });
 
+    cbCategory.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        MenuCategory selectedCategory = (MenuCategory) e.getItem();
+
+        // update the group cb
+        MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
+        List<MenuGroup> groups = groupDAO.findEnabledByParent(selectedCategory);
+        cbGroup.setModel(new ComboBoxModel(groups));
+      }
     });
   }
 
