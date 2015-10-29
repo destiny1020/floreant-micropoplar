@@ -1,10 +1,8 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
+import java.io.Serializable;
 
 import com.micropoplar.pos.model.UnitName;
-
-import java.io.Serializable;
 
 
 /**

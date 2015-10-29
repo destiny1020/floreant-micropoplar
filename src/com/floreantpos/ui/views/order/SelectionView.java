@@ -15,12 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.jdesktop.swingx.JXTitledSeparator;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.swing.PosButton;
+import com.floreantpos.ui.dialog.POSMessageDialog;
+
+import net.miginfocom.swing.MigLayout;
 
 public abstract class SelectionView extends JPanel implements ComponentListener {
   private final static int HORIZONTAL_GAP = 15;
@@ -167,7 +168,8 @@ public abstract class SelectionView extends JPanel implements ComponentListener 
         }
       }
     } catch (Exception e) {
-      // TODO: fix it.
+      e.printStackTrace();
+      POSMessageDialog.showError(POSConstants.ERROR_ITEM_NOT_VALID);
     }
 
     if (previousBlockIndex >= 0 && currentBlockIndex != 0) {

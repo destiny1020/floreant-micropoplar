@@ -214,7 +214,7 @@ public class BaseMenuItemSet implements Comparable, Serializable {
     this.price = price;
   }
 
-  public java.lang.Boolean getShowImageOnly() {
+  public java.lang.Boolean isShowImageOnly() {
     return showImageOnly == null ? Boolean.valueOf(true) : showImageOnly;
   }
 

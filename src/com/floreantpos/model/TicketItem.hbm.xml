@@ -26,6 +26,9 @@
 		<!--to keep track whether this item is printed -->
 		<property column="PRINTED_TO_KITCHEN" name="printedToKitchen" type="java.lang.Boolean" />
 		<property column="DISCOUNT_OFFSET_AMOUNT" name="discountOffsetAmount" type="java.lang.Double" />
+		<property column="IS_SET" name="isSet" type="java.lang.Boolean">
+			<meta attribute="defaultValue">false</meta>
+		</property>
 		
 		<list cascade="all" inverse="false" lazy="true" name="ticketItemModifierGroups">
 			<key>

@@ -8,9 +8,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseMenuItem;
+import com.micropoplar.pos.ui.IOrderViewItem;
 
 @XmlRootElement(name = "menu-item")
-public class MenuItem extends BaseMenuItem {
+public class MenuItem extends BaseMenuItem implements IOrderViewItem {
   private static final long serialVersionUID = 1L;
 
   /* [CONSTRUCTOR MARKER BEGIN] */
@@ -100,6 +101,7 @@ public class MenuItem extends BaseMenuItem {
       ticketItem.setShouldPrintToKitchen(true);
     }
     ticketItem.setVirtualPrinter(this.getVirtualPrinter());
+    ticketItem.setIsSet(false);
 
     return ticketItem;
   }

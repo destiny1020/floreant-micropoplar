@@ -18,6 +18,7 @@ import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.TicketUniqIdGenerator;
+import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CustomerView;
 import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.customer.CustomerTicketView;
@@ -26,6 +27,9 @@ import com.floreantpos.ui.views.order.actions.GroupSelectionListener;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
 import com.floreantpos.ui.views.order.actions.ModifierSelectionListener;
 import com.floreantpos.ui.views.order.actions.OrderListener;
+import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.ui.IOrderViewItem;
 
 public class OrderController implements OrderListener, CategorySelectionListener,
     GroupSelectionListener, ItemSelectionListener, ModifierSelectionListener {
@@ -48,24 +52,40 @@ public class OrderController implements OrderListener, CategorySelectionListener
   }
 
   public void groupSelected(MenuGroup foodGroup) {
-    orderView.showView(MenuItemView.VIEW_NAME);
+    orderView.showView(MenuItemAndMenuItemSetView.VIEW_NAME);
     orderView.getItemView().setMenuGroup(foodGroup);
   }
 
-  public void itemSelected(MenuItem menuItem) {
-    MenuItemDAO dao = new MenuItemDAO();
-    menuItem = dao.initialize(menuItem);
+  public void itemSelected(IOrderViewItem menuItem) {
+    if (menuItem instanceof MenuItem) {
+      MenuItem item = (MenuItem) menuItem;
+      MenuItemDAO dao = MenuItemDAO.getInstance();
+      item = dao.initialize(item);
 
-    TicketItem ticketItem = menuItem.convertToTicketItem();
-    orderView.getTicketView().addTicketItem(ticketItem);
+      TicketItem ticketItem = item.convertToTicketItem();
+      orderView.getTicketView().addTicketItem(ticketItem);
 
-    // sync ticket item to the customer view
-    CustomerView.getInstance().getCustomerTicketView().updateAllView();
+      // sync ticket item to the customer view
+      CustomerView.getInstance().getCustomerTicketView().updateAllView();
 
-    if (menuItem.hasModifiers()) {
-      ModifierView modifierView = orderView.getModifierView();
-      modifierView.setMenuItem(menuItem, ticketItem);
-      orderView.showView(ModifierView.VIEW_NAME);
+      if (item.hasModifiers()) {
+        ModifierView modifierView = orderView.getModifierView();
+        modifierView.setMenuItem(item, ticketItem);
+        orderView.showView(ModifierView.VIEW_NAME);
+      }
+    } else if (menuItem instanceof MenuItemSet) {
+      MenuItemSet item = (MenuItemSet) menuItem;
+      MenuItemSetDAO dao = MenuItemSetDAO.getInstance();
+      item = dao.initialize(item);
+
+      TicketItem ticketItem = item.convertToTicketItem();
+      orderView.getTicketView().addTicketItem(ticketItem);
+
+      // sync ticket item to the customer view
+      CustomerView.getInstance().getCustomerTicketView().updateAllView();
+    } else {
+      POSMessageDialog.showError(com.floreantpos.POSConstants.ERROR_ITEM_NOT_VALID);
+      return;
     }
   }
 
@@ -93,16 +113,16 @@ public class OrderController implements OrderListener, CategorySelectionListener
 
   public void modifierSelectionFiniched(MenuItem parent) {
     MenuGroup menuGroup = parent.getParent();
-    MenuItemView itemView = orderView.getItemView();
+    MenuItemAndMenuItemSetView itemView = orderView.getItemView();
     if (!menuGroup.equals(itemView.getMenuGroup())) {
       itemView.setMenuGroup(menuGroup);
     }
-    orderView.showView(MenuItemView.VIEW_NAME);
+    orderView.showView(MenuItemAndMenuItemSetView.VIEW_NAME);
   }
 
   public void payOrderSelected(Ticket ticket) {
     // not to return to the ticket list view after payment
-//    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
+    //    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
     new SettleTicketAction(ticket.getId()).execute();
     SwitchboardView.getInstance().updateTicketList();
   }

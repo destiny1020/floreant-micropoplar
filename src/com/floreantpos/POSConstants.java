@@ -538,6 +538,9 @@ public class POSConstants {
   public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
   public static final String ERROR_MEMBER_PRICE_TOO_HIGH = Messages.getString("ERROR_MEMBER_PRICE_TOO_HIGH");
   public static final String ERROR_CODE_REQUIRED = Messages.getString("ERROR_CODE_REQUIRED");
+  public static final String ERROR_ITEM_NOT_VALID = Messages.getString("ERROR_ITEM_NOT_VALID");
+  public static final String ERROR_WHEN_QUERY_MENU_ITEM = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM");
+  public static final String ERROR_WHEN_QUERY_MENU_ITEM_SET = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM_SET");
 
   /**
    * Customer Window constants below

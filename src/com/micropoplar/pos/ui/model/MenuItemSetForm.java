@@ -121,6 +121,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   private JLabel lblTotalPrice;
 
+  private boolean fromEditDialog;
+
   public MenuItemSetForm() throws Exception {
     this(new MenuItemSet());
   }
@@ -210,7 +212,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
 
     chkVisible.setSelected(menuItemSet.getVisible());
-    chkShowTextWithImage.setSelected(menuItemSet.getShowImageOnly());
+    chkShowTextWithImage.setSelected(menuItemSet.isShowImageOnly());
     if (menuItemSet.getImage() != null) {
       ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
           .getScaledInstance(60, 60, Image.SCALE_SMOOTH));
@@ -337,7 +339,9 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       menuItemSet.setItems(selectedMenuItems);
 
       // set table model for the SetItem table
+      fromEditDialog = true;
       menuItemSetTableModel.setMenuItemSet(menuItemSet);
+      fromEditDialog = false;
     }
   }
 
@@ -502,7 +506,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
           }
         }
 
-        if (changed) {
+        if (changed || fromEditDialog) {
           // update the total price and member price
           menuItemSet.updatePrices();
 

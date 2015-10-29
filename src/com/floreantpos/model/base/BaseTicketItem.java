@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,6 +40,8 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   public static String PROP_TOTAL_AMOUNT_WITHOUT_MODIFIERS = "totalAmountWithoutModifiers";
   public static String PROP_VIRTUAL_PRINTER = "virtualPrinter";
   public static String PROP_DISCOUNT_OFFSET_AMOUNT = "discountOffsetAmount";
+  public static String PROP_IS_SET = "isSet";
+
 
   // constructors
   public BaseTicketItem() {
@@ -96,6 +97,9 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   protected java.lang.Boolean printedToKitchen;
   protected java.lang.Double discountOffsetAmount;
 
+  // whether the ticket item is set
+  protected Boolean isSet;
+
   // many to one
   private com.floreantpos.model.Ticket ticket;
   private com.floreantpos.model.VirtualPrinter virtualPrinter;
@@ -103,8 +107,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   // collections
   private java.util.List<com.floreantpos.model.TicketItemModifierGroup> ticketItemModifierGroups;
   private java.util.List<TicketItemCookingInstruction> cookingInstructions;
-
-
 
   /**
    * Return the unique identifier of this class
@@ -623,6 +625,14 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
 
   public void setDiscountOffsetAmount(java.lang.Double discountOffsetAmount) {
     this.discountOffsetAmount = discountOffsetAmount;
+  }
+
+  public Boolean getIsSet() {
+    return isSet;
+  }
+
+  public void setIsSet(Boolean isSet) {
+    this.isSet = isSet;
   }
 
 }

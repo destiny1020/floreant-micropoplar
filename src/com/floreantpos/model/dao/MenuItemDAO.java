@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
@@ -89,7 +90,7 @@ public class MenuItemDAO extends BaseMenuItemDAO {
       return criteria.list();
     } catch (Exception e) {
       e.printStackTrace();
-      throw new PosException("Error occured while finding food items");
+      throw new PosException(POSConstants.ERROR_WHEN_QUERY_MENU_ITEM);
     } finally {
       if (session != null) {
         session.close();

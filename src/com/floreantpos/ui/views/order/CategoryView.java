@@ -144,7 +144,7 @@ public class CategoryView extends SelectionView implements ActionListener {
 
   }
 
-  private static Logger logger = Logger.getLogger(MenuItemView.class);
+  private static Logger logger = Logger.getLogger(MenuItemAndMenuItemSetView.class);
 
   @Override
   public void doGoBack() {}

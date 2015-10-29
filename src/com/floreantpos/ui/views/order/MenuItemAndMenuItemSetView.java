@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,12 +24,15 @@ import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.swing.ImageIcon;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
+import com.micropoplar.pos.model.MenuItemSet;
+import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.ui.IOrderViewItem;
 
 /**
  * 
  * @author MShahriar
  */
-public class MenuItemView extends SelectionView {
+public class MenuItemAndMenuItemSetView extends SelectionView {
   public final static String VIEW_NAME = "ITEM_VIEW";
 
   private Vector<ItemSelectionListener> listenerList = new Vector<ItemSelectionListener>();
@@ -36,7 +40,7 @@ public class MenuItemView extends SelectionView {
   private MenuGroup menuGroup;
 
   /** Creates new form GroupView */
-  public MenuItemView() {
+  public MenuItemAndMenuItemSetView() {
     super(com.floreantpos.POSConstants.ITEMS);
 
     setBackEnable(false);
@@ -55,11 +59,18 @@ public class MenuItemView extends SelectionView {
       return;
     }
 
-    MenuItemDAO dao = new MenuItemDAO();
+    MenuItemDAO dao = MenuItemDAO.getInstance();
+    MenuItemSetDAO setDao = MenuItemSetDAO.getInstance();
     try {
-      List<MenuItem> items = dao.findByParent(menuGroup, false);
-      setBackEnable(items.size() > 0);
+      List<MenuItem> menuItems = dao.findByParent(menuGroup, false);
+      List<MenuItemSet> setItems = setDao.findByParent(menuGroup, false);
 
+      // put MenuItem and MenuItemSet together
+      List<IOrderViewItem> items = new ArrayList<>(menuItems.size() + setItems.size());
+      items.addAll(menuItems);
+      items.addAll(setItems);
+
+      setBackEnable(items.size() > 0);
       setItems(items);
 
       // for (int i = 0; i < items.size(); i++) {
@@ -76,8 +87,7 @@ public class MenuItemView extends SelectionView {
 
   @Override
   protected AbstractButton createItemButton(Object item) {
-    MenuItem menuItem = (MenuItem) item;
-    ItemButton itemButton = new ItemButton(menuItem);
+    ItemButton itemButton = new ItemButton((IOrderViewItem) item);
 
     return itemButton;
   }
@@ -90,7 +100,7 @@ public class MenuItemView extends SelectionView {
     listenerList.remove(listener);
   }
 
-  private void fireItemSelected(MenuItem foodItem) {
+  private void fireItemSelected(IOrderViewItem foodItem) {
     for (ItemSelectionListener listener : listenerList) {
       listener.itemSelected(foodItem);
     }
@@ -104,10 +114,14 @@ public class MenuItemView extends SelectionView {
 
   private class ItemButton extends PosButton implements ActionListener {
     private static final int BUTTON_SIZE = 100;
-    MenuItem foodItem;
+    IOrderViewItem foodItem;
 
-    ItemButton(MenuItem foodItem) {
+    ItemButton(IOrderViewItem foodItem) {
       this.foodItem = foodItem;
+      init(foodItem);
+    }
+
+    private void init(IOrderViewItem foodItem) {
       setVerticalTextPosition(SwingConstants.BOTTOM);
       setHorizontalTextPosition(SwingConstants.CENTER);
 

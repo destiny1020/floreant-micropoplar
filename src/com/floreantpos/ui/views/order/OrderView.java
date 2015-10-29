@@ -50,11 +50,11 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
     midContainer.setLayout(cardLayout);
 
     groupView = new GroupView();
-    itemView = new MenuItemView();
+    itemView = new MenuItemAndMenuItemSetView();
     modifierView = new ModifierView();
 
     addView(GroupView.VIEW_NAME, groupView);
-    addView(MenuItemView.VIEW_NAME, itemView);
+    addView(MenuItemAndMenuItemSetView.VIEW_NAME, itemView);
     addView(ModifierView.VIEW_NAME, modifierView);
     addView("VIEW_EMPTY", new com.floreantpos.swing.TransparentPanel());
 
@@ -104,7 +104,7 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 
   private CardLayout cardLayout;
   private GroupView groupView;
-  private MenuItemView itemView;
+  private MenuItemAndMenuItemSetView itemView;
   private ModifierView modifierView;
   private OrderController orderController;
 
@@ -142,11 +142,11 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
     this.groupView = groupView;
   }
 
-  public MenuItemView getItemView() {
+  public MenuItemAndMenuItemSetView getItemView() {
     return itemView;
   }
 
-  public void setItemView(MenuItemView itemView) {
+  public void setItemView(MenuItemAndMenuItemSetView itemView) {
     this.itemView = itemView;
   }
 

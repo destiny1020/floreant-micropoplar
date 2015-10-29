@@ -653,11 +653,11 @@ public class TicketView extends JPanel {
       MenuItemDAO dao = new MenuItemDAO();
       MenuItem menuItem = dao.get(selectedItem.getItemId());
       MenuGroup menuGroup = menuItem.getParent();
-      MenuItemView itemView = OrderView.getInstance().getItemView();
+      MenuItemAndMenuItemSetView itemView = OrderView.getInstance().getItemView();
       if (!menuGroup.equals(itemView.getMenuGroup())) {
         itemView.setMenuGroup(menuGroup);
       }
-      orderView.showView(MenuItemView.VIEW_NAME);
+      orderView.showView(MenuItemAndMenuItemSetView.VIEW_NAME);
 
       MenuCategory menuCategory = menuGroup.getParent();
       orderView.getCategoryView().setSelectedCategory(menuCategory);
