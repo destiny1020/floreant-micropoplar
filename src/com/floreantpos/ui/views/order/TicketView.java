@@ -8,14 +8,15 @@ package com.floreantpos.ui.views.order;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,8 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.StaleObjectStateException;
@@ -47,22 +46,28 @@ import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.report.JReportPrintService;
+import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CookingInstructionSelectionView;
 import com.floreantpos.ui.views.CustomerView;
 import com.floreantpos.ui.views.SwitchboardView;
-import com.floreantpos.ui.views.customer.CustomerTicketView;
 import com.floreantpos.ui.views.order.actions.OrderListener;
 import com.floreantpos.util.NumberUtil;
+import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
+import com.micropoplar.pos.ui.TicketTypeButton;
+import com.micropoplar.pos.util.PatternChecker;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
  * @author MShahriar
  */
-public class TicketView extends JPanel {
+public class TicketView extends JPanel implements ActionListener {
   private java.util.Vector<OrderListener> orderListeners = new java.util.Vector<OrderListener>();
+  private List<ITicketTypeSelectionListener> ticketTypeListeners = new LinkedList<>();
   private Ticket ticket;
 
   public final static String VIEW_NAME = "TICKET_VIEW";
@@ -150,6 +155,7 @@ public class TicketView extends JPanel {
     tfCustomerPhone = new javax.swing.JTextField();
     tfCustomerPhone.setHorizontalAlignment(SwingConstants.TRAILING);
     tfCustomerPhone.setEditable(false);
+    tfCustomerPhone.setFocusable(false);
     tfCustomerPhone.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
     tfCustomerPhone.setPreferredSize(new Dimension(200, 25));
     ticketAmountPanel.add(tfCustomerPhone, "cell 1 0,growx,aligny center");
@@ -161,8 +167,8 @@ public class TicketView extends JPanel {
     ticketAmountPanel.add(jLabel5, "cell 0 1,growx,aligny center");
     tfSubtotal = new javax.swing.JTextField();
     tfSubtotal.setHorizontalAlignment(SwingConstants.TRAILING);
-
     tfSubtotal.setEditable(false);
+    tfSubtotal.setFocusable(false);
     tfSubtotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
     tfSubtotal.setPreferredSize(new Dimension(200, 25));
     ticketAmountPanel.add(tfSubtotal, "cell 1 1,growx,aligny center");
@@ -175,6 +181,7 @@ public class TicketView extends JPanel {
     tfDiscount = new javax.swing.JTextField();
     tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
     tfDiscount.setEditable(false);
+    tfDiscount.setFocusable(false);
     tfDiscount.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
     ticketAmountPanel.add(tfDiscount, "cell 1 2,growx,aligny center");
 
@@ -210,8 +217,8 @@ public class TicketView extends JPanel {
     ticketAmountPanel.add(jLabel6, "cell 0 3,growx,aligny center");
     tfTotal = new javax.swing.JTextField();
     tfTotal.setHorizontalAlignment(SwingConstants.TRAILING);
-
     tfTotal.setEditable(false);
+    tfTotal.setFocusable(false);
     tfTotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
     ticketAmountPanel.add(tfTotal, "cell 1 3,growx,aligny center");
 
@@ -264,7 +271,7 @@ public class TicketView extends JPanel {
       }
     });
     scrollerPanel.setLayout(
-        new MigLayout("insets 0", "[133px,grow][133px,grow][133px,grow]", "[45px][45px]"));
+        new MigLayout("insets 0", "[133px,grow][133px,grow][133px,grow]", "[45px][45px][45px]"));
     scrollerPanel.add(btnIncreaseAmount, "cell 0 0,grow");
 
     btnDecreaseAmount
@@ -315,6 +322,27 @@ public class TicketView extends JPanel {
     scrollerPanel.add(btnAddCookingInstruction, "cell 0 1,grow");
     scrollerPanel.add(btnDelete, "cell 1 1,grow");
     scrollerPanel.add(btnScrollDown, "cell 2 1,grow");
+
+    // ticket type toggle button group
+    ticketTypeButtonGroup = new ButtonGroup();
+
+    btnTicketTypeDineIn = new TicketTypeButton(TicketType.DINE_IN, this);
+    btnTicketTypeDineIn.addActionListener(this);
+    ticketTypeButtonGroup.add(btnTicketTypeDineIn);
+    btnTicketTypeTakeOut = new TicketTypeButton(TicketType.TAKE_OUT, this);
+    btnTicketTypeTakeOut.addActionListener(this);
+    btnTicketTypeTakeOut.setSelected(true);
+    ticketTypeButtonGroup.add(btnTicketTypeTakeOut);
+    btnTicketTypeHomeDelivery = new TicketTypeButton(TicketType.HOME_DELIVERY, this);
+    btnTicketTypeHomeDelivery.addActionListener(this);
+    ticketTypeButtonGroup.add(btnTicketTypeHomeDelivery);
+
+    tfDineInNumber = new FixedLengthTextField(3);
+    tfDineInNumber.setMaximumSize(new Dimension(60, 25));
+
+    scrollerPanel.add(btnTicketTypeDineIn, "cell 0 2,grow");
+    scrollerPanel.add(btnTicketTypeTakeOut, "cell 1 2,grow");
+    scrollerPanel.add(btnTicketTypeHomeDelivery, "cell 2 2,grow");
 
     JPanel amountPanelContainer = new JPanel(new BorderLayout(5, 5));
     amountPanelContainer.add(ticketAmountPanel);
@@ -426,6 +454,18 @@ public class TicketView extends JPanel {
       throw new PosException(com.floreantpos.POSConstants.TICKET_IS_EMPTY_);
     }
 
+    // set dine in number if necessary
+    if (ticket.getTicketType().equals(TicketType.DINE_IN.name())) {
+      String dineInNumber = tfDineInNumber.getText();
+      if (StringUtils.isNotBlank(dineInNumber)) {
+        if (PatternChecker.isNumber(dineInNumber, 1, 999)) {
+          ticket.setDineInNumber(Integer.parseInt(dineInNumber));
+        } else {
+          throw new PosException(String.format(POSConstants.ERROR_DINE_IN_NUMBER, 1, 999));
+        }
+      }
+    }
+
     // generate uniq id if necessary
     if (StringUtils.isBlank(ticket.getUniqId())) {
       ticket.setUniqId(TicketUniqIdGenerator.generate());
@@ -503,6 +543,13 @@ public class TicketView extends JPanel {
   private com.floreantpos.swing.PosButton btnPay;
   private com.floreantpos.swing.PosButton btnScrollDown;
   private com.floreantpos.swing.PosButton btnScrollUp;
+
+  private ButtonGroup ticketTypeButtonGroup;
+  private TicketTypeButton btnTicketTypeDineIn;
+  private TicketTypeButton btnTicketTypeTakeOut;
+  private TicketTypeButton btnTicketTypeHomeDelivery;
+  private FixedLengthTextField tfDineInNumber;
+
   // private javax.swing.JCheckBox chkTaxExempt;
   private javax.swing.JLabel jLabel1;
   // private javax.swing.JLabel jLabel2;
@@ -586,22 +633,6 @@ public class TicketView extends JPanel {
       tfCustomerPhone.setText(cellphone);
     }
 
-    // if(Application.getInstance().isPriceIncludesTax()) {
-    // tfTax.setText("INCLUDED");
-    // }
-    // else {
-    // tfTax.setText(NumberUtil.formatNumber(ticket.getTaxAmount()));
-    // }
-
-    // if (ticket.isTaxExempt()) {
-    // chkTaxExempt.setSelected(true);
-    // }
-    // else {
-    // chkTaxExempt.setSelected(false);
-    // }
-    //
-    // tfServiceCharge.setText(NumberUtil.formatNumber(ticket.getServiceCharge()));
-
     tfTotal.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
 
     if (ticket.getId() == null) {
@@ -611,6 +642,27 @@ public class TicketView extends JPanel {
       setBorder(
           BorderFactory.createTitledBorder(null, String.format("订单 [ %s ]", ticket.getUniqId()),
               TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
+    }
+
+    // update ticket type
+    selectTicketTypeButton(ticket.getType());
+    fireTicketTypeSelected(ticket.getType());
+  }
+
+  private void selectTicketTypeButton(TicketType type) {
+    switch (type) {
+      case DINE_IN:
+        btnTicketTypeDineIn.setSelected(true);
+        break;
+      case TAKE_OUT:
+        btnTicketTypeTakeOut.setSelected(true);
+        break;
+      case HOME_DELIVERY:
+        btnTicketTypeHomeDelivery.setSelected(true);
+        break;
+      default:
+        POSMessageDialog.showError(this, POSConstants.ERROR_INVALID_TICKET_TYPE);
+        break;
     }
   }
 
@@ -693,5 +745,45 @@ public class TicketView extends JPanel {
     // recalculate the ticket items prices information
     ticket.calculatePrice();
     updateView();
+  }
+
+  /**
+   * dealing with ticket type selection
+   */
+  public void actionPerformed(ActionEvent e) {
+    TicketTypeButton button = (TicketTypeButton) e.getSource();
+    if (button.isSelected()) {
+      fireTicketTypeSelected(button.getTicketType());
+    }
+  }
+
+  public void addTicketTypeSelectionListener(ITicketTypeSelectionListener listener) {
+    ticketTypeListeners.add(listener);
+  }
+
+  public void removeTicketTypeSelectionListener(ITicketTypeSelectionListener listener) {
+    ticketTypeListeners.remove(listener);
+  }
+
+  private void fireTicketTypeSelected(TicketType ticketType) {
+    for (ITicketTypeSelectionListener listener : ticketTypeListeners) {
+      listener.ticketTypeSelected(ticketType);
+    }
+  }
+
+  public void toggleDineInLayout(TicketType ticketType) {
+    if (ticketType == TicketType.DINE_IN) {
+      scrollerPanel.remove(btnTicketTypeDineIn);
+      scrollerPanel.add(btnTicketTypeDineIn, "cell 0 2");
+      scrollerPanel.add(tfDineInNumber, "cell 0 2, grow");
+    } else {
+      tfDineInNumber.setText("");
+      scrollerPanel.remove(btnTicketTypeDineIn);
+      scrollerPanel.remove(tfDineInNumber);
+      scrollerPanel.add(btnTicketTypeDineIn, "cell 0 2, grow");
+    }
+
+    scrollerPanel.validate();
+    scrollerPanel.repaint(50L);
   }
 }

@@ -235,8 +235,8 @@ public class Ticket extends BaseTicket {
     double taxAmount = calculateTax();
     setTaxAmount(taxAmount);
 
-    double serviceChargeAmount = calculateServiceCharge();
-    double totalAmount = 0;
+    double serviceChargeAmount = 0.0;
+    double totalAmount = 0.0;
 
     if (priceIncludesTax) {
       totalAmount = subtotalAmount - discountAmount + serviceChargeAmount;
@@ -462,24 +462,6 @@ public class Ticket extends BaseTicket {
   //
   // return tip;
   // }
-
-  public double calculateServiceCharge() {
-    if (getType() != TicketType.DINE_IN) {
-      return 0;
-    }
-
-    Restaurant restaurant = Application.getInstance().getRestaurant();
-    double serviceChargePercentage = restaurant.getServiceChargePercentage();
-
-    double serviceCharge = 0.0;
-
-    if (serviceChargePercentage > 0.0) {
-      serviceCharge =
-          (getSubtotalAmount() - getDiscountAmount()) * (serviceChargePercentage / 100.0);
-    }
-
-    return NumberUtil.roundToTwoDigit(fixInvalidAmount(serviceCharge));
-  }
 
   public TicketType getType() {
     String type = getTicketType();

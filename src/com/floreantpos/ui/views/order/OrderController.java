@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.actions.SettleTicketAction;
+import com.floreantpos.extension.TicketImportPlugin;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.ActionHistory;
 import com.floreantpos.model.MenuCategory;
@@ -30,9 +31,11 @@ import com.floreantpos.ui.views.order.actions.OrderListener;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.ui.IOrderViewItem;
+import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
 
-public class OrderController implements OrderListener, CategorySelectionListener,
-    GroupSelectionListener, ItemSelectionListener, ModifierSelectionListener {
+public class OrderController
+    implements OrderListener, CategorySelectionListener, GroupSelectionListener,
+    ItemSelectionListener, ModifierSelectionListener, ITicketTypeSelectionListener {
   private OrderView orderView;
 
   public OrderController(OrderView orderView) {
@@ -44,6 +47,7 @@ public class OrderController implements OrderListener, CategorySelectionListener
     orderView.getOthersView().setItemSelectionListener(this);
     orderView.getModifierView().addModifierSelectionListener(this);
     orderView.getTicketView().addOrderListener(this);
+    orderView.getTicketView().addTicketTypeSelectionListener(this);
   }
 
   public void categorySelected(MenuCategory foodCategory) {
@@ -125,6 +129,13 @@ public class OrderController implements OrderListener, CategorySelectionListener
     //    RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
     new SettleTicketAction(ticket.getId()).execute();
     SwitchboardView.getInstance().updateTicketList();
+  }
+
+  @Override
+  public void ticketTypeSelected(TicketType ticketType) {
+    // change the layout for dine_in number
+    orderView.getTicketView().toggleDineInLayout(ticketType);
+    orderView.getTicketView().getTicket().setTicketType(ticketType.name());
   }
 
   // VERIFIED

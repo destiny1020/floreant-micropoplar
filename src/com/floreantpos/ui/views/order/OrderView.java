@@ -7,14 +7,14 @@
 package com.floreantpos.ui.views.order;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
 
 import com.floreantpos.model.Ticket;
 import com.floreantpos.ui.dialog.POSMessageDialog;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 
 /**
  *

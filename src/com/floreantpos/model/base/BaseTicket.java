@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 
@@ -51,7 +50,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public static String PROP_EXTRA_DELIVERY_INFO = "extraDeliveryInfo";
   public static String PROP_SERVICE_CHARGE = "serviceCharge";
   public static String PROP_UNIQ_ID = "uniqId";
-
+  public static String PROP_DINE_IN_NUMBER = "dineInNumber";
 
   // constructors
   public BaseTicket() {
@@ -110,6 +109,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
   protected java.lang.Boolean customerWillPickup;
   protected java.lang.String extraDeliveryInfo;
   protected java.lang.String ticketType;
+  protected java.lang.Integer dineInNumber;
 
   // many to one
   private com.floreantpos.model.Shift shift;
@@ -959,6 +959,14 @@ public abstract class BaseTicket implements Comparable, Serializable {
 
   public void setUniqId(String uniqId) {
     this.uniqId = uniqId;
+  }
+
+  public java.lang.Integer getDineInNumber() {
+    return dineInNumber;
+  }
+
+  public void setDineInNumber(java.lang.Integer dineInNumber) {
+    this.dineInNumber = dineInNumber;
   }
 
 

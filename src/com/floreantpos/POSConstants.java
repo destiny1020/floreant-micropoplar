@@ -543,6 +543,8 @@ public class POSConstants {
   public static final String ERROR_WHEN_QUERY_MENU_ITEM = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM");
   public static final String ERROR_WHEN_QUERY_MENU_ITEM_SET = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM_SET");
   public static final String ERROR_DUPLICATE_CUSTOMER = Messages.getString("ERROR_DUPLICATE_CUSTOMER");
+  public static final String ERROR_INVALID_TICKET_TYPE = Messages.getString("ERROR_INVALID_TICKET_TYPE");
+  public static final String ERROR_DINE_IN_NUMBER = Messages.getString("ERROR_DINE_IN_NUMBER");
 
   /**
    * Customer Window constants below

@@ -187,7 +187,7 @@ public class TicketItemModifier extends BaseTicketItemModifier implements ITicke
       return null;
     }
 
-    return getTotalAmount();
+    return super.getTotalAmount();
   }
 
   public boolean isPriceIncludesTax() {

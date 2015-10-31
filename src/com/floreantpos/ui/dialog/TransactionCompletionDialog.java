@@ -23,6 +23,10 @@ import com.floreantpos.util.NumberUtil;
 import net.miginfocom.swing.MigLayout;
 
 public class TransactionCompletionDialog extends POSDialog {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   // private List<Ticket> tickets;
   private double tenderedAmount;
   private double totalAmount;
@@ -33,10 +37,7 @@ public class TransactionCompletionDialog extends POSDialog {
 
   private JLabel lblTenderedAmount;
   private JLabel lblTotalAmount;
-  private JLabel lblPaidAmount;
-  private JLabel lblDueAmount;
   private JLabel lblChangeDue;
-  private JLabel lblGratuityAmount;
 
   private PosTransaction completedTransaction;
 
@@ -60,22 +61,6 @@ public class TransactionCompletionDialog extends POSDialog {
     add(lblTenderedAmount, "span, grow");
 
     add(new JSeparator(), "newline,span, grow");
-
-    // add(createLabel("付款金额" + ":", JLabel.LEFT), "newline,grow");
-    // lblPaidAmount = createLabel("0.0", JLabel.RIGHT);
-    // add(lblPaidAmount, "span, grow");
-
-    // add(createLabel("DUE AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-    // lblDueAmount = createLabel("0.0", JLabel.RIGHT);
-    // add(lblDueAmount, "span, grow");
-
-    // add(new JSeparator(), "newline,span, grow");
-
-    // add(createLabel("GRATUITY AMOUNT" + ":", JLabel.LEFT), "newline,grow");
-    // lblGratuityAmount = createLabel("0.0", JLabel.RIGHT);
-    // add(lblGratuityAmount, "span, grow");
-
-    // add(new JSeparator(), "newline,span, grow");
 
     add(createLabel(POSConstants.TRANS_COMPLETE_RETURN_AMOUNT + POSConstants.COLON, JLabel.LEFT),
         "grow");
