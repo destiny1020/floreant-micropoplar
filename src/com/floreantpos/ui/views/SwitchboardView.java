@@ -96,7 +96,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     btnEditTicket.addActionListener(this);
     btnGroupSettle.addActionListener(this);
     btnLogout.addActionListener(this);
-    btnManager.addActionListener(this);
+    //    btnManager.addActionListener(this);
     btnNewTicket.addActionListener(this);
     btnPayout.addActionListener(this);
     btnOrderInfo.addActionListener(this);
@@ -152,7 +152,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     btnShutdown = new com.floreantpos.swing.PosButton(new ShutDownAction());
     btnLogout = new com.floreantpos.swing.PosButton();
     btnBackOffice = new com.floreantpos.swing.PosButton();
-    btnManager = new com.floreantpos.swing.PosButton();
+    //    btnManager = new com.floreantpos.swing.PosButton();
     // btnAuthorize = new PosButton(new AuthorizeTicketAction());
     btnKitchenDisplay = new PosButton(new OpenKitchenDisplayAction());
     btnClockOut = new com.floreantpos.swing.PosButton();
@@ -286,7 +286,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
     btnBackOffice.setText(POSConstants.CAPITAL_BACK_OFFICE);
 
-    btnManager.setText(POSConstants.CAPITAL_MANAGER);
+    //    btnManager.setText(POSConstants.CAPITAL_MANAGER);
 
     btnClockOut.setText(POSConstants.CAPITAL_CLOCK_OUT);
 
@@ -310,7 +310,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
     // bottomRightPanel.add(btnAuthorize, "height pref!,grow,wrap");
     bottomRightPanel.add(btnKitchenDisplay, "height pref!,grow,wrap");
-    bottomRightPanel.add(btnManager, "height pref!,grow,wrap");
+    //    bottomRightPanel.add(btnManager, "height pref!,grow,wrap");
     bottomRightPanel.add(btnBackOffice, "height pref!,grow,wrap");
     // bottomRightPanel.add(new PosButton(new TicketImportAction(bottomRightPanel)), "height
     // pref!,grow,wrap");
@@ -773,7 +773,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
         btnBackOffice.setEnabled(false);
         btnEditTicket.setEnabled(false);
         btnGroupSettle.setEnabled(false);
-        btnManager.setEnabled(false);
+        //        btnManager.setEnabled(false);
         btnPayout.setEnabled(false);
         btnReopenTicket.setEnabled(false);
         btnSettleTicket.setEnabled(false);
@@ -791,8 +791,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
             btnGroupSettle.setEnabled(true);
           } else if (permission.equals(UserPermission.REOPEN_TICKET)) {
             btnReopenTicket.setEnabled(true);
-          } else if (permission.equals(UserPermission.PERFORM_MANAGER_TASK)) {
-            btnManager.setEnabled(true);
+            //          } else if (permission.equals(UserPermission.PERFORM_MANAGER_TASK)) {
+            //            btnManager.setEnabled(true);
           } else if (permission.equals(UserPermission.SPLIT_TICKET)) {
             btnSplitTicket.setEnabled(true);
           } else if (permission.equals(UserPermission.TAKE_OUT)) {
@@ -850,7 +850,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
   private com.floreantpos.swing.PosButton btnEditTicket;
   private com.floreantpos.swing.PosButton btnGroupSettle;
   private com.floreantpos.swing.PosButton btnLogout;
-  private com.floreantpos.swing.PosButton btnManager;
+  //  private com.floreantpos.swing.PosButton btnManager;
   // private com.floreantpos.swing.PosButton btnAuthorize;
   private com.floreantpos.swing.PosButton btnKitchenDisplay;
   private com.floreantpos.swing.PosButton btnNewTicket;
@@ -903,8 +903,8 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
       doGroupSettle();
     } else if (source == btnLogout) {
       doLogout();
-    } else if (source == btnManager) {
-      doShowManagerWindow();
+      //    } else if (source == btnManager) {
+      //      doShowManagerWindow();
     } else if (source == btnNewTicket) {
       doCreateNewTicket(TicketType.DINE_IN);
     } else if (source == btnPayout) {

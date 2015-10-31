@@ -417,6 +417,7 @@ public class POSConstants {
   public static final String TRANS_COMPLETE_ACTUAL_AMOUNT = Messages.getString("PosMessage.353");
   public static final String TRANS_COMPLETE_RETURN_AMOUNT = Messages.getString("PosMessage.354");
   public static final String TRANS_COMPLETE_PRINT = Messages.getString("PosMessage.355");
+  public static final String OK_AND_SELECT = Messages.getString("PosMessage.366");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
@@ -541,6 +542,7 @@ public class POSConstants {
   public static final String ERROR_ITEM_NOT_VALID = Messages.getString("ERROR_ITEM_NOT_VALID");
   public static final String ERROR_WHEN_QUERY_MENU_ITEM = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM");
   public static final String ERROR_WHEN_QUERY_MENU_ITEM_SET = Messages.getString("ERROR_WHEN_QUERY_MENU_ITEM_SET");
+  public static final String ERROR_DUPLICATE_CUSTOMER = Messages.getString("ERROR_DUPLICATE_CUSTOMER");
 
   /**
    * Customer Window constants below

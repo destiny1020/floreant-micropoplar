@@ -2,7 +2,6 @@ package com.floreantpos.customer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,13 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Hibernate;
 
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Customer;
@@ -37,6 +31,8 @@ import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.forms.CustomerForm;
 import com.floreantpos.ui.views.order.OrderView;
+
+import net.miginfocom.swing.MigLayout;
 
 public class CustomerSelectionDialog extends POSDialog {
 
@@ -78,6 +74,8 @@ public class CustomerSelectionDialog extends POSDialog {
 
     if (customerTable.getModel().getRowCount() == 0) {
       btnSelect.setEnabled(false);
+    } else {
+      btnSelect.setEnabled(true);
     }
   }
 
@@ -309,21 +307,25 @@ public class CustomerSelectionDialog extends POSDialog {
       customerTable.setModel(new CustomerListTableModel(list));
     }
 
-    if (list != null && list.size() > 0) {
-      btnSelect.setEnabled(true);
-    }
+    updateStatus();
   }
 
   protected void doCreateNewCustomer() {
     CustomerForm form = new CustomerForm();
-    BeanEditorDialog dialog = new BeanEditorDialog(form, Application.getPosWindow(), true);
+    BeanEditorDialog dialog = new BeanEditorDialog(form, Application.getPosWindow(), true, true);
     dialog.open();
 
     if (!dialog.isCanceled()) {
+      // create and select -- as shortcut
       selectedCustomer = (Customer) form.getBean();
+      if (dialog.isOkAndSelect()) {
+        doSetCustomer(selectedCustomer);
+      }
 
       CustomerListTableModel model = (CustomerListTableModel) customerTable.getModel();
       model.addItem(selectedCustomer);
+
+      updateStatus();
     }
   }
 

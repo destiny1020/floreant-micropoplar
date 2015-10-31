@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.StaleObjectStateException;
 import org.jdesktop.swingx.JXDatePicker;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
@@ -156,11 +157,23 @@ public class CustomerForm extends BeanEditor<Customer> {
         return false;
 
       Customer customer = (Customer) getBean();
-      CustomerDAO.getInstance().saveOrUpdate(customer);
+
+      // make sure there is no duplicates
+      CustomerDAO dao = CustomerDAO.getInstance();
+      Customer existedCustomer = dao.findByPhone(customer.getTelephoneNo());
+      if (existedCustomer != null) {
+        BOMessageDialog.showError(this, POSConstants.ERROR_DUPLICATE_CUSTOMER);
+        return false;
+      }
+
+      dao.saveOrUpdate(customer);
       return true;
     } catch (IllegalModelStateException e) {
     } catch (StaleObjectStateException e) {
       BOMessageDialog.showError(this, "该会员信息似乎已经被另外的操作人员修改了, 保存失败.");
+    } catch (Exception e) {
+      e.printStackTrace();
+      BOMessageDialog.showError(this, e.getMessage());
     }
 
     return false;

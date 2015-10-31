@@ -17,9 +17,31 @@ public class CustomerDAO extends BaseCustomerDAO {
    */
   public CustomerDAO() {}
 
-  public List<Customer> findBy(String phone, String loyalty, String name) {
+  public Customer findByPhone(String phone) {
     Session session = null;
 
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      Disjunction disjunction = Restrictions.disjunction();
+
+      if (StringUtils.isNotEmpty(phone))
+        disjunction.add(Restrictions.eq(Customer.PROP_TELEPHONE_NO, phone));
+
+      criteria.add(disjunction);
+
+      return (Customer) criteria.uniqueResult();
+
+    } finally {
+      if (session != null) {
+        closeSession(session);
+      }
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<Customer> findBy(String phone, String loyalty, String name) {
+    Session session = null;
 
     try {
       session = getSession();
