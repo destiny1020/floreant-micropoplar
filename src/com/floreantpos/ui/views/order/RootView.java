@@ -83,4 +83,8 @@ public class RootView extends com.floreantpos.swing.TransparentPanel {
   public SettleTicketDialog getPaymentView() {
     return paymentView;
   }
+
+  public void enableControlButtons() {
+    loginScreen.enableControlButtons();
+  }
 }

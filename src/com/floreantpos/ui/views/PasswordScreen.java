@@ -248,7 +248,16 @@ public class PasswordScreen extends JPanel {
     add(jPanel3, "cell 0 3,growx,aligny bottom");
 
     lblTerminalId.setText("");
+
+    // make button disabled at first
+    setButtonsEnabled(false);
   }// </editor-fold>//GEN-END:initComponents
+
+  private void setButtonsEnabled(boolean enabled) {
+    psbtnLogin.setEnabled(enabled);
+    btnConfigureDatabase.setEnabled(enabled);
+    btnShutdown.setEnabled(enabled);
+  }
 
   // TODO: check login logic, everytime when entered a new day, throws:
   // com.floreantpos.PosException: Unable to store clock in information
@@ -460,5 +469,9 @@ public class PasswordScreen extends JPanel {
 
       loginThread.start();
     }
+  }
+
+  public void enableControlButtons() {
+    setButtonsEnabled(true);
   }
 }

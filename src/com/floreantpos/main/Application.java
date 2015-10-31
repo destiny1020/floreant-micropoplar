@@ -224,6 +224,7 @@ public class Application {
       e.printStackTrace();
       logger.error(e);
     } finally {
+      rootView.enableControlButtons();
       posWindow.setGlassPaneVisible(false);
       customerWindow.setGlassPaneVisible(false);
     }

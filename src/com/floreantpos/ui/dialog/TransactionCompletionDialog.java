@@ -8,8 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import net.miginfocom.swing.MigLayout;
-
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.PosTransaction;
@@ -21,6 +19,8 @@ import com.floreantpos.ui.views.SwitchboardView;
 import com.floreantpos.ui.views.order.OrderView;
 import com.floreantpos.ui.views.order.RootView;
 import com.floreantpos.util.NumberUtil;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TransactionCompletionDialog extends POSDialog {
   // private List<Ticket> tickets;
@@ -49,11 +49,13 @@ public class TransactionCompletionDialog extends POSDialog {
 
     setLayout(new MigLayout("align 50% 0%, ins 20", "[]20[]", ""));
 
-    add(createLabel(POSConstants.TRANS_COMPLETE_TOTAL_AMOUNT + POSConstants.COLON, JLabel.LEFT), "grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_TOTAL_AMOUNT + POSConstants.COLON, JLabel.LEFT),
+        "grow");
     lblTotalAmount = createLabel("0.0", JLabel.RIGHT);
     add(lblTotalAmount, "span, grow");
 
-    add(createLabel(POSConstants.TRANS_COMPLETE_ACTUAL_AMOUNT + POSConstants.COLON, JLabel.LEFT), "newline,grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_ACTUAL_AMOUNT + POSConstants.COLON, JLabel.LEFT),
+        "newline,grow");
     lblTenderedAmount = createLabel("0.0", JLabel.RIGHT);
     add(lblTenderedAmount, "span, grow");
 
@@ -75,7 +77,8 @@ public class TransactionCompletionDialog extends POSDialog {
 
     // add(new JSeparator(), "newline,span, grow");
 
-    add(createLabel(POSConstants.TRANS_COMPLETE_RETURN_AMOUNT + POSConstants.COLON, JLabel.LEFT), "grow");
+    add(createLabel(POSConstants.TRANS_COMPLETE_RETURN_AMOUNT + POSConstants.COLON, JLabel.LEFT),
+        "grow");
     lblChangeDue = createLabel("0.0", JLabel.RIGHT);
     add(lblChangeDue, "span, grow");
 
@@ -85,13 +88,9 @@ public class TransactionCompletionDialog extends POSDialog {
 
       public void actionPerformed(ActionEvent e) {
         dispose();
-        
-        // generate new ticket after current payment is completed
-        Ticket ticket = SwitchboardView.getInstance().prepareNewTicket(TicketType.TAKE_OUT);
-        OrderView.getInstance().setCurrentTicket(ticket);
-        RootView.getInstance().showView(OrderView.VIEW_NAME);
-      }
 
+        genereateNewTicket();
+      }
     });
 
     PosButton btnPrintStoreCopy = new PosButton(POSConstants.TRANS_COMPLETE_PRINT);
@@ -105,6 +104,8 @@ public class TransactionCompletionDialog extends POSDialog {
           POSMessageDialog.showError(Application.getPosWindow(), POSConstants.PRINT_ERROR, ee);
         }
         dispose();
+
+        genereateNewTicket();
       }
     });
 
@@ -208,5 +209,12 @@ public class TransactionCompletionDialog extends POSDialog {
 
   public void setCompletedTransaction(PosTransaction completedTransaction) {
     this.completedTransaction = completedTransaction;
+  }
+
+  private void genereateNewTicket() {
+    // generate new ticket after current payment is completed
+    Ticket ticket = SwitchboardView.getInstance().prepareNewTicket(TicketType.TAKE_OUT);
+    OrderView.getInstance().setCurrentTicket(ticket);
+    RootView.getInstance().showView(OrderView.VIEW_NAME);
   }
 }

@@ -67,4 +67,8 @@ public class LoginScreen extends JPanel {
   public void setTerminalId(int terminalId) {
     passwordScreen.setTerminalId(terminalId);
   }
+
+  public void enableControlButtons() {
+    passwordScreen.enableControlButtons();
+  }
 }

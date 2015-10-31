@@ -112,4 +112,5 @@ public class PosWindow extends JFrame implements WindowListener {
   public void windowActivated(WindowEvent e) {}
 
   public void windowDeactivated(WindowEvent e) {}
+
 }
