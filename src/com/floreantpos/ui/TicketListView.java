@@ -3,6 +3,8 @@ package com.floreantpos.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +25,14 @@ import com.floreantpos.model.TicketStatus;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.User;
 import com.floreantpos.model.util.DateUtil;
-import com.floreantpos.ui.dialog.POSMessageDialog;
+import com.floreantpos.ui.views.SwitchboardView;
 
 public class TicketListView extends JPanel {
   private JXTable table;
   private TicketListTableModel tableModel;
 
   public TicketListView() {
-    table = new TicketListTable();
+    table = new TicketListTable(this);
     table.setSortable(false);
     table.setModel(tableModel = new TicketListTableModel());
     table.setRowHeight(60);
@@ -89,14 +91,24 @@ public class TicketListView extends JPanel {
     return tickets;
   }
 
-  // public void removeTicket(Ticket ticket) {
-  // tableModel.
-  // }
-
   private class TicketListTable extends JXTable {
 
-    public TicketListTable() {
+    private Ticket lastSelectedTicket;
+
+    public TicketListTable(final TicketListView ticketListView) {
       setColumnControlVisible(true);
+      addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent evt) {
+          Ticket selectedTicket = ticketListView.getFirstSelectedTicket();
+          if (selectedTicket != null) {
+            lastSelectedTicket = selectedTicket;
+          }
+          if (evt.getClickCount() == 2 && lastSelectedTicket != null) {
+            SwitchboardView.getInstance().doEditTicket(lastSelectedTicket);
+          }
+        }
+      });
     }
 
     @Override
@@ -113,10 +125,6 @@ public class TicketListView extends JPanel {
 
   private class TicketListTableModel extends ListTableModel {
     public TicketListTableModel() {
-      // super(new String[] { POSConstants.ID, "餐桌号", POSConstants.SERVER, POSConstants.CREATED,
-      // POSConstants.CUSTOMER,
-      // POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE, "订单状态", POSConstants.TOTAL,
-      // POSConstants.DUE });
       super(new String[] {POSConstants.ID, POSConstants.SERVER, POSConstants.CREATED,
           POSConstants.CUSTOMER, POSConstants.TICKET_DELIVERY_DATE, POSConstants.TICKET_TYPE,
           "订单状态", POSConstants.TOTAL, POSConstants.DUE});
@@ -129,9 +137,6 @@ public class TicketListView extends JPanel {
         case 0:
           String uniqId = ticket.getUniqId();
           return StringUtils.isBlank(uniqId) ? Integer.valueOf(ticket.getId()) : uniqId;
-
-        // case 1:
-        // return ticket.getTableNumbers();
 
         case 1:
           User owner = ticket.getOwner();
@@ -193,22 +198,12 @@ public class TicketListView extends JPanel {
     List<Ticket> selectedTickets = getSelectedTickets();
 
     if (selectedTickets.size() == 0 || selectedTickets.size() > 1) {
-      POSMessageDialog.showMessage("请选择一个订单");
       return null;
     }
 
     Ticket ticket = selectedTickets.get(0);
 
     return ticket;
-  }
-
-  public int getFirstSelectedTicketId() {
-    Ticket ticket = getFirstSelectedTicket();
-    if (ticket == null) {
-      return -1;
-    }
-
-    return ticket.getId();
   }
 
   public JXTable getTable() {

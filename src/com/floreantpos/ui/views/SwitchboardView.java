@@ -629,7 +629,11 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     }
   }
 
-  private void doEditTicket() {
+  public void doEditTicket(Ticket ticket) {
+    editTicket(ticket);
+  }
+
+  public void doEditTicket() {
     try {
       Ticket ticket = null;
 
