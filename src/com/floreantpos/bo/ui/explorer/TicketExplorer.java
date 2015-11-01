@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -22,7 +23,7 @@ public class TicketExplorer extends TransparentPanel {
   private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy, h:m a"); //$NON-NLS-1$
   DecimalFormat numberFormat = new DecimalFormat("0.00"); //$NON-NLS-1$
 
-  JXTable explorerTable;
+  private JXTable explorerTable;
   private List<Ticket> tickets;
 
   public TicketExplorer() {
@@ -36,9 +37,13 @@ public class TicketExplorer extends TransparentPanel {
         return renderer;
       }
     };
-    explorerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+    explorerTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     explorerTable.setColumnControlVisible(true);
-    add(new JScrollPane(explorerTable));
+    explorerTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    explorerTable.setHorizontalScrollEnabled(false);
+
+    add(new JScrollPane(explorerTable), BorderLayout.CENTER);
   }
 
   public void init() {
@@ -68,7 +73,7 @@ public class TicketExplorer extends TransparentPanel {
     }
 
     public int getColumnCount() {
-      return 11;
+      return columnNames.length;
     }
 
     @Override

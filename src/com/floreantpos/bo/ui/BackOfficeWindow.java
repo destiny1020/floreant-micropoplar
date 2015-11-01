@@ -51,6 +51,7 @@ import com.floreantpos.bo.actions.TaxExplorerAction;
 import com.floreantpos.bo.actions.UserExplorerAction;
 import com.floreantpos.bo.actions.UserTypeExplorerAction;
 import com.floreantpos.bo.actions.ViewGratuitiesAction;
+import com.floreantpos.bo.ui.explorer.TicketExplorer;
 import com.floreantpos.config.AppConfig;
 import com.floreantpos.extension.InventoryPlugin;
 import com.floreantpos.extension.OrderServiceExtension;
@@ -60,6 +61,7 @@ import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
 import com.jidesoft.swing.JideTabbedPane;
 import com.micropoplar.pos.bo.actions.MenuItemSetExplorerAction;
+import com.micropoplar.pos.bo.actions.TicketExplorerAction;
 
 /**
  *
@@ -207,6 +209,9 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 
     // Customer information explorer
     explorerMenu.add(new CustomerExplorerAction());
+
+    // Ticket information explorer
+    explorerMenu.add(new TicketExplorerAction());
 
     OrderServiceExtension plugin =
         Application.getPluginManager().getPlugin(OrderServiceExtension.class);

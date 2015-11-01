@@ -56,7 +56,7 @@ public class POSConstants {
   public static final String MAX_QUANTITY = Messages.getString("PosMessage.49");
   public static final String REPORTS = Messages.getString("PosMessage.50");
   public static final String SETTLE = Messages.getString("PosMessage.51");
-  public static final String REFRESH = Messages.getString("PosMessage.52");
+  public static final String LOAD = Messages.getString("PosMessage.52");
   public static final String CATEGORY_EXPLORER = Messages.getString("PosMessage.53");
   public static final String PAY_NOW = Messages.getString("PosMessage.54");
   public static final String LONG_INSTRUCTION_ERROR = Messages.getString("PosMessage.55");
@@ -418,6 +418,8 @@ public class POSConstants {
   public static final String TRANS_COMPLETE_RETURN_AMOUNT = Messages.getString("PosMessage.354");
   public static final String TRANS_COMPLETE_PRINT = Messages.getString("PosMessage.355");
   public static final String OK_AND_SELECT = Messages.getString("PosMessage.366");
+  public static final String TICKET_EXPLORER = Messages.getString("PosMessage.367");
+  public static final String SALES_REPORT_TYPE = Messages.getString("PosMessage.368");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");

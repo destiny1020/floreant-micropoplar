@@ -47,7 +47,6 @@ public class PosTransactionService {
       tx = session.beginTransaction();
 
       ticket.setVoided(false);
-      ticket.setDrawerResetted(false);
       ticket.setTerminal(terminal);
       ticket.setPaidAmount(ticket.getPaidAmount() + transaction.getAmount());
 
@@ -215,7 +214,6 @@ public class PosTransactionService {
       ticket.setVoided(false);
       ticket.setRefunded(true);
       ticket.setClosed(true);
-      ticket.setDrawerResetted(false);
       ticket.setClosingDate(new Date());
 
       ticket.addTotransactions(posTransaction);

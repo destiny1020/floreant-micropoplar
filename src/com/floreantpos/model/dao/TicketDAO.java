@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -121,7 +120,6 @@ public class TicketDAO extends BaseTicketDAO {
     try {
       session = getSession();
       Criteria criteria = session.createCriteria(getReferenceClass());
-      criteria.add(Restrictions.eq(Ticket.PROP_DRAWER_RESETTED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_TERMINAL, terminal));
       criteria.createAlias(Ticket.PROP_GRATUITY, "gratuity");
       criteria.add(Restrictions.eq("gratuity.paid", Boolean.FALSE));
@@ -144,7 +142,6 @@ public class TicketDAO extends BaseTicketDAO {
       session = getSession();
       Criteria criteria = session.createCriteria(getReferenceClass(), "t");
       criteria = criteria.createAlias(Ticket.PROP_GRATUITY, "gratuity");
-      criteria.add(Restrictions.eq(Ticket.PROP_DRAWER_RESETTED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_TERMINAL, terminal));
       criteria.add(Restrictions.eq("gratuity.paid", Boolean.TRUE));
       criteria.setProjection(Projections.sum("gratuity.amount"));
@@ -312,7 +309,6 @@ public class TicketDAO extends BaseTicketDAO {
       criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_DRAWER_RESETTED, Boolean.FALSE));
 
       ProjectionList projectionList = Projections.projectionList();
       projectionList.add(Projections.count(Ticket.PROP_ID));
@@ -341,7 +337,6 @@ public class TicketDAO extends BaseTicketDAO {
       criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.TRUE));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_DRAWER_RESETTED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_TERMINAL, terminal));
 
       ProjectionList projectionList = Projections.projectionList();
@@ -405,7 +400,7 @@ public class TicketDAO extends BaseTicketDAO {
   // }
   // }
 
-  public List<Ticket> findTickets(Date startDate, Date endDate, boolean closed) {
+  public List<Ticket> findTickets(Date startDate, Date endDate) {
     Session session = null;
     try {
       session = getSession();
@@ -415,7 +410,6 @@ public class TicketDAO extends BaseTicketDAO {
       // criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.TRUE));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_DRAWER_RESETTED, Boolean.valueOf(closed)));
 
       return criteria.list();
     } finally {

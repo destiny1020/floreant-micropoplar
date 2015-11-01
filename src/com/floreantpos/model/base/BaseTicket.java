@@ -26,7 +26,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public static String PROP_ASSIGNED_DRIVER = "assignedDriver";
   public static String PROP_CREATION_HOUR = "creationHour";
   public static String PROP_CUSTOMER_WILL_PICKUP = "customerWillPickup";
-  public static String PROP_DRAWER_RESETTED = "drawerResetted";
   public static String PROP_OWNER = "owner";
   public static String PROP_DELIVERY_DATE = "deliveryDate";
   public static String PROP_GRATUITY = "gratuity";
@@ -91,7 +90,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   protected java.lang.Boolean wasted;
   protected java.lang.Boolean refunded;
   protected java.lang.Boolean closed;
-  protected java.lang.Boolean drawerResetted;
   protected java.lang.Double subtotalAmount;
   protected java.lang.Double discountAmount;
   protected java.lang.Double taxAmount;
@@ -362,26 +360,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public void setClosed(java.lang.Boolean closed) {
     this.closed = closed;
   }
-
-
-
-  /**
-   * Return the value associated with the column: DRAWER_RESETTED
-   */
-  public java.lang.Boolean isDrawerResetted() {
-    return drawerResetted == null ? Boolean.FALSE : drawerResetted;
-  }
-
-  /**
-   * Set the value related to the column: DRAWER_RESETTED
-   * 
-   * @param drawerResetted the DRAWER_RESETTED value
-   */
-  public void setDrawerResetted(java.lang.Boolean drawerResetted) {
-    this.drawerResetted = drawerResetted;
-  }
-
-
 
   /**
    * Return the value associated with the column: SUB_TOTAL

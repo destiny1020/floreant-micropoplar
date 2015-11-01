@@ -19,7 +19,6 @@
 		<property column="REFUNDED" name="refunded" type="java.lang.Boolean" />
 		<!-- a ticket is marked as closed it is either paid or voided -->
 		<property column="SETTLED" index="ticketsettled" name="closed" type="java.lang.Boolean" />
-		<property column="DRAWER_RESETTED" index="drawerresetted" name="drawerResetted" type="java.lang.Boolean" />
 		<property column="SUB_TOTAL" length="52" name="subtotalAmount" type="java.lang.Double" />
 		<property column="TOTAL_DISCOUNT" length="52" name="discountAmount" type="java.lang.Double" />
 		<property column="TOTAL_TAX" length="52" name="taxAmount" type="java.lang.Double" />

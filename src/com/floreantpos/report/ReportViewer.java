@@ -8,6 +8,7 @@ package com.floreantpos.report;
 
 import java.util.Date;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.swing.MessageDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
@@ -18,6 +19,10 @@ import com.floreantpos.ui.util.UiUtil;
  * @author MShahriar
  */
 public class ReportViewer extends javax.swing.JPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private Report report;
 
   /** Creates new form ReportViewer */
@@ -38,29 +43,20 @@ public class ReportViewer extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
   private void initComponents() {
     reportConstraintPanel = new com.floreantpos.swing.TransparentPanel();
-    jLabel1 = new javax.swing.JLabel();
-    cbReportType = new javax.swing.JComboBox();
-    jLabel2 = new javax.swing.JLabel();
+    lblStartTime = new javax.swing.JLabel();
     dpStartDate = UiUtil.getCurrentMonthStart();
     dpEndDate = UiUtil.getCurrentMonthEnd();
-    jLabel3 = new javax.swing.JLabel();
-    btnRefresh = new javax.swing.JButton();
+    lblEndTime = new javax.swing.JLabel();
+    btnLoad = new javax.swing.JButton();
     reportPanel = new com.floreantpos.swing.TransparentPanel();
 
     setLayout(new java.awt.BorderLayout(5, 5));
 
-    jLabel1.setText("报告类型" + ":");
+    lblStartTime.setText(POSConstants.START_TIME + POSConstants.COLON);
+    lblEndTime.setText(com.floreantpos.POSConstants.END_DATE + POSConstants.COLON);
 
-    cbReportType.setModel(new javax.swing.DefaultComboBoxModel(
-        new String[] {com.floreantpos.POSConstants.PREVIOUS_SALE_AFTER_DRAWER_RESET_,
-            com.floreantpos.POSConstants.SALE_BEFORE_DRAWER_RESET}));
-
-    jLabel2.setText(com.floreantpos.POSConstants.START_DATE + ":");
-
-    jLabel3.setText(com.floreantpos.POSConstants.END_DATE + ":");
-
-    btnRefresh.setText(com.floreantpos.POSConstants.REFRESH);
-    btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+    btnLoad.setText(com.floreantpos.POSConstants.LOAD);
+    btnLoad.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doRefreshReport(evt);
       }
@@ -69,57 +65,48 @@ public class ReportViewer extends javax.swing.JPanel {
     org.jdesktop.layout.GroupLayout reportConstraintPanelLayout =
         new org.jdesktop.layout.GroupLayout(reportConstraintPanel);
     reportConstraintPanel.setLayout(reportConstraintPanelLayout);
-    reportConstraintPanelLayout
-        .setHorizontalGroup(
-            reportConstraintPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(reportConstraintPanelLayout.createSequentialGroup().addContainerGap()
-                    .add(reportConstraintPanelLayout
-                        .createParallelGroup(
-                            org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(reportConstraintPanelLayout.createSequentialGroup()
-                            .add(reportConstraintPanelLayout
-                                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(jLabel2).add(jLabel1))
+    reportConstraintPanelLayout.setHorizontalGroup(
+        reportConstraintPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(reportConstraintPanelLayout.createSequentialGroup().addContainerGap()
+                .add(reportConstraintPanelLayout
+                    .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(reportConstraintPanelLayout.createSequentialGroup()
+                        .add(reportConstraintPanelLayout
+                            .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lblStartTime))
                         .add(15, 15, 15)
                         .add(reportConstraintPanelLayout
                             .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(cbReportType, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE)
                             .add(dpStartDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                                 org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(jLabel3)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(lblEndTime)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(dpEndDate,
                             org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                             org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                             org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, btnRefresh)).addContainerGap()));
+                .add(org.jdesktop.layout.GroupLayout.TRAILING, btnLoad)).addContainerGap()));
     reportConstraintPanelLayout.setVerticalGroup(
         reportConstraintPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(reportConstraintPanelLayout.createSequentialGroup().addContainerGap()
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(reportConstraintPanelLayout
-                    .createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(jLabel1)
-                    .add(cbReportType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                    .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(dpEndDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                         org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(reportConstraintPanelLayout
-                .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(dpEndDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(jLabel3)
-                .add(reportConstraintPanelLayout.createSequentialGroup()
-                    .add(reportConstraintPanelLayout
-                        .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(dpStartDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
-                            org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
-                            org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(jLabel2))
-                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(btnRefresh)))
+                        org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblEndTime)
+                    .add(reportConstraintPanelLayout.createSequentialGroup()
+                        .add(reportConstraintPanelLayout
+                            .createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(dpStartDate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                                org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                                org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(lblStartTime))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(btnLoad)))
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
     reportConstraintPanelLayout.linkSize(
-        new java.awt.Component[] {dpEndDate, dpStartDate, jLabel2, jLabel3},
+        new java.awt.Component[] {dpEndDate, dpStartDate, lblStartTime, lblEndTime},
         org.jdesktop.layout.GroupLayout.VERTICAL);
 
     add(reportConstraintPanel, java.awt.BorderLayout.NORTH);
@@ -145,9 +132,6 @@ public class ReportViewer extends javax.swing.JPanel {
       reportPanel.revalidate();
 
       if (report != null) {
-        int reportType = cbReportType.getSelectedIndex();
-
-        report.setReportType(reportType);
         report.setStartDate(fromDate);
         report.setEndDate(toDate);
 
@@ -166,13 +150,11 @@ public class ReportViewer extends javax.swing.JPanel {
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton btnRefresh;
-  private javax.swing.JComboBox cbReportType;
+  private javax.swing.JButton btnLoad;
   private org.jdesktop.swingx.JXDatePicker dpEndDate;
   private org.jdesktop.swingx.JXDatePicker dpStartDate;
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel2;
-  private javax.swing.JLabel jLabel3;
+  private javax.swing.JLabel lblStartTime;
+  private javax.swing.JLabel lblEndTime;
   private com.floreantpos.swing.TransparentPanel reportConstraintPanel;
   private com.floreantpos.swing.TransparentPanel reportPanel;
   // End of variables declaration//GEN-END:variables
@@ -183,12 +165,6 @@ public class ReportViewer extends javax.swing.JPanel {
 
   public void setReport(Report report) {
     this.report = report;
-
-    // if(report != null) {
-    // cbReportType.setEnabled(report.isTypeSupported());
-    // this.dpStartDate.setEnabled(report.isDateRangeSupported());
-    // this.dpEndDate.setEnabled(report.isDateRangeSupported());
-    // }
   }
 
 }

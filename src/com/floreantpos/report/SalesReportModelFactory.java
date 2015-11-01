@@ -6,6 +6,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jdesktop.swingx.calendar.DateUtils;
+
+import com.floreantpos.main.Application;
+import com.floreantpos.model.Ticket;
+import com.floreantpos.model.TicketItem;
+import com.floreantpos.model.dao.TicketDAO;
+
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -14,17 +21,9 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
-import org.jdesktop.swingx.calendar.DateUtils;
-
-import com.floreantpos.main.Application;
-import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketItem;
-import com.floreantpos.model.dao.TicketDAO;
-
 public class SalesReportModelFactory {
   private Date startDate;
   private Date endDate;
-  private boolean settled = true;
 
   private SalesReportModel itemReportModel;
   private SalesReportModel modifierReportModel;
@@ -42,7 +41,7 @@ public class SalesReportModelFactory {
       endDate = DateUtils.endOfDay(currentDate);
     }
 
-    List<Ticket> tickets = TicketDAO.getInstance().findTickets(startDate, endDate, settled);
+    List<Ticket> tickets = TicketDAO.getInstance().findTickets(startDate, endDate);
 
     HashMap<String, ReportItem> itemMap = new HashMap<String, ReportItem>();
     HashMap<String, ReportItem> modifierMap = new HashMap<String, ReportItem>();
@@ -149,14 +148,6 @@ public class SalesReportModelFactory {
 
   public void setEndDate(Date endDate) {
     this.endDate = endDate;
-  }
-
-  public boolean isSettled() {
-    return settled;
-  }
-
-  public void setSettled(boolean settled) {
-    this.settled = settled;
   }
 
   public Date getStartDate() {

@@ -5,14 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JRViewer;
+import java.util.Map;
 
 import org.jdesktop.swingx.calendar.DateUtils;
 
@@ -23,7 +16,14 @@ import com.floreantpos.model.TicketItemModifier;
 import com.floreantpos.model.TicketItemModifierGroup;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
-import com.floreantpos.report.service.ReportService;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JRViewer;
 
 public class SalesReport extends Report {
   private SalesReportModel itemReportModel;
@@ -83,13 +83,12 @@ public class SalesReport extends Report {
     Date date1 = DateUtils.startOfDay(getStartDate());
     Date date2 = DateUtils.endOfDay(getEndDate());
 
-    List<Ticket> tickets = TicketDAO.getInstance().findTickets(date1, date2,
-        getReportType() == Report.REPORT_TYPE_1 ? true : false);
+    List<Ticket> tickets = TicketDAO.getInstance().findTickets(date1, date2);
 
-    HashMap<String, ReportItem> itemMap = new HashMap<String, ReportItem>();
-    HashMap<String, ReportItem> modifierMap = new HashMap<String, ReportItem>();
+    Map<String, ReportItem> itemMap = new HashMap<String, ReportItem>();
+    Map<String, ReportItem> modifierMap = new HashMap<String, ReportItem>();
 
-    for (Iterator iter = tickets.iterator(); iter.hasNext();) {
+    for (Iterator<Ticket> iter = tickets.iterator(); iter.hasNext();) {
       Ticket t = (Ticket) iter.next();
 
       Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getId());
