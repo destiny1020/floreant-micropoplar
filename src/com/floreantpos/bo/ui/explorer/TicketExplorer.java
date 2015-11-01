@@ -1,23 +1,38 @@
 package com.floreantpos.bo.ui.explorer;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTable;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
+import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.model.Ticket;
+import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
+import com.floreantpos.ui.dialog.POSMessageDialog;
+import com.floreantpos.ui.util.UiUtil;
+
+import net.miginfocom.swing.MigLayout;
 
 public class TicketExplorer extends TransparentPanel {
   private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy, h:m a"); //$NON-NLS-1$
@@ -26,9 +41,97 @@ public class TicketExplorer extends TransparentPanel {
   private JXTable explorerTable;
   private List<Ticket> tickets;
 
+  private JLabel lblStartTime;
+  private JLabel lblEndTime;
+  private JXDatePicker dpStartDate;
+  private JXDatePicker dpEndDate;
+
+  private JCheckBox chkAll;
+  private JCheckBox chkPaid;
+  private JCheckBox chkVoided;
+  private JCheckBox chkRefunded;
+
+  private JLabel lblTicketType;
+  private JComboBox<String> cbTicketType;
+  private JLabel lblMembership;
+  private JComboBox<String> cbMembership;
+
+  private TransparentPanel pnlFilters;
+
+  private JButton btnLoad;
+
   public TicketExplorer() {
+    initComponents();
+  }
+
+  private void initComponents() {
     setLayout(new BorderLayout());
 
+    // filters area
+    pnlFilters = new TransparentPanel();
+    pnlFilters.setLayout(new MigLayout("", "[][][][][grow]", "[][][][]"));
+
+    lblStartTime = new JLabel(POSConstants.START_DATE + POSConstants.COLON);
+    pnlFilters.add(lblStartTime, "cell 0 0, alignx left, aligny center");
+
+    dpStartDate = UiUtil.getCurrentMonthStart();
+    pnlFilters.add(dpStartDate, "cell 1 0, alignx left, aligny center");
+
+    lblEndTime = new JLabel(POSConstants.END_DATE + POSConstants.COLON);
+    pnlFilters.add(lblEndTime, "cell 2 0, alignx left, aligny center");
+
+    dpEndDate = UiUtil.getCurrentMonthEnd();
+    pnlFilters.add(dpEndDate, "cell 3 0, alignx left, aligny center");
+
+    chkAll = new JCheckBox(POSConstants.TICKET_EXPLORER_CHK_ALL);
+    chkAll.setSelected(true);
+    pnlFilters.add(chkAll, "cell 0 1, alignx left, aligny center");
+
+    chkPaid = new JCheckBox(POSConstants.TICKET_EXPLORER_CHK_PAID);
+    chkPaid.setSelected(false);
+    chkPaid.setEnabled(false);
+    pnlFilters.add(chkPaid, "cell 1 1, alignx left, aligny center");
+
+    chkVoided = new JCheckBox(POSConstants.TICKET_EXPLORER_CHK_VOIDED);
+    chkVoided.setSelected(false);
+    chkVoided.setEnabled(false);
+    pnlFilters.add(chkVoided, "cell 2 1, alignx left, aligny center");
+
+    chkRefunded = new JCheckBox(POSConstants.TICKET_EXPLORER_CHK_REFUNDED);
+    chkRefunded.setSelected(false);
+    chkRefunded.setEnabled(false);
+    pnlFilters.add(chkRefunded, "cell 3 1, alignx left, aligny center");
+
+    lblTicketType = new JLabel(POSConstants.TICKET_EXPLORER_CB_TICKET_TYPE);
+    pnlFilters.add(lblTicketType, "cell 0 2, alignx left, aligny center");
+
+    cbTicketType = new JComboBox<>(
+        new String[] {POSConstants.TICKET_EXPLORER_CB_OPTION_ALL, TicketType.DINE_IN.getValue(),
+            TicketType.TAKE_OUT.getValue(), TicketType.HOME_DELIVERY.getValue()});
+    cbTicketType.setSelectedIndex(0);
+    pnlFilters.add(cbTicketType, "cell 1 2, alignx left, aligny center");
+
+    lblMembership = new JLabel(POSConstants.TICKET_EXPLORER_CB_MEMBERSHIP);
+    pnlFilters.add(lblMembership, "cell 2 2, alignx left, aligny center");
+
+    cbMembership = new JComboBox<>(new String[] {POSConstants.TICKET_EXPLORER_CB_OPTION_ALL,
+        POSConstants.TICKET_EXPLORER_CB_OPTION_MEMBER,
+        POSConstants.TICKET_EXPLORER_CB_OPTION_NON_MEMBER});
+    cbMembership.setSelectedIndex(0);
+    pnlFilters.add(cbMembership, "cell 3 2, alignx left, aligny center");
+
+    btnLoad = new JButton(POSConstants.LOAD);
+    btnLoad.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        doLoadTickets(evt);
+      }
+    });
+
+    pnlFilters.add(btnLoad, "cell 2 3 2 1, growx");
+
+    add(pnlFilters, BorderLayout.NORTH);
+
+    // table area
     explorerTable = new JXTable(new TicketExplorerTableModel()) {
       PosTableRenderer renderer = new PosTableRenderer();
 
@@ -46,6 +149,21 @@ public class TicketExplorer extends TransparentPanel {
     add(new JScrollPane(explorerTable), BorderLayout.CENTER);
   }
 
+  private void doLoadTickets(ActionEvent evt) {
+    Date startDate = dpStartDate.getDate();
+    Date endDate = dpEndDate.getDate();
+
+    if (startDate.after(endDate)) {
+      POSMessageDialog.showError(BackOfficeWindow.getInstance(),
+          com.floreantpos.POSConstants.FROM_DATE_CANNOT_BE_GREATER_THAN_TO_DATE_);
+      return;
+    }
+
+    // load tickets within certain criteria
+    TicketDAO dao = TicketDAO.getInstance();
+    List<Ticket> tickets = dao.findTickets(startDate, endDate);
+  }
+
   public void init() {
     try {
       TicketDAO dao = new TicketDAO();
@@ -58,12 +176,13 @@ public class TicketExplorer extends TransparentPanel {
   }
 
   class TicketExplorerTableModel extends AbstractTableModel {
-    String[] columnNames =
-        {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.CREATED_BY,
-            com.floreantpos.POSConstants.CREATE_TIME, com.floreantpos.POSConstants.SETTLE_TIME,
-            com.floreantpos.POSConstants.SUBTOTAL, com.floreantpos.POSConstants.DISCOUNT,
-            com.floreantpos.POSConstants.TAX, com.floreantpos.POSConstants.TOTAL,
-            com.floreantpos.POSConstants.PAID, com.floreantpos.POSConstants.VOID};
+    String[] columnNames = {POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, POSConstants.CREATED,
+        POSConstants.SETTLE_TIME, POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
+        POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
+        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_BEFORE_DISCOUNT,
+        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_DISCOUNT,
+        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT,
+        POSConstants.TICKET_EXPLORER_TABLE_OPERATION};
 
     public int getRowCount() {
       if (tickets == null) {

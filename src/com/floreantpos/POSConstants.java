@@ -458,6 +458,25 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_ITEMS = Messages.getString("PosMessage.364");
   public static final String MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT = Messages.getString("PosMessage.365");
 
+  // Ticket Explorer
+  public static final String TICKET_EXPLORER_CHK_PAID = Messages.getString("PosMessage.369");
+  public static final String TICKET_EXPLORER_CHK_VOIDED = Messages.getString("PosMessage.370");
+  public static final String TICKET_EXPLORER_CHK_REFUNDED = Messages.getString("PosMessage.371");
+  public static final String TICKET_EXPLORER_CHK_ALL = Messages.getString("PosMessage.374");
+  public static final String TICKET_EXPLORER_CB_TICKET_TYPE = Messages.getString("PosMessage.372");
+  public static final String TICKET_EXPLORER_CB_OPTION_ALL = Messages.getString("PosMessage.373");
+  public static final String TICKET_EXPLORER_CB_MEMBERSHIP = Messages.getString("PosMessage.375");
+  public static final String TICKET_EXPLORER_CB_OPTION_MEMBER = Messages.getString("PosMessage.376");
+  public static final String TICKET_EXPLORER_CB_OPTION_NON_MEMBER = Messages.getString("PosMessage.377");
+  public static final String TICKET_EXPLORER_TABLE_UNIQ_ID = Messages.getString("PosMessage.378");
+  public static final String TICKET_EXPLORER_TABLE_TICKET_STATUS = Messages.getString("PosMessage.379");
+  public static final String TICKET_EXPLORER_TABLE_MEMBERSHIP = Messages.getString("PosMessage.375");
+  public static final String TICKET_EXPLORER_TABLE_TOTAL_BEFORE_DISCOUNT = Messages.getString("PosMessage.380");
+  public static final String TICKET_EXPLORER_TABLE_TOTAL_DISCOUNT = Messages.getString("PosMessage.381");
+  public static final String TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.382");
+  public static final String TICKET_EXPLORER_TABLE_OPERATION = Messages.getString("PosMessage.383");
+  public static final String TICKET_EXPLORER_TABLE_OPERATION_CHECK_DETAILS = Messages.getString("PosMessage.384");
+
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
   public static final String UNITNAME_CUP = Messages.getString("UnitName.2");

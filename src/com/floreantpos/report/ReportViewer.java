@@ -52,7 +52,7 @@ public class ReportViewer extends javax.swing.JPanel {
 
     setLayout(new java.awt.BorderLayout(5, 5));
 
-    lblStartTime.setText(POSConstants.START_TIME + POSConstants.COLON);
+    lblStartTime.setText(POSConstants.START_DATE + POSConstants.COLON);
     lblEndTime.setText(com.floreantpos.POSConstants.END_DATE + POSConstants.COLON);
 
     btnLoad.setText(com.floreantpos.POSConstants.LOAD);
