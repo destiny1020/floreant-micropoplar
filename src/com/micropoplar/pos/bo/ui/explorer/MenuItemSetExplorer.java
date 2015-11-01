@@ -3,6 +3,8 @@ package com.micropoplar.pos.bo.ui.explorer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -55,7 +57,7 @@ public class MenuItemSetExplorer extends TransparentPanel {
     setLayout(new BorderLayout(5, 5));
     add(new JScrollPane(table));
     ExplorerButtonPanel explorerButton = new ExplorerButtonPanel();
-    JButton editButton = explorerButton.getEditButton();
+    final JButton editButton = explorerButton.getEditButton();
     JButton addButton = explorerButton.getAddButton();
     JButton deleteButton = explorerButton.getDeleteButton();
 
@@ -83,7 +85,14 @@ public class MenuItemSetExplorer extends TransparentPanel {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
       }
-
+    });
+    table.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+          editButton.doClick();
+        }
+      }
     });
 
     addButton.addActionListener(new ActionListener() {

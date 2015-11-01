@@ -3,6 +3,8 @@ package com.floreantpos.customer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class CustomerExplorer extends TransparentPanel {
 
     });
 
-    JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
+    final JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
     editButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
@@ -105,8 +107,16 @@ public class CustomerExplorer extends TransparentPanel {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
       }
-
     });
+    table.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+          editButton.doClick();
+        }
+      }
+    });
+
     JButton deleteButton = new JButton(com.floreantpos.POSConstants.DELETE);
     deleteButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
