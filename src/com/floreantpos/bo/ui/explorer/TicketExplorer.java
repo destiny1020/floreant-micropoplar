@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTable;
 
 import com.floreantpos.POSConstants;
+import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.ComboOption;
 import com.floreantpos.bo.ui.explorer.search.TicketSearchDto;
@@ -30,9 +33,11 @@ import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
+import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.util.UiUtil;
 import com.micropoplar.pos.ui.TextFieldWithPrompt;
+import com.micropoplar.pos.ui.model.TicketForm;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -68,6 +73,8 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
   private TransparentPanel pnlFilters;
 
   private JButton btnLoad;
+
+  private JButton btnCheckDetails;
 
   public TicketExplorer() {
     initComponents();
@@ -162,6 +169,46 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     explorerTable.setHorizontalScrollEnabled(false);
 
     add(new JScrollPane(explorerTable), BorderLayout.CENTER);
+
+    // button controls area
+    btnCheckDetails = new JButton(POSConstants.TICKET_EXPLORER_CTRL_CHECK_DETAIL);
+    btnCheckDetails.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        try {
+          int index = explorerTable.getSelectedRow();
+          if (index < 0)
+            return;
+
+          Ticket ticket = tickets.get(index);
+          // TODO: avoid load one ticket again and again
+          ticket = TicketDAO.getInstance().loadFullTicket(ticket.getUniqId());
+
+          TicketForm editor = new TicketForm(ticket);
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled())
+            return;
+
+          explorerTable.repaint();
+        } catch (Throwable x) {
+          BOMessageDialog.showError(POSConstants.ERROR_MESSAGE, x);
+        }
+      }
+    });
+    explorerTable.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+          btnCheckDetails.doClick();
+        }
+      }
+    });
+
+    TransparentPanel panel = new TransparentPanel();
+    panel.add(btnCheckDetails);
+    add(panel, BorderLayout.SOUTH);
   }
 
   private void doLoadTickets(ActionEvent evt) {
@@ -209,8 +256,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
 
     String[] columnNames = {POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, POSConstants.CREATED,
         POSConstants.SETTLE_TIME, POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
-        POSConstants.TICKET_EXPLORER_TABLE_TYPE,
-        POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
+        POSConstants.TICKET_EXPLORER_TABLE_TYPE, POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_BEFORE_DISCOUNT,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_DISCOUNT,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT};
@@ -254,7 +300,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
 
         case 3:
           return ticket.getTicketStatus();
-          
+
         case 4:
           return TicketType.valueOf(ticket.getTicketType()).getValue();
 

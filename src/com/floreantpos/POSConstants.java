@@ -485,6 +485,7 @@ public class POSConstants {
   public static final String TICKET_EXPLORER_TABLE_STATUS_UNKNOWN = Messages.getString("PosMessage.391");
   public static final String TICKET_EXPLORER_TABLE_NON_MEMBERSHIP = Messages.getString("PosMessage.392");
   public static final String TICKET_EXPLORER_TABLE_TYPE = Messages.getString("PosMessage.373");
+  public static final String TICKET_EXPLORER_CTRL_CHECK_DETAIL = Messages.getString("PosMessage.393");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
