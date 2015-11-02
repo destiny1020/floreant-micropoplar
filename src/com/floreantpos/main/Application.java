@@ -179,6 +179,7 @@ public class Application {
     UIManager.put("ToolBar.font", font);
     UIManager.put("ToolTip.font", font);
     UIManager.put("Tree.font", font);
+    UIManager.put("Prompt.font", font);
   }
 
   public void initializeSystem() {

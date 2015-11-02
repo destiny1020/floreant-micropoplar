@@ -66,6 +66,10 @@ import net.miginfocom.swing.MigLayout;
  * @author MShahriar
  */
 public class TicketView extends JPanel implements ActionListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private java.util.Vector<OrderListener> orderListeners = new java.util.Vector<OrderListener>();
   private List<ITicketTypeSelectionListener> ticketTypeListeners = new LinkedList<>();
   private Ticket ticket;
@@ -628,7 +632,7 @@ public class TicketView extends JPanel implements ActionListener {
     tfDiscount.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
 
     // update customer cellphone
-    String cellphone = ticket.getProperty(Ticket.CUSTOMER_PHONE);
+    String cellphone = ticket.getCustomerPhone();
     if (StringUtils.isNotBlank(cellphone)) {
       tfCustomerPhone.setText(cellphone);
     }
@@ -740,7 +744,7 @@ public class TicketView extends JPanel implements ActionListener {
   public void updateTicketUniqIdAndCustomer() {
     setBorder(BorderFactory.createTitledBorder(null, String.format("订单 [ %s ]", ticket.getUniqId()),
         TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
-    tfCustomerPhone.setText(ticket.getProperty(Ticket.CUSTOMER_PHONE));
+    tfCustomerPhone.setText(ticket.getCustomerPhone());
 
     // recalculate the ticket items prices information
     ticket.calculatePrice();

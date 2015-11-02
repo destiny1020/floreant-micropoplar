@@ -6,14 +6,18 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import com.floreantpos.bo.ui.ComboOption;
+import com.floreantpos.bo.ui.explorer.search.TicketSearchDto;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.PaymentType;
@@ -22,6 +26,7 @@ import com.floreantpos.model.Terminal;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.TicketItemModifierGroup;
+import com.floreantpos.model.TicketType;
 import com.floreantpos.model.TransactionType;
 import com.floreantpos.model.User;
 import com.floreantpos.model.VoidTransaction;
@@ -407,9 +412,55 @@ public class TicketDAO extends BaseTicketDAO {
       Criteria criteria = session.createCriteria(getReferenceClass());
       criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, startDate));
       criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, endDate));
-      // criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.TRUE));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
+
+      return criteria.list();
+    } finally {
+      closeSession(session);
+    }
+  }
+
+  public List<Ticket> findTickets(TicketSearchDto searchDto) {
+    Session session = null;
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+
+      String uniqIdOrPhone = searchDto.getUniqIdOrPhone();
+      if (StringUtils.isNotBlank(uniqIdOrPhone)) {
+        criteria
+            .add(Restrictions.or(Restrictions.like(Ticket.PROP_UNIQ_ID, "%" + uniqIdOrPhone + "%"),
+                Restrictions.like(Ticket.PROP_CUSTOMER_PHONE, "%" + uniqIdOrPhone + "%")));
+      }
+
+      if (searchDto.getStartDate() != null) {
+        criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, searchDto.getStartDate()));
+      }
+      if (searchDto.getEndDate() != null) {
+        criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, searchDto.getEndDate()));
+      }
+
+      if (!searchDto.isAllTickets()) {
+        criteria.add(Restrictions.eq(Ticket.PROP_PAID, searchDto.isPaidTickets()));
+        criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, searchDto.isVoidedTickets()));
+        criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, searchDto.isRefundedTickets()));
+      }
+
+      ComboOption ticketType = searchDto.getTicketType();
+      if (ticketType.getValue() != TicketSearchDto.TICKET_TYPE_ALL) {
+        TicketType type = TicketType.fromName(ticketType.getLabel());
+        criteria.add(Restrictions.eq(Ticket.PROP_TICKET_TYPE, type));
+      }
+
+      ComboOption membershipType = searchDto.getMembershipType();
+      if (membershipType.getValue() != TicketSearchDto.MEMBERSHIP_ALL) {
+        if (membershipType.getValue() == TicketSearchDto.MEMBERSHIP_MEMBER) {
+          criteria.add(Restrictions.isNotNull(Ticket.PROP_CUSTOMER));
+        } else if (membershipType.getValue() == TicketSearchDto.MEMBERSHIP_NON_MEMBER) {
+          criteria.add(Restrictions.isNull(Ticket.PROP_CUSTOMER));
+        }
+      }
 
       return criteria.list();
     } finally {
@@ -473,4 +524,5 @@ public class TicketDAO extends BaseTicketDAO {
   public static TicketDAO getInstance() {
     return instance;
   }
+
 }

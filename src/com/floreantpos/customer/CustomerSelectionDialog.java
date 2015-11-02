@@ -36,6 +36,10 @@ import net.miginfocom.swing.MigLayout;
 
 public class CustomerSelectionDialog extends POSDialog {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private PosSmallButton btnCreateNewCustomer;
   private PosSmallButton btnRemoveCustomer;
   private PosSmallButton btnSelect;
@@ -66,8 +70,7 @@ public class CustomerSelectionDialog extends POSDialog {
 
   private void updateStatus() {
     if (ticket != null) {
-      String customerIdString = ticket.getProperty(Ticket.CUSTOMER_ID);
-      if (StringUtils.isEmpty(customerIdString)) {
+      if (ticket.getCustomer() == null) {
         btnRemoveCustomer.setEnabled(false);
       }
     }
@@ -241,18 +244,13 @@ public class CustomerSelectionDialog extends POSDialog {
   }
 
   private void loadCustomerFromTicket() {
-    String customerIdString = ticket.getProperty(Ticket.CUSTOMER_ID);
-    if (StringUtils.isNotEmpty(customerIdString)) {
-      int customerId = Integer.parseInt(customerIdString);
-      Customer customer = CustomerDAO.getInstance().get(customerId);
-
+    Customer customer = ticket.getCustomer();
+    if (customer != null) {
       List<Customer> list = new ArrayList<Customer>();
       list.add(customer);
       customerTable.setModel(new CustomerListTableModel(list));
-    }
 
-    if (ticket != null) {
-      tfCurrentCustomerPhone.setText(ticket.getProperty(Ticket.CUSTOMER_PHONE));
+      tfCurrentCustomerPhone.setText(ticket.getCustomerPhone());
     }
   }
 

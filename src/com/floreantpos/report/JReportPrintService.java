@@ -17,13 +17,13 @@ import org.hibernate.Transaction;
 import com.floreantpos.POSConstants;
 import com.floreantpos.demo.KitchenDisplay;
 import com.floreantpos.main.Application;
+import com.floreantpos.model.Customer;
 import com.floreantpos.model.KitchenTicket;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.RefundTransaction;
 import com.floreantpos.model.Restaurant;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketType;
-import com.floreantpos.model.dao.PosTransactionDAO;
 import com.floreantpos.model.dao.RestaurantDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
@@ -434,10 +434,12 @@ public class JReportPrintService {
     endRow(ticketHeaderBuilder);
 
     // customer info section
-    if (ticket.getType() != TicketType.DINE_IN) {
+    if (ticket.getType() != TicketType.DINE_IN && ticket.getCustomer() != null) {
 
-      String customerName = ticket.getProperty(Ticket.CUSTOMER_NAME);
-      String customerPhone = ticket.getProperty(Ticket.CUSTOMER_PHONE);
+      Customer customer = ticket.getCustomer();
+
+      String customerName = customer.getName();
+      String customerPhone = customer.getTelephoneNo();
 
       if (StringUtils.isNotEmpty(customerName)) {
         beginRow(ticketHeaderBuilder);

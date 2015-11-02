@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseTicket;
 import com.floreantpos.util.NumberUtil;
@@ -63,10 +64,6 @@ public class Ticket extends BaseTicket {
 
   private List deletedItems;
   private boolean priceIncludesTax;
-
-  public static final String CUSTOMER_PHONE = "CUSTOMER_PHONE";
-  public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
-  public static final String CUSTOMER_ID = "CUSTOMER_ID";
 
   // additional properties
   public static final String PAYMENT_TYPE = "PAYMENT_TYPE";
@@ -218,7 +215,7 @@ public class Ticket extends BaseTicket {
 
     // check whether has member information
     boolean hasMemberInfo = false;
-    if (StringUtils.isNotBlank(this.getProperty(Ticket.CUSTOMER_PHONE))) {
+    if (getCustomer() != null) {
       hasMemberInfo = true;
     }
 
@@ -555,18 +552,6 @@ public class Ticket extends BaseTicket {
     return s;
   }
 
-  public void setCustomer(Customer customer) {
-    addProperty(Ticket.CUSTOMER_ID, String.valueOf(customer.getAutoId()));
-    addProperty(Ticket.CUSTOMER_NAME, customer.getName());
-    addProperty(Ticket.CUSTOMER_PHONE, customer.getTelephoneNo());
-  }
-
-  public void removeCustomer() {
-    removeProperty(CUSTOMER_ID);
-    removeProperty(CUSTOMER_NAME);
-    removeProperty(CUSTOMER_PHONE);
-  }
-
   public boolean isPaidBy(PaymentType paymentType) {
     String property = getProperty(PAYMENT_TYPE);
     if (StringUtils.equals(paymentType.name(), property)) {
@@ -574,5 +559,30 @@ public class Ticket extends BaseTicket {
     }
 
     return false;
+  }
+
+  public void removeCustomer() {
+    this.customerPhone = null;
+    setCustomer(null);
+  }
+
+  public String getTicketStatus() {
+    if (voided) {
+      return String.format(POSConstants.TICKET_EXPLORER_TABLE_STATUS_VOIDED, voidReason);
+    }
+
+    if (paid && closed) {
+      return POSConstants.TICKET_EXPLORER_TABLE_STATUS_FINISHED;
+    }
+
+    if (!paid) {
+      return POSConstants.TICKET_EXPLORER_TABLE_STATUS_UNPAID;
+    }
+
+    if (refunded) {
+      return POSConstants.TICKET_EXPLORER_TABLE_STATUS_REFUNDED;
+    }
+
+    return POSConstants.TICKET_EXPLORER_TABLE_STATUS_UNKNOWN;
   }
 }

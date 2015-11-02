@@ -2,6 +2,8 @@ package com.floreantpos.model.base;
 
 import java.io.Serializable;
 
+import com.floreantpos.model.Customer;
+
 
 /**
  * This is an object that contains data related to the TICKET table. Do not modify this class
@@ -50,6 +52,8 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public static String PROP_SERVICE_CHARGE = "serviceCharge";
   public static String PROP_UNIQ_ID = "uniqId";
   public static String PROP_DINE_IN_NUMBER = "dineInNumber";
+  public static String PROP_CUSTOMER = "customer";
+  public static String PROP_CUSTOMER_PHONE = "customerPhone";
 
   // constructors
   public BaseTicket() {
@@ -108,6 +112,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
   protected java.lang.String extraDeliveryInfo;
   protected java.lang.String ticketType;
   protected java.lang.Integer dineInNumber;
+  protected String customerPhone;
 
   // many to one
   private com.floreantpos.model.Shift shift;
@@ -116,6 +121,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
   private com.floreantpos.model.Gratuity gratuity;
   private com.floreantpos.model.User voidedBy;
   private com.floreantpos.model.Terminal terminal;
+  private Customer customer;
 
   // collections
   private java.util.Map<String, String> properties;
@@ -945,6 +951,22 @@ public abstract class BaseTicket implements Comparable, Serializable {
 
   public void setDineInNumber(java.lang.Integer dineInNumber) {
     this.dineInNumber = dineInNumber;
+  }
+
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
+  }
+
+  public String getCustomerPhone() {
+    return customerPhone;
+  }
+
+  public void setCustomerPhone(String customerPhone) {
+    this.customerPhone = customerPhone;
   }
 
 

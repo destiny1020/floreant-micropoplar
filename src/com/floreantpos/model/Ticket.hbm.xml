@@ -41,6 +41,7 @@
 
 		<property name="ticketType" column="TICKET_TYPE" length="20" type="string" />
 		<property column="DINE_IN_NUMBER" name="dineInNumber" type="java.lang.Integer" />
+		<property name="customerPhone" column="CUSTOMER_PHONE" length="20" type="string" />
 
 		<map name="properties" cascade="all" lazy="false">
 			<key column="id" />
@@ -95,6 +96,9 @@
 		</many-to-one>
 		<many-to-one class="com.floreantpos.model.Terminal" cascade="none" lazy="false" name="terminal">
 			<column name="TERMINAL_ID" />
+		</many-to-one>
+		<many-to-one class="com.floreantpos.model.Customer" lazy="false" name="customer">
+			<column name="CUSTOMER_ID" />
 		</many-to-one>
 	</class>
 </hibernate-mapping>

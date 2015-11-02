@@ -476,6 +476,14 @@ public class POSConstants {
   public static final String TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.382");
   public static final String TICKET_EXPLORER_TABLE_OPERATION = Messages.getString("PosMessage.383");
   public static final String TICKET_EXPLORER_TABLE_OPERATION_CHECK_DETAILS = Messages.getString("PosMessage.384");
+  public static final String TICKET_EXPLORER_SEARCH = Messages.getString("PosMessage.385");
+  public static final String TICKET_EXPLORER_SEARCH_PROMPT = Messages.getString("PosMessage.386");
+  public static final String TICKET_EXPLORER_TABLE_STATUS_VOIDED = Messages.getString("PosMessage.387");
+  public static final String TICKET_EXPLORER_TABLE_STATUS_FINISHED = Messages.getString("PosMessage.388");
+  public static final String TICKET_EXPLORER_TABLE_STATUS_UNPAID = Messages.getString("PosMessage.389");
+  public static final String TICKET_EXPLORER_TABLE_STATUS_REFUNDED = Messages.getString("PosMessage.390");
+  public static final String TICKET_EXPLORER_TABLE_STATUS_UNKNOWN = Messages.getString("PosMessage.391");
+  public static final String TICKET_EXPLORER_TABLE_NON_MEMBERSHIP = Messages.getString("PosMessage.392");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");

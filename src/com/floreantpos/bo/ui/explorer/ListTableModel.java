@@ -6,6 +6,10 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public abstract class ListTableModel<E> extends AbstractTableModel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   protected String[] columnNames;
   protected List<E> rows;
 
@@ -66,7 +70,7 @@ public abstract class ListTableModel<E> extends AbstractTableModel {
 
   public void addItem(E data) {
     if (rows == null) {
-      rows = new ArrayList();
+      rows = new ArrayList<E>();
     }
 
     int size = rows.size();

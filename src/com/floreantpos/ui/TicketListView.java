@@ -147,9 +147,9 @@ public class TicketListView extends JPanel {
           return DateUtil.getTicketViewDate(ticket.getCreateDate());
 
         case 3:
-          String customerPhone = ticket.getProperty(Ticket.CUSTOMER_PHONE);
+          String customerPhone = ticket.getCustomerPhone();
 
-          if (customerPhone != null) {
+          if (StringUtils.isNotBlank(customerPhone)) {
             return customerPhone;
           }
 
