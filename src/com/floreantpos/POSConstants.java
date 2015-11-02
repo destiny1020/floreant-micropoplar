@@ -510,6 +510,10 @@ public class POSConstants {
   public static final String TICKET_FORM_MONEY_REFUNDED = Messages.getString("PosMessage.401");
   public static final String TICKET_FORM_MONEY_REFUND_TYPE = Messages.getString("PosMessage.402");
 
+  // Compaign Explorer
+  public static final String COMPAIGN_EXPLORER = Messages.getString("PosMessage.405");
+  public static final String COMPAIGN_EXPLORER_MENU = Messages.getString("PosMessage.406");
+
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
   public static final String UNITNAME_CUP = Messages.getString("UnitName.2");
