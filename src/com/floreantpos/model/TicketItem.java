@@ -264,11 +264,6 @@ public class TicketItem extends BaseTicketItem implements ITicketItem {
     return getTaxAmountWithoutModifiers();
   }
 
-  @Override
-  public Double getTotalAmount() {
-    return getTotalAmountWithoutModifiers();
-  }
-
   public boolean isPriceIncludesTax() {
     return priceIncludesTax;
   }

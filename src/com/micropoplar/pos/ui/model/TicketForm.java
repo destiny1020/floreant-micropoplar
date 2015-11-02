@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.model.Ticket;
@@ -44,6 +45,7 @@ public class TicketForm extends BeanEditor<Ticket> {
   // Details Table / Discounts
   private TransparentPanel pnlDetails;
   private TicketViewerTable ticketItemTable;
+  private JScrollPane ticketItemPane;
   private JLabel lblDiscountDetails;
 
   // Money related
@@ -81,6 +83,7 @@ public class TicketForm extends BeanEditor<Ticket> {
   private void initComponents() {
     setLayout(new BorderLayout());
 
+    // Basics Part
     pnlBasics = new TransparentPanel(
         new MigLayout("", "[grow, left][grow, left][30px][grow, left][grow, left]", "[][][][][]"));
 
@@ -123,6 +126,17 @@ public class TicketForm extends BeanEditor<Ticket> {
     pnlBasics.add(lblMemberPhoneContent, "cell 1 4");
 
     add(pnlBasics, BorderLayout.NORTH);
+
+    // Details / Discount Part
+    pnlDetails = new TransparentPanel(new BorderLayout());
+
+    ticketItemTable = new TicketViewerTable(ticket);
+    ticketItemTable.setRowHeight(25);
+    ticketItemTable.getRenderer().setInTicketScreen(true);
+    ticketItemPane = new JScrollPane(ticketItemTable);
+    pnlDetails.add(ticketItemPane, BorderLayout.NORTH);
+
+    add(pnlDetails, BorderLayout.CENTER);
   }
 
   @Override
