@@ -12,8 +12,13 @@ import com.floreantpos.customer.CustomerExplorer;
 
 public class CustomerExplorerAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public CustomerExplorerAction() {
-    super(com.floreantpos.POSConstants.CUSTOMER_EXPLORER);
+    super(com.floreantpos.POSConstants.CUSTOMER_MENU);
   }
 
   public CustomerExplorerAction(String name) {

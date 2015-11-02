@@ -19,7 +19,7 @@ public class TicketExplorerAction extends AbstractAction {
   private static final long serialVersionUID = 1L;
 
   public TicketExplorerAction() {
-    super(POSConstants.TICKET_EXPLORER);
+    super(POSConstants.TICKET_MENU);
   }
 
   public TicketExplorerAction(String name) {

@@ -124,7 +124,7 @@ public class POSConstants {
   public static final String ITEM = Messages.getString("PosMessage.113");
   public static final String TO = Messages.getString("PosMessage.114");
   public static final String MENU_USAGE_REPORT = Messages.getString("PosMessage.115");
-  public static final String COUPON_DISCOUNT_EXPLORER = Messages.getString("PosMessage.116");
+  public static final String COUPON_EXPLORER = Messages.getString("PosMessage.116");
   public static final String NEW_SHIFT = Messages.getString("PosMessage.117");
   public static final String DISCOUNT_RATE = Messages.getString("PosMessage.118");
   public static final String CLEAR_ALL = Messages.getString("PosMessage.119");
@@ -321,7 +321,7 @@ public class POSConstants {
   public static final String CONFIRM = Messages.getString("PosMessage.297");
   public static final String DAYPART = "DayPart";
   public static final String BY_RANGE_ACTUAL = Messages.getString("PosMessage.299");
-  public static final String COUPONS_AND_DISCOUNTS = Messages.getString("PosMessage.300");
+  public static final String COUPONS = Messages.getString("PosMessage.300");
   public static final String EXTRA_PRICE = Messages.getString("PosMessage.301");
   public static final String AUTO_DRAWER_PULL_EVERY_DAY_AT_ = Messages.getString("PosMessage.302");
   public static final String SELECT_PAY_OUT_RECEPIENT = Messages.getString("PosMessage.303");
@@ -420,6 +420,8 @@ public class POSConstants {
   public static final String OK_AND_SELECT = Messages.getString("PosMessage.366");
   public static final String TICKET_EXPLORER = Messages.getString("PosMessage.367");
   public static final String SALES_REPORT_TYPE = Messages.getString("PosMessage.368");
+  public static final String CUSTOMER_MENU = Messages.getString("PosMessage.403");
+  public static final String TICKET_MENU = Messages.getString("PosMessage.404");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
