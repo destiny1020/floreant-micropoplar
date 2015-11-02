@@ -456,8 +456,8 @@ public class TicketDAO extends BaseTicketDAO {
 
       ComboOption ticketType = searchDto.getTicketType();
       if (ticketType.getValue() != TicketSearchDto.TICKET_TYPE_ALL) {
-        TicketType type = TicketType.fromName(ticketType.getLabel());
-        criteria.add(Restrictions.eq(Ticket.PROP_TICKET_TYPE, type));
+        TicketType type = TicketType.fromDisplayName(ticketType.getLabel());
+        criteria.add(Restrictions.eq(Ticket.PROP_TICKET_TYPE, type.name()));
       }
 
       ComboOption membershipType = searchDto.getMembershipType();

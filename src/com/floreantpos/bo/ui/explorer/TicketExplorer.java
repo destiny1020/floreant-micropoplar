@@ -209,11 +209,11 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
 
     String[] columnNames = {POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, POSConstants.CREATED,
         POSConstants.SETTLE_TIME, POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
+        POSConstants.TICKET_EXPLORER_TABLE_TYPE,
         POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_BEFORE_DISCOUNT,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_DISCOUNT,
-        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT,
-        POSConstants.TICKET_EXPLORER_TABLE_OPERATION};
+        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT};
 
     public int getRowCount() {
       if (tickets == null) {
@@ -254,25 +254,25 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
 
         case 3:
           return ticket.getTicketStatus();
-
+          
         case 4:
+          return TicketType.valueOf(ticket.getTicketType()).getValue();
+
+        case 5:
           if (ticket.getCustomer() != null) {
             return ticket.getCustomerPhone();
           } else {
             return POSConstants.TICKET_EXPLORER_TABLE_NON_MEMBERSHIP;
           }
 
-        case 5:
+        case 6:
           return Double.valueOf(ticket.getSubtotalAmount());
 
-        case 6:
+        case 7:
           return Double.valueOf(ticket.getDiscountAmount());
 
-        case 7:
-          return Double.valueOf(ticket.getTotalAmount());
-
         case 8:
-          return "操作";
+          return Double.valueOf(ticket.getTotalAmount());
       }
       return null;
     }

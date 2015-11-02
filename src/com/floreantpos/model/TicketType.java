@@ -17,7 +17,7 @@ public enum TicketType {
     return name;
   };
 
-  public static TicketType fromName(String name) {
+  public static TicketType fromDisplayName(String name) {
     switch (name) {
       case "堂食":
         return TicketType.DINE_IN;
