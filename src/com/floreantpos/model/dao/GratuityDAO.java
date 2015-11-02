@@ -37,8 +37,8 @@ public class GratuityDAO extends BaseGratuityDAO {
 
       return criteria.list();
     } catch (Exception e) {
-      throw new PosException("An error has occured while retrieving gratuity for "
-          + user.getFirstName() + " " + user.getLastName());
+      throw new PosException(
+          "An error has occured while retrieving gratuity for " + user.getName());
     } finally {
       closeSession(session);
     }
@@ -119,8 +119,8 @@ public class GratuityDAO extends BaseGratuityDAO {
       report.calculateOthers();
       return report;
     } catch (Exception e) {
-      throw new PosException("An error has occured while retrieving gratuity for "
-          + user.getFirstName() + " " + user.getLastName(), e);
+      throw new PosException("An error has occured while retrieving gratuity for " + user.getName(),
+          e);
     } finally {
       closeSession(session);
     }

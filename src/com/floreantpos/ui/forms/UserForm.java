@@ -9,12 +9,9 @@ package com.floreantpos.ui.forms;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import org.apache.commons.lang3.StringUtils;
-
-import net.miginfocom.swing.MigLayout;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
@@ -23,12 +20,13 @@ import com.floreantpos.model.UserType;
 import com.floreantpos.model.dao.UserDAO;
 import com.floreantpos.model.dao.UserTypeDAO;
 import com.floreantpos.model.util.IllegalModelStateException;
-import com.floreantpos.swing.DoubleTextField;
 import com.floreantpos.swing.FixedLengthDocument;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.POSUtil;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * 
@@ -57,12 +55,12 @@ public class UserForm extends BeanEditor {
   // <editor-fold defaultstate="collapsed" desc="Generated
   // Code">//GEN-BEGIN:initComponents
   private void initComponents() {
-    jLabel1 = new javax.swing.JLabel();
+    lblUserId = new javax.swing.JLabel();
     // jLabel2 = new javax.swing.JLabel();
-    jLabel3 = new javax.swing.JLabel();
+    lblUsername = new javax.swing.JLabel();
     jLabel4 = new javax.swing.JLabel();
-    jLabel9 = new javax.swing.JLabel();
-    jLabel10 = new javax.swing.JLabel();
+    lblPassword = new javax.swing.JLabel();
+    lblPasswordConfirm = new javax.swing.JLabel();
     tfPassword1 = new javax.swing.JPasswordField(new FixedLengthDocument(4), "", 10);
     tfPassword1.setColumns(16);
     tfPassword2 = new javax.swing.JPasswordField(new FixedLengthDocument(4), "", 10);
@@ -71,75 +69,62 @@ public class UserForm extends BeanEditor {
     // tfSsn = new FixedLengthTextField();
     // tfSsn.setLength(30);
     // tfSsn.setColumns(30);
-    tfFirstName = new FixedLengthTextField();
-    tfFirstName.setColumns(30);
-    tfFirstName.setLength(30);
-    tfLastName = new FixedLengthTextField();
-    tfLastName.setLength(30);
-    tfLastName.setColumns(30);
+    tfName = new FixedLengthTextField();
+    tfName.setColumns(30);
+    tfName.setLength(30);
     // jLabel5 = new javax.swing.JLabel();
     // tfCostPerHour = new DoubleTextField();
-    jLabel6 = new javax.swing.JLabel();
+    lblUserType = new javax.swing.JLabel();
     cbUserType = new javax.swing.JComboBox();
-    setLayout(new MigLayout("", "[134px][204px,grow]",
-        "[19px][][19px][19px][19px][19px][19px][19px][24px][]"));
+    setLayout(
+        new MigLayout("", "[134px][204px,grow]", "[19px][][19px][19px][19px][19px][19px][24px][]"));
 
-    jLabel1.setText(POSConstants.USER_ID + POSConstants.COLON);
-    add(jLabel1, "cell 0 0,alignx trailing,aligny center");
+    lblUserId.setText(POSConstants.USER_ID + POSConstants.COLON);
+    add(lblUserId, "cell 0 0,alignx trailing,aligny center");
     add(tfId, "cell 1 0,growx,aligny center");
 
     lblUserIdFormat = new JLabel(POSConstants.USER_ID_FORMAT);
     add(lblUserIdFormat, "cell 1 1,alignx leading,aligny center");
 
-    jLabel9.setText(POSConstants.ENTER_YOUR_PASSWORD);
-    add(jLabel9, "cell 0 2,alignx trailing,aligny center");
+    lblPassword.setText(POSConstants.ENTER_YOUR_PASSWORD);
+    add(lblPassword, "cell 0 2,alignx trailing,aligny center");
     add(tfPassword1, "cell 1 2,growx,aligny center");
 
-    jLabel10.setText(POSConstants.USER_PASS_CONFIRM + POSConstants.COLON);
-    add(jLabel10, "cell 0 3,alignx trailing,aligny center");
+    lblPasswordConfirm.setText(POSConstants.USER_PASS_CONFIRM + POSConstants.COLON);
+    add(lblPasswordConfirm, "cell 0 3,alignx trailing,aligny center");
     add(tfPassword2, "cell 1 3,growx,aligny center");
 
     lblPasswordFormat = new JLabel(POSConstants.USER_PASS_FORMAT);
     add(lblPasswordFormat, "cell 1 4,alignx leading,aligny center");
 
-    jLabel4.setText("姓氏");
-    add(jLabel4, "cell 0 5,alignx trailing,aligny center");
-    add(tfLastName, "cell 1 5,growx,aligny center");
+    lblUsername.setText(POSConstants.USER_NAME + POSConstants.COLON);
+    add(lblUsername, "cell 0 5,alignx trailing,aligny center");
+    add(tfName, "cell 1 5,growx,aligny center");
 
-    jLabel3.setText("名字");
-    add(jLabel3, "cell 0 6,alignx trailing,aligny center");
-    add(tfFirstName, "cell 1 6,growx,aligny center");
-
-    jLabel6.setText(POSConstants.USER_TYPE);
-    add(jLabel6, "cell 0 7,alignx trailing,aligny center");
+    lblUserType.setText(POSConstants.USER_TYPE + POSConstants.COLON);
+    add(lblUserType, "cell 0 6,alignx trailing,aligny center");
     cbUserType.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"经理", "收银员", "服务员"}));
-    add(cbUserType, "cell 1 7,growx,aligny center");
+    add(cbUserType, "cell 1 6,growx,aligny center");
 
     lblPhone = new JLabel(POSConstants.TELEPHONE + POSConstants.COLON);
-    add(lblPhone, "cell 0 8,alignx trailing");
+    add(lblPhone, "cell 0 7,alignx trailing");
     tfPhone = new FixedLengthTextField();
     tfPhone.setLength(11);
     tfPhone.setColumns(20);
-    add(tfPhone, "cell 1 8,growx");
+    add(tfPhone, "cell 1 7,growx");
   }// </editor-fold>//GEN-END:initComponents
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JComboBox cbUserType;
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel10;
+  private javax.swing.JLabel lblUserId;
+  private javax.swing.JLabel lblPasswordConfirm;
 
-  // private javax.swing.JLabel jLabel2;
-  // private FixedLengthTextField tfSsn;
-  // private javax.swing.JLabel jLabel5;
-  // private DoubleTextField tfCostPerHour;
-
-  private javax.swing.JLabel jLabel3;
+  private javax.swing.JLabel lblUsername;
   private javax.swing.JLabel jLabel4;
-  private javax.swing.JLabel jLabel6;
-  private javax.swing.JLabel jLabel9;
-  private FixedLengthTextField tfFirstName;
+  private javax.swing.JLabel lblUserType;
+  private javax.swing.JLabel lblPassword;
+  private FixedLengthTextField tfName;
   private FixedLengthTextField tfId;
-  private FixedLengthTextField tfLastName;
   private javax.swing.JPasswordField tfPassword1;
   private javax.swing.JPasswordField tfPassword2;
 
@@ -205,8 +190,7 @@ public class UserForm extends BeanEditor {
     }
 
     String id = tfId.getText();
-    String firstName = tfFirstName.getText();
-    String lastName = tfLastName.getText();
+    String username = tfName.getText();
     String secretKey1 = new String(tfPassword1.getPassword());
     String secretKey2 = new String(tfPassword2.getPassword());
 
@@ -233,11 +217,8 @@ public class UserForm extends BeanEditor {
       throw new IllegalModelStateException("两次输入的密码不一致");
     }
 
-    if (POSUtil.isBlankOrNull(lastName)) {
-      throw new IllegalModelStateException("姓氏不能为空");
-    }
-    if (POSUtil.isBlankOrNull(firstName)) {
-      throw new IllegalModelStateException("名字不能为空");
+    if (POSUtil.isBlankOrNull(username)) {
+      throw new IllegalModelStateException(POSConstants.ERROR_USER_FORM_EMPTY_NAME);
     }
 
     // TODO: to add user id when login
@@ -250,8 +231,7 @@ public class UserForm extends BeanEditor {
     user.setType((UserType) cbUserType.getSelectedItem());
 
     user.setUserId(id);
-    user.setFirstName(firstName);
-    user.setLastName(lastName);
+    user.setName(username);
     user.setPhoneNo(tfPhone.getText());
     user.setPassword(secretKey1);
 
@@ -274,8 +254,7 @@ public class UserForm extends BeanEditor {
     } else {
       tfId.setText("");
     }
-    tfFirstName.setText(data.getFirstName());
-    tfLastName.setText(data.getLastName());
+    tfName.setText(data.getName());
     tfPassword1.setText(data.getPassword());
     tfPassword2.setText(data.getPassword());
     tfPhone.setText(data.getPhoneNo());

@@ -62,7 +62,7 @@ public class MenuItemDialog extends POSDialog {
     super(parent, true);
     this.menuItemSet = menuItemSet;
 
-    this.setMinimumSize(new Dimension(1024, 768));
+    this.setMinimumSize(new Dimension(1000, 720));
     setTitle(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_DLG);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 

@@ -183,8 +183,7 @@ public class GratuityViewer2 extends TransparentPanel implements ActionListener 
   private class GratuityTableModel extends ListTableModel {
 
     public GratuityTableModel(List<Gratuity> gratuities) {
-      super(new String[] {com.floreantpos.POSConstants.FIRST_NAME,
-          com.floreantpos.POSConstants.LAST_NAME, com.floreantpos.POSConstants.TICKET_ID,
+      super(new String[] {POSConstants.USER_NAME, com.floreantpos.POSConstants.TICKET_ID,
           com.floreantpos.POSConstants.AMOUNT}, gratuities);
     }
 
@@ -193,15 +192,12 @@ public class GratuityViewer2 extends TransparentPanel implements ActionListener 
 
       switch (columnIndex) {
         case 0:
-          return gratuity.getOwner().getFirstName();
+          return gratuity.getOwner().getName();
 
         case 1:
-          return gratuity.getOwner().getLastName();
-
-        case 2:
           return gratuity.getTicket().getId();
 
-        case 3:
+        case 2:
           return NumberUtil.formatNumber(gratuity.getAmount());
       }
       return null;
@@ -218,7 +214,7 @@ public class GratuityViewer2 extends TransparentPanel implements ActionListener 
       totalGratuity += gratuity.getAmount();
     }
     lblUserId.setText(String.valueOf(user.getUserId()));
-    lblUserName.setText(user.getFirstName() + " " + user.getLastName()); //$NON-NLS-1$
+    lblUserName.setText(user.getName());
     lblTotalGratuity.setText(NumberUtil.formatNumber(totalGratuity));
     gratuityTableModel.setRows(gratuities);
 

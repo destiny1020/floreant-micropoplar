@@ -116,7 +116,7 @@ public class TransactionListView extends JPanel {
           return transaction.getTicket().getId();
 
         case 2:
-          return transaction.getTicket().getOwner().getFirstName();
+          return transaction.getTicket().getOwner().getName();
 
         case 3:
           return transaction.getCardType();

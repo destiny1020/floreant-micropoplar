@@ -2,8 +2,9 @@ package com.floreantpos.model.dao;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
-import com.floreantpos.model.dao.UserDAO;
 import org.hibernate.criterion.Order;
+
+import com.floreantpos.model.User;
 
 /**
  * This is an automatically generated DAO class which should not be edited.
@@ -29,7 +30,7 @@ public abstract class BaseUserDAO extends com.floreantpos.model.dao._RootDAO {
   }
 
   public Order getDefaultOrder() {
-    return Order.asc("lastName");
+    return Order.asc(User.PROP_USER_NAME);
   }
 
   /**

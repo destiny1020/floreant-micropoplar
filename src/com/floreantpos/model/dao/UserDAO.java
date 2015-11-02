@@ -229,39 +229,6 @@ public class UserDAO extends BaseUserDAO {
 
   }
 
-  // public User findByPassword(String password) throws PosException {
-  // Session session = null;
-  // Transaction tx = null;
-  //
-  // String hql = "from User u where u.password=:password";
-  //
-  // try {
-  // session = getSession();
-  // tx = session.beginTransaction();
-  // Query query = session.createQuery(hql);
-  // query = query.setParameter("password", password);
-  // User user = (User) query.uniqueResult();
-  // tx.commit();
-  // if(user == null) {
-  // throw new PosException("User not found");
-  // }
-  // return user;
-  // } catch(PosException x) {
-  // throw x;
-  // } catch (Exception e) {
-  // try {
-  // if(tx != null) {
-  // tx.rollback();
-  // }
-  // }catch(Exception e2) {}
-  // throw new PosException("Unnable to find user", e);
-  // } finally {
-  // if(session != null) {
-  // session.close();
-  // }
-  // }
-  // }
-
   public int findNumberOfOpenTickets(User user) throws PosException {
     Session session = null;
     Transaction tx = null;

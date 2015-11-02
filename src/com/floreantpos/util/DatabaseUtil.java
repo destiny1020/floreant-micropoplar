@@ -125,8 +125,7 @@ public class DatabaseUtil {
       u.setUserId("123");
       u.setSsn("123");
       u.setPassword("1111");
-      // u.setFirstName("Administrator");
-      u.setLastName("Administrator");
+      u.setName("Administrator");
       u.setType(type);
 
       UserDAO dao = new UserDAO();

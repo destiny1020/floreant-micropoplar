@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 
@@ -18,14 +17,13 @@ public abstract class BaseUser implements Comparable, Serializable {
   public static String PROP_TYPE = "type";
   public static String PROP_PASSWORD = "password";
   public static String PROP_USER_ID = "userId";
-  public static String PROP_LAST_NAME = "lastName";
+  public static String PROP_USER_NAME = "name";
   public static String PROP_SSN = "ssn";
   public static String PROP_PHONE_NO = "phoneNo";
   public static String PROP_DRIVER = "driver";
   public static String PROP_CURRENT_TERMINAL = "currentTerminal";
   public static String PROP_AVAILABLE_FOR_DELIVERY = "availableForDelivery";
   public static String PROP_AUTO_ID = "autoId";
-  public static String PROP_FIRST_NAME = "firstName";
   public static String PROP_COST_PER_HOUR = "costPerHour";
   public static String PROP_CLOCKED_IN = "clockedIn";
   public static String PROP_CURRENT_SHIFT = "currentShift";
@@ -68,8 +66,7 @@ public abstract class BaseUser implements Comparable, Serializable {
   // fields
   protected java.lang.String userId;
   protected java.lang.String password;
-  protected java.lang.String firstName;
-  protected java.lang.String lastName;
+  protected java.lang.String name;
   protected java.lang.String ssn;
   protected java.lang.Double costPerHour;
   protected java.lang.Boolean clockedIn;
@@ -157,44 +154,6 @@ public abstract class BaseUser implements Comparable, Serializable {
   public void setPassword(java.lang.String password) {
     this.password = password;
   }
-
-
-
-  /**
-   * Return the value associated with the column: FIRST_NAME
-   */
-  public java.lang.String getFirstName() {
-    return firstName;
-  }
-
-  /**
-   * Set the value related to the column: FIRST_NAME
-   * 
-   * @param firstName the FIRST_NAME value
-   */
-  public void setFirstName(java.lang.String firstName) {
-    this.firstName = firstName;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: LAST_NAME
-   */
-  public java.lang.String getLastName() {
-    return lastName;
-  }
-
-  /**
-   * Set the value related to the column: LAST_NAME
-   * 
-   * @param lastName the LAST_NAME value
-   */
-  public void setLastName(java.lang.String lastName) {
-    this.lastName = lastName;
-  }
-
-
 
   /**
    * Return the value associated with the column: SSN
@@ -413,6 +372,14 @@ public abstract class BaseUser implements Comparable, Serializable {
 
   public String toString() {
     return super.toString();
+  }
+
+  public java.lang.String getName() {
+    return name;
+  }
+
+  public void setName(java.lang.String name) {
+    this.name = name;
   }
 
 

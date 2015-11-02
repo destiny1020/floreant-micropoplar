@@ -22,7 +22,7 @@ public class PayrollReportModel extends ListTableModel {
         return String.valueOf(data.getUser().getUserId());
 
       case 1:
-        return data.getUser().getFirstName() + " " + data.getUser().getLastName();
+        return data.getUser().getName();
 
       case 2:
         return dateFormat2.format(data.getFrom());

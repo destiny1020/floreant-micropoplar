@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
 
 import com.floreantpos.main.Application;
@@ -80,17 +79,7 @@ public class User extends BaseUser {
 
   @Override
   public String toString() {
-    String lastName = getLastName();
-    String firstName = getFirstName();
-
-    if (StringUtils.isBlank(lastName)) {
-      lastName = "";
-    }
-    if (StringUtils.isBlank(firstName)) {
-      firstName = "";
-    }
-
-    return lastName + " " + firstName;
+    return name;
   }
 
   public boolean isManager() {

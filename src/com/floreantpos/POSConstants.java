@@ -577,6 +577,9 @@ public class POSConstants {
   public static final String ERROR_INVALID_TICKET_TYPE = Messages.getString("ERROR_INVALID_TICKET_TYPE");
   public static final String ERROR_DINE_IN_NUMBER = Messages.getString("ERROR_DINE_IN_NUMBER");
 
+  // USER FORM
+  public static final String ERROR_USER_FORM_EMPTY_NAME = Messages.getString("ERROR_USER_FORM_EMPTY_NAME");
+
   /**
    * Customer Window constants below
    */

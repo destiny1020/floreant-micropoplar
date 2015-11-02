@@ -2,23 +2,15 @@ package com.floreantpos.ui.views.payment;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
-import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonNumber;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.swing.JOptionPane;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
@@ -28,18 +20,14 @@ import com.floreantpos.main.Application;
 import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
 import com.floreantpos.model.CouponAndDiscount;
-import com.floreantpos.model.CreditCardTransaction;
 import com.floreantpos.model.GiftCertificateTransaction;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.MerchantGateway;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
-import com.floreantpos.model.Restaurant;
 import com.floreantpos.model.TakeoutTransaction;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketCouponAndDiscount;
-import com.floreantpos.model.TicketType;
-import com.floreantpos.model.TransactionType;
 import com.floreantpos.model.UnionPayTransaction;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.dao.TicketDAO;
@@ -57,7 +45,6 @@ import com.floreantpos.ui.views.customer.AdvertisementView;
 import com.floreantpos.ui.views.customer.MultipleUsageView;
 import com.floreantpos.ui.views.order.CustomerRootView;
 import com.floreantpos.ui.views.order.OrderController;
-import com.floreantpos.util.POSUtil;
 import com.micropoplar.pos.payment.PaymentResult;
 import com.micropoplar.pos.payment.PreorderBusiness;
 import com.micropoplar.pos.payment.QueryBusiness;
@@ -66,6 +53,11 @@ import com.micropoplar.pos.payment.config.WeChatConfig;
 import com.micropoplar.pos.ui.dialog.TakeoutPlatformConfirmDialog;
 
 public class SettleTicketDialog extends POSDialog implements CardInputListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public static final String LOYALTY_DISCOUNT_PERCENTAGE = "loyalty_discount_percentage";
   public static final String LOYALTY_POINT = "loyalty_point";
   public static final String LOYALTY_COUPON = "loyalty_coupon";
@@ -453,8 +445,6 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
     try {
       final double dueAmount = ticket.getDueAmount();
 
-      confirmLoyaltyDiscount(ticket);
-
       PosTransactionService transactionService = PosTransactionService.getInstance();
       transactionService.settleTicket(ticket, transaction);
 
@@ -512,19 +502,6 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
     dialog.updateView();
     dialog.pack();
     dialog.open();
-  }
-
-  public void confirmLoyaltyDiscount(Ticket ticket) throws IOException, MalformedURLException {
-    try {
-      if (ticket.hasProperty(LOYALTY_ID)) {
-        String url = buildLoyaltyApiURL(ticket, ticket.getProperty(LOYALTY_ID));
-        url += "&paid=1";
-
-        IOUtils.toString(new URL(url).openStream());
-      }
-    } catch (Exception e) {
-      POSMessageDialog.showError(e.getMessage(), e);
-    }
   }
 
   private void printTicket(Ticket ticket, PosTransaction transaction) {
@@ -794,67 +771,7 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
     return false;
   }
 
-  public void submitMyKalaDiscount() {
-    if (ticket.hasProperty(LOYALTY_ID)) {
-      POSMessageDialog.showError("Loyalty discount already added.");
-      return;
-    }
-
-    try {
-      String loyaltyid = JOptionPane.showInputDialog("Enter loyalty id:");
-
-      if (StringUtils.isEmpty(loyaltyid)) {
-        return;
-      }
-
-      ticket.addProperty(LOYALTY_ID, loyaltyid);
-
-      String transactionURL = buildLoyaltyApiURL(ticket, loyaltyid);
-
-      String string = IOUtils.toString(new URL(transactionURL).openStream());
-
-      JsonReader reader = Json.createReader(new StringReader(string));
-      JsonObject object = reader.readObject();
-      JsonArray jsonArray = (JsonArray) object.get("discounts");
-      for (int i = 0; i < jsonArray.size(); i++) {
-        JsonObject jsonObject = (JsonObject) jsonArray.get(i);
-        addCoupon(ticket, jsonObject);
-      }
-
-      updateModel();
-
-      OrderController.saveOrder(ticket);
-
-      POSMessageDialog.showMessage(
-          "Congrations! you have discounts from Kala Loyalty Check discounts list for more.");
-
-      ticketDetailView.updateView();
-      paymentView.updateView();
-
-      // if (string.contains("\"success\":false")) {
-      // POSMessageDialog.showError("Coupon already used.");
-      // }
-    } catch (Exception e) {
-      POSMessageDialog.showError("Error setting My Kala discount.", e);
-    }
-  }
-
-  public String buildLoyaltyApiURL(Ticket ticket, String loyaltyid) {
-    Restaurant restaurant = Application.getInstance().getRestaurant();
-
-    String transactionURL = "http://cloud.floreantpos.org/tri2/kala_api?";
-    transactionURL += "kala_id=" + loyaltyid;
-    transactionURL += "&store_id=" + restaurant.getUniqueId();
-    transactionURL += "&store_name=" + POSUtil.encodeURLString(restaurant.getName());
-    transactionURL += "&store_zip=" + restaurant.getZipCode();
-    transactionURL += "&terminal=" + ticket.getTerminal().getId();
-    transactionURL += "&server=" + POSUtil
-        .encodeURLString(ticket.getOwner().getFirstName() + " " + ticket.getOwner().getLastName());
-    transactionURL += "&" + ticket.toURLForm();
-
-    return transactionURL;
-  }
-
+  @SuppressWarnings("unused")
   private void addCoupon(Ticket ticket, JsonObject jsonObject) {
     Set<String> keys = jsonObject.keySet();
     for (String key : keys) {
