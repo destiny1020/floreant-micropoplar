@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import javax.swing.FocusManager;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.floreantpos.config.UIConfig;
 
 public class TextFieldWithPrompt extends JTextField {
@@ -24,8 +26,10 @@ public class TextFieldWithPrompt extends JTextField {
   protected void paintComponent(java.awt.Graphics g) {
     super.paintComponent(g);
 
-    if (getText().isEmpty()
+    if (StringUtils.isBlank(getText())
         && !(FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)) {
+      setText("");
+
       Graphics2D g2 = (Graphics2D) g.create();
       g2.setBackground(Color.GRAY);
       g2.setColor(Color.GRAY);

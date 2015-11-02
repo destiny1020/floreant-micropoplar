@@ -434,32 +434,6 @@ public class Ticket extends BaseTicket {
     return false;
   }
 
-  // public double calculateDefaultGratutity() {
-  // if (!DINE_IN.equals(getTicketType())) {
-  // return 0;
-  // }
-  //
-  // Restaurant restaurant = Application.getInstance().getRestaurant();
-  // double defaultGratuityPercentage =
-  // restaurant.getDefaultGratuityPercentage();
-  //
-  // if (defaultGratuityPercentage <= 0) {
-  // return 0;
-  // }
-  //
-  // Gratuity gratuity = new Gratuity();
-  // double tip = getDueAmount() * (defaultGratuityPercentage / 100.0);
-  // gratuity.setAmount(tip);
-  // gratuity.setOwner(getOwner());
-  // gratuity.setPaid(false);
-  // gratuity.setTicket(this);
-  // gratuity.setTerminal(getTerminal());
-  //
-  // setGratuity(gratuity);
-  //
-  // return tip;
-  // }
-
   public TicketType getType() {
     String type = getTicketType();
 

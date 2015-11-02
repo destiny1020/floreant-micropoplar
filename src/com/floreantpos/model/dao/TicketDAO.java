@@ -361,50 +361,6 @@ public class TicketDAO extends BaseTicketDAO {
     }
   }
 
-  // public void saveTransaction(Ticket ticket, com.floreantpos.model.PosTransaction transaction,
-  // Terminal terminal, User user) throws Exception {
-  // Session session = null;
-  // Transaction tx = null;
-  // try {
-  // if(transaction instanceof CashTransaction) {
-  // terminal.setCurrentBalance(terminal.getCurrentBalance() + ticket.getTotalPrice());
-  // }
-  //
-  // ticket.setVoided(false);
-  // ticket.setPaid(true);
-  // ticket.setClosed(true);
-  // ticket.setDrawerResetted(false);
-  // ticket.setClosingDate(new Date());
-  // ticket.setTerminal(terminal);
-  //
-  // transaction.setTicket(ticket);
-  // transaction.setAmount(ticket.getSubTotal());
-  // transaction.setTaxAmount(ticket.getTotalTax());
-  // transaction.setAppliedDiscount(ticket.getTotalDiscount());
-  // transaction.setTerminal(terminal);
-  // transaction.setUser(user);
-  // transaction.setTransactionTime(new Date());
-  //
-  // session = createNewSession();
-  // tx = session.beginTransaction();
-  //
-  // saveOrUpdate(ticket, session);
-  // saveOrUpdate(transaction, session);
-  // saveOrUpdate(terminal, session);
-  //
-  // tx.commit();
-  //
-  // } catch (Exception e) {
-  // try {
-  // tx.rollback();
-  // }catch (Exception x) {}
-  //
-  // throw e;
-  // } finally {
-  // closeSession(session);
-  // }
-  // }
-
   public List<Ticket> findTickets(Date startDate, Date endDate) {
     Session session = null;
     try {
