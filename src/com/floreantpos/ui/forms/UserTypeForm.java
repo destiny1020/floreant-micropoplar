@@ -1,9 +1,3 @@
-/*
- * UserTypeForm.java
- *
- * Created on April 20, 2008, 1:20 AM
- */
-
 package com.floreantpos.ui.forms;
 
 import java.util.Set;
@@ -13,6 +7,7 @@ import org.gjt.sp.jedit.gui.CheckBoxListModel;
 import org.gjt.sp.jedit.gui.JCheckBoxList;
 import org.gjt.sp.jedit.gui.JCheckBoxList.Entry;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
 import com.floreantpos.model.dao.UserTypeDAO;
@@ -20,11 +15,12 @@ import com.floreantpos.model.util.IllegalModelStateException;
 import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
-/**
- *
- * @author rodaya
- */
-public class UserTypeForm extends BeanEditor {
+public class UserTypeForm extends BeanEditor<UserType> {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private UserType userType;
 
   /** Creates new form UserTypeForm */
@@ -53,9 +49,9 @@ public class UserTypeForm extends BeanEditor {
     jScrollPane1 = new javax.swing.JScrollPane();
     listPermissions = new JCheckBoxList();
 
-    jLabel1.setText(com.floreantpos.POSConstants.TYPE_NAME + ":");
+    jLabel1.setText(com.floreantpos.POSConstants.TYPE_NAME + POSConstants.COLON);
 
-    jLabel2.setText(com.floreantpos.POSConstants.PERMISSIONS + ":");
+    jLabel2.setText(com.floreantpos.POSConstants.PERMISSIONS + POSConstants.COLON);
 
     jScrollPane1.setViewportView(listPermissions);
 

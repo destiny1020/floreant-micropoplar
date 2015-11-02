@@ -777,7 +777,6 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
         btnBackOffice.setEnabled(false);
         btnEditTicket.setEnabled(false);
         btnGroupSettle.setEnabled(false);
-        //        btnManager.setEnabled(false);
         btnPayout.setEnabled(false);
         btnReopenTicket.setEnabled(false);
         btnSettleTicket.setEnabled(false);
@@ -795,11 +794,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
             btnGroupSettle.setEnabled(true);
           } else if (permission.equals(UserPermission.REOPEN_TICKET)) {
             btnReopenTicket.setEnabled(true);
-            //          } else if (permission.equals(UserPermission.PERFORM_MANAGER_TASK)) {
-            //            btnManager.setEnabled(true);
-          } else if (permission.equals(UserPermission.SPLIT_TICKET)) {
-            btnSplitTicket.setEnabled(true);
-          } else if (permission.equals(UserPermission.TAKE_OUT)) {
+          } else if (permission.equals(UserPermission.CREATE_TICKET)) {
             btnTakeout.setEnabled(true);
           } else if (permission.equals(UserPermission.VIEW_BACK_OFFICE)) {
             btnBackOffice.setEnabled(true);

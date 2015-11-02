@@ -3,6 +3,8 @@ package com.floreantpos.bo.ui.explorer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,6 +23,11 @@ import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.forms.UserTypeForm;
 
 public class UserTypeExplorer extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private List<UserType> typeList;
 
   private JTable table;
@@ -57,7 +64,7 @@ public class UserTypeExplorer extends TransparentPanel {
 
     });
 
-    JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
+    final JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
     editButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
@@ -80,8 +87,16 @@ public class UserTypeExplorer extends TransparentPanel {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
       }
-
     });
+    table.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent evt) {
+        if (evt.getClickCount() == 2) {
+          editButton.doClick();
+        }
+      }
+    });
+
     JButton deleteButton = new JButton(com.floreantpos.POSConstants.DELETE);
     deleteButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -113,6 +128,11 @@ public class UserTypeExplorer extends TransparentPanel {
   }
 
   class UserTypeExplorerTableModel extends AbstractTableModel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     String[] columnNames =
         {com.floreantpos.POSConstants.TYPE_NAME, com.floreantpos.POSConstants.PERMISSIONS};
 

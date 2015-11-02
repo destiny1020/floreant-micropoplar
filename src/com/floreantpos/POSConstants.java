@@ -584,4 +584,20 @@ public class POSConstants {
    * Customer Window constants below
    */
   public static final String CUSTOMER_WINDOW_STATUS = Messages.getString("CUSTOMER_WINDOW_STATUS");
+
+  // USER PERMISSIONS
+  public static final String USER_PERM_CREATE_NEW_TICKET = Messages.getString("USER_PERM_CREATE_NEW_TICKET");
+  public static final String USER_PERM_VIEW_ALL_OPEN_TICKETS = Messages.getString("USER_PERM_VIEW_ALL_OPEN_TICKETS");
+  public static final String USER_PERM_EDIT_TICKET = Messages.getString("USER_PERM_EDIT_TICKET");
+  public static final String USER_PERM_VOID_TICKET = Messages.getString("USER_PERM_VOID_TICKET");
+  public static final String USER_PERM_VIEW_BACK_OFFICE = Messages.getString("USER_PERM_VIEW_BACK_OFFICE");
+  public static final String USER_PERM_SETTLE_TICKET = Messages.getString("USER_PERM_SETTLE_TICKET");
+  public static final String USER_PERM_REOPEN_TICKET = Messages.getString("USER_PERM_REOPEN_TICKET");
+  public static final String USER_PERM_PAY_OUT = Messages.getString("USER_PERM_PAY_OUT");
+  public static final String USER_PERM_SHUT_DOWN = Messages.getString("USER_PERM_SHUT_DOWN");
+  public static final String USER_PERM_ADD_DISCOUNT = Messages.getString("USER_PERM_ADD_DISCOUNT");
+  public static final String USER_PERM_REFUND = Messages.getString("USER_PERM_REFUND");
+  public static final String USER_PERM_VIEW_ADMINISTRATIVE_TASK = Messages.getString("USER_PERM_VIEW_ADMINISTRATIVE_TASK");
+  public static final String USER_PERM_VIEW_EXPLORERS = Messages.getString("USER_PERM_VIEW_EXPLORERS");
+  public static final String USER_PERM_VIEW_REPORTS = Messages.getString("USER_PERM_VIEW_REPORTS");
 }

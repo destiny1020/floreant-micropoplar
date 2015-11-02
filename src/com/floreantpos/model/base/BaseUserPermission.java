@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 
@@ -11,11 +10,16 @@ import java.io.Serializable;
  * @hibernate.class table="USER_PERMISSION"
  */
 
-public abstract class BaseUserPermission implements Comparable, Serializable {
+public abstract class BaseUserPermission implements Comparable<BaseUserPermission>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "UserPermission";
   public static String PROP_NAME = "name";
-
+  public static String PROP_VALUE = "value";
 
   // constructors
   public BaseUserPermission() {
@@ -25,7 +29,8 @@ public abstract class BaseUserPermission implements Comparable, Serializable {
   /**
    * Constructor for primary key
    */
-  public BaseUserPermission(java.lang.String name) {
+  public BaseUserPermission(int value, java.lang.String name) {
+    this.value = value;
     this.setName(name);
     initialize();
   }
@@ -37,8 +42,8 @@ public abstract class BaseUserPermission implements Comparable, Serializable {
   private int hashCode = Integer.MIN_VALUE;
 
   // primary key
+  private Integer value;
   private java.lang.String name;
-
 
 
   /**
@@ -70,10 +75,10 @@ public abstract class BaseUserPermission implements Comparable, Serializable {
     else {
       com.floreantpos.model.UserPermission userPermission =
           (com.floreantpos.model.UserPermission) obj;
-      if (null == this.getName() || null == userPermission.getName())
+      if (null == this.getValue() || null == userPermission.getValue())
         return false;
       else
-        return (this.getName().equals(userPermission.getName()));
+        return (this.getValue().equals(userPermission.getValue()));
     }
   }
 
@@ -89,7 +94,7 @@ public abstract class BaseUserPermission implements Comparable, Serializable {
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  public int compareTo(BaseUserPermission obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())
@@ -102,5 +107,12 @@ public abstract class BaseUserPermission implements Comparable, Serializable {
     return super.toString();
   }
 
+  public Integer getValue() {
+    return value;
+  }
+
+  public void setValue(Integer value) {
+    this.value = value;
+  }
 
 }

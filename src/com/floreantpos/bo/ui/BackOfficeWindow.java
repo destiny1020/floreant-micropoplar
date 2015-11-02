@@ -129,7 +129,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
       createExplorerMenu(menuBar);
       createReportMenu(menuBar);
     } else {
-      if (permissions != null && permissions.contains(UserPermission.PERFORM_ADMINISTRATIVE_TASK)) {
+      if (permissions != null && permissions.contains(UserPermission.VIEW_ADMINISTRATIVE_TASK)) {
         createAdminMenu(menuBar);
       }
       if (permissions != null && permissions.contains(UserPermission.VIEW_EXPLORERS)) {

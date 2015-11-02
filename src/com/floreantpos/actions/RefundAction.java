@@ -21,7 +21,7 @@ public class RefundAction extends PosAction {
   private ITicketList ticketList;
 
   public RefundAction(ITicketList ticketList) {
-    super("REFUND", UserPermission.REFUND);
+    super("REFUND", UserPermission.REFUND_TICKET);
 
     this.ticketList = ticketList;
   }

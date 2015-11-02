@@ -82,11 +82,7 @@ public class User extends BaseUser {
     return name;
   }
 
-  public boolean isManager() {
-    return hasPermission(UserPermission.PERFORM_MANAGER_TASK);
-  }
-
   public boolean isAdministrator() {
-    return hasPermission(UserPermission.PERFORM_ADMINISTRATIVE_TASK);
+    return hasPermission(UserPermission.VIEW_ADMINISTRATIVE_TASK);
   }
 }
