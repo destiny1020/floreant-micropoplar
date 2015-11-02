@@ -180,11 +180,9 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     TicketDAO dao = TicketDAO.getInstance();
     tickets = dao.findTickets(searchDto);
 
-    if (tickets != null && tickets.size() > 0) {
-      @SuppressWarnings("unchecked")
-      ListTableModel<Ticket> tableModel = (ListTableModel<Ticket>) explorerTable.getModel();
-      tableModel.setRows(tickets);
-    }
+    @SuppressWarnings("unchecked")
+    ListTableModel<Ticket> tableModel = (ListTableModel<Ticket>) explorerTable.getModel();
+    tableModel.setRows(tickets);
   }
 
   private TicketSearchDto prepareSearchDto() {
@@ -208,7 +206,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+
     String[] columnNames = {POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, POSConstants.CREATED,
         POSConstants.SETTLE_TIME, POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
         POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,

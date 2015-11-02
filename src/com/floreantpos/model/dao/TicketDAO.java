@@ -441,10 +441,17 @@ public class TicketDAO extends BaseTicketDAO {
         criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, searchDto.getEndDate()));
       }
 
+
       if (!searchDto.isAllTickets()) {
-        criteria.add(Restrictions.eq(Ticket.PROP_PAID, searchDto.isPaidTickets()));
-        criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, searchDto.isVoidedTickets()));
-        criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, searchDto.isRefundedTickets()));
+        Disjunction disjunction = Restrictions.disjunction();
+        disjunction.add(Restrictions.eq(Ticket.PROP_PAID, searchDto.isPaidTickets()));
+        if (searchDto.isVoidedTickets()) {
+          disjunction.add(Restrictions.eq(Ticket.PROP_VOIDED, searchDto.isVoidedTickets()));
+        }
+        if (searchDto.isRefundedTickets()) {
+          disjunction.add(Restrictions.eq(Ticket.PROP_REFUNDED, searchDto.isRefundedTickets()));
+        }
+        criteria.add(disjunction);
       }
 
       ComboOption ticketType = searchDto.getTicketType();
