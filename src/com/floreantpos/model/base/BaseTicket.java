@@ -126,11 +126,9 @@ public abstract class BaseTicket implements Comparable, Serializable {
   // collections
   private java.util.Map<String, String> properties;
   private java.util.List<com.floreantpos.model.TicketItem> ticketItems;
-  private java.util.List<com.floreantpos.model.TicketCouponAndDiscount> couponAndDiscounts;
+  private java.util.List<com.floreantpos.model.TicketCoupon> coupons;
   private java.util.Set<com.floreantpos.model.PosTransaction> transactions;
   private java.util.Set<com.floreantpos.model.ShopTable> tables;
-
-
 
   /**
    * Return the unique identifier of this class
@@ -824,28 +822,25 @@ public abstract class BaseTicket implements Comparable, Serializable {
 
 
   /**
-   * Return the value associated with the column: couponAndDiscounts
+   * Return the value associated with the column: coupons
    */
-  public java.util.List<com.floreantpos.model.TicketCouponAndDiscount> getCouponAndDiscounts() {
-    return couponAndDiscounts;
+  public java.util.List<com.floreantpos.model.TicketCoupon> getCoupons() {
+    return coupons;
   }
 
   /**
-   * Set the value related to the column: couponAndDiscounts
+   * Set the value related to the column: coupons
    * 
-   * @param couponAndDiscounts the couponAndDiscounts value
+   * @param coupons the coupons value
    */
-  public void setCouponAndDiscounts(
-      java.util.List<com.floreantpos.model.TicketCouponAndDiscount> couponAndDiscounts) {
-    this.couponAndDiscounts = couponAndDiscounts;
+  public void setCoupons(java.util.List<com.floreantpos.model.TicketCoupon> coupons) {
+    this.coupons = coupons;
   }
 
-  public void addTocouponAndDiscounts(
-      com.floreantpos.model.TicketCouponAndDiscount ticketCouponAndDiscount) {
-    if (null == getCouponAndDiscounts())
-      setCouponAndDiscounts(
-          new java.util.ArrayList<com.floreantpos.model.TicketCouponAndDiscount>());
-    getCouponAndDiscounts().add(ticketCouponAndDiscount);
+  public void addToCoupons(com.floreantpos.model.TicketCoupon ticketCoupon) {
+    if (null == getCoupons())
+      setCoupons(new java.util.ArrayList<com.floreantpos.model.TicketCoupon>());
+    getCoupons().add(ticketCoupon);
   }
 
 

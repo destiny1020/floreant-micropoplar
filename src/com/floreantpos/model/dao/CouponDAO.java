@@ -7,17 +7,17 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 
 
-public class CouponAndDiscountDAO extends BaseCouponAndDiscountDAO {
+public class CouponDAO extends BaseCouponDAO {
 
   /**
    * Default constructor. Can be used in place of getInstance()
    */
-  public CouponAndDiscountDAO() {}
+  public CouponDAO() {}
 
-  public List<CouponAndDiscount> getValidCoupons() {
+  public List<Coupon> getValidCoupons() {
     Session session = null;
 
     Date currentDate = new Date();
@@ -25,10 +25,10 @@ public class CouponAndDiscountDAO extends BaseCouponAndDiscountDAO {
     try {
       session = createNewSession();
       Criteria criteria = session.createCriteria(getReferenceClass());
-      criteria.add(Restrictions.eq(CouponAndDiscount.PROP_DISABLED, Boolean.FALSE));
+      criteria.add(Restrictions.eq(Coupon.PROP_DISABLED, Boolean.FALSE));
       criteria
-          .add(Restrictions.or(Restrictions.eq(CouponAndDiscount.PROP_NEVER_EXPIRE, Boolean.TRUE),
-              Restrictions.ge(CouponAndDiscount.PROP_EXPIRY_DATE, currentDate)));
+          .add(Restrictions.or(Restrictions.eq(Coupon.PROP_NEVER_EXPIRE, Boolean.TRUE),
+              Restrictions.ge(Coupon.PROP_EXPIRY_DATE, currentDate)));
       return criteria.list();
     } finally {
       closeSession(session);

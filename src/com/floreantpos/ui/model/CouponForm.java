@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXDatePicker;
 
-import com.floreantpos.model.CouponAndDiscount;
-import com.floreantpos.model.dao.CouponAndDiscountDAO;
+import com.floreantpos.model.Coupon;
+import com.floreantpos.model.dao.CouponDAO;
 import com.floreantpos.swing.FixedLengthDocument;
 import com.floreantpos.swing.MessageDialog;
 import com.floreantpos.ui.BeanEditor;
@@ -37,15 +37,15 @@ public class CouponForm extends BeanEditor {
   private JXDatePicker dpExperation;
 
   public CouponForm() {
-    this(new CouponAndDiscount());
+    this(new Coupon());
   }
 
-  public CouponForm(CouponAndDiscount coupon) {
+  public CouponForm(Coupon coupon) {
     this.setLayout(new BorderLayout());
     add(contentPane);
 
     tfCouponName.setDocument(new FixedLengthDocument(30));
-    cbCouponType.setModel(new DefaultComboBoxModel(CouponAndDiscount.COUPON_TYPE_NAMES));
+    cbCouponType.setModel(new DefaultComboBoxModel(Coupon.COUPON_TYPE_NAMES));
 
     setBean(coupon);
   }
@@ -56,8 +56,8 @@ public class CouponForm extends BeanEditor {
       if (!updateModel())
         return false;
 
-      CouponAndDiscount coupon = (CouponAndDiscount) getBean();
-      CouponAndDiscountDAO dao = new CouponAndDiscountDAO();
+      Coupon coupon = (Coupon) getBean();
+      CouponDAO dao = new CouponDAO();
       dao.saveOrUpdate(coupon);
     } catch (Exception e) {
       MessageDialog.showError(this, com.floreantpos.POSConstants.SAVE_ERROR, e);
@@ -68,7 +68,7 @@ public class CouponForm extends BeanEditor {
 
   @Override
   protected void updateView() {
-    CouponAndDiscount coupon = (CouponAndDiscount) getBean();
+    Coupon coupon = (Coupon) getBean();
     if (coupon == null)
       return;
 
@@ -94,12 +94,12 @@ public class CouponForm extends BeanEditor {
       MessageDialog.showError(this, "优惠券名称不能为空");
       return false;
     }
-    if (couponType != CouponAndDiscount.FREE_AMOUNT && couponValue <= 0) {
+    if (couponType != Coupon.FREE_AMOUNT && couponValue <= 0) {
       MessageDialog.showError(this, "优惠券金额必须大于0");
       return false;
     }
 
-    CouponAndDiscount coupon = (CouponAndDiscount) getBean();
+    Coupon coupon = (Coupon) getBean();
     coupon.setName(name);
     coupon.setValue(couponValue);
     coupon.setExpiryDate(expiryDate);
@@ -112,7 +112,7 @@ public class CouponForm extends BeanEditor {
 
   @Override
   public String getDisplayText() {
-    CouponAndDiscount coupon = (CouponAndDiscount) getBean();
+    Coupon coupon = (Coupon) getBean();
     if (coupon.getId() == null) {
       return "添加新的优惠券/折扣";
     }

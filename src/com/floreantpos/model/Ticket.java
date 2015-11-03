@@ -282,9 +282,9 @@ public class Ticket extends BaseTicket {
       }
     }
 
-    List<TicketCouponAndDiscount> discounts = getCouponAndDiscounts();
+    List<TicketCoupon> discounts = getCoupons();
     if (discounts != null) {
-      for (TicketCouponAndDiscount discount : discounts) {
+      for (TicketCoupon discount : discounts) {
         discountAmount += calculateDiscountFromType(discount, subtotalAmount);
       }
     }
@@ -319,7 +319,7 @@ public class Ticket extends BaseTicket {
     return tax;
   }
 
-  public double calculateDiscountFromType(TicketCouponAndDiscount coupon, double subtotal) {
+  public double calculateDiscountFromType(TicketCoupon coupon, double subtotal) {
     List<TicketItem> ticketItems = getTicketItems();
 
     double discount = 0;
@@ -327,11 +327,11 @@ public class Ticket extends BaseTicket {
     double couponValue = coupon.getValue();
 
     switch (type) {
-      case CouponAndDiscount.FIXED_PER_ORDER:
+      case Coupon.FIXED_PER_ORDER:
         discount += couponValue;
         break;
 
-      case CouponAndDiscount.FIXED_PER_CATEGORY:
+      case Coupon.FIXED_PER_CATEGORY:
         HashSet<Integer> categoryIds = new HashSet<Integer>();
         for (TicketItem item : ticketItems) {
           Integer itemId = item.getItemId();
@@ -342,17 +342,17 @@ public class Ticket extends BaseTicket {
         }
         break;
 
-      case CouponAndDiscount.FIXED_PER_ITEM:
+      case Coupon.FIXED_PER_ITEM:
         for (TicketItem item : ticketItems) {
           discount += (couponValue * item.getItemCount());
         }
         break;
 
-      case CouponAndDiscount.PERCENTAGE_PER_ORDER:
+      case Coupon.PERCENTAGE_PER_ORDER:
         discount += ((subtotal * couponValue) / 100.0);
         break;
 
-      case CouponAndDiscount.PERCENTAGE_PER_CATEGORY:
+      case Coupon.PERCENTAGE_PER_CATEGORY:
         categoryIds = new HashSet<Integer>();
         for (TicketItem item : ticketItems) {
           Integer itemId = item.getItemId();
@@ -363,13 +363,13 @@ public class Ticket extends BaseTicket {
         }
         break;
 
-      case CouponAndDiscount.PERCENTAGE_PER_ITEM:
+      case Coupon.PERCENTAGE_PER_ITEM:
         for (TicketItem item : ticketItems) {
           discount += ((item.getSubtotalAmountWithoutModifiers() * couponValue) / 100.0);
         }
         break;
 
-      case CouponAndDiscount.FREE_AMOUNT:
+      case Coupon.FREE_AMOUNT:
         discount += couponValue;
         break;
     }

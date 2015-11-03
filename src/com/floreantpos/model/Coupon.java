@@ -1,21 +1,21 @@
 package com.floreantpos.model;
 
-import com.floreantpos.model.base.BaseCouponAndDiscount;
+import com.floreantpos.model.base.BaseCoupon;
 
 
 
-public class CouponAndDiscount extends BaseCouponAndDiscount {
+public class Coupon extends BaseCoupon {
   private static final long serialVersionUID = 1L;
 
   /* [CONSTRUCTOR MARKER BEGIN] */
-  public CouponAndDiscount() {
+  public Coupon() {
     super();
   }
 
   /**
    * Constructor for primary key
    */
-  public CouponAndDiscount(java.lang.Integer id) {
+  public Coupon(java.lang.Integer id) {
     super(id);
   }
 

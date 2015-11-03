@@ -19,7 +19,7 @@ import com.floreantpos.config.CardConfig;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 import com.floreantpos.model.GiftCertificateTransaction;
 import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.MerchantGateway;
@@ -27,13 +27,13 @@ import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.TakeoutTransaction;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketCouponAndDiscount;
+import com.floreantpos.model.TicketCoupon;
 import com.floreantpos.model.UnionPayTransaction;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.services.PosTransactionService;
-import com.floreantpos.ui.dialog.CouponAndDiscountDialog;
+import com.floreantpos.ui.dialog.CouponDialog;
 import com.floreantpos.ui.dialog.DiscountListDialog;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
@@ -116,18 +116,18 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
         return;
       }
 
-      if (ticket.getCouponAndDiscounts() != null && ticket.getCouponAndDiscounts().size() > 0) {
+      if (ticket.getCoupons() != null && ticket.getCoupons().size() > 0) {
         POSMessageDialog.showError(com.floreantpos.POSConstants.DISCOUNT_COUPON_LIMIT_);
         return;
       }
 
-      CouponAndDiscountDialog dialog = new CouponAndDiscountDialog();
+      CouponDialog dialog = new CouponDialog();
       dialog.setTicket(ticket);
       dialog.initData();
       dialog.open();
       if (!dialog.isCanceled()) {
-        TicketCouponAndDiscount coupon = dialog.getSelectedCoupon();
-        ticket.addTocouponAndDiscounts(coupon);
+        TicketCoupon coupon = dialog.getSelectedCoupon();
+        ticket.addToCoupons(coupon);
 
         updateModel();
 
@@ -778,12 +778,12 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
       JsonNumber jsonNumber = jsonObject.getJsonNumber(key);
       double doubleValue = jsonNumber.doubleValue();
 
-      TicketCouponAndDiscount coupon = new TicketCouponAndDiscount();
+      TicketCoupon coupon = new TicketCoupon();
       coupon.setName(key);
-      coupon.setType(CouponAndDiscount.FIXED_PER_ORDER);
+      coupon.setType(Coupon.FIXED_PER_ORDER);
       coupon.setValue(doubleValue);
 
-      ticket.addTocouponAndDiscounts(coupon);
+      ticket.addToCoupons(coupon);
     }
   }
 

@@ -58,12 +58,12 @@
 			<list-index column="ITEM_ORDER" />
 			<one-to-many class="com.floreantpos.model.TicketItem" />
 		</list>
-		<list cascade="all" inverse="false" lazy="true" name="couponAndDiscounts">
+		<list cascade="all" inverse="false" lazy="true" name="coupons">
 			<key>
 				<column name="TICKET_ID" />
 			</key>
 			<list-index column="D_ORDER" />
-			<one-to-many class="com.floreantpos.model.TicketCouponAndDiscount" />
+			<one-to-many class="com.floreantpos.model.TicketCoupon" />
 		</list>
 
 		<set cascade="all" inverse="true" lazy="false" name="transactions">

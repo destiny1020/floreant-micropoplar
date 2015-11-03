@@ -1,5 +1,5 @@
 /*
- * CouponAndDiscountDialog.java
+ * CouponDialog.java
  *
  * Created on September 23, 2007, 1:59 PM
  */
@@ -22,24 +22,28 @@ import javax.swing.event.ListSelectionListener;
 
 import com.floreantpos.PosException;
 import com.floreantpos.main.Application;
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketCouponAndDiscount;
-import com.floreantpos.model.dao.CouponAndDiscountDAO;
+import com.floreantpos.model.TicketCoupon;
+import com.floreantpos.model.dao.CouponDAO;
 import com.floreantpos.util.NumberUtil;
 
 /**
  *
  * @author mahbub.shahriar
  */
-public class CouponAndDiscountDialog extends POSDialog
-    implements ActionListener, ListSelectionListener {
-  private List<CouponAndDiscount> couponList;
-  private TicketCouponAndDiscount ticketCoupon;
+public class CouponDialog extends POSDialog implements ActionListener, ListSelectionListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+  private List<Coupon> couponList;
+  private TicketCoupon ticketCoupon;
   private Ticket ticket;
 
   /** Creates new form CouponAndDiscountDialog */
-  public CouponAndDiscountDialog() {
+  public CouponDialog() {
     super(Application.getPosWindow(), true, false);
 
     initComponents();
@@ -82,7 +86,7 @@ public class CouponAndDiscountDialog extends POSDialog
 
     listCoupons.setCellRenderer(new CouponListRenderer());
 
-    ticketCoupon = new TicketCouponAndDiscount();
+    ticketCoupon = new TicketCoupon();
   }
 
   /**
@@ -297,7 +301,7 @@ public class CouponAndDiscountDialog extends POSDialog
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-  public TicketCouponAndDiscount getSelectedCoupon() {
+  public TicketCoupon getSelectedCoupon() {
     try {
       double parseDouble = Double.parseDouble(tfValue.getText());
       ticketCoupon.setValue(parseDouble);
@@ -322,7 +326,7 @@ public class CouponAndDiscountDialog extends POSDialog
 
   private void doOk(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doOk
     try {
-      TicketCouponAndDiscount selectedCoupon = getSelectedCoupon();
+      TicketCoupon selectedCoupon = getSelectedCoupon();
       if (selectedCoupon == null) {
         POSMessageDialog.showError(this, "请选择一项优惠券/折扣券");
         return;
@@ -341,7 +345,7 @@ public class CouponAndDiscountDialog extends POSDialog
 
 
   public void initData() throws Exception {
-    CouponAndDiscountDAO dao = new CouponAndDiscountDAO();
+    CouponDAO dao = new CouponDAO();
     couponList = dao.getValidCoupons();
     listCoupons.setModel(new CouponListModel());
   }
@@ -383,7 +387,7 @@ public class CouponAndDiscountDialog extends POSDialog
     }
   }
 
-  public void updateCouponView(CouponAndDiscount coupon) {
+  public void updateCouponView(Coupon coupon) {
     if (coupon == null) {
       tfName.setText("");
       tfNumber.setText("");
@@ -395,18 +399,18 @@ public class CouponAndDiscountDialog extends POSDialog
     btnEditValue.setEnabled(false);
 
     tfName.setText(coupon.getName());
-    if (coupon.getType() == CouponAndDiscount.FREE_AMOUNT) {
+    if (coupon.getType() == Coupon.FREE_AMOUNT) {
       btnEditValue.setEnabled(true);
     }
 
     tfNumber.setText(String.valueOf(coupon.getId()));
-    tfType.setText(CouponAndDiscount.COUPON_TYPE_NAMES[coupon.getType()]);
+    tfType.setText(Coupon.COUPON_TYPE_NAMES[coupon.getType()]);
     tfValue.setText(NumberUtil.formatNumber(coupon.getValue()));
 
     double totalDiscount = 0;
     double subtotal = ticket.getSubtotalAmount();
 
-    ticketCoupon.setCouponAndDiscountId(coupon.getId());
+    ticketCoupon.setCouponId(coupon.getId());
     ticketCoupon.setName(coupon.getName());
     ticketCoupon.setType(coupon.getType());
     ticketCoupon.setValue(coupon.getValue());
@@ -418,7 +422,7 @@ public class CouponAndDiscountDialog extends POSDialog
   }
 
   public void valueChanged(ListSelectionEvent e) {
-    CouponAndDiscount coupon = (CouponAndDiscount) listCoupons.getSelectedValue();
+    Coupon coupon = (Coupon) listCoupons.getSelectedValue();
     updateCouponView(coupon);
   }
 
@@ -449,7 +453,7 @@ public class CouponAndDiscountDialog extends POSDialog
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index,
         boolean isSelected, boolean cellHasFocus) {
-      CouponAndDiscount coupon = (CouponAndDiscount) value;
+      Coupon coupon = (Coupon) value;
       // String displayText = "<html><body>";
       // displayText += "<p align='center'>Name:" + coupon.getName() + "</p>";
       // displayText += "<p align='center'>" + coupon.getValue() + "</p>";

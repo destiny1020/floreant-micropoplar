@@ -24,9 +24,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
 import com.floreantpos.main.Application;
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketCouponAndDiscount;
+import com.floreantpos.model.TicketCoupon;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.util.NumberUtil;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -237,10 +237,10 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
     DiscountViewTableModel() {
       for (Iterator iter = tickets.iterator(); iter.hasNext();) {
         Ticket ticket = (Ticket) iter.next();
-        List<TicketCouponAndDiscount> coupons = ticket.getCouponAndDiscounts();
+        List<TicketCoupon> coupons = ticket.getCoupons();
 
         if (coupons != null) {
-          for (TicketCouponAndDiscount coupon : coupons) {
+          for (TicketCoupon coupon : coupons) {
             TicketDiscount ticketDiscount = new TicketDiscount(ticket, coupon);
             rows.add(ticketDiscount);
           }
@@ -269,21 +269,21 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
 
       switch (columnIndex) {
         case 0:
-          if (discountObject instanceof TicketCouponAndDiscount) {
-            return ((TicketCouponAndDiscount) discountObject).getName();
+          if (discountObject instanceof TicketCoupon) {
+            return ((TicketCoupon) discountObject).getName();
           }
           return null;
 
         case 1:
-          if (discountObject instanceof TicketCouponAndDiscount) {
-            return CouponAndDiscount.COUPON_TYPE_NAMES[((TicketCouponAndDiscount) discountObject)
+          if (discountObject instanceof TicketCoupon) {
+            return Coupon.COUPON_TYPE_NAMES[((TicketCoupon) discountObject)
                 .getType()];
           }
           return null;
 
         case 2:
-          if (discountObject instanceof TicketCouponAndDiscount) {
-            return NumberUtil.formatNumber(((TicketCouponAndDiscount) discountObject).getValue());
+          if (discountObject instanceof TicketCoupon) {
+            return NumberUtil.formatNumber(((TicketCoupon) discountObject).getValue());
           }
           return null;
       }
@@ -295,8 +295,8 @@ public class DiscountListDialog extends POSDialog implements ActionListener {
       Ticket ticket = ticketDiscount.getTicket();
       Object object = ticketDiscount.getDiscountObject();
 
-      if (object instanceof TicketCouponAndDiscount) {
-        boolean b = ticket.getCouponAndDiscounts().remove(object);
+      if (object instanceof TicketCoupon) {
+        boolean b = ticket.getCoupons().remove(object);
         rows.remove(ticketDiscount);
         fireTableDataChanged();
         return b;

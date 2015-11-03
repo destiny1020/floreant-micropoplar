@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.floreantpos.bo.ui.explorer.ListTableModel;
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketCouponAndDiscount;
+import com.floreantpos.model.TicketCoupon;
 
 public class SalesExceptionReport {
   private Date fromDate;
@@ -42,16 +42,16 @@ public class SalesExceptionReport {
   }
 
   public void addDiscountData(Ticket ticket) {
-    List<TicketCouponAndDiscount> discounts = ticket.getCouponAndDiscounts();
+    List<TicketCoupon> discounts = ticket.getCoupons();
     if (discounts != null) {
-      for (TicketCouponAndDiscount discount : discounts) {
+      for (TicketCoupon discount : discounts) {
         String name = discount.getName();
-        DiscountData discountData = disountMap.get(discount.getCouponAndDiscountId());
+        DiscountData discountData = disountMap.get(discount.getCouponId());
         if (discountData == null) {
           discountData = new DiscountData();
-          discountData.code = discount.getCouponAndDiscountId();
+          discountData.code = discount.getCouponId();
           discountData.name = name;
-          disountMap.put(discount.getCouponAndDiscountId(), discountData);
+          disountMap.put(discount.getCouponId(), discountData);
         }
 
         discountData.totalCount = ++discountData.totalCount;
@@ -66,9 +66,9 @@ public class SalesExceptionReport {
     }
   }
 
-  public void addEmptyDiscounts(List<CouponAndDiscount> discounts) {
+  public void addEmptyDiscounts(List<Coupon> discounts) {
     if (discounts != null) {
-      for (CouponAndDiscount discount : discounts) {
+      for (Coupon discount : discounts) {
         String name = discount.getName();
         DiscountData discountData = disountMap.get(discount.getId());
         if (discountData == null) {

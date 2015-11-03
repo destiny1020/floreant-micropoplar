@@ -83,7 +83,7 @@ public class TicketDAO extends BaseTicketDAO {
     session.refresh(ticket);
 
     Hibernate.initialize(ticket.getTicketItems());
-    Hibernate.initialize(ticket.getCouponAndDiscounts());
+    Hibernate.initialize(ticket.getCoupons());
     Hibernate.initialize(ticket.getTransactions());
 
     List<TicketItem> ticketItems = ticket.getTicketItems();
@@ -110,7 +110,7 @@ public class TicketDAO extends BaseTicketDAO {
 
     Ticket ticket = (Ticket) session.get(getReferenceClass(), id);
 
-    Hibernate.initialize(ticket.getCouponAndDiscounts());
+    Hibernate.initialize(ticket.getCoupons());
     Hibernate.initialize(ticket.getTransactions());
 
     session.close();

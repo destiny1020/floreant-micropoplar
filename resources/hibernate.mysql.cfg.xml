@@ -29,7 +29,7 @@
 		<mapping resource="com/floreantpos/model/AttendenceHistory.hbm.xml" />
 		<mapping resource="com/floreantpos/model/CashDrawerResetHistory.hbm.xml" />
 		<mapping resource="com/floreantpos/model/CookingInstruction.hbm.xml" />
-		<mapping resource="com/floreantpos/model/CouponAndDiscount.hbm.xml" />
+		<mapping resource="com/floreantpos/model/Coupon.hbm.xml" />
 		<mapping resource="com/floreantpos/model/Gratuity.hbm.xml" />
 		<mapping resource="com/floreantpos/model/MenuCategory.hbm.xml" />
 		<mapping resource="com/floreantpos/model/MenuGroup.hbm.xml" />
@@ -46,7 +46,7 @@
 		<mapping resource="com/floreantpos/model/Tax.hbm.xml" />
 		<mapping resource="com/floreantpos/model/Terminal.hbm.xml" />
 		<mapping resource="com/floreantpos/model/Ticket.hbm.xml" />
-		<mapping resource="com/floreantpos/model/TicketCouponAndDiscount.hbm.xml" />
+		<mapping resource="com/floreantpos/model/TicketCoupon.hbm.xml" />
 		<mapping resource="com/floreantpos/model/TicketItem.hbm.xml" />
 		<mapping resource="com/floreantpos/model/TicketItemModifier.hbm.xml" />
 		<mapping resource="com/floreantpos/model/TicketItemModifierGroup.hbm.xml" />

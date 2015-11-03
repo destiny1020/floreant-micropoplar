@@ -627,4 +627,13 @@ public class POSConstants {
   public static final String USER_PERM_VIEW_ADMINISTRATIVE_TASK = Messages.getString("USER_PERM_VIEW_ADMINISTRATIVE_TASK");
   public static final String USER_PERM_VIEW_EXPLORERS = Messages.getString("USER_PERM_VIEW_EXPLORERS");
   public static final String USER_PERM_VIEW_REPORTS = Messages.getString("USER_PERM_VIEW_REPORTS");
+
+  // COMPAIGN
+  public static final String COMPAIGN_TYPE_N_DISCOUNT = Messages.getString("COMPAIGN_TYPE_N_DISCOUNT");
+  public static final String COMPAIGN_TYPE_N_OFF = Messages.getString("COMPAIGN_TYPE_N_OFF");
+  public static final String COMPAIGN_TYPE_A_DISCOUNT = Messages.getString("COMPAIGN_TYPE_A_DISCOUNT");
+  public static final String COMPAIGN_TYPE_A_OFF = Messages.getString("COMPAIGN_TYPE_A_OFF");
+  public static final String COMPAIGN_TYPE_TIME_DISCOUNT = Messages.getString("COMPAIGN_TYPE_TIME_DISCOUNT");
+  public static final String COMPAIGN_TYPE_TIME_OFF = Messages.getString("COMPAIGN_TYPE_TIME_OFF");
+
 }

@@ -12,7 +12,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.floreantpos.model.ActionHistory;
-import com.floreantpos.model.CouponAndDiscount;
+import com.floreantpos.model.Coupon;
 import com.floreantpos.model.CreditCardTransaction;
 import com.floreantpos.model.DebitCardTransaction;
 import com.floreantpos.model.DrawerPullReport;
@@ -22,10 +22,10 @@ import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.PayOutTransaction;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketCouponAndDiscount;
+import com.floreantpos.model.TicketCoupon;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.User;
-import com.floreantpos.model.dao.CouponAndDiscountDAO;
+import com.floreantpos.model.dao.CouponDAO;
 import com.floreantpos.model.dao.GenericDAO;
 import com.floreantpos.report.JournalReportModel;
 import com.floreantpos.report.JournalReportModel.JournalReportData;
@@ -308,9 +308,9 @@ public class ReportService {
       List list = criteria.list();
       for (Iterator iter = list.iterator(); iter.hasNext();) {
         Ticket ticket = (Ticket) iter.next();
-        List<TicketCouponAndDiscount> discounts = ticket.getCouponAndDiscounts();
+        List<TicketCoupon> discounts = ticket.getCoupons();
         if (discounts != null) {
-          for (TicketCouponAndDiscount discount : discounts) {
+          for (TicketCoupon discount : discounts) {
             report.setDiscountAmount(report.getDiscountAmount() + discount.getValue());
           }
         }
@@ -507,8 +507,8 @@ public class ReportService {
       }
 
       // find all valid discounts
-      CouponAndDiscountDAO discountDAO = new CouponAndDiscountDAO();
-      List<CouponAndDiscount> availableCoupons = discountDAO.getValidCoupons();
+      CouponDAO discountDAO = new CouponDAO();
+      List<Coupon> availableCoupons = discountDAO.getValidCoupons();
       report.addEmptyDiscounts(availableCoupons);
 
       return report;
