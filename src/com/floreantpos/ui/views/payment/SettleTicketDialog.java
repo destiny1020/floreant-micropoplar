@@ -21,7 +21,6 @@ import com.floreantpos.model.CardReader;
 import com.floreantpos.model.CashTransaction;
 import com.floreantpos.model.Coupon;
 import com.floreantpos.model.GiftCertificateTransaction;
-import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.MerchantGateway;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
@@ -153,11 +152,9 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
         return;
       }
 
-      ticket.setTaxExempt(true);
       ticket.calculatePrice();
       TicketDAO.getInstance().saveOrUpdate(ticket);
     } else {
-      ticket.setTaxExempt(false);
       ticket.calculatePrice();
       TicketDAO.getInstance().saveOrUpdate(ticket);
     }
@@ -165,31 +162,6 @@ public class SettleTicketDialog extends POSDialog implements CardInputListener {
     ticketDetailView.updateView();
     paymentView.updateView();
   }// GEN-LAST:event_doTaxExempt
-
-  public void doSetGratuity() {
-    if (ticket == null)
-      return;
-
-    GratuityInputDialog d = new GratuityInputDialog();
-    d.setSize(300, 500);
-    d.setResizable(false);
-    d.open();
-
-    if (d.isCanceled()) {
-      return;
-    }
-
-    double gratuityAmount = d.getGratuityAmount();
-    Gratuity gratuity = ticket.createGratuity();
-    gratuity.setAmount(gratuityAmount);
-
-    ticket.setGratuity(gratuity);
-    ticket.calculatePrice();
-    OrderController.saveOrder(ticket);
-
-    ticketDetailView.updateView();
-    paymentView.updateView();
-  }
 
   public void doViewDiscounts() {// GEN-FIRST:event_btnViewDiscountsdoViewDiscounts
     try {

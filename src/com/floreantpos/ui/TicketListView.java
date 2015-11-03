@@ -28,6 +28,11 @@ import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.ui.views.SwitchboardView;
 
 public class TicketListView extends JPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  
   private JXTable table;
   private TicketListTableModel tableModel;
 
@@ -165,12 +170,7 @@ public class TicketListView extends JPanel {
           if (ticket.getType() == TicketType.PICKUP) {
             return "等待自取";
           } else if (ticket.getType() == TicketType.HOME_DELIVERY) {
-            if (ticket.getAssignedDriver() == null) {
-              return "未安排送货";
-            }
-            return "已安排送货";
-          } else if (ticket.getType() == TicketType.DRIVE_THRU) {
-            return "未穿越";
+            return "正在安排送货";
           }
 
           if (ticket.isPaid()) {

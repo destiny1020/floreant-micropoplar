@@ -1,7 +1,13 @@
 package com.floreantpos.model.base;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
+import com.floreantpos.model.MenuCategory;
+import com.floreantpos.model.MenuGroup;
+import com.floreantpos.model.VirtualPrinter;
+import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.UnitName;
 
 
@@ -12,26 +18,28 @@ import com.micropoplar.pos.model.UnitName;
  * @hibernate.class table="MENU_ITEM"
  */
 
-public abstract class BaseMenuItem implements Comparable, Serializable {
+public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "MenuItem";
-  public static String PROP_BUY_PRICE = "buyPrice";
+  public static String PROP_ID = "id";
+  public static String PROP_CATEGORY = "category";
+  public static String PROP_GROUP = "group";
+  public static String PROP_CODE = "code";
   public static String PROP_BARCODE = "barcode";
-  public static String PROP_PARENT = "parent";
-  public static String PROP_VISIBLE = "visible";
-  public static String PROP_SHOW_IMAGE_ONLY = "showImageOnly";
-  public static String PROP_DISCOUNT_RATE = "discountRate";
-  public static String PROP_TAX = "tax";
   public static String PROP_NAME = "name";
-  public static String PROP_RECEPIE = "recepie";
+  public static String PROP_UNIT_NAME = "unitName";
+  public static String PROP_VISIBLE = "visible";
   public static String PROP_PRICE = "price";
   public static String PROP_IMAGE = "image";
-  public static String PROP_ID = "id";
+  public static String PROP_SHOW_IMAGE_ONLY = "showImageOnly";
   public static String PROP_VIRTUAL_PRINTER = "virtualPrinter";
-  public static String PROP_CODE = "code";
-  public static String PROP_UNIT_NAME = "unitName";
-  public static String PROP_MEMBER_PRICE = "memberPrice";
-  public static String PROP_INVENTORY_COUNT = "inventoryCount";
+  public static String PROP_IS_SET = "isSet";
+  public static String PROP_SET_ITEMS = "setItems";
 
   // constructors
   public BaseMenuItem() {
@@ -49,365 +57,36 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
   /**
    * Constructor for required fields
    */
-  public BaseMenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double buyPrice,
-      java.lang.Double price) {
+  public BaseMenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double price) {
 
     this.setId(id);
     this.setName(name);
-    this.setBuyPrice(buyPrice);
     this.setPrice(price);
     initialize();
   }
 
   protected void initialize() {}
 
-
-
   private int hashCode = Integer.MIN_VALUE;
 
   // primary key
-  private java.lang.Integer id;
-
-  java.util.Date modifiedTime;
+  private Integer id;
+  private Date modifiedTime;
 
   // fields
-  protected java.lang.String barcode;
-  protected java.lang.Double buyPrice;
-  protected java.lang.Double discountRate;
-  protected byte[] image;
-  protected java.lang.String name;
-  protected java.lang.Double price;
-  protected java.lang.Boolean showImageOnly;
-  protected java.lang.Boolean visible;
-
-  // many to one
-  private com.floreantpos.model.MenuGroup parent;
-  private com.floreantpos.model.inventory.Recepie recepie;
-  private com.floreantpos.model.Tax tax;
-  private com.floreantpos.model.VirtualPrinter virtualPrinter;
-
-  // 新增字段
-  private UnitName unitName;
+  private MenuCategory category;
+  private MenuGroup group;
   private String code;
-  private Double memberPrice;
-  private Integer inventoryCount;
-
-  // collections
-  private java.util.List<com.floreantpos.model.MenuItemModifierGroup> menuItemModiferGroups;
-  private java.util.List<com.floreantpos.model.MenuItemShift> shifts;
-
-  /**
-   * Return the unique identifier of this class
-   * 
-   * @hibernate.id generator-class="identity" column="ID"
-   */
-  public java.lang.Integer getId() {
-    return id;
-  }
-
-  /**
-   * Set the unique identifier of this class
-   * 
-   * @param id the new ID
-   */
-  public void setId(java.lang.Integer id) {
-    this.id = id;
-    this.hashCode = Integer.MIN_VALUE;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: MODIFIED_TIME
-   */
-  public java.util.Date getModifiedTime() {
-    return modifiedTime;
-  }
-
-  /**
-   * Set the value related to the column: MODIFIED_TIME
-   * 
-   * @param modifiedTime the MODIFIED_TIME value
-   */
-  public void setModifiedTime(java.util.Date modifiedTime) {
-    this.modifiedTime = modifiedTime;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: BARCODE
-   */
-  public java.lang.String getBarcode() {
-    return barcode;
-  }
-
-  /**
-   * Set the value related to the column: BARCODE
-   * 
-   * @param barcode the BARCODE value
-   */
-  public void setBarcode(java.lang.String barcode) {
-    this.barcode = barcode;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: BUY_PRICE
-   */
-  public java.lang.Double getBuyPrice() {
-    return buyPrice == null ? Double.valueOf(0) : buyPrice;
-  }
-
-  /**
-   * Set the value related to the column: BUY_PRICE
-   * 
-   * @param buyPrice the BUY_PRICE value
-   */
-  public void setBuyPrice(java.lang.Double buyPrice) {
-    this.buyPrice = buyPrice;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: DISCOUNT_RATE
-   */
-  public java.lang.Double getDiscountRate() {
-    return discountRate == null ? Double.valueOf(0) : discountRate;
-  }
-
-  /**
-   * Set the value related to the column: DISCOUNT_RATE
-   * 
-   * @param discountRate the DISCOUNT_RATE value
-   */
-  public void setDiscountRate(java.lang.Double discountRate) {
-    this.discountRate = discountRate;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: IMAGE
-   */
-  public byte[] getImage() {
-    return image;
-  }
-
-  /**
-   * Set the value related to the column: IMAGE
-   * 
-   * @param image the IMAGE value
-   */
-  public void setImage(byte[] image) {
-    this.image = image;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: NAME
-   */
-  public java.lang.String getName() {
-    return name;
-  }
-
-  /**
-   * Set the value related to the column: NAME
-   * 
-   * @param name the NAME value
-   */
-  public void setName(java.lang.String name) {
-    this.name = name;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: PRICE
-   */
-  public java.lang.Double getPrice() {
-    return price == null ? Double.valueOf(0) : price;
-  }
-
-  /**
-   * Set the value related to the column: PRICE
-   * 
-   * @param price the PRICE value
-   */
-  public void setPrice(java.lang.Double price) {
-    this.price = price;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: SHOW_IMAGE_ONLY
-   */
-  public java.lang.Boolean isShowImageOnly() {
-    return showImageOnly == null ? Boolean.FALSE : showImageOnly;
-  }
-
-  /**
-   * Set the value related to the column: SHOW_IMAGE_ONLY
-   * 
-   * @param showImageOnly the SHOW_IMAGE_ONLY value
-   */
-  public void setShowImageOnly(java.lang.Boolean showImageOnly) {
-    this.showImageOnly = showImageOnly;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: VISIBLE
-   */
-  public java.lang.Boolean isVisible() {
-    return visible == null ? Boolean.valueOf(true) : visible;
-  }
-
-  /**
-   * Set the value related to the column: VISIBLE
-   * 
-   * @param visible the VISIBLE value
-   */
-  public void setVisible(java.lang.Boolean visible) {
-    this.visible = visible;
-  }
-
-
-  /**
-   * Custom property
-   */
-  public static String getVisibleDefaultValue() {
-    return "true";
-  }
-
-
-  /**
-   * Return the value associated with the column: GROUP_ID
-   */
-  public com.floreantpos.model.MenuGroup getParent() {
-    return parent;
-  }
-
-  /**
-   * Set the value related to the column: GROUP_ID
-   * 
-   * @param parent the GROUP_ID value
-   */
-  public void setParent(com.floreantpos.model.MenuGroup parent) {
-    this.parent = parent;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: RECEPIE
-   */
-  public com.floreantpos.model.inventory.Recepie getRecepie() {
-    return recepie;
-  }
-
-  /**
-   * Set the value related to the column: RECEPIE
-   * 
-   * @param recepie the RECEPIE value
-   */
-  public void setRecepie(com.floreantpos.model.inventory.Recepie recepie) {
-    this.recepie = recepie;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: TAX_ID
-   */
-  public com.floreantpos.model.Tax getTax() {
-    return tax;
-  }
-
-  /**
-   * Set the value related to the column: TAX_ID
-   * 
-   * @param tax the TAX_ID value
-   */
-  public void setTax(com.floreantpos.model.Tax tax) {
-    this.tax = tax;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: VPRINTER_ID
-   */
-  public com.floreantpos.model.VirtualPrinter getVirtualPrinter() {
-    return virtualPrinter;
-  }
-
-  /**
-   * Set the value related to the column: VPRINTER_ID
-   * 
-   * @param virtualPrinter the VPRINTER_ID value
-   */
-  public void setVirtualPrinter(com.floreantpos.model.VirtualPrinter virtualPrinter) {
-    this.virtualPrinter = virtualPrinter;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: menuItemModiferGroups
-   */
-  public java.util.List<com.floreantpos.model.MenuItemModifierGroup> getMenuItemModiferGroups() {
-    return menuItemModiferGroups;
-  }
-
-  /**
-   * Set the value related to the column: menuItemModiferGroups
-   * 
-   * @param menuItemModiferGroups the menuItemModiferGroups value
-   */
-  public void setMenuItemModiferGroups(
-      java.util.List<com.floreantpos.model.MenuItemModifierGroup> menuItemModiferGroups) {
-    this.menuItemModiferGroups = menuItemModiferGroups;
-  }
-
-  public void addTomenuItemModiferGroups(
-      com.floreantpos.model.MenuItemModifierGroup menuItemModifierGroup) {
-    if (null == getMenuItemModiferGroups())
-      setMenuItemModiferGroups(
-          new java.util.ArrayList<com.floreantpos.model.MenuItemModifierGroup>());
-    getMenuItemModiferGroups().add(menuItemModifierGroup);
-  }
-
-
-
-  /**
-   * Return the value associated with the column: shifts
-   */
-  public java.util.List<com.floreantpos.model.MenuItemShift> getShifts() {
-    return shifts;
-  }
-
-  /**
-   * Set the value related to the column: shifts
-   * 
-   * @param shifts the shifts value
-   */
-  public void setShifts(java.util.List<com.floreantpos.model.MenuItemShift> shifts) {
-    this.shifts = shifts;
-  }
-
-  public void addToshifts(com.floreantpos.model.MenuItemShift menuItemShift) {
-    if (null == getShifts())
-      setShifts(new java.util.ArrayList<com.floreantpos.model.MenuItemShift>());
-    getShifts().add(menuItemShift);
-  }
-
-
+  private String barcode;
+  private String name;
+  private UnitName unitName;
+  private Boolean visible;
+  private Double price;
+  private byte[] image;
+  private Boolean showImageOnly;
+  private VirtualPrinter virtualPrinter;
+  private Boolean isSet;
+  private List<SetItem> items;
 
   public boolean equals(Object obj) {
     if (null == obj)
@@ -435,7 +114,7 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  public int compareTo(BaseMenuItem obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())
@@ -448,12 +127,36 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
     return super.toString();
   }
 
-  public UnitName getUnitName() {
-    return unitName;
+  public Integer getId() {
+    return id;
   }
 
-  public void setUnitName(UnitName unitName) {
-    this.unitName = unitName;
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Date getModifiedTime() {
+    return modifiedTime;
+  }
+
+  public void setModifiedTime(Date modifiedTime) {
+    this.modifiedTime = modifiedTime;
+  }
+
+  public MenuCategory getCategory() {
+    return category;
+  }
+
+  public void setCategory(MenuCategory category) {
+    this.category = category;
+  }
+
+  public MenuGroup getGroup() {
+    return group;
+  }
+
+  public void setGroup(MenuGroup group) {
+    this.group = group;
   }
 
   public String getCode() {
@@ -464,21 +167,84 @@ public abstract class BaseMenuItem implements Comparable, Serializable {
     this.code = code;
   }
 
-  public Double getMemberPrice() {
-    return memberPrice;
+  public String getBarcode() {
+    return barcode;
   }
 
-  public void setMemberPrice(Double memberPrice) {
-    this.memberPrice = memberPrice;
+  public void setBarcode(String barcode) {
+    this.barcode = barcode;
   }
 
-  public Integer getInventoryCount() {
-    return inventoryCount;
+  public String getName() {
+    return name;
   }
 
-  public void setInventoryCount(Integer inventoryCount) {
-    this.inventoryCount = inventoryCount;
+  public void setName(String name) {
+    this.name = name;
   }
 
+  public UnitName getUnitName() {
+    return unitName;
+  }
+
+  public void setUnitName(UnitName unitName) {
+    this.unitName = unitName;
+  }
+
+  public Boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(Boolean visible) {
+    this.visible = visible;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
+  }
+
+  public byte[] getImage() {
+    return image;
+  }
+
+  public void setImage(byte[] image) {
+    this.image = image;
+  }
+
+  public Boolean isShowImageOnly() {
+    return showImageOnly;
+  }
+
+  public void setShowImageOnly(Boolean showImageOnly) {
+    this.showImageOnly = showImageOnly;
+  }
+
+  public VirtualPrinter getVirtualPrinter() {
+    return virtualPrinter;
+  }
+
+  public void setVirtualPrinter(VirtualPrinter virtualPrinter) {
+    this.virtualPrinter = virtualPrinter;
+  }
+
+  public List<SetItem> getItems() {
+    return items;
+  }
+
+  public void setItems(List<SetItem> items) {
+    this.items = items;
+  }
+
+  public Boolean getIsSet() {
+    return isSet;
+  }
+
+  public void setIsSet(Boolean isSet) {
+    this.isSet = isSet;
+  }
 
 }

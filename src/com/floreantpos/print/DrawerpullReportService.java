@@ -54,8 +54,6 @@ public class DrawerpullReportService {
       report.setRefundReceiptCount(report.getRefundReceiptCount() + refundSummary.getCount());
       report.setRefundAmount(report.getRefundAmount() + refundSummary.getAmount());
 
-      report.setTipsPaid(TicketDAO.getInstance().getPaidGratuityAmount(terminal));
-
       double totalPayout = 0;
       List<PayOutTransaction> payoutTransactions =
           new PayOutTransactionDAO().getUnsettled(terminal);
@@ -101,7 +99,6 @@ public class DrawerpullReportService {
       int totalDiscountCount = 0;
       double totalDiscountAmount = 0;
       double totalDiscountSales = 0;
-      int totalDiscountGuest = 0;
       int totalDiscountPartySize = 0;
       int totalDiscountCheckSize = 0;
       double totalDiscountPercentage = 0;
@@ -121,20 +118,16 @@ public class DrawerpullReportService {
           for (TicketCoupon discount2 : discounts) {
             ++totalDiscountCount;
             totalDiscountAmount += discount2.getValue();
-            totalDiscountGuest += ticket.getNumberOfGuests();
             totalDiscountSales += ticket.getTotalAmount();
             totalDiscountCheckSize++;
           }
         }
       }
 
-      totalDiscountPartySize = totalDiscountGuest;
-
       report.setTotalDiscountCount(totalDiscountCount);
       report.setTotalDiscountAmount(totalDiscountAmount);
       report.setTotalDiscountCheckSize(totalDiscountCheckSize);
       report.setTotalDiscountSales(totalDiscountSales);
-      report.setTotalDiscountGuest(totalDiscountGuest);
       report.setTotalDiscountPartySize(totalDiscountPartySize);
       report.setTotalDiscountPercentage(totalDiscountPercentage);
       report.setTotalDiscountRatio(totalDiscountRatio);
@@ -210,10 +203,6 @@ public class DrawerpullReportService {
       ++ticketCount;
       subtotal += ticket.getSubtotalAmount();
       discount += ticket.getDiscountAmount();
-      salesTax += ticket.getTaxAmount();
-      if (ticket.getGratuity() != null) {
-        tips += ticket.getGratuity().getAmount();
-      }
     }
 
     report.setTicketCount(ticketCount);

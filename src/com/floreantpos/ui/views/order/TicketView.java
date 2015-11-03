@@ -497,23 +497,12 @@ public class TicketView extends JPanel implements ActionListener {
     Object object = ticketViewerTable.deleteSelectedItem();
     if (object != null) {
       updateView();
-
-      if (object instanceof TicketItemModifier) {
-        ModifierView modifierView = OrderView.getInstance().getModifierView();
-        if (modifierView.isVisible()) {
-          modifierView.updateVisualRepresentation();
-        }
-      }
     }
 
   }// GEN-LAST:event_doDeleteSelection
 
   private void doIncreaseAmount(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doIncreaseAmount
     if (ticketViewerTable.increaseItemAmount()) {
-      ModifierView modifierView = OrderView.getInstance().getModifierView();
-      if (modifierView.isVisible()) {
-        modifierView.updateVisualRepresentation();
-      }
       updateView();
     }
 
@@ -521,10 +510,6 @@ public class TicketView extends JPanel implements ActionListener {
 
   private void doDecreaseAmount(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doDecreaseAmount
     if (ticketViewerTable.decreaseItemAmount()) {
-      ModifierView modifierView = OrderView.getInstance().getModifierView();
-      if (modifierView.isVisible()) {
-        modifierView.updateVisualRepresentation();
-      }
       updateView();
     }
   }// GEN-LAST:event_doDecreaseAmount
@@ -708,7 +693,7 @@ public class TicketView extends JPanel implements ActionListener {
       selectedItem = (TicketItem) selectedObject;
       MenuItemDAO dao = new MenuItemDAO();
       MenuItem menuItem = dao.get(selectedItem.getItemId());
-      MenuGroup menuGroup = menuItem.getParent();
+      MenuGroup menuGroup = menuItem.getGroup();
       MenuItemAndMenuItemSetView itemView = OrderView.getInstance().getItemView();
       if (!menuGroup.equals(itemView.getMenuGroup())) {
         itemView.setMenuGroup(menuGroup);
@@ -723,22 +708,6 @@ public class TicketView extends JPanel implements ActionListener {
     }
     if (selectedItem == null)
       return;
-
-    ModifierView modifierView = orderView.getModifierView();
-
-    if (selectedItem.isHasModifiers()) {
-      MenuItemDAO dao = new MenuItemDAO();
-      MenuItem menuItem = dao.get(selectedItem.getItemId());
-      if (!menuItem.equals(modifierView.getMenuItem())) {
-        menuItem = dao.initialize(menuItem);
-        modifierView.setMenuItem(menuItem, selectedItem);
-      }
-
-      MenuCategory menuCategory = menuItem.getParent().getParent();
-      orderView.getCategoryView().setSelectedCategory(menuCategory);
-
-      orderView.showView(ModifierView.VIEW_NAME);
-    }
   }
 
   public void updateTicketUniqIdAndCustomer() {

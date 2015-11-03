@@ -275,8 +275,6 @@ public class JReportPrintService {
     map.put(TERMINAL, POSConstants.RECEIPT_REPORT_TERMINAL_LABEL
         + Application.getInstance().getTerminal().getId());
     map.put(CHECK_NO, POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ticket.getId());
-    map.put(TABLE_NO, POSConstants.RECEIPT_REPORT_TABLE_NO_LABEL + ticket.getTableNumbers());
-    map.put(GUEST_COUNT, POSConstants.RECEIPT_REPORT_GUEST_NO_LABEL + ticket.getNumberOfGuests());
     map.put(SERVER_NAME, POSConstants.RECEIPT_REPORT_SERVER_LABEL + ticket.getOwner());
     map.put(REPORT_DATE,
         POSConstants.RECEIPT_REPORT_DATE_LABEL + DateUtil.getReceiptDateTime(new Date()));
@@ -297,19 +295,6 @@ public class JReportPrintService {
     if (printProperties.isShowFooter()) {
       if (ticket.getDiscountAmount() > 0.0) {
         map.put(DISCOUNT_AMOUNT, NumberUtil.formatNumber(ticket.getDiscountAmount()));
-      }
-
-      if (ticket.getTaxAmount() > 0.0) {
-        map.put(TAX_AMOUNT, NumberUtil.formatNumber(ticket.getTaxAmount()));
-      }
-
-      if (ticket.getServiceCharge() > 0.0) {
-        map.put(SERVICE_CHARGE, NumberUtil.formatNumber(ticket.getServiceCharge()));
-      }
-
-      if (ticket.getGratuity() != null) {
-        tipAmount = ticket.getGratuity().getAmount();
-        map.put(TIP_AMOUNT, NumberUtil.formatNumber(tipAmount));
       }
 
       map.put("totalText", POSConstants.RECEIPT_REPORT_TOTAL_LABEL + currencySymbol);
@@ -408,15 +393,10 @@ public class JReportPrintService {
         POSConstants.RECEIPT_REPORT_TICKET_NO_LABEL + ticket.getUniqId());
     endRow(ticketHeaderBuilder);
 
-    if (ticket.getType() == TicketType.DINE_IN) {
+    if (ticket.getType() == TicketType.DINE_IN && ticket.getDineInNumber() != null) {
       beginRow(ticketHeaderBuilder);
       addColumn(ticketHeaderBuilder,
-          POSConstants.RECEIPT_REPORT_TABLE_NO_LABEL + ticket.getTableNumbers());
-      endRow(ticketHeaderBuilder);
-
-      beginRow(ticketHeaderBuilder);
-      addColumn(ticketHeaderBuilder,
-          POSConstants.RECEIPT_REPORT_GUEST_NO_LABEL + ticket.getNumberOfGuests());
+          POSConstants.RECEIPT_REPORT_TABLE_NO_LABEL + ticket.getDineInNumber());
       endRow(ticketHeaderBuilder);
     }
 

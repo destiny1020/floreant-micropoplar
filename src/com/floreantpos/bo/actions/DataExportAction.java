@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -18,8 +17,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.floreantpos.bo.ui.BackOfficeWindow;
-import com.floreantpos.model.MenuItem;
-import com.floreantpos.model.MenuItemModifierGroup;
 import com.floreantpos.model.dao.GenericDAO;
 import com.floreantpos.model.dao.MenuCategoryDAO;
 import com.floreantpos.model.dao.MenuGroupDAO;
@@ -58,8 +55,6 @@ public class DataExportAction extends AbstractAction {
           return;
         }
       }
-
-      fixMenuItemModifierGroups();
 
       JAXBContext jaxbContext = JAXBContext.newInstance(Elements.class);
       Marshaller m = jaxbContext.createMarshaller();
@@ -146,30 +141,4 @@ public class DataExportAction extends AbstractAction {
     return fileChooser;
   }
 
-  private void fixMenuItemModifierGroups() {
-    MenuItemModifierGroupDAO menuItemModifierGroupDAO = MenuItemModifierGroupDAO.getInstance();
-    Session session = menuItemModifierGroupDAO.createNewSession();
-    Transaction transaction = session.beginTransaction();
-
-    try {
-
-      List<MenuItem> menuItems = MenuItemDAO.getInstance().findAll(session);
-
-      for (MenuItem menuItem : menuItems) {
-        List<MenuItemModifierGroup> modiferGroups = menuItem.getMenuItemModiferGroups();
-        for (MenuItemModifierGroup menuItemModifierGroup : modiferGroups) {
-          // menuItemModifierGroup.setParentMenuItem(menuItem);
-          menuItemModifierGroupDAO.saveOrUpdate(menuItemModifierGroup, session);
-        }
-      }
-
-      transaction.commit();
-    } catch (Exception x) {
-      if (transaction != null)
-        transaction.rollback();
-
-    } finally {
-      menuItemModifierGroupDAO.closeSession(session);
-    }
-  }
 }

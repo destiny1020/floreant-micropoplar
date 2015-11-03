@@ -92,11 +92,6 @@ public class TicketViewerTableModel extends AbstractTableModel {
   }
 
   public int addTicketItem(TicketItem ticketItem) {
-
-    if (ticketItem.isHasModifiers()) {
-      return addTicketItemToTicket(ticketItem);
-    }
-
     Set<Entry<String, ITicketItem>> entries = tableRows.entrySet();
     for (Entry<String, ITicketItem> entry : entries) {
 
@@ -127,37 +122,26 @@ public class TicketViewerTableModel extends AbstractTableModel {
   }
 
   public void addAllTicketItem(TicketItem ticketItem) {
-    if (ticketItem.isHasModifiers()) {
-      List<TicketItem> ticketItems = ticket.getTicketItems();
-      ticketItems.add(ticketItem);
-
+    List<TicketItem> ticketItems = ticket.getTicketItems();
+    boolean exists = false;
+    for (TicketItem item : ticketItems) {
+      if (item.getName().equals(ticketItem.getName())) {
+        int itemCount = item.getItemCount();
+        itemCount += ticketItem.getItemCount();
+        item.setItemCount(itemCount);
+        exists = true;
+        table.repaint();
+        return;
+      }
+    }
+    if (!exists) {
+      ticket.addToticketItems(ticketItem);
       calculateRows();
       fireTableDataChanged();
-    } else {
-      List<TicketItem> ticketItems = ticket.getTicketItems();
-      boolean exists = false;
-      for (TicketItem item : ticketItems) {
-        if (item.getName().equals(ticketItem.getName())) {
-          int itemCount = item.getItemCount();
-          itemCount += ticketItem.getItemCount();
-          item.setItemCount(itemCount);
-          exists = true;
-          table.repaint();
-          return;
-        }
-      }
-      if (!exists) {
-        ticket.addToticketItems(ticketItem);
-        calculateRows();
-        fireTableDataChanged();
-      }
     }
   }
 
   public boolean containsTicketItem(TicketItem ticketItem) {
-    if (ticketItem.isHasModifiers())
-      return false;
-
     List<TicketItem> ticketItems = ticket.getTicketItems();
     for (TicketItem item : ticketItems) {
       if (item.getName().equals(ticketItem.getName())) {

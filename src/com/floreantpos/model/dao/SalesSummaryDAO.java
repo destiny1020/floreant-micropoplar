@@ -21,8 +21,8 @@ import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserType;
-import com.floreantpos.report.SalesStatistics;
 import com.floreantpos.report.SalesAnalysisReportModel.SalesAnalysisData;
+import com.floreantpos.report.SalesStatistics;
 import com.floreantpos.report.SalesStatistics.ShiftwiseSalesTableData;
 
 public class SalesSummaryDAO extends _RootDAO {
@@ -161,7 +161,6 @@ public class SalesSummaryDAO extends _RootDAO {
           criteria.setProjection(projectionList);
           criteria
               .add(Restrictions.eq("item." + TicketItem.PROP_CATEGORY_NAME, category.getName()));
-          criteria.add(Restrictions.eq("t." + Ticket.PROP_SHIFT, shift));
           criteria.add(Restrictions.ge("t." + Ticket.PROP_ACTIVE_DATE, start));
           criteria.add(Restrictions.le("t." + Ticket.PROP_ACTIVE_DATE, end));
 
@@ -274,7 +273,6 @@ public class SalesSummaryDAO extends _RootDAO {
         projectionList.add(Projections.rowCount());
         projectionList.add(Projections.sum(Ticket.PROP_SUBTOTAL_AMOUNT));
         projectionList.add(Projections.sum(Ticket.PROP_DISCOUNT_AMOUNT));
-        projectionList.add(Projections.sum(Ticket.PROP_TAX_AMOUNT));
         criteria.setProjection(projectionList);
         criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, start));
         criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, end));
@@ -313,7 +311,6 @@ public class SalesSummaryDAO extends _RootDAO {
 
         ProjectionList projectionList = Projections.projectionList();
         projectionList.add(Projections.rowCount());
-        projectionList.add(Projections.sum(Ticket.PROP_NUMBER_OF_GUESTS));
         criteria.setProjection(projectionList);
         criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, start));
         criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, end));
@@ -408,7 +405,6 @@ public class SalesSummaryDAO extends _RootDAO {
         criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, end));
         criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
         criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-        criteria.add(Restrictions.eq(Ticket.PROP_TAX_EXEMPT, Boolean.TRUE));
 
         if (userType != null) {
           criteria.add(Restrictions.eq("u." + User.PROP_TYPE, userType));
@@ -527,12 +523,10 @@ public class SalesSummaryDAO extends _RootDAO {
     criteria.createCriteria(Ticket.PROP_OWNER, "u");
     ProjectionList projectionList = Projections.projectionList();
     projectionList.add(Projections.rowCount());
-    projectionList.add(Projections.sum(Ticket.PROP_NUMBER_OF_GUESTS));
     projectionList.add(Projections.sum(Ticket.PROP_SUBTOTAL_AMOUNT));
     criteria.setProjection(projectionList);
     criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, start));
     criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, end));
-    criteria.add(Restrictions.eq(Ticket.PROP_SHIFT, shift));
     criteria.add(Restrictions.eq(Ticket.PROP_TICKET_TYPE, ticketType.name()));
 
     if (userType != null) {

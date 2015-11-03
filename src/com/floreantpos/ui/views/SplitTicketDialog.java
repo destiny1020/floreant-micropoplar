@@ -11,13 +11,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +22,6 @@ import org.hibernate.Transaction;
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.ActionHistory;
-import com.floreantpos.model.ShopTable;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.dao.ActionHistoryDAO;
@@ -35,6 +31,8 @@ import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.order.TicketForSplitView;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -292,13 +290,6 @@ public class SplitTicketDialog extends POSDialog {
     Ticket ticket = view.getTicket();
     if (ticket.getTicketItems().size() <= 0)
       return;
-
-    Set<ShopTable> tables = mainTicketView.getTicket().getTables();
-    if (tables != null) {
-      for (ShopTable shopTable : tables) {
-        ticket.addTotables(shopTable);
-      }
-    }
 
     session.saveOrUpdate(ticket);
   }

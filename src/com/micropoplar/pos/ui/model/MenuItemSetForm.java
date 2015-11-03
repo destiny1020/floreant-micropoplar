@@ -62,8 +62,6 @@ import com.micropoplar.pos.ui.util.ControllerGenerator;
 import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     implements ActionListener, ChangeListener {
@@ -202,16 +200,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT + POSConstants.COLON
           + "   " + menuItemSet.getPrice());
     }
-    if (menuItemSet.getDiscountRate() != null) {
-      spinDiscountRate.setValue(menuItemSet.getDiscountRate());
-      spinDiscountRate.setEnabled(true);
-    }
-    if (menuItemSet.getPrice() != null && menuItemSet.getDiscountRate() != null) {
-      tfMemberPrice.setText(
-          String.valueOf(calculateAmount(menuItemSet.getPrice(), menuItemSet.getDiscountRate())));
-    }
 
-    chkVisible.setSelected(menuItemSet.getVisible());
+    chkVisible.setSelected(menuItemSet.isVisible());
     chkShowTextWithImage.setSelected(menuItemSet.isShowImageOnly());
     if (menuItemSet.getImage() != null) {
       ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
@@ -270,12 +260,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     menuItem.setPrice(Double.valueOf(tfPrice.getText()));
     menuItem.setVisible(chkVisible.isSelected());
     menuItem.setShowImageOnly(chkShowTextWithImage.isSelected());
-
-    try {
-      menuItem.setDiscountRate((Double) spinDiscountRate.getValue());
-    } catch (Exception x) {
-      // TODO: 解析错误处理
-    }
 
     int tabCount = tabbedPane.getTabCount();
     for (int i = 0; i < tabCount; i++) {
@@ -541,18 +525,12 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
     lblItemDetails.setText(POSConstants.MENU_ITEM_SET_EDITOR_ITEMS);
 
-    // btnAddMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_ADD_ITEM);
-    // btnAddMenuItem.addActionListener(this);
     btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
     btnEditMenuItem.addActionListener(this);
-    // btnRemoveMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_REMOVE_ITEM);
-    // btnRemoveMenuItem.addActionListener(this);
 
     JPanel pnlButtonGroup = new JPanel();
     pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
-    // pnlButtonGroup.add(btnAddMenuItem, "cell 0 0");
     pnlButtonGroup.add(btnEditMenuItem, "cell 0 0 3 1");
-    // pnlButtonGroup.add(btnRemoveMenuItem, "cell 2 0");
 
     lblTotalPrice = new JLabel();
     lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);

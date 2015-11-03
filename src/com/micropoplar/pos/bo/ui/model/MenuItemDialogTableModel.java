@@ -4,7 +4,7 @@ import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
 
-public class MenuItemDialogTableModel extends ListTableModel {
+public class MenuItemDialogTableModel extends ListTableModel<MenuItem> {
 
   /**
    * 
@@ -39,14 +39,14 @@ public class MenuItemDialogTableModel extends ListTableModel {
         return item.isVisible();
 
       case 4:
-        if (item.getParent() != null && item.getParent().getParent() != null) {
-          return item.getParent().getParent().getName();
+        if (item.getCategory() != null) {
+          return item.getCategory().getName();
         }
         return "";
 
       case 5:
-        if (item.getParent() != null) {
-          return item.getParent().getName();
+        if (item.getGroup() != null) {
+          return item.getGroup().getName();
         }
         return "";
 

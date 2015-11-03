@@ -7,8 +7,6 @@ import java.util.Calendar;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import net.authorize.data.creditcard.CardType;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.floreantpos.ITicketList;
@@ -28,6 +26,8 @@ import com.floreantpos.ui.views.payment.CardInputter;
 import com.floreantpos.ui.views.payment.ManualCardEntryDialog;
 import com.floreantpos.ui.views.payment.PaymentProcessWaitDialog;
 import com.floreantpos.ui.views.payment.SwipeCardDialog;
+
+import net.authorize.data.creditcard.CardType;
 
 public class NewBarTabAction extends AbstractAction implements CardInputListener {
   /**
@@ -67,11 +67,9 @@ public class NewBarTabAction extends AbstractAction implements CardInputListener
   private Ticket createTicket(Application application) {
     Ticket ticket = new Ticket();
 
-    ticket.setPriceIncludesTax(application.isPriceIncludesTax());
     ticket.setType(TicketType.BAR_TAB);
     ticket.setTerminal(application.getTerminal());
     ticket.setOwner(Application.getCurrentUser());
-    ticket.setShift(application.getCurrentShift());
 
     Calendar currentTime = Calendar.getInstance();
     ticket.setCreateDate(currentTime.getTime());

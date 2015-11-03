@@ -179,7 +179,7 @@ public class MenuItemSetExplorer extends TransparentPanel {
           return Double.valueOf(itemSet.getPrice());
 
         case 3:
-          return itemSet.getVisible();
+          return itemSet.isVisible();
       }
 
       return null;

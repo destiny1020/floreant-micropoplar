@@ -1,12 +1,10 @@
 package com.floreantpos.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseMenuItem;
 import com.micropoplar.pos.ui.IOrderViewItem;
 
@@ -29,10 +27,9 @@ public class MenuItem extends BaseMenuItem implements IOrderViewItem {
   /**
    * Constructor for required fields
    */
-  public MenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double buyPrice,
-      java.lang.Double price) {
+  public MenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double price) {
 
-    super(id, name, buyPrice, price);
+    super(id, name, price);
   }
 
   /* [CONSTRUCTOR MARKER END] */
@@ -43,33 +40,12 @@ public class MenuItem extends BaseMenuItem implements IOrderViewItem {
     return super.getModifiedTime();
   }
 
-  public double getPrice(Shift currentShift) {
-    List<MenuItemShift> shifts = getShifts();
+  @Override
+  public Double getPrice() {
     double price = super.getPrice();
 
-    if (currentShift == null) {
-      return price;
-    }
-    if (shifts == null || shifts.size() == 0) {
-      return price;
-    }
+    // TODO: calculate discount here ?
 
-    // Date formattedTicketTime = ShiftUtil.formatShiftTime(ticketCreateTime);
-    // Calendar calendar = Calendar.getInstance();
-    // calendar.setTime(formattedTicketTime);
-    // formattedTicketTime = calendar.getTime();
-    //
-    for (MenuItemShift shift : shifts) {
-      if (shift.getShift().equals(currentShift)) {
-        return shift.getShiftPrice();
-      }
-      // Date startTime = shift.getShift().getStartTime();
-      // Date endTime = shift.getShift().getEndTime();
-      // if(startTime.after(currentShift.getStartTime()) &&
-      // endTime.before(currentShift.getEndTime())) {
-      // return shift.getShiftPrice();
-      // }
-    }
     return price;
   }
 
@@ -87,13 +63,10 @@ public class MenuItem extends BaseMenuItem implements IOrderViewItem {
     ticketItem.setItemId(this.getId());
     ticketItem.setItemCount(1);
     ticketItem.setName(this.getName());
-    ticketItem.setGroupName(this.getParent().getName());
-    ticketItem.setCategoryName(this.getParent().getParent().getName());
-    ticketItem.setUnitPrice(this.getPrice(Application.getInstance().getCurrentShift()));
-    ticketItem.setDiscountRate(this.getDiscountRate());
-    ticketItem.setTaxRate(this.getTax() == null ? 0 : this.getTax().getRate());
-    ticketItem.setHasModifiers(hasModifiers());
-    if (this.getParent().getParent().isBeverage()) {
+    ticketItem.setGroupName(this.getGroup().getName());
+    ticketItem.setCategoryName(this.getCategory().getName());
+    ticketItem.setUnitPrice(this.getPrice());
+    if (this.getCategory().isBeverage()) {
       ticketItem.setBeverage(true);
       ticketItem.setShouldPrintToKitchen(false);
     } else {
@@ -106,7 +79,4 @@ public class MenuItem extends BaseMenuItem implements IOrderViewItem {
     return ticketItem;
   }
 
-  public boolean hasModifiers() {
-    return (this.getMenuItemModiferGroups() != null && this.getMenuItemModiferGroups().size() > 0);
-  }
 }

@@ -23,8 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.apache.ecs.Document;
 import org.apache.ecs.html.BR;
 import org.apache.ecs.html.HR;
@@ -45,11 +43,18 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.TitlePanel;
 import com.floreantpos.util.NumberUtil;
 
+import net.miginfocom.swing.MigLayout;
+
 /**
  *
  * @author MShahriar
  */
 public class DrawerPullReportDialog extends POSDialog {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
   private DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
@@ -368,8 +373,6 @@ public class DrawerPullReportDialog extends POSDialog {
         NumberUtil.formatNumber(drawerPullReport.getTotalDiscountAmount()));
     addDiscountTableRow(table, "TOTAL Sales",
         NumberUtil.formatNumber(drawerPullReport.getTotalDiscountSales()));
-    addDiscountTableRow(table, "TOTAL Guest",
-        String.valueOf(drawerPullReport.getTotalDiscountGuest()));
     addDiscountTableRow(table, "Party Size",
         String.valueOf(drawerPullReport.getTotalDiscountPartySize()));
     addDiscountTableRow(table, "Check Size",

@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.actions.SettleTicketAction;
-import com.floreantpos.extension.TicketImportPlugin;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.ActionHistory;
 import com.floreantpos.model.MenuCategory;
@@ -22,11 +21,9 @@ import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CustomerView;
 import com.floreantpos.ui.views.SwitchboardView;
-import com.floreantpos.ui.views.customer.CustomerTicketView;
 import com.floreantpos.ui.views.order.actions.CategorySelectionListener;
 import com.floreantpos.ui.views.order.actions.GroupSelectionListener;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
-import com.floreantpos.ui.views.order.actions.ModifierSelectionListener;
 import com.floreantpos.ui.views.order.actions.OrderListener;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
@@ -35,7 +32,7 @@ import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
 
 public class OrderController
     implements OrderListener, CategorySelectionListener, GroupSelectionListener,
-    ItemSelectionListener, ModifierSelectionListener, ITicketTypeSelectionListener {
+    ItemSelectionListener, ITicketTypeSelectionListener {
   private OrderView orderView;
 
   public OrderController(OrderView orderView) {
@@ -45,8 +42,6 @@ public class OrderController
     orderView.getGroupView().addGroupSelectionListener(this);
     orderView.getItemView().addItemSelectionListener(this);
     orderView.getOthersView().setItemSelectionListener(this);
-    orderView.getModifierView().addModifierSelectionListener(this);
-    orderView.getTicketView().addOrderListener(this);
     orderView.getTicketView().addTicketTypeSelectionListener(this);
   }
 
@@ -71,12 +66,6 @@ public class OrderController
 
       // sync ticket item to the customer view
       CustomerView.getInstance().getCustomerTicketView().updateAllView();
-
-      if (item.hasModifiers()) {
-        ModifierView modifierView = orderView.getModifierView();
-        modifierView.setMenuItem(item, ticketItem);
-        orderView.showView(ModifierView.VIEW_NAME);
-      }
     } else if (menuItem instanceof MenuItemSet) {
       MenuItemSet item = (MenuItemSet) menuItem;
       MenuItemSetDAO dao = MenuItemSetDAO.getInstance();
@@ -113,15 +102,6 @@ public class OrderController
       groupView.setMenuCategory(menuCategory);
     }
     orderView.showView(GroupView.VIEW_NAME);
-  }
-
-  public void modifierSelectionFiniched(MenuItem parent) {
-    MenuGroup menuGroup = parent.getParent();
-    MenuItemAndMenuItemSetView itemView = orderView.getItemView();
-    if (!menuGroup.equals(itemView.getMenuGroup())) {
-      itemView.setMenuGroup(menuGroup);
-    }
-    orderView.showView(MenuItemAndMenuItemSetView.VIEW_NAME);
   }
 
   public void payOrderSelected(Ticket ticket) {

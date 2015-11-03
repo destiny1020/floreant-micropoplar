@@ -56,10 +56,7 @@ public class SalesExceptionReport {
 
         discountData.totalCount = ++discountData.totalCount;
         discountData.totalDiscount = discountData.totalDiscount + discount.getValue();
-        discountData.totalGuest = discountData.totalGuest + ticket.getNumberOfGuests();
         discountData.totalNetSales = discountData.totalNetSales + ticket.getSubtotalAmount();
-        discountData.partySize =
-            (double) (discountData.totalGuest / (double) discountData.totalCount);
         discountData.checkSize =
             (double) (discountData.totalNetSales / (double) discountData.totalCount);
       }
@@ -119,8 +116,6 @@ public class SalesExceptionReport {
     private int totalCount;
     private double totalDiscount;
     private double totalNetSales;
-    private double totalGuest;
-    private double partySize;
     private double checkSize;
     private double countPercentage;
     private double ratioDNet;
@@ -157,14 +152,6 @@ public class SalesExceptionReport {
       this.name = name;
     }
 
-    public double getPartySize() {
-      return partySize;
-    }
-
-    public void setPartySize(double partySize) {
-      this.partySize = partySize;
-    }
-
     public double getRatioDNet() {
       return ratioDNet;
     }
@@ -187,14 +174,6 @@ public class SalesExceptionReport {
 
     public void setTotalDiscount(double totalDiscount) {
       this.totalDiscount = totalDiscount;
-    }
-
-    public double getTotalGuest() {
-      return totalGuest;
-    }
-
-    public void setTotalGuest(double totalGuest) {
-      this.totalGuest = totalGuest;
     }
 
     public double getTotalNetSales() {
@@ -286,7 +265,7 @@ public class SalesExceptionReport {
   public class DiscountTableModel extends ListTableModel {
     public DiscountTableModel() {
       setColumnNames(new String[] {"no", "name", "code", "totalCount", "totalDiscount",
-          "totalNetSales", "totalGuests", "partySize", "checkSize", "countPercent", "ratioDnet"});
+          "totalNetSales", "checkSize", "countPercent", "ratioDnet"});
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -310,14 +289,10 @@ public class SalesExceptionReport {
         case 5:
           return data.totalNetSales;
         case 6:
-          return data.totalGuest;
-        case 7:
-          return data.partySize;
-        case 8:
           return data.checkSize;
-        case 9:
+        case 7:
           return data.countPercentage;
-        case 10:
+        case 8:
           return data.ratioDNet;
       }
 

@@ -69,8 +69,8 @@ public class TodoTicketViewerTableModel extends AbstractTableModel {
       case 2:
         return ticketItem.getItemCountDisplay();
 
-//      case 3:
-//        return ticketItem.getTaxAmountWithoutModifiersDisplay();
+      //      case 3:
+      //        return ticketItem.getTaxAmountWithoutModifiersDisplay();
 
       case 4:
         return ticketItem.getTotalAmount();
@@ -90,20 +90,6 @@ public class TodoTicketViewerTableModel extends AbstractTableModel {
 
       items.add(ticketItem);
 
-      List<TicketItemModifierGroup> ticketItemModifierGroups =
-          ticketItem.getTicketItemModifierGroups();
-      if (ticketItemModifierGroups != null) {
-        for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-          List<TicketItemModifier> ticketItemModifiers =
-              ticketItemModifierGroup.getTicketItemModifiers();
-          if (ticketItemModifiers != null) {
-            for (TicketItemModifier itemModifier : ticketItemModifiers) {
-              items.add(itemModifier);
-            }
-          }
-        }
-      }
-
       List<TicketItemCookingInstruction> cookingInstructions = ticketItem.getCookingInstructions();
       if (cookingInstructions != null) {
         for (TicketItemCookingInstruction ticketItemCookingInstruction : cookingInstructions) {
@@ -114,11 +100,6 @@ public class TodoTicketViewerTableModel extends AbstractTableModel {
   }
 
   public int addTicketItem(TicketItem ticketItem) {
-
-    if (ticketItem.isHasModifiers()) {
-      return addTicketItemToTicket(ticketItem);
-    }
-
     for (int row = 0; row < items.size(); row++) {
       ITicketItem iTicketItem = items.get(row);
 
@@ -149,37 +130,26 @@ public class TodoTicketViewerTableModel extends AbstractTableModel {
   }
 
   public void addAllTicketItem(TicketItem ticketItem) {
-    if (ticketItem.isHasModifiers()) {
-      List<TicketItem> ticketItems = ticket.getTicketItems();
-      ticketItems.add(ticketItem);
-
+    List<TicketItem> ticketItems = ticket.getTicketItems();
+    boolean exists = false;
+    for (TicketItem item : ticketItems) {
+      if (item.getName().equals(ticketItem.getName())) {
+        int itemCount = item.getItemCount();
+        itemCount += ticketItem.getItemCount();
+        item.setItemCount(itemCount);
+        exists = true;
+        table.repaint();
+        return;
+      }
+    }
+    if (!exists) {
+      ticket.addToticketItems(ticketItem);
       calculateRows();
       fireTableDataChanged();
-    } else {
-      List<TicketItem> ticketItems = ticket.getTicketItems();
-      boolean exists = false;
-      for (TicketItem item : ticketItems) {
-        if (item.getName().equals(ticketItem.getName())) {
-          int itemCount = item.getItemCount();
-          itemCount += ticketItem.getItemCount();
-          item.setItemCount(itemCount);
-          exists = true;
-          table.repaint();
-          return;
-        }
-      }
-      if (!exists) {
-        ticket.addToticketItems(ticketItem);
-        calculateRows();
-        fireTableDataChanged();
-      }
     }
   }
 
   public boolean containsTicketItem(TicketItem ticketItem) {
-    if (ticketItem.isHasModifiers())
-      return false;
-
     List<TicketItem> ticketItems = ticket.getTicketItems();
     for (TicketItem item : ticketItems) {
       if (item.getName().equals(ticketItem.getName())) {

@@ -21,19 +21,14 @@
 		<property column="SETTLED" index="ticketsettled" name="closed" type="java.lang.Boolean" />
 		<property column="SUB_TOTAL" length="52" name="subtotalAmount" type="java.lang.Double" />
 		<property column="TOTAL_DISCOUNT" length="52" name="discountAmount" type="java.lang.Double" />
-		<property column="TOTAL_TAX" length="52" name="taxAmount" type="java.lang.Double" />
 		<property column="TOTAL_PRICE" length="52" name="totalAmount" type="java.lang.Double" />
 		<property column="PAID_AMOUNT" length="52" name="paidAmount" type="java.lang.Double" />
 		<property column="DUE_AMOUNT" length="52" name="dueAmount" type="java.lang.Double" />
-		<property column="ADVANCE_AMOUNT" length="52" name="advanceAmount" type="java.lang.Double" />
 		<!--tableNumber should be -1 for take out -->
-		<property column="NUMBER_OF_GUESTS" name="numberOfGuests" type="java.lang.Integer" />
 		<property column="STATUS" name="status" type="string" length="30" />
 		<!-- property name="gratuityAmount" type="java.lang.Double" column="GRATUITY_AMOUNT" /> <property name="gratuityPaid" type="java.lang.Boolean" column="GRATUITY_PAID" 
 			/ -->
-		<property column="IS_TAX_EXEMPT" name="taxExempt" type="java.lang.Boolean" />
 		<property column="IS_RE_OPENED" name="reOpened" type="java.lang.Boolean" />
-		<property column="SERVICE_CHARGE" name="serviceCharge" type="java.lang.Double" />
 		<property column="DELIVERY_CHARGE" name="deliveryCharge" type="java.lang.Double" />
 		<property column="DELIVERY_ADDRESS" name="deliveryAddress" length="120" type="string" />
 		<property column="CUSTOMER_PICKEUP" name="customerWillPickup" type="java.lang.Boolean" />
@@ -73,23 +68,9 @@
 			<one-to-many class="com.floreantpos.model.PosTransaction" />
 		</set>
 
-		<set name="tables" cascade="save-update" table="TICKET_TABLE" lazy="false">
-			<key column="ticket_id" />
-			<many-to-many column="table_id" class="com.floreantpos.model.ShopTable" />
-		</set>
-
 		<!-- uni-directional many-to-one association to User -->
-		<many-to-one class="com.floreantpos.model.Shift" lazy="false" name="shift">
-			<column name="SHIFT_ID" />
-		</many-to-one>
 		<many-to-one class="com.floreantpos.model.User" lazy="false" name="owner">
 			<column name="OWNER_ID" />
-		</many-to-one>
-		<many-to-one class="com.floreantpos.model.User" lazy="false" name="assignedDriver">
-			<column name="DRIVER_ID" />
-		</many-to-one>
-		<many-to-one cascade="all" class="com.floreantpos.model.Gratuity" lazy="false" name="gratuity">
-			<column name="GRATUITY_ID" />
 		</many-to-one>
 		<many-to-one class="com.floreantpos.model.User" lazy="false" name="voidedBy">
 			<column name="VOID_BY_USER" />

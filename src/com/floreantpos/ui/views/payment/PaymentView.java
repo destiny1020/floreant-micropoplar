@@ -13,19 +13,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.floreantpos.POSConstants;
-import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.NumberUtil;
 
+import net.miginfocom.swing.MigLayout;
+
 public class PaymentView extends JPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private static final String ADD = "0";
 
   private static final String REMOVE = "1";
@@ -279,10 +283,6 @@ public class PaymentView extends JPanel {
     POSMessageDialog.showMessage("Loyalty id set.");
   }
 
-  protected void doSetGratuity() {
-    settleTicketView.doSetGratuity();
-  }
-
   protected void doTaxExempt() {}
 
   private void doFinish(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_doFinish
@@ -297,6 +297,11 @@ public class PaymentView extends JPanel {
   // End of variables declaration//GEN-END:variables
 
   Action calAction = new AbstractAction() {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public void actionPerformed(ActionEvent e) {
       JTextField textField = tfAmountTendered;
 
@@ -361,15 +366,6 @@ public class PaymentView extends JPanel {
 
   protected double getDueAmount() {
     return settleTicketView.getTicket().getDueAmount();
-  }
-
-  protected double getAdvanceAmount() {
-    Gratuity gratuity = settleTicketView.getTicket().getGratuity();
-    return gratuity != null ? gratuity.getAmount() : 0;
-  }
-
-  protected double getTotalGratuity() {
-    return settleTicketView.getTicket().getPaidAmount();
   }
 
   public void setDefaultFocus() {

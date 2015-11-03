@@ -14,13 +14,19 @@ import java.util.HashMap;
 import javax.swing.JComponent;
 
 import com.floreantpos.model.Ticket;
+import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
 /**
  *
  * @author MShahriar
  */
-public class OrderView extends com.floreantpos.swing.TransparentPanel {
+public class OrderView extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private HashMap<String, JComponent> views = new HashMap<String, JComponent>();
 
   public final static String VIEW_NAME = "ORDER_VIEW";
@@ -51,11 +57,9 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 
     groupView = new GroupView();
     itemView = new MenuItemAndMenuItemSetView();
-    modifierView = new ModifierView();
 
     addView(GroupView.VIEW_NAME, groupView);
     addView(MenuItemAndMenuItemSetView.VIEW_NAME, itemView);
-    addView(ModifierView.VIEW_NAME, modifierView);
     addView("VIEW_EMPTY", new com.floreantpos.swing.TransparentPanel());
 
     showView("VIEW_EMPTY");
@@ -105,7 +109,6 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
   private CardLayout cardLayout;
   private GroupView groupView;
   private MenuItemAndMenuItemSetView itemView;
-  private ModifierView modifierView;
   private OrderController orderController;
 
   private boolean hasClosedSearchDialog = false;
@@ -148,14 +151,6 @@ public class OrderView extends com.floreantpos.swing.TransparentPanel {
 
   public void setItemView(MenuItemAndMenuItemSetView itemView) {
     this.itemView = itemView;
-  }
-
-  public ModifierView getModifierView() {
-    return modifierView;
-  }
-
-  public void setModifierView(ModifierView modifierView) {
-    this.modifierView = modifierView;
   }
 
   public com.floreantpos.ui.views.order.TicketView getTicketView() {

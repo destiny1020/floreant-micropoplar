@@ -12,8 +12,6 @@ import org.jdesktop.swingx.calendar.DateUtils;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
-import com.floreantpos.model.TicketItemModifier;
-import com.floreantpos.model.TicketItemModifierGroup;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.util.DateUtil;
 
@@ -111,41 +109,13 @@ public class SalesReport extends Report {
           reportItem.setId(key);
           reportItem.setPrice(ticketItem.getUnitPrice());
           reportItem.setName(ticketItem.getName());
-          reportItem.setTaxRate(ticketItem.getTaxRate());
 
           itemMap.put(key, reportItem);
         }
         reportItem.setQuantity(ticketItem.getItemCount() + reportItem.getQuantity());
-        reportItem.setTotal(reportItem.getTotal() + ticketItem.getSubtotalAmountWithoutModifiers());
-
-        if (ticketItem.isHasModifiers() && ticketItem.getTicketItemModifierGroups() != null) {
-          List<TicketItemModifierGroup> ticketItemModifierGroups =
-              ticketItem.getTicketItemModifierGroups();
-
-          for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-            List<TicketItemModifier> modifiers = ticketItemModifierGroup.getTicketItemModifiers();
-            for (TicketItemModifier modifier : modifiers) {
-              if (modifier.getItemId() == null) {
-                key = modifier.getName();
-              } else {
-                key = modifier.getItemId().toString();
-              }
-              ReportItem modifierReportItem = modifierMap.get(key);
-              if (modifierReportItem == null) {
-                modifierReportItem = new ReportItem();
-                modifierReportItem.setId(key);
-                modifierReportItem.setPrice(modifier.getUnitPrice());
-                modifierReportItem.setName(modifier.getName());
-                modifierReportItem.setTaxRate(modifier.getTaxRate());
-
-                modifierMap.put(key, modifierReportItem);
-              }
-              modifierReportItem.setQuantity(modifierReportItem.getQuantity() + 1);
-              // modifierReportItem.setTotal(modifierReportItem.getTotal() + modifier.getTotal());
-            }
-          }
-        }
+        reportItem.setTotal(reportItem.getTotal() + ticketItem.getSubtotalAmount());
       }
+
       ticket = null;
       iter.remove();
     }

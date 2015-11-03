@@ -20,15 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JRViewer;
-
 import org.jdesktop.swingx.JXDatePicker;
 
 import com.floreantpos.bo.ui.BackOfficeWindow;
@@ -49,6 +40,15 @@ import com.floreantpos.util.NumberUtil;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JRViewer;
 
 /**
  * Created by IntelliJ IDEA. User: mshahriar Date: Feb 28, 2007 Time: 12:25:31 AM To change this
@@ -153,7 +153,6 @@ public class HourlyLaborReportView extends TransparentPanel {
 
       int manHour = users.size();
       int totalChecks = 0;
-      int totalGuests = 0;
       double totalSales = 0;
       double labor = 0;
       double salesPerMHr = 0;
@@ -163,7 +162,6 @@ public class HourlyLaborReportView extends TransparentPanel {
 
       for (Ticket ticket : tickets) {
         ++totalChecks;
-        totalGuests += ticket.getNumberOfGuests();
         totalSales += ticket.getTotalAmount();
       }
 
@@ -173,7 +171,6 @@ public class HourlyLaborReportView extends TransparentPanel {
       if (manHour > 0) {
         labor = labor / manHour;
         salesPerMHr = totalSales / manHour;
-        guestsPerMHr = (double) totalGuests / manHour;
         checksPerMHr = totalChecks / manHour;
         // laborCost =
       }
@@ -183,7 +180,6 @@ public class HourlyLaborReportView extends TransparentPanel {
       reportData.setManHour(manHour);
       reportData.setNoOfChecks(totalChecks);
       reportData.setSales(totalSales);
-      reportData.setNoOfGuests(totalGuests);
       reportData.setLabor(labor);
       reportData.setSalesPerMHr(salesPerMHr);
       reportData.setGuestsPerMHr(guestsPerMHr);
@@ -192,7 +188,6 @@ public class HourlyLaborReportView extends TransparentPanel {
       rows.add(reportData);
 
       grandTotalChecks += totalChecks;
-      grandTotalGuests += totalGuests;
       grandTotalSales += totalSales;
       grandTotalMHr += manHour;
       grandTotalLabor += labor;
@@ -214,7 +209,6 @@ public class HourlyLaborReportView extends TransparentPanel {
 
       int manHour = users.size();
       int totalChecks = 0;
-      int totalGuests = 0;
       double totalSales = 0;
       double labor = 0;
       double salesPerMHr = 0;
@@ -224,7 +218,6 @@ public class HourlyLaborReportView extends TransparentPanel {
 
       for (Ticket ticket : tickets) {
         ++totalChecks;
-        totalGuests += ticket.getNumberOfGuests();
         totalSales += ticket.getTotalAmount();
       }
 
@@ -234,7 +227,6 @@ public class HourlyLaborReportView extends TransparentPanel {
       if (manHour > 0) {
         labor = labor / manHour;
         salesPerMHr = totalSales / manHour;
-        guestsPerMHr = (double) totalGuests / manHour;
         checksPerMHr = totalChecks / manHour;
         // laborCost =
       }
@@ -244,7 +236,6 @@ public class HourlyLaborReportView extends TransparentPanel {
       reportData.setManHour(manHour);
       reportData.setNoOfChecks(totalChecks);
       reportData.setSales(totalSales);
-      reportData.setNoOfGuests(totalGuests);
       reportData.setLabor(labor);
       reportData.setSalesPerMHr(salesPerMHr);
       reportData.setGuestsPerMHr(guestsPerMHr);
@@ -405,7 +396,6 @@ public class HourlyLaborReportView extends TransparentPanel {
   public static class LaborReportData {
     private String period;
     private int noOfChecks;
-    private int noOfGuests;
     private double sales;
     private double manHour;
     private double labor;
@@ -460,14 +450,6 @@ public class HourlyLaborReportView extends TransparentPanel {
 
     public void setNoOfChecks(int noOfChecks) {
       this.noOfChecks = noOfChecks;
-    }
-
-    public int getNoOfGuests() {
-      return noOfGuests;
-    }
-
-    public void setNoOfGuests(int noOfGuests) {
-      this.noOfGuests = noOfGuests;
     }
 
     public String getPeriod() {

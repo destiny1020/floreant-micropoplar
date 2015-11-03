@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.jdesktop.swingx.calendar.DateUtils;
 
@@ -46,8 +47,8 @@ public class SalesReportModelFactory {
     HashMap<String, ReportItem> itemMap = new HashMap<String, ReportItem>();
     HashMap<String, ReportItem> modifierMap = new HashMap<String, ReportItem>();
 
-    for (Iterator iter = tickets.iterator(); iter.hasNext();) {
-      Ticket t = (Ticket) iter.next();
+    for (Iterator<Ticket> iter = tickets.iterator(); iter.hasNext();) {
+      Ticket t = iter.next();
       Ticket ticket = TicketDAO.getInstance().loadFullTicket(t.getId());
 
       List<TicketItem> ticketItems = ticket.getTicketItems();
@@ -68,38 +69,13 @@ public class SalesReportModelFactory {
           reportItem.setId(key);
           reportItem.setPrice(ticketItem.getUnitPrice());
           reportItem.setName(ticketItem.getName());
-          reportItem.setTaxRate(ticketItem.getTaxRate());
 
           itemMap.put(key, reportItem);
         }
         reportItem.setQuantity(ticketItem.getItemCount() + reportItem.getQuantity());
-        reportItem.setTotal(reportItem.getTotal() + ticketItem.getSubtotalAmountWithoutModifiers());
-
-        // if(ticketItem.isHasModifiers() && ticketItem.getModifiers() != null &&
-        // ticketItem.getModifiers().size() > 0) {
-        // List<TicketItemModifier> modifiers = ticketItem.getModifiers();
-        // for (TicketItemModifier modifier : modifiers) {
-        // if(modifier.getItemId() == null) {
-        // key = modifier.getName();
-        // }
-        // else {
-        // key = modifier.getItemId().toString();
-        // }
-        // ReportItem modifierReportItem = modifierMap.get(key);
-        // if(modifierReportItem == null) {
-        // modifierReportItem = new ReportItem();
-        // modifierReportItem.setId(key);
-        // modifierReportItem.setPrice(modifier.getPrice());
-        // modifierReportItem.setName(modifier.getName());
-        // modifierReportItem.setTaxRate(modifier.getTaxRate());
-        //
-        // modifierMap.put(key, modifierReportItem);
-        // }
-        // modifierReportItem.setQuantity(modifierReportItem.getQuantity() + 1);
-        // modifierReportItem.setTotal(modifierReportItem.getTotal() + modifier.getTotal());
-        // }
-        // }
+        reportItem.setTotal(reportItem.getTotal() + ticketItem.getSubtotalAmount());
       }
+
       ticket = null;
       iter.remove();
     }
@@ -126,7 +102,7 @@ public class SalesReportModelFactory {
     JasperReport modifierReport = (JasperReport) JRLoader.loadObject(SalesReportModelFactory.class
         .getResource("/com/floreantpos/report/template/SalesSubReport.jasper"));
 
-    HashMap map = new HashMap();
+    Map<String, Object> map = new HashMap<>();
     map.put("itemDataSource", new JRTableModelDataSource(itemReportModel));
     map.put("modifierDataSource", new JRTableModelDataSource(modifierReportModel));
     map.put("currencySymbol", Application.getCurrencySymbol());

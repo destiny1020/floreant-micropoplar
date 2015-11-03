@@ -7,17 +7,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
-import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseTicket;
 import com.floreantpos.util.NumberUtil;
 import com.floreantpos.util.POSUtil;
@@ -63,70 +60,13 @@ public class Ticket extends BaseTicket {
   private DecimalFormat numberFormat = new DecimalFormat("0.00");
 
   private List deletedItems;
-  private boolean priceIncludesTax;
 
   // additional properties
   public static final String PAYMENT_TYPE = "PAYMENT_TYPE";
 
-  public String getTableNumbers() {
-    Set<ShopTable> tables = getTables();
-    if (tables == null)
-      return "";
-
-    String s = "";
-    for (Iterator iterator = tables.iterator(); iterator.hasNext();) {
-      ShopTable shopTable = (ShopTable) iterator.next();
-      s += shopTable.getNumber();
-
-      if (iterator.hasNext()) {
-        s += ", ";
-      }
-    }
-
-    return s;
-  }
-
   @Override
   public void setClosed(Boolean closed) {
     super.setClosed(closed);
-
-    if (closed) {
-      releaseTables();
-    }
-  }
-
-  private void releaseTables() {
-    Set<ShopTable> tables = getTables();
-    if (tables == null)
-      return;
-
-    for (ShopTable shopTable : tables) {
-      shopTable.setOccupied(false);
-    }
-  }
-
-  public void setGratuityAmount(double amount) {
-    Gratuity gratuity = getGratuity();
-    if (gratuity == null) {
-      gratuity = createGratuity();
-      setGratuity(gratuity);
-    }
-
-    gratuity.setAmount(amount);
-  }
-
-  public Gratuity createGratuity() {
-    Gratuity gratuity;
-    gratuity = new Gratuity();
-    gratuity.setTicket(this);
-    gratuity.setTerminal(Application.getInstance().getTerminal());
-    gratuity.setOwner(getOwner());
-    gratuity.setPaid(false);
-    return gratuity;
-  }
-
-  public boolean hasGratuity() {
-    return getGratuity() != null;
   }
 
   @Override
@@ -159,15 +99,6 @@ public class Ticket extends BaseTicket {
       super.setTicketItems(items);
     }
     return items;
-  }
-
-  @Override
-  public Integer getNumberOfGuests() {
-    Integer guests = super.getNumberOfGuests();
-    if (guests == null || guests.intValue() == 0) {
-      return Integer.valueOf(1);
-    }
-    return guests;
   }
 
   public Ticket(User owner, Date createTime) {
@@ -206,8 +137,6 @@ public class Ticket extends BaseTicket {
   }
 
   public void calculatePrice() {
-    priceIncludesTax = Application.getInstance().isPriceIncludesTax();
-
     List<TicketItem> ticketItems = getTicketItems();
     if (ticketItems == null) {
       return;
@@ -229,25 +158,11 @@ public class Ticket extends BaseTicket {
     setSubtotalAmount(subtotalAmount);
     setDiscountAmount(discountAmount);
 
-    double taxAmount = calculateTax();
-    setTaxAmount(taxAmount);
-
-    double serviceChargeAmount = 0.0;
     double totalAmount = 0.0;
 
-    if (priceIncludesTax) {
-      totalAmount = subtotalAmount - discountAmount + serviceChargeAmount;
-    } else {
-      totalAmount = subtotalAmount - discountAmount + taxAmount + serviceChargeAmount;
-    }
-
-    if (getGratuity() != null) {
-      totalAmount += getGratuity().getAmount();
-    }
-
+    totalAmount = subtotalAmount - discountAmount;
     totalAmount = fixInvalidAmount(totalAmount);
 
-    setServiceCharge(serviceChargeAmount);
     setTotalAmount(NumberUtil.roundToTwoDigit(totalAmount));
 
     double dueAmount = totalAmount - getPaidAmount();
@@ -292,24 +207,6 @@ public class Ticket extends BaseTicket {
     discountAmount = fixInvalidAmount(discountAmount);
 
     return NumberUtil.roundToTwoDigit(discountAmount);
-  }
-
-  private double calculateTax() {
-    if (isTaxExempt()) {
-      return 0;
-    }
-
-    List<TicketItem> ticketItems = getTicketItems();
-    if (ticketItems == null) {
-      return 0;
-    }
-
-    double tax = 0;
-    for (TicketItem ticketItem : ticketItems) {
-      tax += ticketItem.getTaxAmount();
-    }
-
-    return NumberUtil.roundToTwoDigit(fixInvalidAmount(tax));
   }
 
   private double fixInvalidAmount(double tax) {
@@ -365,7 +262,7 @@ public class Ticket extends BaseTicket {
 
       case Coupon.PERCENTAGE_PER_ITEM:
         for (TicketItem item : ticketItems) {
-          discount += ((item.getSubtotalAmountWithoutModifiers() * couponValue) / 100.0);
+          discount += ((item.getSubtotalAmount() * couponValue) / 100.0);
         }
         break;
 
@@ -407,20 +304,6 @@ public class Ticket extends BaseTicket {
         return true;
       }
 
-      List<TicketItemModifierGroup> modifierGroups = item.getTicketItemModifierGroups();
-      if (modifierGroups != null) {
-        for (TicketItemModifierGroup modifierGroup : modifierGroups) {
-          List<TicketItemModifier> ticketItemModifiers = modifierGroup.getTicketItemModifiers();
-          if (ticketItemModifiers != null) {
-            for (TicketItemModifier modifier : ticketItemModifiers) {
-              if (modifier.isShouldPrintToKitchen() && !modifier.isPrintedToKitchen()) {
-                return true;
-              }
-            }
-          }
-        }
-      }
-
       List<TicketItemCookingInstruction> cookingInstructions = item.getCookingInstructions();
       if (cookingInstructions != null) {
         for (TicketItemCookingInstruction ticketItemCookingInstruction : cookingInstructions) {
@@ -446,14 +329,6 @@ public class Ticket extends BaseTicket {
 
   public void setType(TicketType type) {
     setTicketType(type.name());
-  }
-
-  public boolean isPriceIncludesTax() {
-    return priceIncludesTax;
-  }
-
-  public void setPriceIncludesTax(boolean priceIncludesTax) {
-    this.priceIncludesTax = priceIncludesTax;
   }
 
   public void addProperty(String name, String value) {
@@ -519,7 +394,6 @@ public class Ticket extends BaseTicket {
       s += "&items[" + i + "][price]=" + ticketItem.getSubtotalAmount();
     }
 
-    s += "&tax=" + getTaxAmount();
     s += "&subtotal=" + getSubtotalAmount();
     s += "&grandtotal=" + getTotalAmount();
 

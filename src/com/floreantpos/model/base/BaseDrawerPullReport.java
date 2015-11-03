@@ -123,7 +123,6 @@ public abstract class BaseDrawerPullReport implements Comparable, Serializable {
   protected java.lang.Integer totalDiscountCount;
   protected java.lang.Double totalDiscountAmount;
   protected java.lang.Double totalDiscountSales;
-  protected java.lang.Integer totalDiscountGuest;
   protected java.lang.Integer totalDiscountPartySize;
   protected java.lang.Integer totalDiscountCheckSize;
   protected java.lang.Double totalDiscountPercentage;
@@ -839,26 +838,6 @@ public abstract class BaseDrawerPullReport implements Comparable, Serializable {
   public void setTotalDiscountSales(java.lang.Double totalDiscountSales) {
     this.totalDiscountSales = totalDiscountSales;
   }
-
-
-
-  /**
-   * Return the value associated with the column: totalDiscountGuest
-   */
-  public java.lang.Integer getTotalDiscountGuest() {
-    return totalDiscountGuest == null ? Integer.valueOf(0) : totalDiscountGuest;
-  }
-
-  /**
-   * Set the value related to the column: totalDiscountGuest
-   * 
-   * @param totalDiscountGuest the totalDiscountGuest value
-   */
-  public void setTotalDiscountGuest(java.lang.Integer totalDiscountGuest) {
-    this.totalDiscountGuest = totalDiscountGuest;
-  }
-
-
 
   /**
    * Return the value associated with the column: totalDiscountPartySize

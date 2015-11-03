@@ -38,6 +38,11 @@ import com.floreantpos.util.datamigrate.Elements;
 
 public class DataImportAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public DataImportAction() {
     super("Import Menu Items");
   }
@@ -183,26 +188,10 @@ public class DataImportAction extends AbstractAction {
           objectMap.put(menuItem.getUniqueId(), menuItem);
           menuItem.setId(null);
 
-          MenuGroup menuGroup = menuItem.getParent();
+          MenuGroup menuGroup = menuItem.getGroup();
           if (menuGroup != null) {
             menuGroup = (MenuGroup) objectMap.get(menuGroup.getUniqueId());
-            menuItem.setParent(menuGroup);
-          }
-
-          Tax tax = menuItem.getTax();
-          if (tax != null) {
-            tax = (Tax) objectMap.get(tax.getUniqueId());
-            menuItem.setTax(tax);
-          }
-
-          List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
-          if (menuItemModiferGroups != null) {
-            for (MenuItemModifierGroup menuItemModifierGroup : menuItemModiferGroups) {
-              MenuItemModifierGroup menuItemModifierGroup2 =
-                  (MenuItemModifierGroup) objectMap.get(menuItemModifierGroup.getUniqueId());
-              menuItemModifierGroup.setId(menuItemModifierGroup2.getId());
-              menuItemModifierGroup.setModifierGroup(menuItemModifierGroup2.getModifierGroup());
-            }
+            menuItem.setGroup(menuGroup);
           }
 
           MenuItemDAO.getInstance().saveOrUpdate(menuItem, session);

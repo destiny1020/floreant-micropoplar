@@ -6,10 +6,12 @@
 
 package com.floreantpos.ui.views.order;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -18,10 +20,6 @@ import com.floreantpos.IconFactory;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
-import com.floreantpos.model.TicketItemModifierGroup;
-import java.awt.GridBagConstraints;
-import javax.swing.SwingConstants;
-import java.awt.Dimension;
 
 /**
  *
@@ -47,10 +45,8 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     // ticketViewerTable.getColumnExt(2).setVisible(false);
 
     ticket = new Ticket();
-    ticket.setPriceIncludesTax(Application.getInstance().isPriceIncludesTax());
     ticket.setTerminal(Application.getInstance().getTerminal());
     ticket.setOwner(Application.getCurrentUser());
-    ticket.setShift(Application.getInstance().getCurrentShift());
 
     Calendar currentTime = Calendar.getInstance();
     ticket.setCreateDate(currentTime.getTime());
@@ -81,10 +77,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     tfSubtotal.setMinimumSize(new Dimension(90, 19));
     tfSubtotal.setHorizontalAlignment(SwingConstants.TRAILING);
     tfSubtotal.setColumns(10);
-    tfTax = new javax.swing.JTextField();
-    tfTax.setMinimumSize(new Dimension(90, 19));
-    tfTax.setHorizontalAlignment(SwingConstants.TRAILING);
-    tfTax.setColumns(10);
     tfDiscount = new javax.swing.JTextField();
     tfDiscount.setMinimumSize(new Dimension(90, 19));
     tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -180,14 +172,11 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     gridBagConstraints_1.insets = new java.awt.Insets(3, 5, 0, 5);
     jPanel3.add(tfSubtotal, gridBagConstraints_1);
 
-    tfTax.setEditable(false);
-    tfTax.setFont(new java.awt.Font("微软雅黑", 1, 12));
     gridBagConstraints_3 = new java.awt.GridBagConstraints();
     gridBagConstraints_3.anchor = GridBagConstraints.WEST;
     gridBagConstraints_3.gridx = 1;
     gridBagConstraints_3.gridy = 3;
     gridBagConstraints_3.insets = new java.awt.Insets(3, 5, 0, 5);
-    jPanel3.add(tfTax, gridBagConstraints_3);
 
     tfDiscount.setEditable(false);
     tfDiscount.setFont(new java.awt.Font("微软雅黑", 1, 12));
@@ -369,7 +358,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
   private javax.swing.JSeparator jSeparator3;
   private javax.swing.JTextField tfDiscount;
   private javax.swing.JTextField tfSubtotal;
-  private javax.swing.JTextField tfTax;
   private javax.swing.JTextField tfTotal;
   private com.floreantpos.ui.ticket.TicketViewerTable ticketViewerTable;
   private GridBagConstraints gridBagConstraints_1;
@@ -395,7 +383,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     if (ticket == null || ticket.getTicketItems() == null || ticket.getTicketItems().size() <= 0) {
       tfSubtotal.setText("");
       tfDiscount.setText("");
-      tfTax.setText("");
       tfTotal.setText("");
 
       return;
@@ -405,7 +392,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
 
     tfSubtotal.setText(numberFormat.format(ticket.getSubtotalAmount()));
     tfDiscount.setText(numberFormat.format(ticket.getDiscountAmount()));
-    tfTax.setText(numberFormat.format(ticket.getTaxAmount()));
     tfTotal.setText(numberFormat.format(ticket.getTotalAmount()));
   }
 
@@ -425,15 +411,10 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     TicketItem newTicketItem = new TicketItem();
     newTicketItem.setItemCount(1);
     newTicketItem.setItemId(ticketItem.getItemId());
-    newTicketItem.setHasModifiers(ticketItem.isHasModifiers());
-    newTicketItem.setTicketItemModifierGroups(
-        new ArrayList<TicketItemModifierGroup>(ticketItem.getTicketItemModifierGroups()));
     newTicketItem.setName(ticketItem.getName());
     newTicketItem.setGroupName(ticketItem.getGroupName());
     newTicketItem.setCategoryName(ticketItem.getCategoryName());
     newTicketItem.setUnitPrice(ticketItem.getUnitPrice());
-    newTicketItem.setDiscountRate(ticketItem.getDiscountRate());
-    newTicketItem.setTaxRate(ticketItem.getTaxRate());
     newTicketItem.setBeverage(ticketItem.isBeverage());
     newTicketItem.setShouldPrintToKitchen(ticketItem.isShouldPrintToKitchen());
     newTicketItem.setVirtualPrinter(ticketItem.getVirtualPrinter());
@@ -456,15 +437,10 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     TicketItem newTicketItem = new TicketItem();
     newTicketItem.setItemId(ticketItem.getItemId());
     newTicketItem.setItemCount(ticketItem.getItemCount());
-    newTicketItem.setHasModifiers(ticketItem.isHasModifiers());
-    newTicketItem.setTicketItemModifierGroups(
-        new ArrayList<TicketItemModifierGroup>(ticketItem.getTicketItemModifierGroups()));
     newTicketItem.setName(ticketItem.getName());
     newTicketItem.setGroupName(ticketItem.getGroupName());
     newTicketItem.setCategoryName(ticketItem.getCategoryName());
     newTicketItem.setUnitPrice(ticketItem.getUnitPrice());
-    newTicketItem.setDiscountRate(ticketItem.getDiscountRate());
-    newTicketItem.setTaxRate(ticketItem.getTaxRate());
     newTicketItem.setBeverage(ticketItem.isBeverage());
     newTicketItem.setShouldPrintToKitchen(ticketItem.isShouldPrintToKitchen());
     newTicketItem.setVirtualPrinter(ticketItem.getVirtualPrinter());
@@ -481,7 +457,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
     if (ticket == null || ticket.getTicketItems() == null || ticket.getTicketItems().size() <= 0) {
       tfSubtotal.setText("");
       tfDiscount.setText("");
-      tfTax.setText("");
       tfTotal.setText("");
 
       return;
@@ -491,7 +466,6 @@ public class TicketForSplitView extends com.floreantpos.swing.TransparentPanel
 
     tfSubtotal.setText(numberFormat.format(ticket.getSubtotalAmount()));
     tfDiscount.setText(numberFormat.format(ticket.getDiscountAmount()));
-    tfTax.setText(numberFormat.format(ticket.getTaxAmount()));
     tfTotal.setText(numberFormat.format(ticket.getTotalAmount()));
   }
 

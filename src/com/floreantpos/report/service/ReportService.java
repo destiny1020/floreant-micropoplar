@@ -138,7 +138,6 @@ public class ReportService {
 
         ProjectionList projectionList = Projections.projectionList();
         projectionList.add(Projections.rowCount());
-        projectionList.add(Projections.sum(Ticket.PROP_NUMBER_OF_GUESTS));
         projectionList.add(Projections.sum(TicketItem.PROP_TOTAL_AMOUNT));
 
         criteria.setProjection(projectionList);
@@ -272,7 +271,6 @@ public class ReportService {
       criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_TAX_EXEMPT, Boolean.FALSE));
       ProjectionList projectionList = Projections.projectionList();
       projectionList.add(Projections.sum(Ticket.PROP_SUBTOTAL_AMOUNT));
       criteria.setProjection(projectionList);
@@ -288,7 +286,6 @@ public class ReportService {
       criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_TAX_EXEMPT, Boolean.TRUE));
       projectionList = Projections.projectionList();
       projectionList.add(Projections.sum(Ticket.PROP_SUBTOTAL_AMOUNT));
       criteria.setProjection(projectionList);
@@ -315,29 +312,6 @@ public class ReportService {
           }
         }
       }
-
-      // tax
-      criteria = session.createCriteria(Ticket.class);
-      criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, fromDate));
-      criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
-      criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-      projectionList = Projections.projectionList();
-      projectionList.add(Projections.sum(Ticket.PROP_TAX_AMOUNT));
-      criteria.setProjection(projectionList);
-      Object o1 = criteria.uniqueResult();
-      if (o1 instanceof Number) {
-        double amount = ((Number) o1).doubleValue();
-        report.setSalesTaxAmount(amount);
-      }
-
-      // tips
-      criteria = session.createCriteria(Ticket.class);
-      criteria.createAlias(Ticket.PROP_GRATUITY, "g");
-      criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, fromDate));
-      criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
-
-      // FIXME: HOW ABOUT TIPS ON VOID OR REFUNDED TICKET?
 
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
@@ -404,26 +378,6 @@ public class ReportService {
       if (o.length > 1 && o[1] instanceof Number) {
         double amount = ((Number) o[1]).doubleValue();
         report.setGiftCertChangeAmount(amount);
-      }
-
-      // tips paid
-      criteria = session.createCriteria(Ticket.class);
-      criteria.createAlias(Ticket.PROP_GRATUITY, "gratuity");
-      criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, fromDate));
-      criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
-
-      // FIXME: TIPS
-      criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
-      criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));
-
-      criteria.add(Restrictions.eq("gratuity." + Gratuity.PROP_PAID, Boolean.TRUE));
-      projectionList = Projections.projectionList();
-      projectionList.add(Projections.sum("gratuity." + Gratuity.PROP_AMOUNT));
-      criteria.setProjection(projectionList);
-      object = criteria.uniqueResult();
-      if (object != null && object instanceof Number) {
-        double amount = ((Number) object).doubleValue();
-        report.setGrossTipsPaidAmount(amount);
       }
 
       // cash payout
@@ -598,37 +552,6 @@ public class ReportService {
       }
       if (object != null && object.length > 1 && object[1] instanceof Number) {
         report.setGiftCertChangeAmount(((Number) object[1]).doubleValue());
-      }
-
-      criteria = session.createCriteria(Ticket.class);
-      criteria.createAlias(Ticket.PROP_GRATUITY, "g");
-      criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, fromDate));
-      criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
-      criteria.add(Restrictions.gt("g." + Gratuity.PROP_AMOUNT, Double.valueOf(0)));
-      projectionList = Projections.projectionList();
-      projectionList.add(Projections.rowCount());
-      projectionList.add(Projections.sum("g." + Gratuity.PROP_AMOUNT));
-      criteria.setProjection(projectionList);
-      object = (Object[]) criteria.uniqueResult();
-      if (object != null && object.length > 0 && object[0] instanceof Number) {
-        report.setTipsCount(((Number) object[0]).intValue());
-      }
-      if (object != null && object.length > 1 && object[1] instanceof Number) {
-        report.setChargedTips(((Number) object[1]).doubleValue());
-      }
-
-      criteria = session.createCriteria(Ticket.class);
-      criteria.createAlias(Ticket.PROP_GRATUITY, "g");
-      criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, fromDate));
-      criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, toDate));
-      criteria.add(Restrictions.gt("g." + Gratuity.PROP_AMOUNT, Double.valueOf(0)));
-      criteria.add(Restrictions.gt("g." + Gratuity.PROP_PAID, Boolean.TRUE));
-      projectionList = Projections.projectionList();
-      projectionList.add(Projections.sum("g." + Gratuity.PROP_AMOUNT));
-      criteria.setProjection(projectionList);
-      object = (Object[]) criteria.uniqueResult();
-      if (object != null && object.length > 0 && object[0] instanceof Number) {
-        report.setTipsPaid(((Number) object[0]).doubleValue());
       }
 
       return report;

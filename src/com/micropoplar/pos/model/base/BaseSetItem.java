@@ -13,7 +13,6 @@ public class BaseSetItem implements Comparable, Serializable {
   public static String PROP_ITEM_ID = "itemId";
   public static String PROP_CATEGORY_NAME = "categoryName";
   public static String PROP_GROUP_NAME = "groupName";
-  public static String PROP_DISCOUNT_RATE = "discountRate";
   public static String PROP_ITEM_COUNT = "itemCount";
   public static String PROP_UNIT_PRICE = "unitPrice";
   public static String PROP_DISCOUNT_AMOUNT = "discountAmount";
@@ -66,7 +65,6 @@ public class BaseSetItem implements Comparable, Serializable {
   protected java.lang.String groupName;
   protected java.lang.String categoryName;
   protected java.lang.Double unitPrice;
-  protected java.lang.Double discountRate = 1.0; // 1.0 表示没有打折
   protected java.lang.Double subtotalAmount;
   protected java.lang.Double discountAmount;
   protected java.lang.Double totalAmount;
@@ -208,22 +206,6 @@ public class BaseSetItem implements Comparable, Serializable {
    */
   public void setUnitPrice(java.lang.Double unitPrice) {
     this.unitPrice = unitPrice;
-  }
-
-  /**
-   * Return the value associated with the column: DISCOUNT_RATE
-   */
-  public java.lang.Double getDiscountRate() {
-    return discountRate == null ? Double.valueOf(0) : discountRate;
-  }
-
-  /**
-   * Set the value related to the column: DISCOUNT_RATE
-   * 
-   * @param discountRate the DISCOUNT_RATE value
-   */
-  public void setDiscountRate(java.lang.Double discountRate) {
-    this.discountRate = discountRate;
   }
 
   /**

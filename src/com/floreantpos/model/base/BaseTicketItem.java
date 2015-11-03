@@ -14,30 +14,28 @@ import com.floreantpos.model.TicketItemCookingInstruction;
  * @hibernate.class table="TICKET_ITEM"
  */
 
-public abstract class BaseTicketItem implements Comparable, Serializable {
+public abstract class BaseTicketItem implements Comparable<BaseTicketItem>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "TicketItem";
   public static String PROP_BEVERAGE = "beverage";
   public static String PROP_ITEM_ID = "itemId";
   public static String PROP_CATEGORY_NAME = "categoryName";
   public static String PROP_GROUP_NAME = "groupName";
-  public static String PROP_DISCOUNT_RATE = "discountRate";
   public static String PROP_ITEM_COUNT = "itemCount";
-  public static String PROP_TAX_RATE = "taxRate";
   public static String PROP_UNIT_PRICE = "unitPrice";
-  public static String PROP_TAX_AMOUNT = "taxAmount";
   public static String PROP_DISCOUNT_AMOUNT = "discountAmount";
   public static String PROP_NAME = "name";
   public static String PROP_PRINTED_TO_KITCHEN = "printedToKitchen";
   public static String PROP_SHOULD_PRINT_TO_KITCHEN = "shouldPrintToKitchen";
   public static String PROP_TICKET = "ticket";
   public static String PROP_SUBTOTAL_AMOUNT = "subtotalAmount";
-  public static String PROP_HAS_MODIFIERS = "hasModifiers";
-  public static String PROP_TAX_AMOUNT_WITHOUT_MODIFIERS = "taxAmountWithoutModifiers";
   public static String PROP_ID = "id";
   public static String PROP_TOTAL_AMOUNT = "totalAmount";
-  public static String PROP_SUBTOTAL_AMOUNT_WITHOUT_MODIFIERS = "subtotalAmountWithoutModifiers";
-  public static String PROP_TOTAL_AMOUNT_WITHOUT_MODIFIERS = "totalAmountWithoutModifiers";
   public static String PROP_VIRTUAL_PRINTER = "virtualPrinter";
   public static String PROP_DISCOUNT_OFFSET_AMOUNT = "discountOffsetAmount";
   public static String PROP_IS_SET = "isSet";
@@ -82,18 +80,11 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   protected java.lang.String groupName;
   protected java.lang.String categoryName;
   protected java.lang.Double unitPrice;
-  protected java.lang.Double discountRate = 1.0; // 1.0 表示没有打折
-  protected java.lang.Double taxRate;
   protected java.lang.Double subtotalAmount;
-  protected java.lang.Double subtotalAmountWithoutModifiers;
   protected java.lang.Double discountAmount;
-  protected java.lang.Double taxAmount;
-  protected java.lang.Double taxAmountWithoutModifiers;
   protected java.lang.Double totalAmount;
-  protected java.lang.Double totalAmountWithoutModifiers;
   protected java.lang.Boolean beverage;
   protected java.lang.Boolean shouldPrintToKitchen;
-  protected java.lang.Boolean hasModifiers;
   protected java.lang.Boolean printedToKitchen;
   protected java.lang.Double discountOffsetAmount;
 
@@ -105,7 +96,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   private com.floreantpos.model.VirtualPrinter virtualPrinter;
 
   // collections
-  private java.util.List<com.floreantpos.model.TicketItemModifierGroup> ticketItemModifierGroups;
   private java.util.List<TicketItemCookingInstruction> cookingInstructions;
 
   /**
@@ -253,44 +243,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     this.unitPrice = unitPrice;
   }
 
-
-
-  /**
-   * Return the value associated with the column: DISCOUNT_RATE
-   */
-  public java.lang.Double getDiscountRate() {
-    return discountRate == null ? Double.valueOf(0) : discountRate;
-  }
-
-  /**
-   * Set the value related to the column: DISCOUNT_RATE
-   * 
-   * @param discountRate the DISCOUNT_RATE value
-   */
-  public void setDiscountRate(java.lang.Double discountRate) {
-    this.discountRate = discountRate;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: ITEM_TAX_RATE
-   */
-  public java.lang.Double getTaxRate() {
-    return taxRate == null ? Double.valueOf(0) : taxRate;
-  }
-
-  /**
-   * Set the value related to the column: ITEM_TAX_RATE
-   * 
-   * @param taxRate the ITEM_TAX_RATE value
-   */
-  public void setTaxRate(java.lang.Double taxRate) {
-    this.taxRate = taxRate;
-  }
-
-
-
   /**
    * Return the value associated with the column: SUB_TOTAL
    */
@@ -306,27 +258,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   public void setSubtotalAmount(java.lang.Double subtotalAmount) {
     this.subtotalAmount = subtotalAmount;
   }
-
-
-
-  /**
-   * Return the value associated with the column: SUB_TOTAL_WITHOUT_MODIFIERS
-   */
-  public java.lang.Double getSubtotalAmountWithoutModifiers() {
-    return subtotalAmountWithoutModifiers == null ? Double.valueOf(0)
-        : subtotalAmountWithoutModifiers;
-  }
-
-  /**
-   * Set the value related to the column: SUB_TOTAL_WITHOUT_MODIFIERS
-   * 
-   * @param subtotalAmountWithoutModifiers the SUB_TOTAL_WITHOUT_MODIFIERS value
-   */
-  public void setSubtotalAmountWithoutModifiers(java.lang.Double subtotalAmountWithoutModifiers) {
-    this.subtotalAmountWithoutModifiers = subtotalAmountWithoutModifiers;
-  }
-
-
 
   /**
    * Return the value associated with the column: DISCOUNT
@@ -344,44 +275,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     this.discountAmount = discountAmount;
   }
 
-
-
-  /**
-   * Return the value associated with the column: TAX_AMOUNT
-   */
-  public java.lang.Double getTaxAmount() {
-    return taxAmount == null ? Double.valueOf(0) : taxAmount;
-  }
-
-  /**
-   * Set the value related to the column: TAX_AMOUNT
-   * 
-   * @param taxAmount the TAX_AMOUNT value
-   */
-  public void setTaxAmount(java.lang.Double taxAmount) {
-    this.taxAmount = taxAmount;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: TAX_AMOUNT_WITHOUT_MODIFIERS
-   */
-  public java.lang.Double getTaxAmountWithoutModifiers() {
-    return taxAmountWithoutModifiers == null ? Double.valueOf(0) : taxAmountWithoutModifiers;
-  }
-
-  /**
-   * Set the value related to the column: TAX_AMOUNT_WITHOUT_MODIFIERS
-   * 
-   * @param taxAmountWithoutModifiers the TAX_AMOUNT_WITHOUT_MODIFIERS value
-   */
-  public void setTaxAmountWithoutModifiers(java.lang.Double taxAmountWithoutModifiers) {
-    this.taxAmountWithoutModifiers = taxAmountWithoutModifiers;
-  }
-
-
-
   /**
    * Return the value associated with the column: TOTAL_PRICE
    */
@@ -397,26 +290,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
   public void setTotalAmount(java.lang.Double totalAmount) {
     this.totalAmount = totalAmount;
   }
-
-
-
-  /**
-   * Return the value associated with the column: TOTAL_PRICE_WITHOUT_MODIFIERS
-   */
-  public java.lang.Double getTotalAmountWithoutModifiers() {
-    return totalAmountWithoutModifiers == null ? Double.valueOf(0) : totalAmountWithoutModifiers;
-  }
-
-  /**
-   * Set the value related to the column: TOTAL_PRICE_WITHOUT_MODIFIERS
-   * 
-   * @param totalAmountWithoutModifiers the TOTAL_PRICE_WITHOUT_MODIFIERS value
-   */
-  public void setTotalAmountWithoutModifiers(java.lang.Double totalAmountWithoutModifiers) {
-    this.totalAmountWithoutModifiers = totalAmountWithoutModifiers;
-  }
-
-
 
   /**
    * Return the value associated with the column: BEVERAGE
@@ -434,8 +307,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     this.beverage = beverage;
   }
 
-
-
   /**
    * Return the value associated with the column: PRINT_TO_KITCHEN
    */
@@ -452,32 +323,12 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     this.shouldPrintToKitchen = shouldPrintToKitchen;
   }
 
-
   /**
    * Custom property
    */
   public static String getShouldPrintToKitchenDefaultValue() {
     return "true";
   }
-
-
-  /**
-   * Return the value associated with the column: HAS_MODIIERS
-   */
-  public java.lang.Boolean isHasModifiers() {
-    return hasModifiers == null ? Boolean.FALSE : hasModifiers;
-  }
-
-  /**
-   * Set the value related to the column: HAS_MODIIERS
-   * 
-   * @param hasModifiers the HAS_MODIIERS value
-   */
-  public void setHasModifiers(java.lang.Boolean hasModifiers) {
-    this.hasModifiers = hasModifiers;
-  }
-
-
 
   /**
    * Return the value associated with the column: PRINTED_TO_KITCHEN
@@ -532,35 +383,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     this.virtualPrinter = virtualPrinter;
   }
 
-
-
-  /**
-   * Return the value associated with the column: ticketItemModifierGroups
-   */
-  public java.util.List<com.floreantpos.model.TicketItemModifierGroup> getTicketItemModifierGroups() {
-    return ticketItemModifierGroups;
-  }
-
-  /**
-   * Set the value related to the column: ticketItemModifierGroups
-   * 
-   * @param ticketItemModifierGroups the ticketItemModifierGroups value
-   */
-  public void setTicketItemModifierGroups(
-      java.util.List<com.floreantpos.model.TicketItemModifierGroup> ticketItemModifierGroups) {
-    this.ticketItemModifierGroups = ticketItemModifierGroups;
-  }
-
-  public void addToticketItemModifierGroups(
-      com.floreantpos.model.TicketItemModifierGroup ticketItemModifierGroup) {
-    if (null == getTicketItemModifierGroups())
-      setTicketItemModifierGroups(
-          new java.util.ArrayList<com.floreantpos.model.TicketItemModifierGroup>());
-    getTicketItemModifierGroups().add(ticketItemModifierGroup);
-  }
-
-
-
   /**
    * Return the value associated with the column: cookingInstructions
    */
@@ -577,8 +399,6 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
       java.util.List<TicketItemCookingInstruction> cookingInstructions) {
     this.cookingInstructions = cookingInstructions;
   }
-
-
 
   public boolean equals(Object obj) {
     if (null == obj)
@@ -606,7 +426,7 @@ public abstract class BaseTicketItem implements Comparable, Serializable {
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  public int compareTo(BaseTicketItem obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())

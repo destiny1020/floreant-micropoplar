@@ -7,5 +7,5 @@ package com.micropoplar.pos.model.base;
  *
  */
 public class BaseCompaignContent {
-
+  
 }

@@ -11,7 +11,7 @@ import com.floreantpos.util.NumberUtil;
  * template use File | Settings | File Templates.
  */
 public class HourlyLaborReportModel extends ListTableModel {
-  private String[] columnNames = {"period", "checks", "guests", "sales", "manHour", "labor",
+  private String[] columnNames = {"period", "checks", "sales", "manHour", "labor",
       "salesPerMHr", "guestsPerMHr", "checksPerMHr", "laborCost"};
 
   public HourlyLaborReportModel() {
@@ -34,27 +34,24 @@ public class HourlyLaborReportModel extends ListTableModel {
         return String.valueOf(reportData.getNoOfChecks());
 
       case 2:
-        return String.valueOf(reportData.getNoOfGuests());
-
-      case 3:
         return NumberUtil.formatNumber(reportData.getSales());
 
-      case 4:
+      case 3:
         return NumberUtil.formatNumber(reportData.getManHour());
 
-      case 5:
+      case 4:
         return NumberUtil.formatNumber(reportData.getLabor());
 
-      case 6:
+      case 5:
         return NumberUtil.formatNumber(reportData.getSalesPerMHr());
 
-      case 7:
+      case 6:
         return NumberUtil.formatNumber(reportData.getGuestsPerMHr());
 
-      case 8:
+      case 7:
         return NumberUtil.formatNumber(reportData.getCheckPerMHr());
 
-      case 9:
+      case 8:
         return NumberUtil.formatNumber(reportData.getLaborCost());
     }
     return null;

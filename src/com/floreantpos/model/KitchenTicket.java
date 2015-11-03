@@ -66,7 +66,8 @@ public class KitchenTicket extends BaseKitchenTicket {
         kitchenTicket.setVirtualPrinter(ticketItem.getVirtualPrinter());
         kitchenTicket.setTicketId(ticket.getId());
         kitchenTicket.setCreateDate(new Date());
-        kitchenTicket.setTableNumbers(ticket.getTableNumbers());
+        kitchenTicket.setTableNumbers(
+            ticket.getDineInNumber() == null ? "" : String.valueOf(ticket.getDineInNumber()));
         kitchenTicket.setServerName(ticket.getOwner().getName());
         kitchenTicket.setStatus(KitchenTicketStatus.WAITING.name());
         kitchenTicket.setVirtualPrinter(printer.getVirtualPrinter());
@@ -85,7 +86,6 @@ public class KitchenTicket extends BaseKitchenTicket {
 
       ticketItem.setPrintedToKitchen(true);
 
-      includeModifiers(ticketItem, kitchenTicket);
       includeCookintInstructions(ticketItem, kitchenTicket);
     }
 
@@ -107,34 +107,6 @@ public class KitchenTicket extends BaseKitchenTicket {
         item.setMenuItemName(ticketItemCookingInstruction.getNameDisplay());
         item.setQuantity(ticketItemCookingInstruction.getItemCountDisplay());
         kitchenTicket.addToticketItems(item);
-      }
-    }
-  }
-
-  private static void includeModifiers(TicketItem ticketItem, KitchenTicket kitchenTicket) {
-    List<TicketItemModifierGroup> ticketItemModifierGroups =
-        ticketItem.getTicketItemModifierGroups();
-    if (ticketItemModifierGroups != null) {
-      for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-        List<TicketItemModifier> ticketItemModifiers =
-            ticketItemModifierGroup.getTicketItemModifiers();
-        if (ticketItemModifiers != null) {
-          for (TicketItemModifier itemModifier : ticketItemModifiers) {
-
-            if (itemModifier.isPrintedToKitchen() || !itemModifier.isShouldPrintToKitchen()) {
-              continue;
-            }
-
-            KitchenTicketItem item = new KitchenTicketItem();
-            item.setMenuItemCode("");
-            item.setMenuItemName(itemModifier.getNameDisplay());
-            item.setQuantity(itemModifier.getItemCountDisplay());
-            item.setStatus(KitchenTicketStatus.WAITING.name());
-            kitchenTicket.addToticketItems(item);
-
-            itemModifier.setPrintedToKitchen(true);
-          }
-        }
       }
     }
   }

@@ -1,9 +1,7 @@
 package com.floreantpos.model.dao;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,13 +17,10 @@ import org.hibernate.criterion.Restrictions;
 import com.floreantpos.bo.ui.ComboOption;
 import com.floreantpos.bo.ui.explorer.search.TicketSearchDto;
 import com.floreantpos.main.Application;
-import com.floreantpos.model.Gratuity;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.Shift;
 import com.floreantpos.model.Terminal;
 import com.floreantpos.model.Ticket;
-import com.floreantpos.model.TicketItem;
-import com.floreantpos.model.TicketItemModifierGroup;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.TransactionType;
 import com.floreantpos.model.User;
@@ -86,20 +81,6 @@ public class TicketDAO extends BaseTicketDAO {
     Hibernate.initialize(ticket.getCoupons());
     Hibernate.initialize(ticket.getTransactions());
 
-    List<TicketItem> ticketItems = ticket.getTicketItems();
-    if (ticketItems != null) {
-      for (TicketItem ticketItem : ticketItems) {
-        List<TicketItemModifierGroup> ticketItemModifierGroups =
-            ticketItem.getTicketItemModifierGroups();
-        Hibernate.initialize(ticketItemModifierGroups);
-        if (ticketItemModifierGroups != null) {
-          for (TicketItemModifierGroup ticketItemModifierGroup : ticketItemModifierGroups) {
-            Hibernate.initialize(ticketItemModifierGroup.getTicketItemModifiers());
-          }
-        }
-      }
-    }
-
     session.close();
 
     return ticket;
@@ -116,49 +97,6 @@ public class TicketDAO extends BaseTicketDAO {
     session.close();
 
     return ticket;
-  }
-
-  public List<Gratuity> getServerGratuities(Terminal terminal, String transactionType) {
-    Session session = null;
-    ArrayList<Gratuity> gratuities = new ArrayList<Gratuity>();
-
-    try {
-      session = getSession();
-      Criteria criteria = session.createCriteria(getReferenceClass());
-      criteria.add(Restrictions.eq(Ticket.PROP_TERMINAL, terminal));
-      criteria.createAlias(Ticket.PROP_GRATUITY, "gratuity");
-      criteria.add(Restrictions.eq("gratuity.paid", Boolean.FALSE));
-
-      List list = criteria.list();
-      for (Iterator iter = list.iterator(); iter.hasNext();) {
-        Ticket ticket = (Ticket) iter.next();
-        gratuities.add(ticket.getGratuity());
-      }
-      return gratuities;
-    } finally {
-      closeSession(session);
-    }
-  }
-
-  public double getPaidGratuityAmount(Terminal terminal) {
-    Session session = null;
-
-    try {
-      session = getSession();
-      Criteria criteria = session.createCriteria(getReferenceClass(), "t");
-      criteria = criteria.createAlias(Ticket.PROP_GRATUITY, "gratuity");
-      criteria.add(Restrictions.eq(Ticket.PROP_TERMINAL, terminal));
-      criteria.add(Restrictions.eq("gratuity.paid", Boolean.TRUE));
-      criteria.setProjection(Projections.sum("gratuity.amount"));
-
-      List list = criteria.list();
-      if (list.size() > 0 && list.get(0) instanceof Number) {
-        return ((Number) list.get(0)).doubleValue();
-      }
-      return 0;
-    } finally {
-      closeSession(session);
-    }
   }
 
   public void voidTicket(Ticket ticket) throws Exception {
@@ -465,7 +403,6 @@ public class TicketDAO extends BaseTicketDAO {
       Criteria criteria = session.createCriteria(getReferenceClass());
       criteria.add(Restrictions.ge(Ticket.PROP_CREATE_DATE, startDate));
       criteria.add(Restrictions.le(Ticket.PROP_CREATE_DATE, endDate));
-      criteria.add(Restrictions.eq(Ticket.PROP_SHIFT, shit));
       criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.TRUE));
       criteria.add(Restrictions.eq(Ticket.PROP_VOIDED, Boolean.FALSE));
       criteria.add(Restrictions.eq(Ticket.PROP_REFUNDED, Boolean.FALSE));

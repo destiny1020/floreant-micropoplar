@@ -4,7 +4,12 @@ import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
 
-public class MenuItemSelectedTableModel extends ListTableModel {
+public class MenuItemSelectedTableModel extends ListTableModel<MenuItem> {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   private String[] columnNames =
       {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
@@ -30,14 +35,14 @@ public class MenuItemSelectedTableModel extends ListTableModel {
         return Double.valueOf(item.getPrice());
 
       case 3:
-        if (item.getParent() != null && item.getParent().getParent() != null) {
-          return item.getParent().getParent().getName();
+        if (item.getCategory() != null) {
+          return item.getCategory().getName();
         }
         return "";
 
       case 4:
-        if (item.getParent() != null) {
-          return item.getParent().getName();
+        if (item.getGroup() != null) {
+          return item.getGroup().getName();
         }
         return "";
 

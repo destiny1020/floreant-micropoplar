@@ -3,7 +3,6 @@ package com.floreantpos.model.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -11,7 +10,6 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
-import com.floreantpos.model.MenuItemModifierGroup;
 
 public class MenuItemDAO extends BaseMenuItemDAO {
 
@@ -29,18 +27,6 @@ public class MenuItemDAO extends BaseMenuItemDAO {
     try {
       session = createNewSession();
       menuItem = (MenuItem) session.get(MenuItem.class, menuItem.getId());
-//      menuItem = (MenuItem) session.merge(menuItem);
-
-      Hibernate.initialize(menuItem.getMenuItemModiferGroups());
-
-      List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
-      if (menuItemModiferGroups != null) {
-        for (MenuItemModifierGroup menuItemModifierGroup : menuItemModiferGroups) {
-          Hibernate.initialize(menuItemModifierGroup.getModifierGroup().getModifiers());
-        }
-      }
-
-      Hibernate.initialize(menuItem.getShifts());
 
       return menuItem;
     } finally {
@@ -81,7 +67,7 @@ public class MenuItemDAO extends BaseMenuItemDAO {
     try {
       session = getSession();
       Criteria criteria = session.createCriteria(getReferenceClass());
-      criteria.add(Restrictions.eq(MenuItem.PROP_PARENT, group));
+      criteria.add(Restrictions.eq(MenuItem.PROP_GROUP, group));
 
       if (!includeInvisibleItems) {
         criteria.add(Restrictions.eq(MenuItem.PROP_VISIBLE, Boolean.TRUE));
@@ -98,23 +84,4 @@ public class MenuItemDAO extends BaseMenuItemDAO {
     }
   }
 
-  public List<MenuItemModifierGroup> findModifierGroups(MenuItem item) throws PosException {
-    Session session = null;
-
-    try {
-      session = getSession();
-      Criteria criteria = session.createCriteria(getReferenceClass());
-      criteria.add(Restrictions.eq(MenuItem.PROP_ID, item.getId()));
-      MenuItem newItem = (MenuItem) criteria.uniqueResult();
-      Hibernate.initialize(newItem.getMenuItemModiferGroups());
-
-      return newItem.getMenuItemModiferGroups();
-    } catch (Exception e) {
-      throw new PosException("Error occured while finding food items");
-    } finally {
-      if (session != null) {
-        session.close();
-      }
-    }
-  }
 }

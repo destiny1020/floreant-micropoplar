@@ -7,7 +7,7 @@ import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
 import com.micropoplar.pos.model.SetItem;
 
-public class MenuItemExplorerTableModel extends ListTableModel {
+public class MenuItemExplorerTableModel extends ListTableModel<MenuItem> {
   /**
    * 
    */
@@ -17,8 +17,7 @@ public class MenuItemExplorerTableModel extends ListTableModel {
   private String[] columnNames =
       {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
           com.floreantpos.POSConstants.PRICE + " (" + Application.getCurrencySymbol() + ")",
-          com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.DISCOUNT + "(%)",
-          com.floreantpos.POSConstants.FOOD_GROUP};
+          com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.FOOD_GROUP};
 
   public MenuItemExplorerTableModel() {
     setColumnNames(columnNames);
@@ -41,11 +40,8 @@ public class MenuItemExplorerTableModel extends ListTableModel {
         return item.isVisible();
 
       case 4:
-        return Double.valueOf(item.getDiscountRate());
-
-      case 5:
-        if (item.getParent() != null) {
-          return item.getParent().getName();
+        if (item.getCategory() != null) {
+          return item.getCategory().getName();
         }
         return "";
 

@@ -23,7 +23,6 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.VoidTransaction;
 import com.floreantpos.model.dao.ActionHistoryDAO;
 import com.floreantpos.model.dao.GenericDAO;
-import com.floreantpos.model.dao.TicketItemDAO;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.util.NumberUtil;
 
@@ -125,9 +124,8 @@ public class PosTransactionService {
     if (ticketItems.size() > 0) {
       double totalPrice = 0.0;
       for (TicketItem item : ticketItems) {
-        item.setDiscountRate(discountRate);
         item.calculatePrice(true);
-        totalPrice += item.getTotalAmountWithoutModifiers();
+        totalPrice += item.getTotalAmount();
       }
 
       double offset = NumberUtil.roundToTwoDigit(tenderAmount - totalPrice);

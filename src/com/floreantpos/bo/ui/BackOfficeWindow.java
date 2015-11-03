@@ -25,36 +25,21 @@ import com.floreantpos.bo.actions.CategoryExplorerAction;
 import com.floreantpos.bo.actions.ConfigureRestaurantAction;
 import com.floreantpos.bo.actions.CookingInstructionExplorerAction;
 import com.floreantpos.bo.actions.CouponExplorerAction;
-import com.floreantpos.bo.actions.CreditCardReportAction;
 import com.floreantpos.bo.actions.CustomerExplorerAction;
-import com.floreantpos.bo.actions.DataExportAction;
-import com.floreantpos.bo.actions.DataImportAction;
 import com.floreantpos.bo.actions.DrawerPullReportExplorerAction;
 import com.floreantpos.bo.actions.GroupExplorerAction;
-import com.floreantpos.bo.actions.HourlyLaborReportAction;
 import com.floreantpos.bo.actions.ItemExplorerAction;
 import com.floreantpos.bo.actions.JournalReportAction;
-import com.floreantpos.bo.actions.KeyStatisticsSalesReportAction;
 import com.floreantpos.bo.actions.MenuUsageReportAction;
-import com.floreantpos.bo.actions.ModifierExplorerAction;
-import com.floreantpos.bo.actions.ModifierGroupExplorerAction;
 import com.floreantpos.bo.actions.OpenTicketSummaryReportAction;
-import com.floreantpos.bo.actions.PayrollReportAction;
 import com.floreantpos.bo.actions.SalesAnalysisReportAction;
 import com.floreantpos.bo.actions.SalesBalanceReportAction;
-import com.floreantpos.bo.actions.SalesDetailReportAction;
 import com.floreantpos.bo.actions.SalesExceptionReportAction;
 import com.floreantpos.bo.actions.SalesReportAction;
-import com.floreantpos.bo.actions.ServerProductivityReportAction;
-import com.floreantpos.bo.actions.ShiftExplorerAction;
-import com.floreantpos.bo.actions.TaxExplorerAction;
 import com.floreantpos.bo.actions.UserExplorerAction;
 import com.floreantpos.bo.actions.UserTypeExplorerAction;
-import com.floreantpos.bo.actions.ViewGratuitiesAction;
-import com.floreantpos.bo.ui.explorer.TicketExplorer;
 import com.floreantpos.config.AppConfig;
 import com.floreantpos.extension.InventoryPlugin;
-import com.floreantpos.extension.OrderServiceExtension;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
@@ -63,12 +48,12 @@ import com.jidesoft.swing.JideTabbedPane;
 import com.micropoplar.pos.bo.actions.MenuItemSetExplorerAction;
 import com.micropoplar.pos.bo.actions.TicketExplorerAction;
 
-/**
- *
- * @author MShahriar
- */
 public class BackOfficeWindow extends javax.swing.JFrame {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private static final String POSY = "bwy";//$NON-NLS-1$
   private static final String POSX = "bwx";//$NON-NLS-1$
   private static final String WINDOW_HEIGHT = "bwheight";//$NON-NLS-1$
@@ -194,7 +179,6 @@ public class BackOfficeWindow extends javax.swing.JFrame {
 
   private void createExplorerMenu(JMenuBar menuBar) {
     JMenu explorerMenu = new JMenu(com.floreantpos.POSConstants.EXPLORERS);
-    menuBar.add(explorerMenu);
 
     explorerMenu.add(new CategoryExplorerAction());
     explorerMenu.add(new GroupExplorerAction());
@@ -213,13 +197,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
     // Ticket information explorer
     explorerMenu.add(new TicketExplorerAction());
 
-    OrderServiceExtension plugin =
-        Application.getPluginManager().getPlugin(OrderServiceExtension.class);
-    if (plugin == null) {
-      return;
-    }
-
-    plugin.createCustomerMenu(explorerMenu);
+    menuBar.add(explorerMenu);
   }
 
   private void createAdminMenu(JMenuBar menuBar) {

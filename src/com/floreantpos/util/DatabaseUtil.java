@@ -99,11 +99,6 @@ public class DatabaseUtil {
       restaurant.setItemPriceIncludesTax(true);
       RestaurantDAO.getInstance().saveOrUpdate(restaurant);
 
-      Tax tax = new Tax();
-      tax.setName("中国");
-      tax.setRate(Double.valueOf(0));
-      TaxDAO.getInstance().saveOrUpdate(tax);
-
       Shift shift = new Shift();
       shift.setName(com.floreantpos.POSConstants.GENERAL);
       java.util.Date shiftStartTime = ShiftUtil.buildShiftStartTime(0, 0, 0, 11, 59, 1);

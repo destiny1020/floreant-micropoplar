@@ -42,12 +42,12 @@ public class SetItem extends BaseSetItem implements ITicketItem {
     this.itemCount = 1; // default to 1
     this.name = item.getName();
 
-    if (item.getParent() != null) {
-      this.groupName = item.getParent().getName();
+    if (item.getGroup() != null) {
+      this.groupName = item.getGroup().getName();
     }
 
-    if (item.getParent() != null && item.getParent().getParent() != null) {
-      this.categoryName = item.getParent().getParent().getName();
+    if (item.getCategory() != null) {
+      this.categoryName = item.getCategory().getName();
     }
 
     this.unitPrice = item.getPrice();
@@ -69,10 +69,10 @@ public class SetItem extends BaseSetItem implements ITicketItem {
     this.tableRowNum = tableRowNum;
   }
 
-  //  @Override
-  //  public String toString() {
-  //    return getName();
-  //  }
+  @Override
+  public String toString() {
+    return getName();
+  }
 
   public void calculatePrice(boolean needDiscount) {
     setSubtotalAmount(NumberUtil.roundToTwoDigit(calculateSubtotal(true)));
@@ -89,13 +89,9 @@ public class SetItem extends BaseSetItem implements ITicketItem {
   }
 
   private double calculateDiscount() {
-    double subtotal = getSubtotalAmount();
-    double discountRate = getDiscountRate();
-
     double discount = 0;
-    if (discountRate > 0) {
-      discount = NumberUtil.roundToTwoDigit(subtotal * (100 - discountRate * 10) / 100.0);
-    }
+
+    // TODO: discount calc here
 
     return discount;
   }

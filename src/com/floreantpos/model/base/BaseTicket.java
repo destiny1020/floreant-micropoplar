@@ -12,7 +12,12 @@ import com.floreantpos.model.Customer;
  * @hibernate.class table="TICKET"
  */
 
-public abstract class BaseTicket implements Comparable, Serializable {
+public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "Ticket";
   public static String PROP_RE_OPENED = "reOpened";
@@ -20,36 +25,29 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public static String PROP_DUE_AMOUNT = "dueAmount";
   public static String PROP_DISCOUNT_AMOUNT = "discountAmount";
   public static String PROP_CREATE_DATE = "createDate";
-  public static String PROP_NUMBER_OF_GUESTS = "numberOfGuests";
   public static String PROP_DELIVERY_CHARGE = "deliveryCharge";
   public static String PROP_PAID = "paid";
   public static String PROP_ADVANCE_AMOUNT = "advanceAmount";
   public static String PROP_ACTIVE_DATE = "activeDate";
-  public static String PROP_ASSIGNED_DRIVER = "assignedDriver";
   public static String PROP_CREATION_HOUR = "creationHour";
   public static String PROP_CUSTOMER_WILL_PICKUP = "customerWillPickup";
   public static String PROP_OWNER = "owner";
   public static String PROP_DELIVERY_DATE = "deliveryDate";
-  public static String PROP_GRATUITY = "gratuity";
   public static String PROP_TERMINAL = "terminal";
   public static String PROP_CLOSED = "closed";
   public static String PROP_CLOSING_DATE = "closingDate";
   public static String PROP_DELIVERY_ADDRESS = "deliveryAddress";
-  public static String PROP_SHIFT = "shift";
-  public static String PROP_TAX_AMOUNT = "taxAmount";
   public static String PROP_REFUNDED = "refunded";
   public static String PROP_STATUS = "status";
   public static String PROP_SUBTOTAL_AMOUNT = "subtotalAmount";
   public static String PROP_VOIDED_BY = "voidedBy";
   public static String PROP_TICKET_TYPE = "ticketType";
-  public static String PROP_TAX_EXEMPT = "taxExempt";
   public static String PROP_ID = "id";
   public static String PROP_WASTED = "wasted";
   public static String PROP_VOIDED = "voided";
   public static String PROP_TOTAL_AMOUNT = "totalAmount";
   public static String PROP_PAID_AMOUNT = "paidAmount";
   public static String PROP_EXTRA_DELIVERY_INFO = "extraDeliveryInfo";
-  public static String PROP_SERVICE_CHARGE = "serviceCharge";
   public static String PROP_UNIQ_ID = "uniqId";
   public static String PROP_DINE_IN_NUMBER = "dineInNumber";
   public static String PROP_CUSTOMER = "customer";
@@ -96,16 +94,11 @@ public abstract class BaseTicket implements Comparable, Serializable {
   protected java.lang.Boolean closed;
   protected java.lang.Double subtotalAmount;
   protected java.lang.Double discountAmount;
-  protected java.lang.Double taxAmount;
   protected java.lang.Double totalAmount;
   protected java.lang.Double paidAmount;
   protected java.lang.Double dueAmount;
-  protected java.lang.Double advanceAmount;
-  protected java.lang.Integer numberOfGuests;
   protected java.lang.String status;
-  protected java.lang.Boolean taxExempt;
   protected java.lang.Boolean reOpened;
-  protected java.lang.Double serviceCharge;
   protected java.lang.Double deliveryCharge;
   protected java.lang.String deliveryAddress;
   protected java.lang.Boolean customerWillPickup;
@@ -115,10 +108,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
   protected String customerPhone;
 
   // many to one
-  private com.floreantpos.model.Shift shift;
   private com.floreantpos.model.User owner;
-  private com.floreantpos.model.User assignedDriver;
-  private com.floreantpos.model.Gratuity gratuity;
   private com.floreantpos.model.User voidedBy;
   private com.floreantpos.model.Terminal terminal;
   private Customer customer;
@@ -128,7 +118,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   private java.util.List<com.floreantpos.model.TicketItem> ticketItems;
   private java.util.List<com.floreantpos.model.TicketCoupon> coupons;
   private java.util.Set<com.floreantpos.model.PosTransaction> transactions;
-  private java.util.Set<com.floreantpos.model.ShopTable> tables;
 
   /**
    * Return the unique identifier of this class
@@ -399,26 +388,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
     this.discountAmount = discountAmount;
   }
 
-
-
-  /**
-   * Return the value associated with the column: TOTAL_TAX
-   */
-  public java.lang.Double getTaxAmount() {
-    return taxAmount == null ? Double.valueOf(0) : taxAmount;
-  }
-
-  /**
-   * Set the value related to the column: TOTAL_TAX
-   * 
-   * @param taxAmount the TOTAL_TAX value
-   */
-  public void setTaxAmount(java.lang.Double taxAmount) {
-    this.taxAmount = taxAmount;
-  }
-
-
-
   /**
    * Return the value associated with the column: TOTAL_PRICE
    */
@@ -434,8 +403,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public void setTotalAmount(java.lang.Double totalAmount) {
     this.totalAmount = totalAmount;
   }
-
-
 
   /**
    * Return the value associated with the column: PAID_AMOUNT
@@ -471,44 +438,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
     this.dueAmount = dueAmount;
   }
 
-
-
-  /**
-   * Return the value associated with the column: ADVANCE_AMOUNT
-   */
-  public java.lang.Double getAdvanceAmount() {
-    return advanceAmount == null ? Double.valueOf(0) : advanceAmount;
-  }
-
-  /**
-   * Set the value related to the column: ADVANCE_AMOUNT
-   * 
-   * @param advanceAmount the ADVANCE_AMOUNT value
-   */
-  public void setAdvanceAmount(java.lang.Double advanceAmount) {
-    this.advanceAmount = advanceAmount;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: NUMBER_OF_GUESTS
-   */
-  public java.lang.Integer getNumberOfGuests() {
-    return numberOfGuests == null ? Integer.valueOf(0) : numberOfGuests;
-  }
-
-  /**
-   * Set the value related to the column: NUMBER_OF_GUESTS
-   * 
-   * @param numberOfGuests the NUMBER_OF_GUESTS value
-   */
-  public void setNumberOfGuests(java.lang.Integer numberOfGuests) {
-    this.numberOfGuests = numberOfGuests;
-  }
-
-
-
   /**
    * Return the value associated with the column: STATUS
    */
@@ -525,26 +454,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
     this.status = status;
   }
 
-
-
-  /**
-   * Return the value associated with the column: IS_TAX_EXEMPT
-   */
-  public java.lang.Boolean isTaxExempt() {
-    return taxExempt == null ? Boolean.FALSE : taxExempt;
-  }
-
-  /**
-   * Set the value related to the column: IS_TAX_EXEMPT
-   * 
-   * @param taxExempt the IS_TAX_EXEMPT value
-   */
-  public void setTaxExempt(java.lang.Boolean taxExempt) {
-    this.taxExempt = taxExempt;
-  }
-
-
-
   /**
    * Return the value associated with the column: IS_RE_OPENED
    */
@@ -560,26 +469,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public void setReOpened(java.lang.Boolean reOpened) {
     this.reOpened = reOpened;
   }
-
-
-
-  /**
-   * Return the value associated with the column: SERVICE_CHARGE
-   */
-  public java.lang.Double getServiceCharge() {
-    return serviceCharge == null ? Double.valueOf(0) : serviceCharge;
-  }
-
-  /**
-   * Set the value related to the column: SERVICE_CHARGE
-   * 
-   * @param serviceCharge the SERVICE_CHARGE value
-   */
-  public void setServiceCharge(java.lang.Double serviceCharge) {
-    this.serviceCharge = serviceCharge;
-  }
-
-
 
   /**
    * Return the value associated with the column: DELIVERY_CHARGE
@@ -669,26 +558,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
     this.ticketType = ticketType;
   }
 
-
-
-  /**
-   * Return the value associated with the column: SHIFT_ID
-   */
-  public com.floreantpos.model.Shift getShift() {
-    return shift;
-  }
-
-  /**
-   * Set the value related to the column: SHIFT_ID
-   * 
-   * @param shift the SHIFT_ID value
-   */
-  public void setShift(com.floreantpos.model.Shift shift) {
-    this.shift = shift;
-  }
-
-
-
   /**
    * Return the value associated with the column: OWNER_ID
    */
@@ -704,44 +573,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
   public void setOwner(com.floreantpos.model.User owner) {
     this.owner = owner;
   }
-
-
-
-  /**
-   * Return the value associated with the column: DRIVER_ID
-   */
-  public com.floreantpos.model.User getAssignedDriver() {
-    return assignedDriver;
-  }
-
-  /**
-   * Set the value related to the column: DRIVER_ID
-   * 
-   * @param assignedDriver the DRIVER_ID value
-   */
-  public void setAssignedDriver(com.floreantpos.model.User assignedDriver) {
-    this.assignedDriver = assignedDriver;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: GRATUITY_ID
-   */
-  public com.floreantpos.model.Gratuity getGratuity() {
-    return gratuity;
-  }
-
-  /**
-   * Set the value related to the column: GRATUITY_ID
-   * 
-   * @param gratuity the GRATUITY_ID value
-   */
-  public void setGratuity(com.floreantpos.model.Gratuity gratuity) {
-    this.gratuity = gratuity;
-  }
-
-
 
   /**
    * Return the value associated with the column: VOID_BY_USER
@@ -867,32 +698,6 @@ public abstract class BaseTicket implements Comparable, Serializable {
     getTransactions().add(posTransaction);
   }
 
-
-
-  /**
-   * Return the value associated with the column: tables
-   */
-  public java.util.Set<com.floreantpos.model.ShopTable> getTables() {
-    return tables;
-  }
-
-  /**
-   * Set the value related to the column: tables
-   * 
-   * @param tables the tables value
-   */
-  public void setTables(java.util.Set<com.floreantpos.model.ShopTable> tables) {
-    this.tables = tables;
-  }
-
-  public void addTotables(com.floreantpos.model.ShopTable shopTable) {
-    if (null == getTables())
-      setTables(new java.util.TreeSet<com.floreantpos.model.ShopTable>());
-    getTables().add(shopTable);
-  }
-
-
-
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -919,7 +724,7 @@ public abstract class BaseTicket implements Comparable, Serializable {
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  public int compareTo(BaseTicket obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())
