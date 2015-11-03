@@ -10,6 +10,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import com.floreantpos.POSConstants;
+import com.floreantpos.bo.ui.ComboOption;
+import com.floreantpos.model.PaymentType;
 
 /**
  * To generate common controller.
@@ -91,6 +93,32 @@ public class ControllerGenerator {
     }
 
     return comboBox;
+  }
+
+  /**
+   * Return the combo box for the payment type.
+   * 
+   * @return
+   */
+  private static JComboBox<ComboOption> cbPaymentType;
+
+  public static JComboBox<ComboOption> getPaymentTypeComboBox() {
+    if (cbPaymentType != null) {
+      return cbPaymentType;
+    }
+
+    cbPaymentType = new JComboBox<>();
+
+    // All Option
+    cbPaymentType.addItem(new ComboOption(0, POSConstants.TICKET_EXPLORER_CB_OPTION_ALL));
+
+    PaymentType[] paymentTypes = PaymentType.values();
+
+    for (PaymentType pt : paymentTypes) {
+      cbPaymentType.addItem(new ComboOption(pt.getType(), pt.getDisplayString()));
+    }
+
+    return cbPaymentType;
   }
 
 }

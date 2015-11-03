@@ -24,13 +24,14 @@ public class BaseTakeoutTransaction extends com.floreantpos.model.PosTransaction
    * Constructor for required fields
    */
   public BaseTakeoutTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }
 
   private int hashCode = Integer.MIN_VALUE;
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -46,6 +47,7 @@ public class BaseTakeoutTransaction extends com.floreantpos.model.PosTransaction
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -58,6 +60,7 @@ public class BaseTakeoutTransaction extends com.floreantpos.model.PosTransaction
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -67,6 +70,7 @@ public class BaseTakeoutTransaction extends com.floreantpos.model.PosTransaction
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

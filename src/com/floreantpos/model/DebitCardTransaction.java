@@ -23,7 +23,7 @@ public class DebitCardTransaction extends BaseDebitCardTransaction {
    * Constructor for required fields
    */
   public DebitCardTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }

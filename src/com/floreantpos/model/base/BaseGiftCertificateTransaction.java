@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 
@@ -34,7 +33,7 @@ public abstract class BaseGiftCertificateTransaction extends com.floreantpos.mod
    * Constructor for required fields
    */
   public BaseGiftCertificateTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }
@@ -45,6 +44,7 @@ public abstract class BaseGiftCertificateTransaction extends com.floreantpos.mod
 
 
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -60,6 +60,7 @@ public abstract class BaseGiftCertificateTransaction extends com.floreantpos.mod
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -72,6 +73,7 @@ public abstract class BaseGiftCertificateTransaction extends com.floreantpos.mod
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -81,6 +83,7 @@ public abstract class BaseGiftCertificateTransaction extends com.floreantpos.mod
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

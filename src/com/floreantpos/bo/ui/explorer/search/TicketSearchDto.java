@@ -21,6 +21,8 @@ public class TicketSearchDto {
   public static final int MEMBERSHIP_MEMBER = 1;
   public static final int MEMBERSHIP_NON_MEMBER = 2;
 
+  public static final int PAYMENT_TYPE_ALL = 0;
+
   private String uniqIdOrPhone;
 
   private Date startDate;
@@ -33,6 +35,7 @@ public class TicketSearchDto {
 
   private ComboOption ticketType;
   private ComboOption membershipType;
+  private ComboOption paymentType;
 
   public String getUniqIdOrPhone() {
     return uniqIdOrPhone;
@@ -104,5 +107,13 @@ public class TicketSearchDto {
 
   public void setMembershipType(ComboOption membershipType) {
     this.membershipType = membershipType;
+  }
+
+  public ComboOption getPaymentType() {
+    return paymentType;
+  }
+
+  public void setPaymentType(ComboOption paymentType) {
+    this.paymentType = paymentType;
   }
 }

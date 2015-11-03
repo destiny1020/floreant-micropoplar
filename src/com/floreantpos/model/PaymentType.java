@@ -1,28 +1,30 @@
 package com.floreantpos.model;
 
 import com.floreantpos.config.AppConfig;
-import com.floreantpos.config.CardConfig;
 
 public enum PaymentType {
-  CASH("现金"), DEBIT_VISA("Visa", "visa_card.png"), DEBIT_MASTER_CARD("MasterCard",
-      "master_card.png"), CREDIT_VISA("Visa", "visa_card.png"), CREDIT_MASTER_CARD("MasterCard",
-          "master_card.png"), CREDIT_AMEX("Amex", "am_ex_card.png"), CREDIT_DISCOVERY("Discover",
-              "discover_card.png"), GIFT_CERTIFICATE("礼品卡"),
+  // @formatter:off
+  CASH(1, "现金"), 
+  UNION_PAY(2, "银联支付", "unionpay.png"),
+  WECHAT(3, "微信支付", "wechat.png"), 
+  ALIPAY(4, "支付宝", "alipay.png"), 
+  MEITUAN(5, "美团", "meituan.png"), 
+  ELEME(6, "饿了么", "eleme.png"), 
+  DAOJIA(7, "到家美食会", "daojia.png"), 
+  LINEZERO(8, "零号线", "linezero.png");
+  // @formatter:on
 
-  WECHAT("微信支付", "wechat.png"), ALIPAY("支付宝", "alipay.png"), UNION_PAY("银联支付", "unionpay.png"),
-
-  MEITUAN("美团", "meituan.png"), ELEME("饿了么", "eleme.png"), DAOJIA("到家美食会",
-      "daojia.png"), LINEZERO("零号线", "linezero.png");
-
+  private int type;
   private String displayString;
   private String imageFile;
 
-  private PaymentType(String display) {
+  private PaymentType(int type, String display) {
+    this.type = type;
     this.displayString = display;
   }
 
-  private PaymentType(String display, String image) {
-    this.displayString = display;
+  private PaymentType(int type, String display, String image) {
+    this(type, display);
     this.imageFile = image;
   }
 
@@ -31,21 +33,17 @@ public enum PaymentType {
     return displayString;
   }
 
-  public String getDisplayString() {
-    return displayString;
+  public int getType() {
+    return type;
   }
 
-  public void setDisplayString(String displayString) {
-    this.displayString = displayString;
+  public String getDisplayString() {
+    return displayString;
   }
 
   public String getImageFile() {
     return imageFile;
   }
-
-  public void setImageFile(String imageFile) {
-    this.imageFile = imageFile;
-  };
 
   public boolean isSupported() {
     switch (this) {
@@ -56,33 +54,12 @@ public enum PaymentType {
       default:
         // TODO: permission control for the payment
         return true;
-      // return CardConfig.isSwipeCardSupported() ||
-      // CardConfig.isManualEntrySupported() ||
-      // CardConfig.isExtTerminalSupported();
     }
   }
 
   public PosTransaction createTransaction() {
     PosTransaction transaction = null;
     switch (this) {
-      case CREDIT_VISA:
-      case CREDIT_AMEX:
-      case CREDIT_DISCOVERY:
-      case CREDIT_MASTER_CARD:
-        transaction = new CreditCardTransaction();
-        transaction.setAuthorizable(true);
-        break;
-
-      case DEBIT_MASTER_CARD:
-      case DEBIT_VISA:
-        transaction = new DebitCardTransaction();
-        transaction.setAuthorizable(true);
-        break;
-
-      case GIFT_CERTIFICATE:
-        transaction = new GiftCertificateTransaction();
-        break;
-
       case WECHAT:
         transaction = new WeChatTransaction();
         break;
@@ -105,7 +82,32 @@ public enum PaymentType {
         break;
     }
 
-    transaction.setPaymentType(name());
+    transaction.setPaymentType(getType());
     return transaction;
   }
+
+  public static PaymentType getPaymentTypeFromType(int type) {
+    switch (type) {
+      case 1:
+        return PaymentType.CASH;
+      case 2:
+        return PaymentType.UNION_PAY;
+      case 3:
+        return PaymentType.WECHAT;
+      case 4:
+        return PaymentType.ALIPAY;
+      case 5:
+        return PaymentType.MEITUAN;
+      case 6:
+        return PaymentType.ELEME;
+      case 7:
+        return PaymentType.DAOJIA;
+      case 8:
+        return PaymentType.LINEZERO;
+      default:
+        return null;
+
+    }
+  }
+
 }

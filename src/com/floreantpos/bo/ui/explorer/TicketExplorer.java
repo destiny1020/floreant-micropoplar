@@ -38,6 +38,7 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.util.UiUtil;
 import com.micropoplar.pos.ui.TextFieldWithPrompt;
 import com.micropoplar.pos.ui.model.TicketForm;
+import com.micropoplar.pos.ui.util.ControllerGenerator;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -69,6 +70,8 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
   private JComboBox<ComboOption> cbTicketType;
   private JLabel lblMembership;
   private JComboBox<ComboOption> cbMembership;
+  private JLabel lblPaymentType;
+  private JComboBox<ComboOption> cbPaymentType;
 
   private TransparentPanel pnlFilters;
 
@@ -85,7 +88,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
 
     // filters area
     pnlFilters = new TransparentPanel();
-    pnlFilters.setLayout(new MigLayout("", "[][][][][grow]", "[][][][][]"));
+    pnlFilters.setLayout(new MigLayout("", "[][][][][][][grow]", "[][][][][]"));
 
     lblSearch = new JLabel(POSConstants.TICKET_EXPLORER_SEARCH + POSConstants.COLON);
     pnlFilters.add(lblSearch, "cell 0 0, alignx left, aligny center");
@@ -128,7 +131,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     chkRefunded.addItemListener(this);
     pnlFilters.add(chkRefunded, "cell 3 2, alignx left, aligny center");
 
-    lblTicketType = new JLabel(POSConstants.TICKET_EXPLORER_CB_TICKET_TYPE);
+    lblTicketType = new JLabel(POSConstants.TICKET_EXPLORER_CB_TICKET_TYPE + POSConstants.COLON);
     pnlFilters.add(lblTicketType, "cell 0 3, alignx left, aligny center");
 
     cbTicketType = new JComboBox<>(
@@ -139,7 +142,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     cbTicketType.setSelectedIndex(0);
     pnlFilters.add(cbTicketType, "cell 1 3, alignx left, aligny center");
 
-    lblMembership = new JLabel(POSConstants.TICKET_EXPLORER_CB_MEMBERSHIP);
+    lblMembership = new JLabel(POSConstants.TICKET_EXPLORER_CB_MEMBERSHIP + POSConstants.COLON);
     pnlFilters.add(lblMembership, "cell 2 3, alignx left, aligny center");
 
     cbMembership = new JComboBox<>(
@@ -149,8 +152,15 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     cbMembership.setSelectedIndex(0);
     pnlFilters.add(cbMembership, "cell 3 3, alignx left, aligny center");
 
+    lblPaymentType = new JLabel(POSConstants.TICKET_EXPLORER_CB_PAYMENT_TYPE + POSConstants.COLON);
+    pnlFilters.add(lblPaymentType, "cell 4 3, alignx left, aligny center");
+
+    cbPaymentType = ControllerGenerator.getPaymentTypeComboBox();
+    pnlFilters.add(cbPaymentType, "cell 5 3, alignx left, aligny center");
+
     btnLoad = new JButton(POSConstants.LOAD);
     btnLoad.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent evt) {
         doLoadTickets(evt);
       }
@@ -244,6 +254,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
     searchDto.setRefundedTickets(chkRefunded.isSelected());
     searchDto.setTicketType((ComboOption) cbTicketType.getSelectedItem());
     searchDto.setMembershipType((ComboOption) cbMembership.getSelectedItem());
+    searchDto.setPaymentType((ComboOption) cbPaymentType.getSelectedItem());
 
     return searchDto;
   }
@@ -254,13 +265,22 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
      */
     private static final long serialVersionUID = 1L;
 
-    String[] columnNames = {POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, POSConstants.CREATED,
-        POSConstants.SETTLE_TIME, POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
-        POSConstants.TICKET_EXPLORER_TABLE_TYPE, POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
+    // @formatter:off
+    String[] columnNames = {
+        POSConstants.TICKET_EXPLORER_TABLE_UNIQ_ID, 
+        POSConstants.CREATED,
+        POSConstants.SETTLE_TIME, 
+        POSConstants.TICKET_EXPLORER_TABLE_TICKET_STATUS,
+        POSConstants.TICKET_EXPLORER_TABLE_TYPE, 
+        POSConstants.TICKET_EXPLORER_TABLE_PAYMENT_TYPE, 
+        POSConstants.TICKET_EXPLORER_TABLE_MEMBERSHIP,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_BEFORE_DISCOUNT,
         POSConstants.TICKET_EXPLORER_TABLE_TOTAL_DISCOUNT,
-        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT};
+        POSConstants.TICKET_EXPLORER_TABLE_TOTAL_AFTER_DISCOUNT
+    };
+    // @formatter:on
 
+    @Override
     public int getRowCount() {
       if (tickets == null) {
         return 0;
@@ -268,6 +288,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
       return tickets.size();
     }
 
+    @Override
     public int getColumnCount() {
       return columnNames.length;
     }
@@ -282,6 +303,7 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
       return false;
     }
 
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
       if (tickets == null)
         return "";
@@ -305,19 +327,22 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
           return TicketType.valueOf(ticket.getTicketType()).getValue();
 
         case 5:
+          return ticket.getPaymentType();
+
+        case 6:
           if (ticket.getCustomer() != null) {
             return ticket.getCustomerPhone();
           } else {
             return POSConstants.TICKET_EXPLORER_TABLE_NON_MEMBERSHIP;
           }
 
-        case 6:
+        case 7:
           return Double.valueOf(ticket.getSubtotalAmount());
 
-        case 7:
+        case 8:
           return Double.valueOf(ticket.getDiscountAmount());
 
-        case 8:
+        case 9:
           return Double.valueOf(ticket.getTotalAmount());
       }
       return null;

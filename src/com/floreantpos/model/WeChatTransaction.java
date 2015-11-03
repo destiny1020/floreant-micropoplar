@@ -21,7 +21,7 @@ public class WeChatTransaction extends BaseWeChatTransaction {
    * Constructor for required fields
    */
   public WeChatTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }

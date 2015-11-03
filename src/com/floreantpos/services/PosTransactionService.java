@@ -202,7 +202,7 @@ public class PosTransactionService {
 
       RefundTransaction posTransaction = new RefundTransaction();
       posTransaction.setTicket(ticket);
-      posTransaction.setPaymentType(PaymentType.CASH.name());
+      posTransaction.setPaymentType(PaymentType.CASH.getType());
       posTransaction.setTransactionType(TransactionType.DEBIT.name());
       posTransaction.setAmount(refundAmount);
       posTransaction.setTerminal(terminal);

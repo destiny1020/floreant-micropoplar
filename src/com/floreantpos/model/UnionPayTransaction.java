@@ -24,7 +24,7 @@ public class UnionPayTransaction extends PosTransaction implements Comparable, S
    * Constructor for required fields
    */
   public UnionPayTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }
@@ -33,6 +33,7 @@ public class UnionPayTransaction extends PosTransaction implements Comparable, S
 
   private int hashCode = Integer.MIN_VALUE;
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -48,6 +49,7 @@ public class UnionPayTransaction extends PosTransaction implements Comparable, S
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -60,6 +62,7 @@ public class UnionPayTransaction extends PosTransaction implements Comparable, S
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -69,6 +72,7 @@ public class UnionPayTransaction extends PosTransaction implements Comparable, S
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

@@ -470,6 +470,7 @@ public class POSConstants {
   public static final String TICKET_EXPLORER_CB_MEMBERSHIP = Messages.getString("PosMessage.375");
   public static final String TICKET_EXPLORER_CB_OPTION_MEMBER = Messages.getString("PosMessage.376");
   public static final String TICKET_EXPLORER_CB_OPTION_NON_MEMBER = Messages.getString("PosMessage.377");
+  public static final String TICKET_EXPLORER_CB_PAYMENT_TYPE = Messages.getString("PosMessage.399");
   public static final String TICKET_EXPLORER_TABLE_UNIQ_ID = Messages.getString("PosMessage.378");
   public static final String TICKET_EXPLORER_TABLE_TICKET_STATUS = Messages.getString("PosMessage.379");
   public static final String TICKET_EXPLORER_TABLE_MEMBERSHIP = Messages.getString("PosMessage.375");
@@ -487,6 +488,7 @@ public class POSConstants {
   public static final String TICKET_EXPLORER_TABLE_STATUS_UNKNOWN = Messages.getString("PosMessage.391");
   public static final String TICKET_EXPLORER_TABLE_NON_MEMBERSHIP = Messages.getString("PosMessage.392");
   public static final String TICKET_EXPLORER_TABLE_TYPE = Messages.getString("PosMessage.372");
+  public static final String TICKET_EXPLORER_TABLE_PAYMENT_TYPE = Messages.getString("PosMessage.399");
   public static final String TICKET_EXPLORER_CTRL_CHECK_DETAIL = Messages.getString("PosMessage.393");
 
   // Ticket Form

@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -64,7 +63,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
    * Constructor for required fields
    */
   public BasePosTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     this.setId(id);
     this.setTransactionType(transactionType);
@@ -87,7 +86,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
   protected java.lang.Double tipsAmount;
   protected java.lang.Double tenderAmount;
   protected java.lang.String transactionType;
-  protected java.lang.String paymentType;
+  protected java.lang.Integer paymentType;
   protected java.lang.Boolean captured;
   protected java.lang.Boolean authorizable;
   protected java.lang.String cardTrack;
@@ -236,7 +235,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
   /**
    * Return the value associated with the column: PAYMENT_SUB_TYPE
    */
-  public java.lang.String getPaymentType() {
+  public java.lang.Integer getPaymentType() {
     return paymentType;
   }
 
@@ -245,7 +244,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
    * 
    * @param paymentType the PAYMENT_SUB_TYPE value
    */
-  public void setPaymentType(java.lang.String paymentType) {
+  public void setPaymentType(java.lang.Integer paymentType) {
     this.paymentType = paymentType;
   }
 
@@ -618,6 +617,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
     this.properties = properties;
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -633,6 +633,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -645,6 +646,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -654,6 +656,7 @@ public abstract class BasePosTransaction implements Comparable, Serializable {
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

@@ -52,6 +52,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
   public static String PROP_DINE_IN_NUMBER = "dineInNumber";
   public static String PROP_CUSTOMER = "customer";
   public static String PROP_CUSTOMER_PHONE = "customerPhone";
+  public static String PROP_PAYMENT_TYPE = "paymentType";
 
   // constructors
   public BaseTicket() {
@@ -106,6 +107,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
   protected java.lang.String ticketType;
   protected java.lang.Integer dineInNumber;
   protected String customerPhone;
+  protected String paymentType;
 
   // many to one
   private com.floreantpos.model.User owner;
@@ -698,6 +700,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
     getTransactions().add(posTransaction);
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -712,6 +715,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -724,6 +728,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(BaseTicket obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -733,6 +738,7 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }
@@ -769,5 +775,12 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
     this.customerPhone = customerPhone;
   }
 
+  public String getPaymentType() {
+    return paymentType;
+  }
+
+  public void setPaymentType(String paymentType) {
+    this.paymentType = paymentType;
+  }
 
 }

@@ -59,6 +59,7 @@ public class PayoutDialog extends POSDialog {
     btnFinish.setText(com.floreantpos.POSConstants.FINISH);
     btnFinish.setPreferredSize(new java.awt.Dimension(140, 50));
     btnFinish.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doFinishPayout(evt);
       }
@@ -69,6 +70,7 @@ public class PayoutDialog extends POSDialog {
     btnCancel.setText(com.floreantpos.POSConstants.CANCEL);
     btnCancel.setPreferredSize(new java.awt.Dimension(140, 50));
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         btnCancelActionPerformed(evt);
       }
@@ -96,7 +98,7 @@ public class PayoutDialog extends POSDialog {
     terminal.setCurrentBalance(terminal.getCurrentBalance() - payoutAmount);
 
     PayOutTransaction payOutTransaction = new PayOutTransaction();
-    payOutTransaction.setPaymentType(PaymentType.CASH.name());
+    payOutTransaction.setPaymentType(PaymentType.CASH.getType());
     payOutTransaction.setTransactionType(TransactionType.DEBIT.name());
 
     payOutTransaction.setReason(reason);

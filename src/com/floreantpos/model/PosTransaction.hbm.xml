@@ -13,7 +13,7 @@
 		<property column="TIPS_AMOUNT" length="52" name="tipsAmount" type="java.lang.Double" />
 		<property column="TENDER_AMOUNT" length="52" name="tenderAmount" type="java.lang.Double" />
 		<property column="TRANSACTION_TYPE" name="transactionType" type="string" length="20" not-null="true"/>
-		<property column="PAYMENT_SUB_TYPE" name="paymentType" type="string" length="40" not-null="true"/>
+		<property column="PAYMENT_SUB_TYPE" name="paymentType" type="java.lang.Integer"/>
 		<property column="CAPTURED" name="captured" type="java.lang.Boolean" />
 		<property column="AUTHORIZABLE" name="authorizable" type="java.lang.Boolean" />
 

@@ -120,7 +120,7 @@ public class TicketDAO extends BaseTicketDAO {
         transaction.setTerminal(terminal);
         transaction.setTransactionTime(new Date());
         transaction.setTransactionType(TransactionType.DEBIT.name());
-        transaction.setPaymentType(PaymentType.CASH.name());
+        transaction.setPaymentType(PaymentType.CASH.getType());
         transaction.setAmount(ticket.getPaidAmount());
         transaction.setTerminal(Application.getInstance().getTerminal());
         transaction.setCaptured(true);
@@ -361,6 +361,12 @@ public class TicketDAO extends BaseTicketDAO {
         } else if (membershipType.getValue() == TicketSearchDto.MEMBERSHIP_NON_MEMBER) {
           criteria.add(Restrictions.isNull(Ticket.PROP_CUSTOMER));
         }
+      }
+
+      ComboOption paymentType = searchDto.getPaymentType();
+      if (paymentType.getValue() != TicketSearchDto.PAYMENT_TYPE_ALL) {
+        criteria
+            .add(Restrictions.like(Ticket.PROP_PAYMENT_TYPE, "%" + paymentType.getLabel() + "%"));
       }
 
       return criteria.list();

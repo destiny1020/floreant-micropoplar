@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class AlipayTransaction extends PosTransaction implements Comparable, Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   public static String REF = "AlipayTransaction";
   public static String PROP_ID = "id";
 
@@ -24,7 +28,7 @@ public class AlipayTransaction extends PosTransaction implements Comparable, Ser
    * Constructor for required fields
    */
   public AlipayTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }
@@ -33,6 +37,7 @@ public class AlipayTransaction extends PosTransaction implements Comparable, Ser
 
   private int hashCode = Integer.MIN_VALUE;
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -48,6 +53,7 @@ public class AlipayTransaction extends PosTransaction implements Comparable, Ser
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -60,6 +66,7 @@ public class AlipayTransaction extends PosTransaction implements Comparable, Ser
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -69,6 +76,7 @@ public class AlipayTransaction extends PosTransaction implements Comparable, Ser
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

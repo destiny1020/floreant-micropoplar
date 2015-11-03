@@ -28,7 +28,7 @@ public class PosTransaction extends BasePosTransaction {
    * Constructor for required fields
    */
   public PosTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }

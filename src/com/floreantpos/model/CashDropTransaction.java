@@ -23,7 +23,7 @@ public class CashDropTransaction extends BaseCashDropTransaction {
    * Constructor for required fields
    */
   public CashDropTransaction(java.lang.Integer id, java.lang.String transactionType,
-      java.lang.String paymentType) {
+      java.lang.Integer paymentType) {
 
     super(id, transactionType, paymentType);
   }
