@@ -42,7 +42,7 @@ public class MenuItem extends BaseMenuItem implements IOrderViewItem {
 
   @Override
   public Double getPrice() {
-    double price = super.getPrice();
+    Double price = super.getPrice();
 
     // TODO: calculate discount here ?
 

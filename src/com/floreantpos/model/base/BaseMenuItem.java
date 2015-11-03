@@ -56,7 +56,6 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
    * Constructor for required fields
    */
   public BaseMenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double price) {
-
     this.setId(id);
     this.setName(name);
     this.setPrice(price);
@@ -77,12 +76,12 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
   private String barcode;
   private String name;
   private UnitName unitName;
-  private Boolean visible;
+  private Boolean visible = true;
   private Double price;
   private byte[] image;
-  private Boolean showImageOnly;
+  private Boolean showImageOnly = false;
   private VirtualPrinter virtualPrinter;
-  private Boolean isSet;
+  private Boolean isSet = false;
   private List<SetItem> items;
 
   public boolean equals(Object obj) {

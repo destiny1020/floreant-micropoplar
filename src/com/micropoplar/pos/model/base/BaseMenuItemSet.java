@@ -74,15 +74,14 @@ public class BaseMenuItemSet extends MenuItem implements Serializable {
   }
 
   public Double getPrice() {
-    if (getPrice() == null && getItems() != null) {
+    if (super.getPrice() == null && getItems() != null) {
       // calculate on demand
-      double totalAmount = updatePriceCore();
-      if (getItems().size() > 0 && new BigDecimal(totalAmount).compareTo(BigDecimal.ZERO) >= 0) {
-        setPrice(totalAmount);
-      }
+      setPrice(updatePriceCore());
+    } else if (getItems() == null || getItems().size() == 0) {
+      setPrice(0.0);
     }
 
-    return getPrice();
+    return super.getPrice();
   }
 
   public void updatePrices() {

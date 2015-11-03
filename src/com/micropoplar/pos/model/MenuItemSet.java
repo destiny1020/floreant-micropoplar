@@ -19,6 +19,7 @@ public class MenuItemSet extends BaseMenuItemSet implements IOrderViewItem {
 
   public MenuItemSet() {
     super();
+    setIsSet(true);
   }
 
   /**
@@ -26,14 +27,15 @@ public class MenuItemSet extends BaseMenuItemSet implements IOrderViewItem {
    */
   public MenuItemSet(java.lang.Integer id) {
     super(id);
+    setIsSet(true);
   }
 
   /**
    * Constructor for required fields
    */
   public MenuItemSet(java.lang.Integer id, java.lang.String name, java.lang.Double price) {
-
     super(id, name, price);
+    setIsSet(true);
   }
 
   //  @Override

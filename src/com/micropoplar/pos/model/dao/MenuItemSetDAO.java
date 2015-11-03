@@ -10,7 +10,6 @@ import org.hibernate.criterion.Restrictions;
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.model.MenuGroup;
-import com.floreantpos.model.MenuItem;
 import com.micropoplar.pos.model.MenuItemSet;
 
 public class MenuItemSetDAO extends BaseMenuItemSetDAO {
