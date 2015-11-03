@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.micropoplar.pos.model">
+	<class lazy="false" name="com.micropoplar.pos.model.MenuItemSet" optimistic-lock="version" table="MENU_ITEM_SET">
+		<id column="ID" name="id" type="java.lang.Integer">
+			<generator class="identity" />
+		</id>
+		<version column="MODIFIED_TIME" name="modifiedTime" type="timestamp" />
+		<property column="NAME" length="30" name="name" not-null="true" type="java.lang.String" />
+		<property column="CODE" length="30" name="code" not-null="true" type="java.lang.String" />
+		<property column="BARCODE" length="120" name="barcode" not-null="true" type="java.lang.String" />
+		<property column="PRICE" length="52" name="price" not-null="true" type="java.lang.Double" />
+		<property column="MEMBER_PRICE" length="52" name="memberPrice" not-null="false" type="java.lang.Double" />
+		<property column="DISCOUNT_RATE" length="52" name="discountRate" type="java.lang.Double" />
+		<property column="VISIBLE" name="visible" type="java.lang.Boolean">
+			<meta attribute="defaultValue">true</meta>
+		</property>
+		<property column="INVENTORY_COUNT" name="inventoryCount" type="java.lang.Integer" />
+		<property name="image" column="IMAGE" not-null="false" type="binary" length="20480" />
+		<property name="showImageOnly" column="SHOW_IMAGE_ONLY" type="java.lang.Boolean" />
+		<property name="unitName">
+			<column name="UNIT_NAME" length="5" not-null="false"/>
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.micropoplar.pos.model.UnitName</param> 
+				<param name="type">12</param> 
+			</type> 
+		</property>
+		
+		<many-to-one class="com.floreantpos.model.MenuGroup" name="group">
+			<column name="GROUP_ID" />
+		</many-to-one>
+		<many-to-one class="com.floreantpos.model.MenuCategory" name="category">
+			<column name="CATEGORY_ID" />
+		</many-to-one>
+		<many-to-one class="com.floreantpos.model.inventory.Recepie" lazy="false" cascade="all" name="recepie">
+			<column name="RECEPIE" />
+		</many-to-one>
+		<many-to-one class="com.floreantpos.model.VirtualPrinter" lazy="false" cascade="none" name="virtualPrinter">
+			<column name="VPRINTER_ID" />
+		</many-to-one>
+		
+		<list cascade="all" inverse="false" lazy="true" name="items" table="SET_ITEM">
+			<key>
+				<column name="MENU_ITEM_SET_ID" />
+			</key>
+			<list-index column="ITEM_ORDER" />
+			<one-to-many class="com.micropoplar.pos.model.SetItem" />
+		</list>
+	</class>
+</hibernate-mapping>

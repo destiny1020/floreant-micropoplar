@@ -95,8 +95,8 @@ public class OrderController
     // orderView.getTicketView().addModifier(itemModifier);
   }
 
-  public void itemSelectionFinished(MenuGroup parent) {
-    MenuCategory menuCategory = parent.getParent();
+  public void itemSelectionFinished(MenuGroup group) {
+    MenuCategory menuCategory = group.getCategory();
     GroupView groupView = orderView.getGroupView();
     if (!menuCategory.equals(groupView.getMenuCategory())) {
       groupView.setMenuCategory(menuCategory);

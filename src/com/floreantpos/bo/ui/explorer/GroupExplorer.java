@@ -23,6 +23,11 @@ import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.model.MenuGroupForm;
 
 public class GroupExplorer extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private List<MenuGroup> groupList;
 
   private JTable table;
@@ -122,6 +127,11 @@ public class GroupExplorer extends TransparentPanel {
   }
 
   class GroupExplorerTableModel extends AbstractTableModel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     String[] columnNames = {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
         com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.MENU_CATEGORY};
 
@@ -150,20 +160,20 @@ public class GroupExplorer extends TransparentPanel {
       if (groupList == null)
         return ""; //$NON-NLS-1$
 
-      MenuGroup category = groupList.get(rowIndex);
+      MenuGroup group = groupList.get(rowIndex);
 
       switch (columnIndex) {
         case 0:
-          return String.valueOf(category.getId());
+          return String.valueOf(group.getId());
 
         case 1:
-          return category.getName();
+          return group.getName();
 
         case 2:
-          return Boolean.valueOf(category.isVisible());
+          return Boolean.valueOf(group.isVisible());
 
         case 3:
-          return category.getParent().getName();
+          return group.getCategory().getName();
       }
       return null;
     }

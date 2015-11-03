@@ -7,10 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
-import com.floreantpos.model.MenuItemModifierGroup;
-import com.floreantpos.model.MenuModifier;
-import com.floreantpos.model.MenuModifierGroup;
-import com.floreantpos.model.Tax;
 
 @XmlRootElement(name = "elements")
 public class Elements {
@@ -20,12 +16,8 @@ public class Elements {
   // UserPermission.class, Shift.class };
 
 
-  List<Tax> taxes;
   List<MenuCategory> menuCategories;
   List<MenuGroup> menuGroups;
-  List<MenuModifier> menuModifiers;
-  List<MenuItemModifierGroup> menuItemModifierGroups;
-  List<MenuModifierGroup> menuModifierGroups;
   List<MenuItem> menuItems;
 
   // List<User> users;
@@ -52,54 +44,12 @@ public class Elements {
     this.menuGroups = menuGroups;
   }
 
-  public List<MenuModifier> getMenuModifiers() {
-    return menuModifiers;
-  }
-
-  public void setMenuModifiers(List<MenuModifier> menuModifiers) {
-    this.menuModifiers = menuModifiers;
-  }
-
-  public List<MenuModifierGroup> getMenuModifierGroups() {
-    return menuModifierGroups;
-  }
-
-  public void setMenuModifierGroups(List<MenuModifierGroup> menuModifierGroups) {
-    this.menuModifierGroups = menuModifierGroups;
-  }
-
   public List<MenuItem> getMenuItems() {
     return menuItems;
   }
 
   public void setMenuItems(List<MenuItem> menuItems) {
     this.menuItems = menuItems;
-  }
-
-
-
-  // public List<User> getUsers() {
-  // return users;
-  // }
-  //
-  // public void setUsers(List<User> users) {
-  // this.users = users;
-  // }
-  //
-  public List<Tax> getTaxes() {
-    return taxes;
-  }
-
-  public void setTaxes(List<Tax> taxes) {
-    this.taxes = taxes;
-  }
-
-  public List<MenuItemModifierGroup> getMenuItemModifierGroups() {
-    return menuItemModifierGroups;
-  }
-
-  public void setMenuItemModifierGroups(List<MenuItemModifierGroup> menuItemModifierGroups) {
-    this.menuItemModifierGroups = menuItemModifierGroups;
   }
 
   // public List<MenuItemShift> getMenuItemShifts() {

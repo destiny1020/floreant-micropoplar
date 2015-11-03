@@ -11,7 +11,7 @@
     <property column="VISIBLE" index="menugroupvisible" name="visible" type="java.lang.Boolean"/>
     <!-- Associations -->
     <!-- uni-directional many-to-one association to FoodCategory -->
-    <many-to-one class="com.floreantpos.model.MenuCategory" lazy="false" name="parent">
+    <many-to-one class="com.floreantpos.model.MenuCategory" lazy="false" name="category">
       <column name="CATEGORY_ID"/>
     </many-to-one>
   </class>

@@ -700,7 +700,7 @@ public class TicketView extends JPanel implements ActionListener {
       }
       orderView.showView(MenuItemAndMenuItemSetView.VIEW_NAME);
 
-      MenuCategory menuCategory = menuGroup.getParent();
+      MenuCategory menuCategory = menuGroup.getCategory();
       orderView.getCategoryView().setSelectedCategory(menuCategory);
       return;
     } else if (selectedObject instanceof TicketItemModifier) {

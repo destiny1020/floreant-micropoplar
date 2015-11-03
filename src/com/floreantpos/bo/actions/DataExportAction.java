@@ -21,10 +21,6 @@ import com.floreantpos.model.dao.GenericDAO;
 import com.floreantpos.model.dao.MenuCategoryDAO;
 import com.floreantpos.model.dao.MenuGroupDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
-import com.floreantpos.model.dao.MenuItemModifierGroupDAO;
-import com.floreantpos.model.dao.MenuModifierDAO;
-import com.floreantpos.model.dao.MenuModifierGroupDAO;
-import com.floreantpos.model.dao.TaxDAO;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.datamigrate.Elements;
 
@@ -81,13 +77,9 @@ public class DataExportAction extends AbstractAction {
       // * 12. USER_PERMISSION
       // * 13. SHIFT
 
-      elements.setTaxes(TaxDAO.getInstance().findAll(session));
       elements.setMenuCategories(MenuCategoryDAO.getInstance().findAll(session));
       elements.setMenuGroups(MenuGroupDAO.getInstance().findAll(session));
-      elements.setMenuModifiers(MenuModifierDAO.getInstance().findAll(session));
-      elements.setMenuModifierGroups(MenuModifierGroupDAO.getInstance().findAll(session));
       elements.setMenuItems(MenuItemDAO.getInstance().findAll(session));
-      elements.setMenuItemModifierGroups(MenuItemModifierGroupDAO.getInstance().findAll(session));
 
       // elements.setUsers(UserDAO.getInstance().findAll(session));
       //

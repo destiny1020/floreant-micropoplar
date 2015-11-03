@@ -21,18 +21,10 @@ import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
-import com.floreantpos.model.MenuItemModifierGroup;
-import com.floreantpos.model.MenuModifier;
-import com.floreantpos.model.MenuModifierGroup;
-import com.floreantpos.model.Tax;
 import com.floreantpos.model.dao.GenericDAO;
 import com.floreantpos.model.dao.MenuCategoryDAO;
 import com.floreantpos.model.dao.MenuGroupDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
-import com.floreantpos.model.dao.MenuItemModifierGroupDAO;
-import com.floreantpos.model.dao.MenuModifierDAO;
-import com.floreantpos.model.dao.MenuModifierGroupDAO;
-import com.floreantpos.model.dao.TaxDAO;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.datamigrate.Elements;
 
@@ -94,16 +86,6 @@ public class DataImportAction extends AbstractAction {
       session = dao.createNewSession();
       transaction = session.beginTransaction();
 
-      List<Tax> taxes = elements.getTaxes();
-      if (taxes != null) {
-        for (Tax tax : taxes) {
-          objectMap.put(tax.getUniqueId(), tax);
-          tax.setId(null);
-
-          TaxDAO.getInstance().save(tax, session);
-        }
-      }
-
       List<MenuCategory> menuCategories = elements.getMenuCategories();
       if (menuCategories != null) {
         for (MenuCategory menuCategory : menuCategories) {
@@ -119,65 +101,16 @@ public class DataImportAction extends AbstractAction {
       if (menuGroups != null) {
         for (MenuGroup menuGroup : menuGroups) {
 
-          MenuCategory menuCategory = menuGroup.getParent();
+          MenuCategory menuCategory = menuGroup.getCategory();
           if (menuCategory != null) {
             menuCategory = (MenuCategory) objectMap.get(menuCategory.getUniqueId());
-            menuGroup.setParent(menuCategory);
+            menuGroup.setCategory(menuCategory);
           }
 
           objectMap.put(menuGroup.getUniqueId(), menuGroup);
           menuGroup.setId(null);
 
           MenuGroupDAO.getInstance().saveOrUpdate(menuGroup, session);
-        }
-      }
-
-      List<MenuModifierGroup> menuModifierGroups = elements.getMenuModifierGroups();
-      if (menuModifierGroups != null) {
-        for (MenuModifierGroup menuModifierGroup : menuModifierGroups) {
-          objectMap.put(menuModifierGroup.getUniqueId(), menuModifierGroup);
-          menuModifierGroup.setId(null);
-
-          MenuModifierGroupDAO.getInstance().saveOrUpdate(menuModifierGroup, session);
-        }
-      }
-
-      List<MenuModifier> menuModifiers = elements.getMenuModifiers();
-      if (menuModifiers != null) {
-        for (MenuModifier menuModifier : menuModifiers) {
-
-          objectMap.put(menuModifier.getUniqueId(), menuModifier);
-          menuModifier.setId(null);
-
-          MenuModifierGroup menuModifierGroup = menuModifier.getModifierGroup();
-          if (menuModifierGroup != null) {
-            menuModifierGroup = (MenuModifierGroup) objectMap.get(menuModifierGroup.getUniqueId());
-            menuModifier.setModifierGroup(menuModifierGroup);
-          }
-
-          Tax tax = menuModifier.getTax();
-          if (tax != null) {
-            tax = (Tax) objectMap.get(tax.getUniqueId());
-            menuModifier.setTax(tax);
-          }
-
-          MenuModifierDAO.getInstance().saveOrUpdate(menuModifier, session);
-        }
-      }
-
-      List<MenuItemModifierGroup> menuItemModifierGroups = elements.getMenuItemModifierGroups();
-      if (menuItemModifierGroups != null) {
-        for (MenuItemModifierGroup mimg : menuItemModifierGroups) {
-          objectMap.put(mimg.getUniqueId(), mimg);
-          mimg.setId(null);
-
-          MenuModifierGroup menuModifierGroup = mimg.getModifierGroup();
-          if (menuModifierGroup != null) {
-            menuModifierGroup = (MenuModifierGroup) objectMap.get(menuModifierGroup.getUniqueId());
-            mimg.setModifierGroup(menuModifierGroup);
-          }
-
-          MenuItemModifierGroupDAO.getInstance().save(mimg, session);
         }
       }
 

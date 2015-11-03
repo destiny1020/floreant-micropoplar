@@ -52,7 +52,7 @@ public class MenuGroupForm extends BeanEditor {
     jLabel1 = new javax.swing.JLabel();
     tfName = new com.floreantpos.swing.FixedLengthTextField();
     jLabel2 = new javax.swing.JLabel();
-    cbCategory = new javax.swing.JComboBox();
+    cbCategory = new javax.swing.JComboBox<>();
     chkVisible = new javax.swing.JCheckBox();
     btnNewCategory = new javax.swing.JButton();
 
@@ -123,7 +123,7 @@ public class MenuGroupForm extends BeanEditor {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnNewCategory;
-  private javax.swing.JComboBox cbCategory;
+  private javax.swing.JComboBox<MenuCategory> cbCategory;
   private javax.swing.JCheckBox chkVisible;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
@@ -159,8 +159,8 @@ public class MenuGroupForm extends BeanEditor {
     tfName.setText(foodGroup.getName());
     chkVisible.setSelected(foodGroup.isVisible());
 
-    if (foodGroup.getParent() != null) {
-      cbCategory.setSelectedItem(foodGroup.getParent());
+    if (foodGroup.getCategory() != null) {
+      cbCategory.setSelectedItem(foodGroup.getCategory());
     }
   }
 
@@ -185,7 +185,7 @@ public class MenuGroupForm extends BeanEditor {
 
     foodGroup.setName(tfName.getText());
 
-    foodGroup.setParent(category);
+    foodGroup.setCategory(category);
     foodGroup.setVisible(chkVisible.isSelected());
 
     return true;

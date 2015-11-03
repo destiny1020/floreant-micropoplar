@@ -12,11 +12,16 @@ import javax.xml.bind.annotation.XmlTransient;
  * @hibernate.class table="MENU_GROUP"
  */
 
-public abstract class BaseMenuGroup implements Comparable, Serializable {
+public abstract class BaseMenuGroup implements Comparable<BaseMenuGroup>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "MenuGroup";
   public static String PROP_NAME = "name";
-  public static String PROP_PARENT = "parent";
+  public static String PROP_CATEGORY = "category";
   public static String PROP_VISIBLE = "visible";
   public static String PROP_ID = "id";
 
@@ -60,7 +65,7 @@ public abstract class BaseMenuGroup implements Comparable, Serializable {
   private java.lang.Boolean visible;
 
   // many to one
-  private com.floreantpos.model.MenuCategory parent;
+  private com.floreantpos.model.MenuCategory category;
 
 
 
@@ -143,8 +148,8 @@ public abstract class BaseMenuGroup implements Comparable, Serializable {
   /**
    * Return the value associated with the column: CATEGORY_ID
    */
-  public com.floreantpos.model.MenuCategory getParent() {
-    return parent;
+  public com.floreantpos.model.MenuCategory getCategory() {
+    return category;
   }
 
   /**
@@ -152,8 +157,8 @@ public abstract class BaseMenuGroup implements Comparable, Serializable {
    * 
    * @param parent the CATEGORY_ID value
    */
-  public void setParent(com.floreantpos.model.MenuCategory parent) {
-    this.parent = parent;
+  public void setCategory(com.floreantpos.model.MenuCategory category) {
+    this.category = category;
   }
 
 
@@ -184,7 +189,7 @@ public abstract class BaseMenuGroup implements Comparable, Serializable {
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  public int compareTo(BaseMenuGroup obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())

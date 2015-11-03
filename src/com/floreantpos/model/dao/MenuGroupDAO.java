@@ -26,7 +26,7 @@ public class MenuGroupDAO extends BaseMenuGroupDAO {
       session = getSession();
       Criteria criteria = session.createCriteria(getReferenceClass());
       criteria.add(Restrictions.eq(MenuGroup.PROP_VISIBLE, Boolean.TRUE));
-      criteria.add(Restrictions.eq(MenuGroup.PROP_PARENT, category));
+      criteria.add(Restrictions.eq(MenuGroup.PROP_CATEGORY, category));
 
       return criteria.list();
     } finally {
