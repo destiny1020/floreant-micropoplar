@@ -51,9 +51,9 @@ public class MenuItemSet extends BaseMenuItemSet implements IOrderViewItem {
     ticketItem.setItemCount(1);
     ticketItem.setName(this.getName());
     ticketItem.setGroupName(this.getGroup().getName());
-    ticketItem.setCategoryName(this.getCategory().getName());
+    ticketItem.setCategoryName(this.getGroup().getCategory().getName());
     ticketItem.setUnitPrice(this.getPrice());
-    if (this.getCategory().isBeverage()) {
+    if (this.getGroup().getCategory().isBeverage()) {
       ticketItem.setBeverage(true);
       ticketItem.setShouldPrintToKitchen(false);
     } else {

@@ -35,8 +35,8 @@ public class MenuItemSelectedTableModel extends ListTableModel<MenuItem> {
         return Double.valueOf(item.getPrice());
 
       case 3:
-        if (item.getCategory() != null) {
-          return item.getCategory().getName();
+        if (item.getGroup() != null && item.getGroup().getCategory() != null) {
+          return item.getGroup().getCategory().getName();
         }
         return "";
 

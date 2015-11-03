@@ -34,11 +34,6 @@
 			<meta attribute="defaultValue">false</meta>
 		</property>
 
-		<many-to-one class="com.floreantpos.model.MenuCategory"
-			name="category">
-			<column name="CATEGORY_ID" />
-		</many-to-one>
-
 		<!-- uni-directional many-to-one association to FoodGroup -->
 		<many-to-one class="com.floreantpos.model.MenuGroup" name="group">
 			<column name="GROUP_ID" />

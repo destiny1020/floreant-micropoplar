@@ -40,8 +40,8 @@ public class MenuItemExplorerTableModel extends ListTableModel<MenuItem> {
         return item.isVisible();
 
       case 4:
-        if (item.getCategory() != null) {
-          return item.getCategory().getName();
+        if (item.getGroup() != null && item.getGroup().getCategory() != null) {
+          return item.getGroup().getCategory().getName();
         }
         return "";
 

@@ -299,7 +299,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
     if (menuItem.getId() == null) {
       cbGroup.setSelectedIndex(0);
     } else {
-      cbGroup.setSelectedItem(menuItem.getCategory());
+      cbGroup.setSelectedItem(menuItem.getGroup());
     }
 
     cbPrinter.setSelectedItem(menuItem.getVirtualPrinter());

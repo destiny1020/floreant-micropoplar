@@ -253,9 +253,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     if (cbGroup.getSelectedItem() != null) {
       menuItem.setGroup((MenuGroup) cbGroup.getSelectedItem());
     }
-    if (cbCategory.getSelectedItem() != null) {
-      menuItem.setCategory((MenuCategory) cbCategory.getSelectedItem());
-    }
 
     menuItem.setPrice(Double.valueOf(tfPrice.getText()));
     menuItem.setVisible(chkVisible.isSelected());

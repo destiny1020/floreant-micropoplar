@@ -30,9 +30,8 @@ import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.ui.IOrderViewItem;
 import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
 
-public class OrderController
-    implements OrderListener, CategorySelectionListener, GroupSelectionListener,
-    ItemSelectionListener, ITicketTypeSelectionListener {
+public class OrderController implements OrderListener, CategorySelectionListener,
+    GroupSelectionListener, ItemSelectionListener, ITicketTypeSelectionListener {
   private OrderView orderView;
 
   public OrderController(OrderView orderView) {
@@ -43,6 +42,7 @@ public class OrderController
     orderView.getItemView().addItemSelectionListener(this);
     orderView.getOthersView().setItemSelectionListener(this);
     orderView.getTicketView().addTicketTypeSelectionListener(this);
+    orderView.getTicketView().addOrderListener(this);
   }
 
   public void categorySelected(MenuCategory foodCategory) {

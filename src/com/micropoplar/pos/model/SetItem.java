@@ -46,8 +46,8 @@ public class SetItem extends BaseSetItem implements ITicketItem {
       this.groupName = item.getGroup().getName();
     }
 
-    if (item.getCategory() != null) {
-      this.categoryName = item.getCategory().getName();
+    if (item.getGroup() != null && item.getGroup().getCategory() != null) {
+      this.categoryName = item.getGroup().getCategory().getName();
     }
 
     this.unitPrice = item.getPrice();

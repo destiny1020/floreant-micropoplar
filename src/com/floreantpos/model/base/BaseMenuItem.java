@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.VirtualPrinter;
 import com.micropoplar.pos.model.SetItem;
@@ -27,7 +26,6 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
 
   public static String REF = "MenuItem";
   public static String PROP_ID = "id";
-  public static String PROP_CATEGORY = "category";
   public static String PROP_GROUP = "group";
   public static String PROP_CODE = "code";
   public static String PROP_BARCODE = "barcode";
@@ -74,7 +72,6 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
   private Date modifiedTime;
 
   // fields
-  private MenuCategory category;
   private MenuGroup group;
   private String code;
   private String barcode;
@@ -141,14 +138,6 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
 
   public void setModifiedTime(Date modifiedTime) {
     this.modifiedTime = modifiedTime;
-  }
-
-  public MenuCategory getCategory() {
-    return category;
-  }
-
-  public void setCategory(MenuCategory category) {
-    this.category = category;
   }
 
   public MenuGroup getGroup() {
