@@ -510,10 +510,6 @@ public class POSConstants {
   public static final String TICKET_FORM_MONEY_REFUNDED = Messages.getString("PosMessage.401");
   public static final String TICKET_FORM_MONEY_REFUND_TYPE = Messages.getString("PosMessage.402");
 
-  // Compaign Explorer
-  public static final String COMPAIGN_EXPLORER = Messages.getString("PosMessage.405");
-  public static final String COMPAIGN_EXPLORER_MENU = Messages.getString("PosMessage.406");
-
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");
   public static final String UNITNAME_CUP = Messages.getString("UnitName.2");
@@ -593,6 +589,10 @@ public class POSConstants {
   public static final String RECEIPT_REPORT_CASH_REFUND_LABEL =
       Messages.getString("RECEIPT_REPORT_CASH_REFUND_LABEL");
 
+  // COMMONS
+  public static final String COMMON_YES = Messages.getString("COMMON_YES");
+  public static final String COMMON_NO = Messages.getString("COMMON_NO");
+
   // ERROR related
   public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
   public static final String ERROR_MEMBER_PRICE_TOO_HIGH = Messages.getString("ERROR_MEMBER_PRICE_TOO_HIGH");
@@ -635,5 +635,21 @@ public class POSConstants {
   public static final String COMPAIGN_TYPE_A_OFF = Messages.getString("COMPAIGN_TYPE_A_OFF");
   public static final String COMPAIGN_TYPE_TIME_DISCOUNT = Messages.getString("COMPAIGN_TYPE_TIME_DISCOUNT");
   public static final String COMPAIGN_TYPE_TIME_OFF = Messages.getString("COMPAIGN_TYPE_TIME_OFF");
+
+  // COMPAIGN EXPLORER & FORM
+  public static final String COMPAIGN_EXPLORER = Messages.getString("PosMessage.405");
+  public static final String COMPAIGN_EXPLORER_MENU = Messages.getString("PosMessage.406");
+  public static final String COMPAIGN_EXPLORER_TABLE_NAME = Messages.getString("PosMessage.407");
+  public static final String COMPAIGN_EXPLORER_TABLE_STATUS = Messages.getString("PosMessage.408");
+  public static final String COMPAIGN_EXPLORER_TABLE_EXCLUSIVE = Messages.getString("PosMessage.409");
+  public static final String COMPAIGN_EXPLORER_TABLE_PRIORITY = Messages.getString("PosMessage.410");
+  public static final String COMPAIGN_EXPLORER_TABLE_GLOBAL = Messages.getString("PosMessage.411");
+  public static final String COMPAIGN_EXPLORER_TABLE_PER_TICKET = Messages.getString("PosMessage.412");
+  public static final String COMPAIGN_EXPLORER_TABLE_MEMBERSHIP = Messages.getString("PosMessage.413");
+  public static final String COMPAIGN_EXPLORER_TABLE_TARGET = Messages.getString("PosMessage.414");
+  public static final String COMPAIGN_EXPLORER_TABLE_PERIOD = Messages.getString("PosMessage.415");
+  public static final String COMPAIGN_EXPLORER_TABLE_TYPE = Messages.getString("PosMessage.416");
+  public static final String COMPAIGN_EXPLORER_TABLE_STATUS_ON = Messages.getString("PosMessage.417");
+  public static final String COMPAIGN_EXPLORER_TABLE_STATUS_OFF = Messages.getString("PosMessage.418");
 
 }

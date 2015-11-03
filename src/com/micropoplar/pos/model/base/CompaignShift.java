@@ -6,13 +6,12 @@ package com.micropoplar.pos.model.base;
  * @author Destiny
  *
  */
-public class BaseCompaignShift {
+public class CompaignShift {
 
   public static String REF = "CompaignShift";
   public static String PROP_ID = "id";
   public static String PROP_NAME = "name";
   public static String PROP_DESCRIPTION = "description";
-  public static String PROP_ENABLED = "enabled";
   public static String PROP_SHIFT_LENGTH = "shiftLength"; // in minutes
   public static String PROP_ALL_DAY = "allDay";
   public static String PROP_START_TIME = "startTime";
@@ -20,14 +19,14 @@ public class BaseCompaignShift {
   public static String PROP_DAY_BITSET = "dayBitset";
 
   //constructors
-  public BaseCompaignShift() {
+  public CompaignShift() {
     initialize();
   }
 
   /**
   * Constructor for primary key
   */
-  public BaseCompaignShift(Integer id) {
+  public CompaignShift(Integer id) {
     this.setId(id);
     initialize();
   }
@@ -35,7 +34,7 @@ public class BaseCompaignShift {
   /**
   * Constructor for required fields
   */
-  public BaseCompaignShift(Integer id, String name) {
+  public CompaignShift(Integer id, String name) {
 
     this.setId(id);
     this.setName(name);
@@ -52,7 +51,6 @@ public class BaseCompaignShift {
   // fields
   private String name;
   private String description;
-  private Boolean enabled;
   private Integer shiftLength;
   private Boolean allDay;
   private String startTime;
@@ -89,14 +87,6 @@ public class BaseCompaignShift {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public Boolean getEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(Boolean enabled) {
-    this.enabled = enabled;
   }
 
   public Integer getShiftLength() {

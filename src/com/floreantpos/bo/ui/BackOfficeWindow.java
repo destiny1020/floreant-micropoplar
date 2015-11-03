@@ -45,6 +45,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
 import com.jidesoft.swing.JideTabbedPane;
+import com.micropoplar.pos.bo.actions.CompaignExplorerAction;
 import com.micropoplar.pos.bo.actions.MenuItemSetExplorerAction;
 import com.micropoplar.pos.bo.actions.TicketExplorerAction;
 
@@ -187,9 +188,9 @@ public class BackOfficeWindow extends javax.swing.JFrame {
     // explorerMenu.add(new ModifierGroupExplorerAction());
     // explorerMenu.add(new ModifierExplorerAction());
     // explorerMenu.add(new ShiftExplorerAction());
-    explorerMenu.add(new CouponExplorerAction());
+    //    explorerMenu.add(new CouponExplorerAction());
+    explorerMenu.add(new CompaignExplorerAction());
     explorerMenu.add(new CookingInstructionExplorerAction());
-    // explorerMenu.add(new TaxExplorerAction());
 
     // Customer information explorer
     explorerMenu.add(new CustomerExplorerAction());

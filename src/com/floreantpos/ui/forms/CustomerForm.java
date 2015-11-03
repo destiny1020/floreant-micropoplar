@@ -25,6 +25,11 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import net.miginfocom.swing.MigLayout;
 
 public class CustomerForm extends BeanEditor<Customer> {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private FixedLengthTextField tfPhone;
   private FixedLengthTextField tfName;
   // private FixedLengthTextField tfDoB;
@@ -156,7 +161,7 @@ public class CustomerForm extends BeanEditor<Customer> {
       if (!updateModel())
         return false;
 
-      Customer customer = (Customer) getBean();
+      Customer customer = getBean();
 
       // make sure there is no duplicates
       CustomerDAO dao = CustomerDAO.getInstance();
@@ -181,7 +186,7 @@ public class CustomerForm extends BeanEditor<Customer> {
 
   @Override
   protected void updateView() {
-    Customer customer = (Customer) getBean();
+    Customer customer = getBean();
 
     if (customer != null) {
       tfName.setText(customer.getName());
@@ -228,7 +233,7 @@ public class CustomerForm extends BeanEditor<Customer> {
       return false;
     }
 
-    Customer customer = (Customer) getBean();
+    Customer customer = getBean();
 
     if (customer == null) {
       customer = new Customer();

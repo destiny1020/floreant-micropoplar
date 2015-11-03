@@ -26,6 +26,11 @@ import com.floreantpos.util.POSComparators;
 import com.floreantpos.util.PosGuiUtil;
 
 public class CustomerExplorer extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private List<Customer> customerList;
 
   private JTable table;
@@ -67,6 +72,7 @@ public class CustomerExplorer extends TransparentPanel {
 
     JButton addButton = new JButton(com.floreantpos.POSConstants.ADD);
     addButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           CustomerForm editor = new CustomerForm();
@@ -75,7 +81,7 @@ public class CustomerExplorer extends TransparentPanel {
           dialog.open();
           if (dialog.isCanceled())
             return;
-          Customer customer = (Customer) editor.getBean();
+          Customer customer = editor.getBean();
           tableModel.addRow(customer);
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
@@ -86,6 +92,7 @@ public class CustomerExplorer extends TransparentPanel {
 
     final JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
     editButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -119,6 +126,7 @@ public class CustomerExplorer extends TransparentPanel {
 
     JButton deleteButton = new JButton(com.floreantpos.POSConstants.DELETE);
     deleteButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
