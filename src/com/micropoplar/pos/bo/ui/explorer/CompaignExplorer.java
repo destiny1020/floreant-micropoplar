@@ -34,6 +34,7 @@ public class CompaignExplorer extends TransparentPanel {
   private static final long serialVersionUID = 1L;
 
   private JXTable compaignTable;
+  private CompaignExplorerTableModel tableModel;
   private List<Compaign> compaigns;
 
   public CompaignExplorer() {
@@ -44,7 +45,8 @@ public class CompaignExplorer extends TransparentPanel {
     setLayout(new BorderLayout());
 
     // table area
-    compaignTable = new JXTable(new CompaignExplorerTableModel());
+    tableModel = new CompaignExplorerTableModel();
+    compaignTable = new JXTable(tableModel);
     compaignTable.setDefaultRenderer(Object.class, new PosTableRenderer());
     compaignTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     compaignTable.setColumnControlVisible(true);
@@ -59,6 +61,15 @@ public class CompaignExplorer extends TransparentPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
+          CompaignForm editor = new CompaignForm(true);
+          BeanEditorDialog dialog =
+              new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
+          dialog.open();
+          if (dialog.isCanceled()) {
+            return;
+          }
+          Compaign compaign = editor.getBean();
+          tableModel.addItem(compaign);
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
@@ -76,7 +87,7 @@ public class CompaignExplorer extends TransparentPanel {
             return;
 
           Compaign compaign = compaigns.get(index);
-          CompaignForm editor = new CompaignForm();
+          CompaignForm editor = new CompaignForm(false);
           editor.setBean(compaign);
           BeanEditorDialog dialog =
               new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
@@ -114,7 +125,7 @@ public class CompaignExplorer extends TransparentPanel {
 
             CompaignDAO dao = CompaignDAO.getInstance();
             dao.delete(compaign);
-            compaignTable.remove(index);
+            tableModel.deleteItem(index);
           }
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);

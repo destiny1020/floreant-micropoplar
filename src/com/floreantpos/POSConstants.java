@@ -651,5 +651,7 @@ public class POSConstants {
   public static final String COMPAIGN_EXPLORER_TABLE_TYPE = Messages.getString("PosMessage.416");
   public static final String COMPAIGN_EXPLORER_TABLE_STATUS_ON = Messages.getString("PosMessage.417");
   public static final String COMPAIGN_EXPLORER_TABLE_STATUS_OFF = Messages.getString("PosMessage.418");
+  public static final String COMPAIGN_FORM_TITLE_ADD_MODE = Messages.getString("PosMessage.419");
+  public static final String COMPAIGN_FORM_TITLE_EDIT_MODE = Messages.getString("PosMessage.420");
 
 }

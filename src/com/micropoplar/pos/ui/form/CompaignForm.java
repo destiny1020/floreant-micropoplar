@@ -1,5 +1,6 @@
 package com.micropoplar.pos.ui.form;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.model.util.IllegalModelStateException;
 import com.floreantpos.ui.BeanEditor;
 import com.micropoplar.pos.model.Compaign;
@@ -10,6 +11,12 @@ public class CompaignForm extends BeanEditor<Compaign> {
    * 
    */
   private static final long serialVersionUID = 1L;
+
+  private boolean addMode;
+
+  public CompaignForm(boolean addMode) {
+    this.addMode = addMode;
+  }
 
   @Override
   public boolean save() {
@@ -31,8 +38,16 @@ public class CompaignForm extends BeanEditor<Compaign> {
 
   @Override
   public String getDisplayText() {
-    // TODO Auto-generated method stub
-    return null;
+    return addMode ? POSConstants.COMPAIGN_FORM_TITLE_ADD_MODE
+        : POSConstants.COMPAIGN_FORM_TITLE_EDIT_MODE;
+  }
+
+  public boolean isAddMode() {
+    return addMode;
+  }
+
+  public void setAddMode(boolean addMode) {
+    this.addMode = addMode;
   }
 
 }
