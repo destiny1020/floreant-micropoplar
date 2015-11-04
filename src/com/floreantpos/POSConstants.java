@@ -699,6 +699,8 @@ public class POSConstants {
   public static final String CUSTOMER_QUICK_DLG_AGE_RANGE = Messages.getString("PosMessage.421");
   public static final String CUSTOMER_QUICK_DLG_GENDER_MALE = Messages.getString("PosMessage.440");
   public static final String CUSTOMER_QUICK_DLG_GENDER_FEMALE = Messages.getString("PosMessage.441");
+  public static final String CUSTOMER_QUICK_DLG_TITLE_PANEL = Messages.getString("PosMessage.460");
+  public static final String CUSTOMER_QUICK_DLG_MODIFY_PHONE = Messages.getString("PosMessage.461");
 
   // AGE RANGE OPTIONS
   public static final String AGE_RANGE_OPTION_1 = Messages.getString("PosMessage.433");

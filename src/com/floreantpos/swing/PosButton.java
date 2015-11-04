@@ -16,6 +16,11 @@ import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.config.UIConfig;
 
 public class PosButton extends JButton {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public static Border border = new LineBorder(Color.BLACK, 1);
   static Insets margin = new Insets(0, 0, 0, 0);
 

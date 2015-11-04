@@ -233,6 +233,7 @@ public class TicketView extends JPanel implements ActionListener {
           } else {
             // open customer quick input dlg
             CustomerQuickInputDialog dialog = new CustomerQuickInputDialog(phone);
+            dialog.setSize(620, 415);
             dialog.open();
           }
         } else {

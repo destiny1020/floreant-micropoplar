@@ -1,5 +1,8 @@
 package com.micropoplar.pos.ui.dialog;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,12 +12,13 @@ import java.awt.event.WindowEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.POSToggleButton;
+import com.floreantpos.swing.PosButton;
+import com.floreantpos.ui.TitlePanel;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.micropoplar.pos.model.AgeRange;
@@ -28,10 +32,9 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
    */
   private static final long serialVersionUID = 1L;
 
-  private FixedLengthTextField tfPhone;
+  private TitlePanel titlePanel;
 
-  private JRadioButton rdbMale;
-  private JRadioButton rdbFemale;
+  private FixedLengthTextField tfPhone;
 
   private ButtonGroup btgGender;
   private ButtonGroup btgAgeRange;
@@ -62,61 +65,83 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
 
     });
 
-    getContentPane().setLayout(new MigLayout("", "[60px][100px,grow][][100px]", "[][][][][][][]"));
+    getContentPane().setLayout(new MigLayout("fillx",
+        "[60px,fill][60px,fill][60px,fill][60px,fill][60px,fill][60px,fill]", "[][][][]push[]"));
 
-    JLabel lblPhone = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_PHONE);
-    getContentPane().add(lblPhone, "cell 0 1,alignx trailing");
+    titlePanel = new TitlePanel();
+    titlePanel.setTitle(POSConstants.CUSTOMER_QUICK_DLG_TITLE_PANEL);
+    getContentPane().add(titlePanel, "spanx, growy, height 60,wrap");
+
+    JLabel lblPhone = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_PHONE + POSConstants.COLON);
+    getContentPane().add(lblPhone, "span 1, aligny center");
 
     tfPhone = new FixedLengthTextField(11);
     tfPhone.setText(phone);
-    tfPhone.setFocusable(false);
-    getContentPane().add(tfPhone, "cell 1 1 2 1,growx");
+    tfPhone.setFont(tfPhone.getFont().deriveFont(Font.BOLD, 24));
+    tfPhone.setBackground(Color.WHITE);
+    getContentPane().add(tfPhone, "span 4, grow");
 
-    JLabel lblGender = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_GENDER);
-    getContentPane().add(lblGender, "cell 0 2");
+    PosButton btnEditPhone = new PosButton(POSConstants.CUSTOMER_QUICK_DLG_MODIFY_PHONE);
+    btnEditPhone.setFocusable(false);
+    btnEditPhone.setMinimumSize(new Dimension(25, 23));
+    getContentPane().add(btnEditPhone, "growy, wrap");
+
+    JLabel lblGender = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_GENDER + POSConstants.COLON);
+    getContentPane().add(lblGender, "span 1, aligny center");
+
+    Dimension minDimension = new Dimension(90, 60);
 
     btgGender = new ButtonGroup();
 
-    rdbMale = new JRadioButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_MALE);
-    btgGender.add(rdbMale);
-    getContentPane().add(rdbMale, "flowx,cell 1 2");
+    POSToggleButton btnMale = new POSToggleButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_MALE);
+    btnMale.setMinimumSize(minDimension);
+    btgGender.add(btnMale);
+    getContentPane().add(btnMale, "grow");
 
-    rdbFemale = new JRadioButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_FEMALE);
-    btgGender.add(rdbFemale);
-    getContentPane().add(rdbFemale, "cell 1 2");
+    POSToggleButton btnFemale = new POSToggleButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_FEMALE);
+    btnFemale.setMinimumSize(minDimension);
+    btgGender.add(btnFemale);
+    getContentPane().add(btnFemale, "grow, wrap");
 
-    JLabel lblAgeRange = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_AGE_RANGE);
-    getContentPane().add(lblAgeRange, "cell 0 3");
+    JLabel lblAgeRange = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_AGE_RANGE + POSConstants.COLON);
+    getContentPane().add(lblAgeRange, "span 1, aligny center");
 
     btgAgeRange = new ButtonGroup();
 
     POSToggleButton btnAge20Minus = new POSToggleButton(AgeRange.AGE_20_MINUS.getDisplayString());
+    btnAge20Minus.setMinimumSize(minDimension);
     btgAgeRange.add(btnAge20Minus);
-    getContentPane().add(btnAge20Minus, "flowx,cell 1 3");
+    getContentPane().add(btnAge20Minus, "grow");
 
     POSToggleButton btnAge2030 = new POSToggleButton(AgeRange.AGE_20_30.getDisplayString());
+    btnAge2030.setMinimumSize(minDimension);
     btgAgeRange.add(btnAge2030);
-    getContentPane().add(btnAge2030, "cell 1 3");
+    getContentPane().add(btnAge2030, "grow");
 
     POSToggleButton btnAge3040 = new POSToggleButton(AgeRange.AGE_30_40.getDisplayString());
+    btnAge3040.setMinimumSize(minDimension);
     btgAgeRange.add(btnAge3040);
-    getContentPane().add(btnAge3040, "flowx,cell 1 4");
+    getContentPane().add(btnAge3040, "grow");
 
     POSToggleButton btnAge4050 = new POSToggleButton(AgeRange.AGE_40_50.getDisplayString());
+    btnAge4050.setMinimumSize(minDimension);
     btgAgeRange.add(btnAge4050);
-    getContentPane().add(btnAge4050, "cell 1 4");
+    getContentPane().add(btnAge4050, "grow");
 
     POSToggleButton btnAge50Plus = new POSToggleButton(AgeRange.AGE_50_PLUS.getDisplayString());
+    btnAge50Plus.setMinimumSize(minDimension);
     btgAgeRange.add(btnAge50Plus);
-    getContentPane().add(btnAge50Plus, "cell 1 5");
+    getContentPane().add(btnAge50Plus, "grow, wrap");
 
     JButton btnOK = new JButton(POSConstants.OK);
+    btnOK.setMinimumSize(minDimension);
     btnOK.addActionListener(this);
-    getContentPane().add(btnOK, "flowx,cell 1 6");
+    getContentPane().add(btnOK, "skip 1, grow");
 
     JButton btnCancel = new JButton(POSConstants.CANCEL);
+    btnCancel.setMinimumSize(minDimension);
     btnCancel.addActionListener(this);
-    getContentPane().add(btnCancel, "cell 1 6");
+    getContentPane().add(btnCancel, "grow");
   }
 
   @Override
@@ -139,6 +164,8 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   }
 
   private void doCancel() {
+    System.out.println(getSize());
+
     setCanceled(true);
     dispose();
   }
