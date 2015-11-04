@@ -39,10 +39,12 @@ public class BaseMenuItemSet extends MenuItem implements Serializable {
     initialize();
   }
 
+  @Override
   protected void initialize() {}
 
   private int hashCode = Integer.MIN_VALUE;
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -57,6 +59,7 @@ public class BaseMenuItemSet extends MenuItem implements Serializable {
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -69,15 +72,17 @@ public class BaseMenuItemSet extends MenuItem implements Serializable {
     return this.hashCode;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }
 
+  @Override
   public Double getPrice() {
     if (super.getPrice() == null && getItems() != null) {
       // calculate on demand
       setPrice(updatePriceCore());
-    } else if (getItems() == null || getItems().size() == 0) {
+    } else if (getItems() == null) {
       setPrice(0.0);
     }
 

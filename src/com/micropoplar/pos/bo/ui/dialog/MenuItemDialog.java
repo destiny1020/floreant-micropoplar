@@ -38,6 +38,11 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuItemDialog extends POSDialog {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private MenuItemSet menuItemSet;
 
   private static List<MenuItem> candidateMenuItemList;
@@ -45,7 +50,7 @@ public class MenuItemDialog extends POSDialog {
 
   static {
     MenuItemDAO dao = new MenuItemDAO();
-    candidateMenuItemList = dao.findAll();
+    candidateMenuItemList = dao.findAllVisibleItems();
   }
 
   private JTable tableMenuItems;
@@ -95,6 +100,7 @@ public class MenuItemDialog extends POSDialog {
     btnRight.setIcon(new ImageIcon(getClass().getResource("/images/next_32.png")));
     btnRight.setPreferredSize(new Dimension(76, 45));
     btnRight.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent evt) {
         doSelect(evt);
       }
@@ -105,6 +111,7 @@ public class MenuItemDialog extends POSDialog {
     btnLeft.setIcon(new ImageIcon(getClass().getResource("/images/previous_32.png")));
     btnLeft.setPreferredSize(new Dimension(76, 45));
     btnLeft.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent evt) {
         doUnselect(evt);
       }
@@ -128,6 +135,7 @@ public class MenuItemDialog extends POSDialog {
 
     btnOK = new JButton(POSConstants.CONFIRM);
     btnOK.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent evt) {
         setCanceled(false);
         dispose();
@@ -136,6 +144,7 @@ public class MenuItemDialog extends POSDialog {
 
     btnCancel = new JButton(POSConstants.CANCEL);
     btnCancel.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent evt) {
         setCanceled(true);
         dispose();
@@ -152,6 +161,7 @@ public class MenuItemDialog extends POSDialog {
     return selectedSetItemList;
   }
 
+  @SuppressWarnings("unchecked")
   public void initSelectedMenuItems(List<SetItem> items) {
     selectedTableModel.setRows(items);
   }

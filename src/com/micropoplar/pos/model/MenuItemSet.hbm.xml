@@ -39,7 +39,7 @@
 			<column name="VPRINTER_ID" />
 		</many-to-one>
 		
-		<list cascade="all" inverse="false" lazy="true" name="items" table="SET_ITEM">
+		<list cascade="all" inverse="false" lazy="false" name="items" table="SET_ITEM">
 			<key>
 				<column name="MENU_ITEM_SET_ID" />
 			</key>

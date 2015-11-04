@@ -84,4 +84,31 @@ public class MenuItemDAO extends BaseMenuItemDAO {
     }
   }
 
+  /**
+   * Find all visible items, not including the MenuItemSet entities.
+   * 
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public List<MenuItem> findAllVisibleItems() {
+    Session session = null;
+
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+
+      criteria.add(Restrictions.eq(MenuItem.PROP_VISIBLE, Boolean.TRUE));
+      criteria.add(Restrictions.eq(MenuItem.PROP_IS_SET, Boolean.FALSE));
+
+      return criteria.list();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new PosException(POSConstants.ERROR_WHEN_QUERY_MENU_ITEM);
+    } finally {
+      if (session != null) {
+        session.close();
+      }
+    }
+  }
+
 }
