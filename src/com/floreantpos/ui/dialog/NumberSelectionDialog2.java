@@ -91,12 +91,16 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
     // tfNumber.setHorizontalAlignment(JTextField.RIGHT);
     contentPane.add(tfNumber, "span 2, grow");
 
-    // let number field respond to ENTER input
+    // let number field respond to ENTER/ESC input
     tfNumber.addKeyListener(new KeyAdapter() {
       @Override
       public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == KeyEvent.VK_ENTER) {
           btnOK.doClick();
+        }
+
+        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+          btnCancel.doClick();
         }
       }
     });
