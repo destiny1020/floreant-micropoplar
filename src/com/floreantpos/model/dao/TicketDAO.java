@@ -15,7 +15,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.floreantpos.bo.ui.ComboOption;
-import com.floreantpos.bo.ui.explorer.search.TicketSearchDto;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.Shift;
@@ -27,6 +26,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.VoidTransaction;
 import com.floreantpos.model.util.TicketSummary;
 import com.floreantpos.services.PosTransactionService;
+import com.micropoplar.pos.bo.ui.explorer.search.TicketSearchDto;
 
 public class TicketDAO extends BaseTicketDAO {
   private final static TicketDAO instance = new TicketDAO();

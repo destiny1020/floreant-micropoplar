@@ -422,6 +422,9 @@ public class POSConstants {
   public static final String SALES_REPORT_TYPE = Messages.getString("PosMessage.368");
   public static final String CUSTOMER_MENU = Messages.getString("PosMessage.403");
   public static final String TICKET_MENU = Messages.getString("PosMessage.404");
+  public static final String ADD_COOKING_INSTRUCTION = Messages.getString("PosMessage.450");
+  public static final String TICKET_VIEW_BORDER_TITLE_NEW = Messages.getString("PosMessage.451");
+  public static final String TICKET_VIEW_BORDER_TITLE_WITH_ID = Messages.getString("PosMessage.452");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
@@ -678,6 +681,14 @@ public class POSConstants {
   public static final String CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_END = Messages.getString("PosMessage.446");
   public static final String CUSTOMER_EXPLORER_GENDER = Messages.getString("PosMessage.422");
   public static final String CUSTOMER_EXPLORER_AGE_RANGE = Messages.getString("PosMessage.421");
+
+  // CUSTOMER QUICK INPUT DLG
+  public static final String CUSTOMER_QUICK_DLG_TITLE = Messages.getString("PosMessage.449");
+  public static final String CUSTOMER_QUICK_DLG_PHONE = Messages.getString("PosMessage.397");
+  public static final String CUSTOMER_QUICK_DLG_GENDER = Messages.getString("PosMessage.422");
+  public static final String CUSTOMER_QUICK_DLG_AGE_RANGE = Messages.getString("PosMessage.421");
+  public static final String CUSTOMER_QUICK_DLG_GENDER_MALE = Messages.getString("PosMessage.440");
+  public static final String CUSTOMER_QUICK_DLG_GENDER_FEMALE = Messages.getString("PosMessage.441");
 
   // AGE RANGE OPTIONS
   public static final String AGE_RANGE_OPTION_1 = Messages.getString("PosMessage.433");

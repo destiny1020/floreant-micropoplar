@@ -12,6 +12,11 @@ import com.floreantpos.main.Application;
 import com.floreantpos.swing.GlassPane;
 
 public class POSDialog extends JDialog {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   protected boolean canceled = true;
   private GlassPane glassPane;
 

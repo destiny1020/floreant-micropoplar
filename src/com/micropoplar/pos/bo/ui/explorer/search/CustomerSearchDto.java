@@ -1,4 +1,4 @@
-package com.floreantpos.bo.ui.explorer.search;
+package com.micropoplar.pos.bo.ui.explorer.search;
 
 import java.util.Date;
 

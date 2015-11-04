@@ -9,8 +9,8 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 import com.floreantpos.bo.ui.ComboOption;
-import com.floreantpos.bo.ui.explorer.search.CustomerSearchDto;
 import com.floreantpos.model.Customer;
+import com.micropoplar.pos.bo.ui.explorer.search.CustomerSearchDto;
 
 public class CustomerDAO extends BaseCustomerDAO {
 

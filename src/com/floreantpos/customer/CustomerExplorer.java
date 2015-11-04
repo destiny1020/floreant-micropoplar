@@ -22,7 +22,6 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.ComboOption;
-import com.floreantpos.bo.ui.explorer.search.CustomerSearchDto;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.swing.TransparentPanel;
@@ -32,6 +31,7 @@ import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.forms.CustomerForm;
 import com.floreantpos.ui.util.UiUtil;
+import com.micropoplar.pos.bo.ui.explorer.search.CustomerSearchDto;
 import com.micropoplar.pos.ui.TextFieldWithPrompt;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
 
