@@ -431,6 +431,7 @@ public class POSConstants {
   public static final String TICKET_TOTAL_DISCOUNT = Messages.getString("PosMessage.456");
   public static final String TICKET_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.457");
   public static final String TICKET_CUSTOMER_CONFIRMED = Messages.getString("PosMessage.458");
+  public static final String TICKET_CUSTOMER_NOT_CONFIRMED = Messages.getString("PosMessage.462");
   public static final String TICKET_INPUT_CUSTOMER_PHONE = Messages.getString("PosMessage.459");
   
   // Common Editor Properties
@@ -618,6 +619,7 @@ public class POSConstants {
   public static final String ERROR_CUSTOMER_PHONE_NOT_PROVIDED = Messages.getString("ERROR_CUSTOMER_PHONE_NOT_PROVIDED");
   public static final String ERROR_CUSTOMER_PHONE_NOT_VALID = Messages.getString("ERROR_CUSTOMER_PHONE_NOT_VALID");
   public static final String ERROR_UNKNOWN_COMMAND = Messages.getString("ERROR_UNKNOWN_COMMAND");
+  public static final String ERROR_CUSTOMER_ALREADY_EXISTED = Messages.getString("ERROR_CUSTOMER_ALREADY_EXISTED");
 
   // USER FORM
   public static final String ERROR_USER_FORM_EMPTY_NAME = Messages.getString("ERROR_USER_FORM_EMPTY_NAME");

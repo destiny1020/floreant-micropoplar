@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.main.Application;
+import com.floreantpos.model.Customer;
+import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.POSToggleButton;
 import com.floreantpos.swing.PosButton;
@@ -22,6 +24,7 @@ import com.floreantpos.ui.TitlePanel;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.micropoplar.pos.model.AgeRange;
+import com.micropoplar.pos.util.ValidateUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -40,6 +43,9 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   private ButtonGroup btgAgeRange;
 
   private String phone;
+
+  private Integer gender;
+  private Integer ageRange;
 
   public CustomerQuickInputDialog(String phone) {
     this(Application.getPosWindow(), phone);
@@ -95,11 +101,13 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
 
     POSToggleButton btnMale = new POSToggleButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_MALE);
     btnMale.setMinimumSize(minDimension);
+    btnMale.addActionListener(this);
     btgGender.add(btnMale);
     getContentPane().add(btnMale, "grow");
 
     POSToggleButton btnFemale = new POSToggleButton(POSConstants.CUSTOMER_QUICK_DLG_GENDER_FEMALE);
     btnFemale.setMinimumSize(minDimension);
+    btnFemale.addActionListener(this);
     btgGender.add(btnFemale);
     getContentPane().add(btnFemale, "grow, wrap");
 
@@ -110,26 +118,31 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
 
     POSToggleButton btnAge20Minus = new POSToggleButton(AgeRange.AGE_20_MINUS.getDisplayString());
     btnAge20Minus.setMinimumSize(minDimension);
+    btnAge20Minus.addActionListener(this);
     btgAgeRange.add(btnAge20Minus);
     getContentPane().add(btnAge20Minus, "grow");
 
     POSToggleButton btnAge2030 = new POSToggleButton(AgeRange.AGE_20_30.getDisplayString());
     btnAge2030.setMinimumSize(minDimension);
+    btnAge2030.addActionListener(this);
     btgAgeRange.add(btnAge2030);
     getContentPane().add(btnAge2030, "grow");
 
     POSToggleButton btnAge3040 = new POSToggleButton(AgeRange.AGE_30_40.getDisplayString());
     btnAge3040.setMinimumSize(minDimension);
+    btnAge3040.addActionListener(this);
     btgAgeRange.add(btnAge3040);
     getContentPane().add(btnAge3040, "grow");
 
     POSToggleButton btnAge4050 = new POSToggleButton(AgeRange.AGE_40_50.getDisplayString());
     btnAge4050.setMinimumSize(minDimension);
+    btnAge4050.addActionListener(this);
     btgAgeRange.add(btnAge4050);
     getContentPane().add(btnAge4050, "grow");
 
     POSToggleButton btnAge50Plus = new POSToggleButton(AgeRange.AGE_50_PLUS.getDisplayString());
     btnAge50Plus.setMinimumSize(minDimension);
+    btnAge50Plus.addActionListener(this);
     btgAgeRange.add(btnAge50Plus);
     getContentPane().add(btnAge50Plus, "grow, wrap");
 
@@ -148,7 +161,21 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   public void actionPerformed(ActionEvent e) {
     String actionCommand = e.getActionCommand();
 
-    if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
+    if (POSConstants.CUSTOMER_QUICK_DLG_GENDER_MALE.equalsIgnoreCase(actionCommand)) {
+      gender = 1;
+    } else if (POSConstants.CUSTOMER_QUICK_DLG_GENDER_FEMALE.equalsIgnoreCase(actionCommand)) {
+      gender = 0;
+    } else if (AgeRange.AGE_20_MINUS.getDisplayString().equalsIgnoreCase(actionCommand)) {
+      ageRange = 1;
+    } else if (AgeRange.AGE_20_30.getDisplayString().equalsIgnoreCase(actionCommand)) {
+      ageRange = 2;
+    } else if (AgeRange.AGE_30_40.getDisplayString().equalsIgnoreCase(actionCommand)) {
+      ageRange = 3;
+    } else if (AgeRange.AGE_40_50.getDisplayString().equalsIgnoreCase(actionCommand)) {
+      ageRange = 4;
+    } else if (AgeRange.AGE_50_PLUS.getDisplayString().equalsIgnoreCase(actionCommand)) {
+      ageRange = 5;
+    } else if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
       doCancel();
     } else if (POSConstants.OK.equalsIgnoreCase(actionCommand)) {
       doOk();
@@ -158,14 +185,32 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   }
 
   private void doOk() {
-    // create new customer
+    // TODO: create new customer
+    // check validity again
+    String phone = tfPhone.getText().trim();
+    if (!ValidateUtil.isMobileNO(phone)) {
+      POSMessageDialog.showError(this, POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+      return;
+    }
+
+    // check whether customer exists again in case the user has modified the phone
+    Customer customer = CustomerDAO.getInstance().findByPhone(phone);
+    if (customer != null) {
+      POSMessageDialog.showError(this, POSConstants.ERROR_CUSTOMER_ALREADY_EXISTED);
+      return;
+    }
+
+    Customer newCustomer = new Customer();
+    newCustomer.setPhone(phone);
+    newCustomer.setGender(gender);
+    newCustomer.setAgeRange(ageRange);
+    CustomerDAO.getInstance().save(newCustomer);
+
     setCanceled(false);
     dispose();
   }
 
   private void doCancel() {
-    System.out.println(getSize());
-
     setCanceled(true);
     dispose();
   }

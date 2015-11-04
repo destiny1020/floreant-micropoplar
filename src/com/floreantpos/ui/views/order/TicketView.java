@@ -222,6 +222,10 @@ public class TicketView extends JPanel implements ActionListener {
         String phone =
             NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE);
 
+        if (StringUtils.isBlank(phone)) {
+          return;
+        }
+
         boolean isMobile = ValidateUtil.isMobileNO(phone);
         if (isMobile) {
           // check whether is member
@@ -239,13 +243,12 @@ public class TicketView extends JPanel implements ActionListener {
         } else {
           POSMessageDialog.showError(OrderView.getInstance(),
               POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
-          return;
         }
 
       }
     });
     pnlTicketInfo.add(tfCustomerPhone, "cell 1 3 2 1,growx,aligny center");
-    btnCustomerConfirm = new JButton(POSConstants.OK);
+    btnCustomerConfirm = new JButton(POSConstants.TICKET_CUSTOMER_NOT_CONFIRMED);
     btnCustomerConfirm.setFont(FontUtil.FONT_BIG);
     btnCustomerConfirm.setPreferredSize(new Dimension(100, 25));
     pnlTicketInfo.add(btnCustomerConfirm, "cell 3 3,growx,aligny center");
@@ -474,6 +477,10 @@ public class TicketView extends JPanel implements ActionListener {
 
     // remove the current ticket in customer ticket view
     CustomerView.getInstance().getCustomerTicketView().setTicket(null);
+
+    // remove the current customer info
+    btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_NOT_CONFIRMED);
+    tfCustomerPhone.setText("");
   }
 
   private synchronized void updateModel() {
