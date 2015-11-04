@@ -47,6 +47,8 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   private Integer gender;
   private Integer ageRange;
 
+  private Customer createdCustomer;
+
   public CustomerQuickInputDialog(String phone) {
     this(Application.getPosWindow(), phone);
   }
@@ -207,6 +209,8 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
     newCustomer.setCreateTime(new Date());
     CustomerDAO.getInstance().save(newCustomer);
 
+    createdCustomer = newCustomer;
+
     setCanceled(false);
     dispose();
   }
@@ -218,5 +222,9 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
 
   public String getPhone() {
     return phone;
+  }
+
+  public Customer getCreatedCustomer() {
+    return createdCustomer;
   }
 }

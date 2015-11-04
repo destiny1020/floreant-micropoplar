@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.ActionHistory;
 import com.floreantpos.model.CashTransaction;
+import com.floreantpos.model.Customer;
 import com.floreantpos.model.GiftCertificateTransaction;
 import com.floreantpos.model.PaymentType;
 import com.floreantpos.model.PosTransaction;
@@ -89,6 +90,28 @@ public class PosTransactionService {
       }
 
       adjustTerminalBalance(transaction);
+
+      // update customer information if needed
+      Customer customer = ticket.getCustomer();
+      if (customer != null) {
+        // for total ticket number
+        customer.setTotalTicketNumber(customer.getTotalTicketNumber() + 1);
+
+        // for total amount (before discount)
+        customer.setTotalAmountBeforeDiscount(
+            customer.getTotalAmountBeforeDiscount() + ticket.getSubtotalAmount());
+
+        // for total discount
+        customer.setTotalDiscount(customer.getTotalDiscount() + ticket.getDiscountAmount());
+
+        // for total amount (after discount)
+        customer.setTotalAmountAfterDiscount(
+            customer.getTotalAmountAfterDiscount() + ticket.getTotalAmount());
+
+        customer.setLastActiveTime(new Date());
+
+        session.saveOrUpdate(customer);
+      }
 
       session.update(terminal);
       session.saveOrUpdate(ticket);

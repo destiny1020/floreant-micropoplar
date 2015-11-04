@@ -460,8 +460,7 @@ public class TicketView extends JPanel implements ActionListener {
     CustomerView.getInstance().getCustomerTicketView().setTicket(null);
 
     // remove the current customer info
-    btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_NOT_CONFIRMED);
-    tfCustomerPhone.setText("");
+    resetMemberInfo();
   }
 
   private synchronized void updateModel() {
@@ -785,8 +784,7 @@ public class TicketView extends JPanel implements ActionListener {
       Customer customer = CustomerDAO.getInstance().findByPhone(phone);
       boolean isMember = customer == null ? false : true;
       if (isMember) {
-        tfCustomerPhone.setText(phone);
-        btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+        setCustomerInfo(phone, customer);
       } else {
         // open customer quick input dlg
         CustomerQuickInputDialog dialog = new CustomerQuickInputDialog(phone);
@@ -795,8 +793,7 @@ public class TicketView extends JPanel implements ActionListener {
 
         if (!dialog.isCanceled()) {
           phone = dialog.getPhone();
-          tfCustomerPhone.setText(phone);
-          btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+          setCustomerInfo(phone, dialog.getCreatedCustomer());
         }
       }
     } else {
@@ -804,5 +801,17 @@ public class TicketView extends JPanel implements ActionListener {
           POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
       requireCustomerPhone();
     }
+  }
+
+  private void setCustomerInfo(String phone, Customer customer) {
+    tfCustomerPhone.setText(phone);
+    btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+    ticket.setCustomer(customer);
+    ticket.setCustomerPhone(phone);
+  }
+
+  public void resetMemberInfo() {
+    tfCustomerPhone.setText("");
+    btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_NOT_CONFIRMED);
   }
 }

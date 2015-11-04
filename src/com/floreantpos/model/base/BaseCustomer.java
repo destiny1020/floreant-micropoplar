@@ -77,10 +77,10 @@ public abstract class BaseCustomer implements Comparable<BaseCustomer>, Serializ
   private Date createTime;
   private Date lastActiveTime;
 
-  private Integer totalTicketNumber;
-  private Double totalAmountBeforeDiscount;
-  private Double totalDiscount;
-  private Double totalAmountAfterDiscount;
+  private Integer totalTicketNumber = 0;
+  private Double totalAmountBeforeDiscount = 0.0;
+  private Double totalDiscount = 0.0;
+  private Double totalAmountAfterDiscount = 0.0;
 
   // collections
   private java.util.Map<String, String> properties;

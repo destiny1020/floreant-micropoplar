@@ -184,6 +184,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
 
     btnCloseOrder = new PosButton();
     btnCloseOrder.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doCloseOrder();
       }
@@ -563,6 +564,9 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     ticket.setCreateDate(currentTime.getTime());
     ticket.setCreationHour(currentTime.get(Calendar.HOUR_OF_DAY));
 
+    // clear the member info
+    OrderView.getInstance().getTicketView().resetMemberInfo();
+
     return ticket;
   }
 
@@ -610,6 +614,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     updateTicketList();
   }
 
+  @Override
   public void updateTicketList() {
     User user = Application.getCurrentUser();
 
@@ -678,6 +683,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     }
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     Object source = e.getSource();
     if (source == btnBackOffice) {
@@ -716,6 +722,7 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     return ticket;
   }
 
+  @Override
   public Ticket getSelectedTicket() {
     List<Ticket> selectedTickets = openTicketList.getSelectedTickets();
 
