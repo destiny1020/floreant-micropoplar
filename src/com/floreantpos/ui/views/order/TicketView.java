@@ -772,7 +772,8 @@ public class TicketView extends JPanel implements ActionListener {
   }
 
   private void requireCustomerPhone() {
-    String phone = NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE);
+    String phone = NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE,
+        tfCustomerPhone.getText().trim());
 
     if (StringUtils.isBlank(phone)) {
       return;

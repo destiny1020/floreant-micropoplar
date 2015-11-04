@@ -287,12 +287,6 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
     this.floatingPoint = decimalAllowed;
   }
 
-  public static void main(String[] args) {
-    NumberSelectionDialog2 dialog2 = new NumberSelectionDialog2();
-    dialog2.pack();
-    dialog2.setVisible(true);
-  }
-
   public int getDefaultValue() {
     return defaultValue;
   }
@@ -302,6 +296,10 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
     tfNumber.setText(String.valueOf(defaultValue));
   }
 
+  private void setInitNumber(String initProvidedValue) {
+    tfNumber.setText(initProvidedValue);
+  }
+
   /**
    * Return the input result as String.
    * 
@@ -309,8 +307,24 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
    * @return
    */
   public static String takeStringInput(String title) {
+    return takeStringInput(title, "");
+  }
+
+  /**
+   * Return the input result as String. Give a default value for the number TF.
+   * 
+   * @param title
+   * @param initProvidedValue
+   * @return
+   */
+  public static String takeStringInput(String title, String initProvidedValue) {
     NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
     dialog.setTitle(title);
+
+    if (StringUtils.isNotBlank(initProvidedValue)) {
+      dialog.setInitNumber(initProvidedValue);
+    }
+
     dialog.pack();
     dialog.setOptionSize(1.5);
     dialog.open();
