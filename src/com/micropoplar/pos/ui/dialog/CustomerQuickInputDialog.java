@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -19,7 +20,6 @@ import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.POSToggleButton;
-import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.TitlePanel;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
@@ -84,13 +84,14 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
     tfPhone = new FixedLengthTextField(11);
     tfPhone.setText(phone);
     tfPhone.setFont(tfPhone.getFont().deriveFont(Font.BOLD, 24));
+    tfPhone.setFocusable(false);
     tfPhone.setBackground(Color.WHITE);
-    getContentPane().add(tfPhone, "span 4, grow");
+    getContentPane().add(tfPhone, "span 5, grow, wrap");
 
-    PosButton btnEditPhone = new PosButton(POSConstants.CUSTOMER_QUICK_DLG_MODIFY_PHONE);
-    btnEditPhone.setFocusable(false);
-    btnEditPhone.setMinimumSize(new Dimension(25, 23));
-    getContentPane().add(btnEditPhone, "growy, wrap");
+    //    PosButton btnEditPhone = new PosButton(POSConstants.CUSTOMER_QUICK_DLG_MODIFY_PHONE);
+    //    btnEditPhone.setFocusable(false);
+    //    btnEditPhone.setMinimumSize(new Dimension(25, 23));
+    //    getContentPane().add(btnEditPhone, "growy, wrap");
 
     JLabel lblGender = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_GENDER + POSConstants.COLON);
     getContentPane().add(lblGender, "span 1, aligny center");
@@ -185,9 +186,8 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   }
 
   private void doOk() {
-    // TODO: create new customer
     // check validity again
-    String phone = tfPhone.getText().trim();
+    phone = tfPhone.getText().trim();
     if (!ValidateUtil.isMobileNO(phone)) {
       POSMessageDialog.showError(this, POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
       return;
@@ -204,6 +204,7 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
     newCustomer.setPhone(phone);
     newCustomer.setGender(gender);
     newCustomer.setAgeRange(ageRange);
+    newCustomer.setCreateTime(new Date());
     CustomerDAO.getInstance().save(newCustomer);
 
     setCanceled(false);
@@ -213,5 +214,9 @@ public class CustomerQuickInputDialog extends POSDialog implements ActionListene
   private void doCancel() {
     setCanceled(true);
     dispose();
+  }
+
+  public String getPhone() {
+    return phone;
   }
 }

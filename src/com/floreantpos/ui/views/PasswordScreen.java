@@ -354,6 +354,7 @@ public class PasswordScreen extends JPanel {
         user.doClockIn(application.getTerminal(), currentShift, currentTime);
       }
     } else {
+      // TODO: bug happened here: org.hibernate.UnresolvableObjectException: no row with the given identifier exists: [com.floreantpos.model.Terminal#6516]
       user.doClockIn(application.getTerminal(), currentShift, currentTime);
     }
   }

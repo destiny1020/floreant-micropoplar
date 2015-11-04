@@ -217,40 +217,21 @@ public class TicketView extends JPanel implements ActionListener {
 
       @Override
       public void focusGained(FocusEvent e) {
-        // move focus to other component to prevent dead loop
+        // move focus to parent component to prevent dead loop
         requestFocus();
-        String phone =
-            NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE);
-
-        if (StringUtils.isBlank(phone)) {
-          return;
-        }
-
-        boolean isMobile = ValidateUtil.isMobileNO(phone);
-        if (isMobile) {
-          // check whether is member
-          Customer customer = CustomerDAO.getInstance().findByPhone(phone);
-          boolean isMember = customer == null ? false : true;
-          if (isMember) {
-            tfCustomerPhone.setText(phone);
-            btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
-          } else {
-            // open customer quick input dlg
-            CustomerQuickInputDialog dialog = new CustomerQuickInputDialog(phone);
-            dialog.setSize(620, 415);
-            dialog.open();
-          }
-        } else {
-          POSMessageDialog.showError(OrderView.getInstance(),
-              POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
-        }
-
+        requireCustomerPhone();
       }
     });
     pnlTicketInfo.add(tfCustomerPhone, "cell 1 3 2 1,growx,aligny center");
     btnCustomerConfirm = new JButton(POSConstants.TICKET_CUSTOMER_NOT_CONFIRMED);
     btnCustomerConfirm.setFont(FontUtil.FONT_BIG);
     btnCustomerConfirm.setPreferredSize(new Dimension(100, 25));
+    btnCustomerConfirm.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        requireCustomerPhone();
+      }
+    });
     pnlTicketInfo.add(btnCustomerConfirm, "cell 3 3,growx,aligny center");
 
     btnPay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pay_32.png")));
@@ -788,5 +769,38 @@ public class TicketView extends JPanel implements ActionListener {
 
     scrollerPanel.validate();
     scrollerPanel.repaint(50L);
+  }
+
+  private void requireCustomerPhone() {
+    String phone = NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE);
+
+    if (StringUtils.isBlank(phone)) {
+      return;
+    }
+
+    boolean isMobile = ValidateUtil.isMobileNO(phone);
+    if (isMobile) {
+      // check whether is member
+      Customer customer = CustomerDAO.getInstance().findByPhone(phone);
+      boolean isMember = customer == null ? false : true;
+      if (isMember) {
+        tfCustomerPhone.setText(phone);
+        btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+      } else {
+        // open customer quick input dlg
+        CustomerQuickInputDialog dialog = new CustomerQuickInputDialog(phone);
+        dialog.setSize(620, 415);
+        dialog.open();
+
+        if (!dialog.isCanceled()) {
+          phone = dialog.getPhone();
+          tfCustomerPhone.setText(phone);
+          btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+        }
+      }
+    } else {
+      POSMessageDialog.showError(OrderView.getInstance(),
+          POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+    }
   }
 }
