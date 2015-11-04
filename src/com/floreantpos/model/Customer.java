@@ -18,8 +18,8 @@ public class Customer extends BaseCustomer implements IDEntity {
   /**
    * Constructor for primary key
    */
-  public Customer(java.lang.Integer autoId) {
-    super(autoId);
+  public Customer(java.lang.Integer id) {
+    super(id);
   }
 
   /* [CONSTRUCTOR MARKER END] */
@@ -50,8 +50,4 @@ public class Customer extends BaseCustomer implements IDEntity {
     return name;
   }
 
-  @Override
-  public int getId() {
-    return getAutoId();
-  }
 }

@@ -419,7 +419,7 @@ public class JReportPrintService {
       Customer customer = ticket.getCustomer();
 
       String customerName = customer.getName();
-      String customerPhone = customer.getTelephoneNo();
+      String customerPhone = customer.getPhone();
 
       if (StringUtils.isNotEmpty(customerName)) {
         beginRow(ticketHeaderBuilder);

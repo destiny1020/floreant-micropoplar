@@ -7,6 +7,11 @@ import com.floreantpos.model.Customer;
 import com.floreantpos.ui.util.UiUtil;
 
 public class CustomerListTableModel extends ListTableModel<Customer> {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private final static String[] columns = {"电话号码", "姓名", "生日", "电子邮件", "地址"};
 
   public CustomerListTableModel() {
@@ -24,7 +29,7 @@ public class CustomerListTableModel extends ListTableModel<Customer> {
 
     switch (columnIndex) {
       case 0:
-        return customer.getTelephoneNo();
+        return customer.getPhone();
       case 1:
         return customer.getName();
 

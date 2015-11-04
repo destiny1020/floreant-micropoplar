@@ -115,6 +115,7 @@ public class CustomerSelectionDialog extends POSDialog {
     panel_4.add(psmlbtnSearch, "cell 3 0 1 3,growy");
     psmlbtnSearch.setFocusable(false);
     psmlbtnSearch.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSearchCustomer();
       }
@@ -181,6 +182,7 @@ public class CustomerSelectionDialog extends POSDialog {
     btnCreateNewCustomer.setFocusable(false);
     panel.add(btnCreateNewCustomer);
     btnCreateNewCustomer.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doCreateNewCustomer();
       }
@@ -189,6 +191,7 @@ public class CustomerSelectionDialog extends POSDialog {
 
     btnRemoveCustomer = new PosSmallButton();
     btnRemoveCustomer.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doRemoveCustomerFromTicket();
       }
@@ -198,6 +201,7 @@ public class CustomerSelectionDialog extends POSDialog {
 
     btnSelect = new PosSmallButton();
     btnSelect.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         Customer customer = customerTable.getSelectedCustomer();
         if (customer == null) {
@@ -213,6 +217,7 @@ public class CustomerSelectionDialog extends POSDialog {
 
     PosSmallButton btnCancel = new PosSmallButton();
     btnCancel.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         setCanceled(true);
         dispose();
@@ -227,16 +232,19 @@ public class CustomerSelectionDialog extends POSDialog {
     com.floreantpos.swing.QwertyKeyPad qwertyKeyPad = new com.floreantpos.swing.QwertyKeyPad();
     panel_3.add(qwertyKeyPad);
     tfName.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSearchCustomer();
       }
     });
     tfEmail.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSearchCustomer();
       }
     });
     tfPhone.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSearchCustomer();
       }
@@ -294,14 +302,13 @@ public class CustomerSelectionDialog extends POSDialog {
   protected void doSearchCustomer() {
     String phone = tfPhone.getText();
     String name = tfName.getText();
-    String email = tfEmail.getText();
 
     List<Customer> list = null;
-    if (StringUtils.isEmpty(phone) && StringUtils.isEmpty(email) && StringUtils.isEmpty(name)) {
+    if (StringUtils.isEmpty(phone) && StringUtils.isEmpty(name)) {
       list = CustomerDAO.getInstance().findAll();
       customerTable.setModel(new CustomerListTableModel(list));
     } else {
-      list = CustomerDAO.getInstance().findBy(phone, email, name);
+      list = CustomerDAO.getInstance().findBy(phone, name);
       customerTable.setModel(new CustomerListTableModel(list));
     }
 
@@ -315,7 +322,7 @@ public class CustomerSelectionDialog extends POSDialog {
 
     if (!dialog.isCanceled()) {
       // create and select -- as shortcut
-      selectedCustomer = (Customer) form.getBean();
+      selectedCustomer = form.getBean();
       if (dialog.isOkAndSelect()) {
         doSetCustomer(selectedCustomer);
       }

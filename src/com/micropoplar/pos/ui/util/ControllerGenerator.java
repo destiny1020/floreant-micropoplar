@@ -12,6 +12,7 @@ import javax.swing.text.NumberFormatter;
 import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.ComboOption;
 import com.floreantpos.model.PaymentType;
+import com.micropoplar.pos.model.AgeRange;
 
 /**
  * To generate common controller.
@@ -95,13 +96,13 @@ public class ControllerGenerator {
     return comboBox;
   }
 
+  private static JComboBox<ComboOption> cbPaymentType;
+
   /**
    * Return the combo box for the payment type.
    * 
    * @return
    */
-  private static JComboBox<ComboOption> cbPaymentType;
-
   public static JComboBox<ComboOption> getPaymentTypeComboBox() {
     if (cbPaymentType != null) {
       return cbPaymentType;
@@ -119,6 +120,32 @@ public class ControllerGenerator {
     }
 
     return cbPaymentType;
+  }
+
+  private static JComboBox<ComboOption> cbAgeRnge;
+
+  /**
+   * Return the combo box for the age range.
+   * 
+   * @return
+   */
+  public static JComboBox<ComboOption> getAgeRangeComboBox() {
+    if (cbAgeRnge != null) {
+      return cbAgeRnge;
+    }
+
+    cbAgeRnge = new JComboBox<>();
+
+    // All Option
+    cbAgeRnge.addItem(new ComboOption(0, POSConstants.AGE_RANGE_OPTION_ALL));
+
+    AgeRange[] ageRanges = AgeRange.values();
+
+    for (AgeRange ar : ageRanges) {
+      cbAgeRnge.addItem(new ComboOption(ar.getType(), ar.getDisplayString()));
+    }
+
+    return cbAgeRnge;
   }
 
 }

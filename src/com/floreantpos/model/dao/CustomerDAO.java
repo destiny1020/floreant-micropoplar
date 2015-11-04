@@ -26,7 +26,7 @@ public class CustomerDAO extends BaseCustomerDAO {
       Disjunction disjunction = Restrictions.disjunction();
 
       if (StringUtils.isNotEmpty(phone))
-        disjunction.add(Restrictions.eq(Customer.PROP_TELEPHONE_NO, phone));
+        disjunction.add(Restrictions.eq(Customer.PROP_PHONE, phone));
 
       criteria.add(disjunction);
 
@@ -40,7 +40,7 @@ public class CustomerDAO extends BaseCustomerDAO {
   }
 
   @SuppressWarnings("unchecked")
-  public List<Customer> findBy(String phone, String loyalty, String name) {
+  public List<Customer> findBy(String phone, String name) {
     Session session = null;
 
     try {
@@ -49,10 +49,7 @@ public class CustomerDAO extends BaseCustomerDAO {
       Disjunction disjunction = Restrictions.disjunction();
 
       if (StringUtils.isNotEmpty(phone))
-        disjunction.add(Restrictions.like(Customer.PROP_TELEPHONE_NO, "%" + phone + "%"));
-
-      if (StringUtils.isNotEmpty(loyalty))
-        disjunction.add(Restrictions.like(Customer.PROP_LOYALTY_NO, "%" + loyalty + "%"));
+        disjunction.add(Restrictions.like(Customer.PROP_PHONE, "%" + phone + "%"));
 
       if (StringUtils.isNotEmpty(name))
         disjunction.add(Restrictions.like(Customer.PROP_NAME, "%" + name + "%"));

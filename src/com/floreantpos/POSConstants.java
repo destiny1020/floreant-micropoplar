@@ -656,4 +656,27 @@ public class POSConstants {
   public static final String COMPAIGN_FORM_TITLE_ADD_MODE = Messages.getString("PosMessage.419");
   public static final String COMPAIGN_FORM_TITLE_EDIT_MODE = Messages.getString("PosMessage.420");
 
+  // CUSTOMER EXPLORER & FORM
+  public static final String CUSTOMER_EXPLORER_TABLE_PHONE = Messages.getString("PosMessage.397");
+  public static final String CUSTOMER_EXPLORER_TABLE_AGE_RANGE = Messages.getString("PosMessage.421");
+  public static final String CUSTOMER_EXPLORER_TABLE_GENDER = Messages.getString("PosMessage.422");
+  public static final String CUSTOMER_EXPLORER_TABLE_DOB = Messages.getString("PosMessage.423");
+  public static final String CUSTOMER_EXPLORER_TABLE_EMAIL = Messages.getString("PosMessage.424");
+  public static final String CUSTOMER_EXPLORER_TABLE_ADDRESS = Messages.getString("PosMessage.425");
+  public static final String CUSTOMER_EXPLORER_TABLE_NOTE = Messages.getString("PosMessage.426");
+  public static final String CUSTOMER_EXPLORER_TABLE_CREATE_TIME = Messages.getString("PosMessage.427");
+  public static final String CUSTOMER_EXPLORER_TABLE_LAST_ACTIVE_TIME = Messages.getString("PosMessage.428");
+  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_TICKET_NUMBER = Messages.getString("PosMessage.429");
+  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_AMOUNT_BEFORE_DISCOUNT = Messages.getString("PosMessage.430");
+  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_DISCOUNT = Messages.getString("PosMessage.431");
+  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_TOTAL_AMOUNT_AFTER_DISCOUNT = Messages.getString("PosMessage.432");
+
+  // AGE RANGE OPTIONS
+  public static final String AGE_RANGE_OPTION_1 = Messages.getString("PosMessage.433");
+  public static final String AGE_RANGE_OPTION_2 = Messages.getString("PosMessage.434");
+  public static final String AGE_RANGE_OPTION_3 = Messages.getString("PosMessage.435");
+  public static final String AGE_RANGE_OPTION_4 = Messages.getString("PosMessage.436");
+  public static final String AGE_RANGE_OPTION_5 = Messages.getString("PosMessage.437");
+  public static final String AGE_RANGE_OPTION_ALL = Messages.getString("PosMessage.438");
+
 }

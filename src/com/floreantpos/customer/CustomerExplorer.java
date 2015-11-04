@@ -23,7 +23,6 @@ import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.forms.CustomerForm;
 import com.floreantpos.util.POSComparators;
-import com.floreantpos.util.PosGuiUtil;
 
 public class CustomerExplorer extends TransparentPanel {
   /**
@@ -45,27 +44,19 @@ public class CustomerExplorer extends TransparentPanel {
     Collections.sort(customerList, POSComparators.COMPARATOR_ID);
 
     tableModel = new BeanTableModel<Customer>(Customer.class);
-    tableModel.addColumn("ID", "autoId");
     tableModel.addColumn("电话", "telephoneNo");
     tableModel.addColumn("邮箱", "email");
     tableModel.addColumn("姓名", "name");
     tableModel.addColumn("生日", "dob");
-    // tableModel.addColumn("LOYALTY", "loyaltyNo");
-    // tableModel.addColumn("SSN", "ssn");
     tableModel.addColumn("地址", "address");
     tableModel.addColumn("城市", "city");
-    // tableModel.addColumn("STATE", "state");
-    // tableModel.addColumn("ZIP", "zipCode");
-    // tableModel.addColumn("COUNTRY", "country");
-    // tableModel.addColumn("CREDIT LIMIT", "creditLimit");
-    // tableModel.addColumn("CREDIT SPENT", "creditSpent");
     tableModel.addColumn("备注", "note");
     tableModel.addRows(customerList);
 
     table = new JTable(tableModel);
-    // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     table.setDefaultRenderer(Object.class, new PosTableRenderer());
-    PosGuiUtil.setColumnWidth(table, 0, 40);
+    //    PosGuiUtil.setColumnWidth(table, 0, 40);
 
     setLayout(new BorderLayout(5, 5));
     add(new JScrollPane(table));

@@ -3,28 +3,26 @@
 <hibernate-mapping package="com.floreantpos.model">
 	<class lazy="false" name="com.floreantpos.model.Customer" table="CUSTOMER">
 
-		<id column="AUTO_ID" name="autoId" type="java.lang.Integer">
+		<id column="ID" name="id" type="java.lang.Integer">
 			<generator class="identity" />
 		</id>
 		
 		<version column="MODIFIED_TIME" name="modifiedTime" type="timestamp" />
 		
-		<property name="loyaltyNo" column="LOYALTY_NO" length="30" type="string" />
-		<property name="telephoneNo" column="TELEPHONE_NO" not-null="true" length="30" type="string" unique="true" />
-		<property name="email" column="EMAIL" length="40" type="string" />
-		<property name="name" column="NAME" length="60" type="string" />
+		<property name="phone" column="PHONE" not-null="true" length="30" type="string" unique="true" />
+		<property name="ageRange" column="AGE_RANGE" type="java.lang.Integer" />
+		<property name="gender" column="GENDER" type="java.lang.Integer" />
+		<property name="name" column="NAME" length="20" type="string" />
 		<property name="dob" column="DOB" length="10" type="java.util.Date" />
-		<property name="ssn" column="SSN" length="30" type="string" />
+		<property name="email" column="EMAIL" length="40" type="string" />
 		<property name="address" column="ADDRESS" length="120" type="string" />
-		<property name="city" column="CITY" length="30" type="string" />
-		<property name="state" column="STATE" length="30" type="string" />
-		<property name="zipCode" column="ZIP_CODE" length="10" type="string" />
-		<property name="country" column="COUNTRY" length="30" type="string" />
-		<property name="vip" column="VIP" type="java.lang.Boolean" />
-		<property name="creditLimit" column="CREDIT_LIMIT" type="java.lang.Double" />
-		<property name="creditSpent" column="CREDIT_SPENT" type="java.lang.Double" />
-		<property name="creditCardNo" column="CREDIT_CARD_NO" length="30" type="string" />
 		<property name="note" column="NOTE" length="255" type="string" />
+		<property name="createTime" column="CREATE_TIME" length="10" type="java.util.Date" />
+		<property name="lastActiveTime" column="LAST_ACTIVE_TIME" length="10" type="java.util.Date" />
+		<property name="totalTicketNumber" column="TOTAL_TICKET_NUMBER" type="java.lang.Integer" />
+		<property name="totalAmountBeforeDiscount" column="TOTAL_AMOUNT_BEFORE_DISCOUNT" length="52" type="java.lang.Double" />
+		<property name="totalDiscount" column="TOTAL_DISCOUNT" length="52" type="java.lang.Double" />
+		<property name="totalAmountAfterDiscount" column="TOTAL_AMOUNT_AFTER_DISCOUNT" length="52" type="java.lang.Double" />
 
 		<map name="properties" cascade="all" lazy="false">
 			<key column="id"/>

@@ -1,8 +1,7 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -12,27 +11,34 @@ import java.io.Serializable;
  * @hibernate.class table="CUSTOMER"
  */
 
-public abstract class BaseCustomer implements Comparable, Serializable {
+public abstract class BaseCustomer implements Comparable<BaseCustomer>, Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   public static String REF = "Customer";
-  public static String PROP_VIP = "vip";
-  public static String PROP_NOTE = "note";
-  public static String PROP_COUNTRY = "country";
-  public static String PROP_TELEPHONE_NO = "telephoneNo";
-  public static String PROP_DOB = "dob";
-  public static String PROP_ZIP_CODE = "zipCode";
-  public static String PROP_SSN = "ssn";
-  public static String PROP_CITY = "city";
+  public static String PROP_ID = "id";
+  public static String PROP_PHONE = "phone";
+  public static String PROP_AGE_RANGE = "ageRange";
+  public static String PROP_GENDER = "gender";
   public static String PROP_NAME = "name";
+  public static String PROP_DOB = "dob";
   public static String PROP_EMAIL = "email";
-  public static String PROP_STATE = "state";
-  public static String PROP_CREDIT_SPENT = "creditSpent";
   public static String PROP_ADDRESS = "address";
-  public static String PROP_AUTO_ID = "autoId";
-  public static String PROP_CREDIT_CARD_NO = "creditCardNo";
-  public static String PROP_CREDIT_LIMIT = "creditLimit";
-  public static String PROP_LOYALTY_NO = "loyaltyNo";
+  public static String PROP_NOTE = "note";
+  public static String PROP_CREATE_TIME = "createTime";
+  public static String PROP_LAST_ACTIVE_TIME = "lastActiveTime";
 
+  // basic stat below
+  public static String PROP_TOTAL_TICKET_NUMBER = "totalTicketNumber";
+  public static String PROP_TOTAL_AMOUNT_BEFORE_DISCOUNT = "totalAmountBeforeDiscount";
+  public static String PROP_TOTAL_DISCOUNT = "totalDiscount";
+  public static String PROP_TOTAL_AMOUNT_AFTER_DISCOUNT = "totalAmountAfterDiscount";
+
+  public static final int GENDER_FEMALE = 0;
+  public static final int GENDER_MALE = 1;
 
   // constructors
   public BaseCustomer() {
@@ -42,8 +48,8 @@ public abstract class BaseCustomer implements Comparable, Serializable {
   /**
    * Constructor for primary key
    */
-  public BaseCustomer(java.lang.Integer autoId) {
-    this.setAutoId(autoId);
+  public BaseCustomer(java.lang.Integer id) {
+    this.setId(id);
     initialize();
   }
 
@@ -54,378 +60,32 @@ public abstract class BaseCustomer implements Comparable, Serializable {
   private int hashCode = Integer.MIN_VALUE;
 
   // primary key
-  private java.lang.Integer autoId;
+  private java.lang.Integer id;
 
   java.util.Date modifiedTime;
 
   // fields
-  private java.lang.String loyaltyNo;
-  private java.lang.String telephoneNo;
-  private java.lang.String email;
+  private java.lang.String phone;
+  private Integer ageRange;
+  private Integer gender;
   private java.lang.String name;
   private Date dob;
-  private java.lang.String ssn;
+  private java.lang.String email;
   private java.lang.String address;
-  private java.lang.String city;
-  private java.lang.String state;
-  private java.lang.String zipCode;
-  private java.lang.String country;
-  private java.lang.Boolean vip;
-  private java.lang.Double creditLimit;
-  private java.lang.Double creditSpent;
-  private java.lang.String creditCardNo;
   private java.lang.String note;
+
+  private Date createTime;
+  private Date lastActiveTime;
+
+  private Integer totalTicketNumber;
+  private Double totalAmountBeforeDiscount;
+  private Double totalDiscount;
+  private Double totalAmountAfterDiscount;
 
   // collections
   private java.util.Map<String, String> properties;
 
-
-
-  /**
-   * Return the unique identifier of this class
-   * 
-   * @hibernate.id generator-class="identity" column="AUTO_ID"
-   */
-  public java.lang.Integer getAutoId() {
-    return autoId;
-  }
-
-  /**
-   * Set the unique identifier of this class
-   * 
-   * @param autoId the new ID
-   */
-  public void setAutoId(java.lang.Integer autoId) {
-    this.autoId = autoId;
-    this.hashCode = Integer.MIN_VALUE;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: MODIFIED_TIME
-   */
-  public java.util.Date getModifiedTime() {
-    return modifiedTime;
-  }
-
-  /**
-   * Set the value related to the column: MODIFIED_TIME
-   * 
-   * @param modifiedTime the MODIFIED_TIME value
-   */
-  public void setModifiedTime(java.util.Date modifiedTime) {
-    this.modifiedTime = modifiedTime;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: LOYALTY_NO
-   */
-  public java.lang.String getLoyaltyNo() {
-    return loyaltyNo;
-  }
-
-  /**
-   * Set the value related to the column: LOYALTY_NO
-   * 
-   * @param loyaltyNo the LOYALTY_NO value
-   */
-  public void setLoyaltyNo(java.lang.String loyaltyNo) {
-    this.loyaltyNo = loyaltyNo;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: TELEPHONE_NO
-   */
-  public java.lang.String getTelephoneNo() {
-    return telephoneNo;
-  }
-
-  /**
-   * Set the value related to the column: TELEPHONE_NO
-   * 
-   * @param telephoneNo the TELEPHONE_NO value
-   */
-  public void setTelephoneNo(java.lang.String telephoneNo) {
-    this.telephoneNo = telephoneNo;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: EMAIL
-   */
-  public java.lang.String getEmail() {
-    return email;
-  }
-
-  /**
-   * Set the value related to the column: EMAIL
-   * 
-   * @param email the EMAIL value
-   */
-  public void setEmail(java.lang.String email) {
-    this.email = email;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: NAME
-   */
-  public java.lang.String getName() {
-    return name;
-  }
-
-  /**
-   * Set the value related to the column: NAME
-   * 
-   * @param name the NAME value
-   */
-  public void setName(java.lang.String name) {
-    this.name = name;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: DOB
-   */
-  public Date getDob() {
-    return dob;
-  }
-
-  /**
-   * Set the value related to the column: DOB
-   * 
-   * @param dob the DOB value
-   */
-  public void setDob(Date dob) {
-    this.dob = dob;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: SSN
-   */
-  public java.lang.String getSsn() {
-    return ssn;
-  }
-
-  /**
-   * Set the value related to the column: SSN
-   * 
-   * @param ssn the SSN value
-   */
-  public void setSsn(java.lang.String ssn) {
-    this.ssn = ssn;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: ADDRESS
-   */
-  public java.lang.String getAddress() {
-    return address;
-  }
-
-  /**
-   * Set the value related to the column: ADDRESS
-   * 
-   * @param address the ADDRESS value
-   */
-  public void setAddress(java.lang.String address) {
-    this.address = address;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: CITY
-   */
-  public java.lang.String getCity() {
-    return city;
-  }
-
-  /**
-   * Set the value related to the column: CITY
-   * 
-   * @param city the CITY value
-   */
-  public void setCity(java.lang.String city) {
-    this.city = city;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: STATE
-   */
-  public java.lang.String getState() {
-    return state;
-  }
-
-  /**
-   * Set the value related to the column: STATE
-   * 
-   * @param state the STATE value
-   */
-  public void setState(java.lang.String state) {
-    this.state = state;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: ZIP_CODE
-   */
-  public java.lang.String getZipCode() {
-    return zipCode;
-  }
-
-  /**
-   * Set the value related to the column: ZIP_CODE
-   * 
-   * @param zipCode the ZIP_CODE value
-   */
-  public void setZipCode(java.lang.String zipCode) {
-    this.zipCode = zipCode;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: COUNTRY
-   */
-  public java.lang.String getCountry() {
-    return country;
-  }
-
-  /**
-   * Set the value related to the column: COUNTRY
-   * 
-   * @param country the COUNTRY value
-   */
-  public void setCountry(java.lang.String country) {
-    this.country = country;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: VIP
-   */
-  public java.lang.Boolean isVip() {
-    return vip;
-  }
-
-  /**
-   * Set the value related to the column: VIP
-   * 
-   * @param vip the VIP value
-   */
-  public void setVip(java.lang.Boolean vip) {
-    this.vip = vip;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: CREDIT_LIMIT
-   */
-  public java.lang.Double getCreditLimit() {
-    return creditLimit;
-  }
-
-  /**
-   * Set the value related to the column: CREDIT_LIMIT
-   * 
-   * @param creditLimit the CREDIT_LIMIT value
-   */
-  public void setCreditLimit(java.lang.Double creditLimit) {
-    this.creditLimit = creditLimit;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: CREDIT_SPENT
-   */
-  public java.lang.Double getCreditSpent() {
-    return creditSpent;
-  }
-
-  /**
-   * Set the value related to the column: CREDIT_SPENT
-   * 
-   * @param creditSpent the CREDIT_SPENT value
-   */
-  public void setCreditSpent(java.lang.Double creditSpent) {
-    this.creditSpent = creditSpent;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: CREDIT_CARD_NO
-   */
-  public java.lang.String getCreditCardNo() {
-    return creditCardNo;
-  }
-
-  /**
-   * Set the value related to the column: CREDIT_CARD_NO
-   * 
-   * @param creditCardNo the CREDIT_CARD_NO value
-   */
-  public void setCreditCardNo(java.lang.String creditCardNo) {
-    this.creditCardNo = creditCardNo;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: NOTE
-   */
-  public java.lang.String getNote() {
-    return note;
-  }
-
-  /**
-   * Set the value related to the column: NOTE
-   * 
-   * @param note the NOTE value
-   */
-  public void setNote(java.lang.String note) {
-    this.note = note;
-  }
-
-
-
-  /**
-   * Return the value associated with the column: properties
-   */
-  public java.util.Map<String, String> getProperties() {
-    return properties;
-  }
-
-  /**
-   * Set the value related to the column: properties
-   * 
-   * @param properties the properties value
-   */
-  public void setProperties(java.util.Map<String, String> properties) {
-    this.properties = properties;
-  }
-
-
-
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -433,26 +93,28 @@ public abstract class BaseCustomer implements Comparable, Serializable {
       return false;
     else {
       com.floreantpos.model.Customer customer = (com.floreantpos.model.Customer) obj;
-      if (null == this.getAutoId() || null == customer.getAutoId())
+      if (null == this.getId() || customer.getId() == null)
         return false;
       else
-        return (this.getAutoId().equals(customer.getAutoId()));
+        return (this.getId().equals(customer.getId()));
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
-      if (null == this.getAutoId())
+      if (null == this.getId())
         return super.hashCode();
       else {
-        String hashStr = this.getClass().getName() + ":" + this.getAutoId().hashCode();
+        String hashStr = this.getClass().getName() + ":" + this.getId().hashCode();
         this.hashCode = hashStr.hashCode();
       }
     }
     return this.hashCode;
   }
 
-  public int compareTo(Object obj) {
+  @Override
+  public int compareTo(BaseCustomer obj) {
     if (obj.hashCode() > hashCode())
       return 1;
     else if (obj.hashCode() < hashCode())
@@ -461,8 +123,153 @@ public abstract class BaseCustomer implements Comparable, Serializable {
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
+  }
+
+  public int getHashCode() {
+    return hashCode;
+  }
+
+  public void setHashCode(int hashCode) {
+    this.hashCode = hashCode;
+  }
+
+  public java.lang.Integer getId() {
+    return id;
+  }
+
+  public void setId(java.lang.Integer id) {
+    this.id = id;
+  }
+
+  public java.util.Date getModifiedTime() {
+    return modifiedTime;
+  }
+
+  public void setModifiedTime(java.util.Date modifiedTime) {
+    this.modifiedTime = modifiedTime;
+  }
+
+  public java.lang.String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(java.lang.String phone) {
+    this.phone = phone;
+  }
+
+  public java.lang.String getName() {
+    return name;
+  }
+
+  public void setName(java.lang.String name) {
+    this.name = name;
+  }
+
+  public Date getDob() {
+    return dob;
+  }
+
+  public void setDob(Date dob) {
+    this.dob = dob;
+  }
+
+  public java.lang.String getEmail() {
+    return email;
+  }
+
+  public void setEmail(java.lang.String email) {
+    this.email = email;
+  }
+
+  public java.lang.String getAddress() {
+    return address;
+  }
+
+  public void setAddress(java.lang.String address) {
+    this.address = address;
+  }
+
+  public java.lang.String getNote() {
+    return note;
+  }
+
+  public void setNote(java.lang.String note) {
+    this.note = note;
+  }
+
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  public Date getLastActiveTime() {
+    return lastActiveTime;
+  }
+
+  public void setLastActiveTime(Date lastActiveTime) {
+    this.lastActiveTime = lastActiveTime;
+  }
+
+  public Integer getTotalTicketNumber() {
+    return totalTicketNumber;
+  }
+
+  public void setTotalTicketNumber(Integer totalTicketNumber) {
+    this.totalTicketNumber = totalTicketNumber;
+  }
+
+  public Double getTotalAmountBeforeDiscount() {
+    return totalAmountBeforeDiscount;
+  }
+
+  public void setTotalAmountBeforeDiscount(Double totalAmountBeforeDiscount) {
+    this.totalAmountBeforeDiscount = totalAmountBeforeDiscount;
+  }
+
+  public Double getTotalDiscount() {
+    return totalDiscount;
+  }
+
+  public void setTotalDiscount(Double totalDiscount) {
+    this.totalDiscount = totalDiscount;
+  }
+
+  public Double getTotalAmountAfterDiscount() {
+    return totalAmountAfterDiscount;
+  }
+
+  public void setTotalAmountAfterDiscount(Double totalAmountAfterDiscount) {
+    this.totalAmountAfterDiscount = totalAmountAfterDiscount;
+  }
+
+  public java.util.Map<String, String> getProperties() {
+    return properties;
+  }
+
+  public void setProperties(java.util.Map<String, String> properties) {
+    this.properties = properties;
+  }
+
+  public Integer getAgeRange() {
+    return ageRange;
+  }
+
+  public void setAgeRange(Integer ageRange) {
+    this.ageRange = ageRange;
+  }
+
+  public Integer getGender() {
+    return gender;
+  }
+
+  public void setGender(Integer gender) {
+    this.gender = gender;
   }
 
 
