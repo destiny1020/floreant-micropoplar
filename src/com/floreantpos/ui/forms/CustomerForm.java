@@ -152,13 +152,13 @@ public class CustomerForm extends BeanEditor<Customer> {
     String phoneString = tfPhone.getText();
 
     if (StringUtils.isEmpty(phoneString)) {
-      POSMessageDialog.showError("请提供会员的手机号码");
+      POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_PROVIDED);
       return false;
     }
 
     // check phone number
     if (!isMobileNO(phoneString)) {
-      POSMessageDialog.showError("会员的手机号码不正确");
+      POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
       return false;
     }
 

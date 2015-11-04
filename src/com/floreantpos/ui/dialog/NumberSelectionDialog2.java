@@ -11,12 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
+import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.IconFactory;
 import com.floreantpos.POSConstants;
@@ -24,8 +26,16 @@ import com.floreantpos.main.Application;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.TitlePanel;
 
+import net.miginfocom.swing.MigLayout;
+
 public class NumberSelectionDialog2 extends POSDialog implements ActionListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private int defaultValue;
+  private String defaultValueStr = "0";
 
   private TitlePanel titlePanel;
   private JTextField tfNumber;
@@ -45,12 +55,23 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 
   public NumberSelectionDialog2(Dialog parent) {
     super(parent, true);
-
     init();
   }
 
   private void init() {
     setResizable(true);
+
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        if (tfNumber.getText().trim().equals(defaultValueStr)
+            || StringUtils.isBlank(tfNumber.getText())) {
+          setCanceled(true);
+        }
+      }
+    });
 
     Container contentPane = getContentPane();
 
@@ -190,6 +211,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
     // }
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     String actionCommand = e.getActionCommand();
 
@@ -228,6 +250,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
     return true;
   }
 
+  @Override
   public void setTitle(String title) {
     titlePanel.setTitle(title);
 
@@ -248,7 +271,7 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
 
   public void setValue(double value) {
     if (value == 0) {
-      tfNumber.setText("0");
+      tfNumber.setText(defaultValueStr);
     } else if (isFloatingPoint()) {
       tfNumber.setText(String.valueOf(value));
     } else {

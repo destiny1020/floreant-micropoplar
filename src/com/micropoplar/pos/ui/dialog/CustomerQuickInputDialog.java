@@ -1,6 +1,10 @@
 package com.micropoplar.pos.ui.dialog;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -8,14 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
 import com.floreantpos.POSConstants;
+import com.floreantpos.main.Application;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.POSToggleButton;
 import com.floreantpos.ui.dialog.POSDialog;
+import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.micropoplar.pos.model.AgeRange;
 
 import net.miginfocom.swing.MigLayout;
 
-public class CustomerQuickInputDialog extends POSDialog {
+public class CustomerQuickInputDialog extends POSDialog implements ActionListener {
 
   /**
    * 
@@ -30,9 +36,31 @@ public class CustomerQuickInputDialog extends POSDialog {
   private ButtonGroup btgGender;
   private ButtonGroup btgAgeRange;
 
-  public CustomerQuickInputDialog(Frame parent) {
+  private String phone;
+
+  public CustomerQuickInputDialog(String phone) {
+    this(Application.getPosWindow(), phone);
+  }
+
+  public CustomerQuickInputDialog(Frame parent, String phone) {
     super(parent, true);
+    this.phone = phone;
+
+    initComponents();
+  }
+
+  private void initComponents() {
     setTitle(POSConstants.CUSTOMER_QUICK_DLG_TITLE);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+    addWindowListener(new WindowAdapter() {
+
+      @Override
+      public void windowClosing(WindowEvent e) {
+
+      }
+
+    });
 
     getContentPane().setLayout(new MigLayout("", "[60px][100px,grow][][100px]", "[][][][][][][]"));
 
@@ -40,6 +68,8 @@ public class CustomerQuickInputDialog extends POSDialog {
     getContentPane().add(lblPhone, "cell 0 1,alignx trailing");
 
     tfPhone = new FixedLengthTextField(11);
+    tfPhone.setText(phone);
+    tfPhone.setFocusable(false);
     getContentPane().add(tfPhone, "cell 1 1 2 1,growx");
 
     JLabel lblGender = new JLabel(POSConstants.CUSTOMER_QUICK_DLG_GENDER);
@@ -81,10 +111,35 @@ public class CustomerQuickInputDialog extends POSDialog {
     getContentPane().add(btnAge50Plus, "cell 1 5");
 
     JButton btnOK = new JButton(POSConstants.OK);
+    btnOK.addActionListener(this);
     getContentPane().add(btnOK, "flowx,cell 1 6");
 
     JButton btnCancel = new JButton(POSConstants.CANCEL);
+    btnCancel.addActionListener(this);
     getContentPane().add(btnCancel, "cell 1 6");
+  }
 
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    String actionCommand = e.getActionCommand();
+
+    if (POSConstants.CANCEL.equalsIgnoreCase(actionCommand)) {
+      doCancel();
+    } else if (POSConstants.OK.equalsIgnoreCase(actionCommand)) {
+      doOk();
+    } else {
+      POSMessageDialog.showError(this, POSConstants.ERROR_UNKNOWN_COMMAND);
+    }
+  }
+
+  private void doOk() {
+    // create new customer
+    setCanceled(false);
+    dispose();
+  }
+
+  private void doCancel() {
+    setCanceled(true);
+    dispose();
   }
 }

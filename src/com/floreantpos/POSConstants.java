@@ -425,6 +425,13 @@ public class POSConstants {
   public static final String ADD_COOKING_INSTRUCTION = Messages.getString("PosMessage.450");
   public static final String TICKET_VIEW_BORDER_TITLE_NEW = Messages.getString("PosMessage.451");
   public static final String TICKET_VIEW_BORDER_TITLE_WITH_ID = Messages.getString("PosMessage.452");
+  public static final String TICKET_CREATE_TIME = Messages.getString("PosMessage.453");
+  public static final String TICKET_ITEM_NUMBER = Messages.getString("PosMessage.454");
+  public static final String TICKET_TOTAL_BEFORE_DISCOUNT = Messages.getString("PosMessage.455");
+  public static final String TICKET_TOTAL_DISCOUNT = Messages.getString("PosMessage.456");
+  public static final String TICKET_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.457");
+  public static final String TICKET_CUSTOMER_CONFIRMED = Messages.getString("PosMessage.458");
+  public static final String TICKET_INPUT_CUSTOMER_PHONE = Messages.getString("PosMessage.459");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
@@ -608,6 +615,9 @@ public class POSConstants {
   public static final String ERROR_DUPLICATE_CUSTOMER = Messages.getString("ERROR_DUPLICATE_CUSTOMER");
   public static final String ERROR_INVALID_TICKET_TYPE = Messages.getString("ERROR_INVALID_TICKET_TYPE");
   public static final String ERROR_DINE_IN_NUMBER = Messages.getString("ERROR_DINE_IN_NUMBER");
+  public static final String ERROR_CUSTOMER_PHONE_NOT_PROVIDED = Messages.getString("ERROR_CUSTOMER_PHONE_NOT_PROVIDED");
+  public static final String ERROR_CUSTOMER_PHONE_NOT_VALID = Messages.getString("ERROR_CUSTOMER_PHONE_NOT_VALID");
+  public static final String ERROR_UNKNOWN_COMMAND = Messages.getString("ERROR_UNKNOWN_COMMAND");
 
   // USER FORM
   public static final String ERROR_USER_FORM_EMPTY_NAME = Messages.getString("ERROR_USER_FORM_EMPTY_NAME");

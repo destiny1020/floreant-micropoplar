@@ -177,7 +177,7 @@ public class PasswordScreen extends JPanel {
     // user name label and tf
     lblUsername = new JLabel(POSConstants.LOGIN_USERNAME);
     lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
-    lblUsername.setFont(new java.awt.Font("微软雅黑", 1, 18));
+    lblUsername.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 18));
     lblUsername.setForeground(new java.awt.Color(204, 102, 0));
     lblUsername.setBackground(new java.awt.Color(204, 102, 0));
     jPanel2.add(lblUsername, "cell 0 1,align left");
@@ -188,7 +188,7 @@ public class PasswordScreen extends JPanel {
 
     jLabel2 = new javax.swing.JLabel();
     jLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-    jLabel2.setFont(new java.awt.Font("微软雅黑", 1, 18));
+    jLabel2.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 18));
     jLabel2.setForeground(new java.awt.Color(204, 102, 0));
     jLabel2.setBackground(new java.awt.Color(204, 102, 0));
     jLabel2.setText(com.floreantpos.POSConstants.ENTER_YOUR_PASSWORD);
@@ -223,6 +223,7 @@ public class PasswordScreen extends JPanel {
 
     psbtnLogin = new PosButton();
     psbtnLogin.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doLogin();
       }
@@ -420,6 +421,7 @@ public class PasswordScreen extends JPanel {
   // End of variables declaration//GEN-END:variables
 
   Action goAction = new AbstractAction() {
+    @Override
     public void actionPerformed(ActionEvent e) {
 
       String command = e.getActionCommand();
@@ -442,6 +444,7 @@ public class PasswordScreen extends JPanel {
   };
 
   Action loginAction = new AbstractAction() {
+    @Override
     public void actionPerformed(ActionEvent e) {
       tfPassword.setText(capturePassword() + e.getActionCommand());
       // checkLogin(e.getActionCommand());

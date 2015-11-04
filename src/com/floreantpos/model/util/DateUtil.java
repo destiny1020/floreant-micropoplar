@@ -16,6 +16,8 @@ public class DateUtil {
 
   private static final SimpleDateFormat TICKET_VIEW_TIME =
       new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+  private static final SimpleDateFormat TICKET_VIEW_TIME_SHORT =
+      new SimpleDateFormat("MM-dd HH:mm:ss");
   private static final SimpleDateFormat DOB_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
   private static final SimpleDateFormat WECHAT_TIMESTAMP = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -71,6 +73,10 @@ public class DateUtil {
 
   public static String getTicketViewDate(Date date) {
     return TICKET_VIEW_TIME.format(date);
+  }
+
+  public static String getTicketViewShortDate(Date date) {
+    return TICKET_VIEW_TIME_SHORT.format(date);
   }
 
   public static SimpleDateFormat getDOBFormatter() {

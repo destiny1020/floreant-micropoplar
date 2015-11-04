@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -26,6 +29,7 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.CookingInstruction;
+import com.floreantpos.model.Customer;
 import com.floreantpos.model.ITicketItem;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
@@ -36,13 +40,16 @@ import com.floreantpos.model.TicketItemCookingInstruction;
 import com.floreantpos.model.TicketItemModifier;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.dao.CookingInstructionDAO;
+import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.model.util.TicketUniqIdGenerator;
 import com.floreantpos.report.JReportPrintService;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
+import com.floreantpos.ui.dialog.NumberSelectionDialog2;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.CookingInstructionSelectionView;
 import com.floreantpos.ui.views.CustomerView;
@@ -51,7 +58,10 @@ import com.floreantpos.ui.views.order.actions.OrderListener;
 import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
 import com.micropoplar.pos.ui.TicketTypeButton;
+import com.micropoplar.pos.ui.dialog.CustomerQuickInputDialog;
+import com.micropoplar.pos.util.FontUtil;
 import com.micropoplar.pos.util.PatternChecker;
+import com.micropoplar.pos.util.ValidateUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -130,59 +140,114 @@ public class TicketView extends JPanel implements ActionListener {
     setPreferredSize(new java.awt.Dimension(420, 463));
     setLayout(new java.awt.BorderLayout(5, 5));
     pnlControls.setLayout(new BorderLayout(5, 5));
-    pnlTicketInfo.setLayout(new MigLayout("alignx trailing,fill", "[grow][]", "[][][][][][][][]"));
+    pnlTicketInfo.setLayout(new MigLayout("alignx trailing,fill", "[][][][]", "[][][][]"));
+
+    // create time & item count
+    lblCreateTime = new JLabel();
+    lblCreateTime.setFont(FontUtil.FONT_BIG);
+    lblCreateTime.setForeground(new java.awt.Color(204, 102, 0));
+    lblCreateTime.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblCreateTime.setText(POSConstants.TICKET_CREATE_TIME + POSConstants.COLON);
+    pnlTicketInfo.add(lblCreateTime, "cell 0 0,growx,aligny center");
+    lblCreateTimeContent = new JLabel();
+    lblCreateTimeContent.setFont(FontUtil.FONT_BIG);
+    lblCreateTimeContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblCreateTimeContent, "cell 1 0,growx,aligny center");
+
+    lblItemNumber = new JLabel();
+    lblItemNumber.setFont(FontUtil.FONT_BIG);
+    lblItemNumber.setForeground(new java.awt.Color(204, 102, 0));
+    lblItemNumber.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblItemNumber.setText(POSConstants.TICKET_ITEM_NUMBER + POSConstants.COLON);
+    pnlTicketInfo.add(lblItemNumber, "cell 2 0,growx,aligny center");
+    lblItemNumberContent = new JLabel();
+    lblItemNumberContent.setFont(FontUtil.FONT_BIG);
+    lblItemNumberContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblItemNumberContent, "cell 3 0,growx,aligny center");
+
+    // total(before discount) & total discount
+    lblSubtotal = new javax.swing.JLabel();
+    lblSubtotal.setFont(FontUtil.FONT_BIG);
+    lblSubtotal.setForeground(new java.awt.Color(204, 102, 0));
+    lblSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblSubtotal.setText(POSConstants.TICKET_TOTAL_BEFORE_DISCOUNT + POSConstants.COLON);
+    pnlTicketInfo.add(lblSubtotal, "cell 0 1,growx,aligny center");
+    lblSubtotalContent = new JLabel();
+    lblSubtotalContent.setFont(FontUtil.FONT_BIG);
+    lblSubtotalContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblSubtotalContent, "cell 1 1,growx,aligny center");
+
+    lblDiscount = new javax.swing.JLabel();
+    lblDiscount.setFont(FontUtil.FONT_BIG);
+    lblDiscount.setForeground(new java.awt.Color(204, 102, 0));
+    lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblDiscount.setText(POSConstants.TICKET_TOTAL_DISCOUNT + POSConstants.COLON);
+    pnlTicketInfo.add(lblDiscount, "cell 2 1,growx,aligny center");
+    lblDiscountContent = new JLabel();
+    lblDiscountContent.setFont(FontUtil.FONT_BIG);
+    lblDiscountContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblDiscountContent, "cell 3 1,growx,aligny center");
+
+    // total(after discount)
+    lblTotal = new javax.swing.JLabel();
+    lblTotal.setFont(FontUtil.FONT_BIG);
+    lblTotal.setForeground(new java.awt.Color(204, 102, 0));
+    lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblTotal.setText(POSConstants.TICKET_TOTAL_AFTER_DISCOUNT + POSConstants.COLON);
+    pnlTicketInfo.add(lblTotal, "cell 0 2,growx,aligny center");
+    lblTotalContent = new JLabel();
+    lblTotalContent.setFont(FontUtil.FONT_BIG);
+    lblTotalContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblTotalContent, "cell 1 2 3 1,growx,aligny center");
 
     // customer phone
     lblCustomerPhone = new JLabel();
-    lblCustomerPhone.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
+    lblCustomerPhone.setFont(FontUtil.FONT_BIG);
+    lblCustomerPhone.setForeground(new java.awt.Color(204, 102, 0));
     lblCustomerPhone.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
     lblCustomerPhone.setText(com.floreantpos.POSConstants.CUSTOMER_PHONE + POSConstants.COLON);
-    pnlTicketInfo.add(lblCustomerPhone, "cell 0 0,growx,aligny center");
-
+    pnlTicketInfo.add(lblCustomerPhone, "cell 0 3,growx,aligny center");
     tfCustomerPhone = new javax.swing.JTextField();
     tfCustomerPhone.setHorizontalAlignment(SwingConstants.TRAILING);
-    tfCustomerPhone.setEditable(false);
-    tfCustomerPhone.setFocusable(false);
-    tfCustomerPhone.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
+    tfCustomerPhone.setFont(FontUtil.FONT_BIG);
     tfCustomerPhone.setPreferredSize(new Dimension(200, 25));
-    pnlTicketInfo.add(tfCustomerPhone, "cell 1 0,growx,aligny center");
+    tfCustomerPhone.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-    lblSubtotal = new javax.swing.JLabel();
-    lblSubtotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    lblSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    lblSubtotal.setText(com.floreantpos.POSConstants.SUBTOTAL + POSConstants.COLON);
-    pnlTicketInfo.add(lblSubtotal, "cell 0 1,growx,aligny center");
-    tfSubtotal = new javax.swing.JTextField();
-    tfSubtotal.setHorizontalAlignment(SwingConstants.TRAILING);
-    tfSubtotal.setEditable(false);
-    tfSubtotal.setFocusable(false);
-    tfSubtotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    tfSubtotal.setPreferredSize(new Dimension(200, 25));
-    pnlTicketInfo.add(tfSubtotal, "cell 1 1,growx,aligny center");
+      @Override
+      public void focusGained(FocusEvent e) {
+        // move focus to other component to prevent dead loop
+        requestFocus();
+        String phone =
+            NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_CUSTOMER_PHONE);
 
-    lblDiscount = new javax.swing.JLabel();
-    lblDiscount.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    lblDiscount.setText(com.floreantpos.POSConstants.DISCOUNT + POSConstants.COLON);
-    pnlTicketInfo.add(lblDiscount, "cell 0 2,growx,aligny center");
-    tfDiscount = new javax.swing.JTextField();
-    tfDiscount.setHorizontalAlignment(SwingConstants.TRAILING);
-    tfDiscount.setEditable(false);
-    tfDiscount.setFocusable(false);
-    tfDiscount.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    pnlTicketInfo.add(tfDiscount, "cell 1 2,growx,aligny center");
+        boolean isMobile = ValidateUtil.isMobileNO(phone);
+        if (isMobile) {
+          // check whether is member
+          Customer customer = CustomerDAO.getInstance().findByPhone(phone);
+          boolean isMember = customer == null ? false : true;
+          if (isMember) {
+            tfCustomerPhone.setText(phone);
+            btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
+          } else {
+            // open customer quick input dlg
+            CustomerQuickInputDialog dialog = new CustomerQuickInputDialog(phone);
+            dialog.open();
+          }
+        } else {
+          POSMessageDialog.showError(OrderView.getInstance(),
+              POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+          return;
+        }
 
-    lblTotal = new javax.swing.JLabel();
-    lblTotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    lblTotal.setText(com.floreantpos.POSConstants.TOTAL + POSConstants.COLON);
-    pnlTicketInfo.add(lblTotal, "cell 0 3,growx,aligny center");
-    tfTotal = new javax.swing.JTextField();
-    tfTotal.setHorizontalAlignment(SwingConstants.TRAILING);
-    tfTotal.setEditable(false);
-    tfTotal.setFocusable(false);
-    tfTotal.setFont(new java.awt.Font(POSConstants.DEFAULT_FONT_NAME, 1, 12));
-    pnlTicketInfo.add(tfTotal, "cell 1 3,growx,aligny center");
+      }
+    });
+    pnlTicketInfo.add(tfCustomerPhone, "cell 1 3 2 1,growx,aligny center");
+    btnCustomerConfirm = new JButton(POSConstants.OK);
+    btnCustomerConfirm.setFont(FontUtil.FONT_BIG);
+    btnCustomerConfirm.setPreferredSize(new Dimension(100, 25));
+    pnlTicketInfo.add(btnCustomerConfirm, "cell 3 3,growx,aligny center");
 
     btnPay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pay_32.png")));
     btnPay.setText(com.floreantpos.POSConstants.PAY_NOW);
@@ -496,22 +561,28 @@ public class TicketView extends JPanel implements ActionListener {
   private TicketTypeButton btnTicketTypeHomeDelivery;
   private FixedLengthTextField tfDineInNumber;
 
-  private javax.swing.JLabel lblDiscount;
-  private javax.swing.JLabel lblSubtotal;
-  private javax.swing.JLabel lblTotal;
   private com.floreantpos.swing.TransparentPanel pnlControls;
   private com.floreantpos.swing.TransparentPanel pnlTableContainer;
   private com.floreantpos.swing.TransparentPanel pnlTicketInfo;
   private com.floreantpos.swing.TransparentPanel scrollerPanel;
   private javax.swing.JScrollPane scrollPaneTable;
-  private javax.swing.JTextField tfDiscount;
-  private javax.swing.JTextField tfSubtotal;
 
   // for customer information
   private JLabel lblCustomerPhone;
   private JTextField tfCustomerPhone;
+  private JButton btnCustomerConfirm;
 
-  private javax.swing.JTextField tfTotal;
+  private JLabel lblCreateTime;
+  private JLabel lblCreateTimeContent;
+  private JLabel lblItemNumber;
+  private JLabel lblItemNumberContent;
+  private JLabel lblDiscount;
+  private JLabel lblDiscountContent;
+  private JLabel lblSubtotal;
+  private JLabel lblSubtotalContent;
+  private JLabel lblTotal;
+  private JLabel lblTotalContent;
+
   private com.floreantpos.ui.ticket.TicketViewerTable ticketViewerTable;
   private PosButton btnAddCookingInstruction;
 
@@ -547,9 +618,10 @@ public class TicketView extends JPanel implements ActionListener {
 
   public void updateView() {
     if (ticket == null) {
-      tfSubtotal.setText("");
-      tfDiscount.setText("");
-      tfTotal.setText("");
+      lblSubtotalContent.setText("");
+      lblDiscountContent.setText("");
+      lblTotalContent.setText("");
+      lblItemNumberContent.setText("");
 
       setBorder(BorderFactory.createTitledBorder(null, POSConstants.TICKET_VIEW_BORDER_TITLE_NEW,
           TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
@@ -559,8 +631,10 @@ public class TicketView extends JPanel implements ActionListener {
 
     ticket.calculatePrice();
 
-    tfSubtotal.setText(NumberUtil.formatNumber(ticket.getSubtotalAmount()));
-    tfDiscount.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
+    lblCreateTimeContent.setText(DateUtil.getTicketViewShortDate(ticket.getCreateDate()));
+    lblItemNumberContent.setText(String.valueOf(ticket.getTicketItems().size()));
+    lblSubtotalContent.setText(NumberUtil.formatNumber(ticket.getSubtotalAmount()));
+    lblDiscountContent.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
 
     // update customer cellphone
     String cellphone = ticket.getCustomerPhone();
@@ -568,7 +642,7 @@ public class TicketView extends JPanel implements ActionListener {
       tfCustomerPhone.setText(cellphone);
     }
 
-    tfTotal.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
+    lblTotalContent.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
 
     if (ticket.getId() == null) {
       setBorder(BorderFactory.createTitledBorder(null, POSConstants.TICKET_VIEW_BORDER_TITLE_NEW,
