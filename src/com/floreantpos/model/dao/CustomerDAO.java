@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
+import com.floreantpos.bo.ui.ComboOption;
+import com.floreantpos.bo.ui.explorer.search.CustomerSearchDto;
 import com.floreantpos.model.Customer;
 
 public class CustomerDAO extends BaseCustomerDAO {
@@ -64,6 +66,52 @@ public class CustomerDAO extends BaseCustomerDAO {
       }
     }
 
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<Customer> findCustomers(CustomerSearchDto searchDto) {
+    Session session = null;
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+
+      String phone = searchDto.getPhone();
+      if (StringUtils.isNotBlank(phone)) {
+        criteria.add(Restrictions.like(Customer.PROP_PHONE, "%" + phone + "%"));
+      }
+
+      if (searchDto.getCreateTimeStart() != null) {
+        criteria.add(Restrictions.ge(Customer.PROP_CREATE_TIME, searchDto.getCreateTimeStart()));
+      }
+
+      if (searchDto.getCreateTimeEnd() != null) {
+        criteria.add(Restrictions.le(Customer.PROP_CREATE_TIME, searchDto.getCreateTimeEnd()));
+      }
+
+      if (searchDto.getLastActiveTimeStart() != null) {
+        criteria.add(
+            Restrictions.ge(Customer.PROP_LAST_ACTIVE_TIME, searchDto.getLastActiveTimeStart()));
+      }
+
+      if (searchDto.getLastActiveTimeEnd() != null) {
+        criteria
+            .add(Restrictions.le(Customer.PROP_LAST_ACTIVE_TIME, searchDto.getLastActiveTimeEnd()));
+      }
+
+      ComboOption gender = searchDto.getGender();
+      if (gender.getValue() != CustomerSearchDto.CUSTOMER_GENDER_ALL) {
+        criteria.add(Restrictions.eq(Customer.PROP_GENDER, gender.getValue()));
+      }
+
+      ComboOption ageRange = searchDto.getAgeRange();
+      if (ageRange.getValue() != CustomerSearchDto.CUSTOMER_AGE_RANGE_ALL) {
+        criteria.add(Restrictions.eq(Customer.PROP_AGE_RANGE, ageRange.getValue()));
+      }
+
+      return criteria.list();
+    } finally {
+      closeSession(session);
+    }
   }
 
 }

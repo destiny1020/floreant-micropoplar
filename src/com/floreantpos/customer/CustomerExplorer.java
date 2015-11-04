@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,12 +22,14 @@ import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.ComboOption;
+import com.floreantpos.bo.ui.explorer.search.CustomerSearchDto;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
+import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.forms.CustomerForm;
 import com.floreantpos.ui.util.UiUtil;
 import com.micropoplar.pos.ui.TextFieldWithPrompt;
@@ -149,7 +152,38 @@ public class CustomerExplorer extends TransparentPanel {
   }
 
   private void doLoadCustomers(ActionEvent evt) {
+    Date createTimeStart = dpCreateTimeStart.getDate();
+    Date createTimeEnd = dpCreateTimeEnd.getDate();
 
+    Date lastActiveTimeStart = dpLastActiveTimeStart.getDate();
+    Date lastActiveTimeEnd = dpLastActiveTimeEnd.getDate();
+
+    if (createTimeStart.after(createTimeEnd) || lastActiveTimeStart.after(lastActiveTimeEnd)) {
+      POSMessageDialog.showError(BackOfficeWindow.getInstance(),
+          com.floreantpos.POSConstants.FROM_DATE_CANNOT_BE_GREATER_THAN_TO_DATE_);
+      return;
+    }
+
+    CustomerSearchDto searchDto = prepareSearchDto();
+
+    CustomerDAO dao = CustomerDAO.getInstance();
+    customers = dao.findCustomers(searchDto);
+
+    tableModel.setRows(customers);
+  }
+
+  private CustomerSearchDto prepareSearchDto() {
+    CustomerSearchDto searchDto = new CustomerSearchDto();
+
+    searchDto.setPhone(tfSearch.getText().trim());
+    searchDto.setCreateTimeStart(dpCreateTimeStart.getDate());
+    searchDto.setCreateTimeEnd(dpCreateTimeEnd.getDate());
+    searchDto.setLastActiveTimeStart(dpLastActiveTimeStart.getDate());
+    searchDto.setLastActiveTimeEnd(dpLastActiveTimeEnd.getDate());
+    searchDto.setGender((ComboOption) cbGender.getSelectedItem());
+    searchDto.setAgeRange((ComboOption) cbAgeRange.getSelectedItem());
+
+    return searchDto;
   }
 
   private void initControlGroup() {
