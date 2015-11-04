@@ -26,7 +26,7 @@ import com.floreantpos.ui.dialog.POSDialog;
 import com.micropoplar.pos.bo.ui.model.MenuItemDialogTableModel;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
-import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
+import com.micropoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 

@@ -802,6 +802,7 @@ public class TicketView extends JPanel implements ActionListener {
     } else {
       POSMessageDialog.showError(OrderView.getInstance(),
           POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+      requireCustomerPhone();
     }
   }
 }

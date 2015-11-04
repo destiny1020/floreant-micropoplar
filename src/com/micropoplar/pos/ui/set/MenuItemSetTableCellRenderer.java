@@ -1,4 +1,4 @@
-package com.mircopoplar.pos.ui.set;
+package com.micropoplar.pos.ui.set;
 
 import java.awt.Color;
 import java.awt.Component;

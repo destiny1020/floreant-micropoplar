@@ -58,8 +58,8 @@ import com.micropoplar.pos.bo.ui.dialog.MenuItemDialog;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
+import com.micropoplar.pos.ui.set.MenuItemSetTableModel;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
-import com.mircopoplar.pos.ui.set.MenuItemSetTableModel;
 
 import net.miginfocom.swing.MigLayout;
 
