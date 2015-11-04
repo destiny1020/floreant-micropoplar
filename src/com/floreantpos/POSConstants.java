@@ -669,7 +669,15 @@ public class POSConstants {
   public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_TICKET_NUMBER = Messages.getString("PosMessage.429");
   public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_AMOUNT_BEFORE_DISCOUNT = Messages.getString("PosMessage.430");
   public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_DISCOUNT = Messages.getString("PosMessage.431");
-  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_TOTAL_AMOUNT_AFTER_DISCOUNT = Messages.getString("PosMessage.432");
+  public static final String CUSTOMER_EXPLORER_TABLE_TOTAL_AMOUNT_AFTER_DISCOUNT = Messages.getString("PosMessage.432");
+  public static final String CUSTOMER_EXPLORER_SEARCH = Messages.getString("PosMessage.443");
+  public static final String CUSTOMER_EXPLORER_SEARCH_PROMPT = Messages.getString("PosMessage.444");
+  public static final String CUSTOMER_EXPLORER_CREATE_TIME_START = Messages.getString("PosMessage.445");
+  public static final String CUSTOMER_EXPLORER_CREATE_TIME_END = Messages.getString("PosMessage.446");
+  public static final String CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_START = Messages.getString("PosMessage.447");
+  public static final String CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_END = Messages.getString("PosMessage.446");
+  public static final String CUSTOMER_EXPLORER_GENDER = Messages.getString("PosMessage.422");
+  public static final String CUSTOMER_EXPLORER_AGE_RANGE = Messages.getString("PosMessage.421");
 
   // AGE RANGE OPTIONS
   public static final String AGE_RANGE_OPTION_1 = Messages.getString("PosMessage.433");
@@ -678,5 +686,12 @@ public class POSConstants {
   public static final String AGE_RANGE_OPTION_4 = Messages.getString("PosMessage.436");
   public static final String AGE_RANGE_OPTION_5 = Messages.getString("PosMessage.437");
   public static final String AGE_RANGE_OPTION_ALL = Messages.getString("PosMessage.438");
+  public static final String AGE_RANGE_OPTION_UNKNOWN = Messages.getString("PosMessage.439");
+
+  // GENDER
+  public static final String GENDER_ALL = Messages.getString("PosMessage.448");
+  public static final String GENDER_MALE = Messages.getString("PosMessage.440");
+  public static final String GENDER_FEMALE = Messages.getString("PosMessage.441");
+  public static final String GENDER_UNKNOWN = Messages.getString("PosMessage.442");
 
 }

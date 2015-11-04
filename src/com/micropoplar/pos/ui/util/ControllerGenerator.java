@@ -148,4 +148,25 @@ public class ControllerGenerator {
     return cbAgeRnge;
   }
 
+  private static JComboBox<ComboOption> cbGender;
+
+  /**
+   * Return the combo box for the age range.
+   * 
+   * @return
+   */
+  public static JComboBox<ComboOption> getGenderComboBox() {
+    if (cbGender != null) {
+      return cbGender;
+    }
+
+    cbGender = new JComboBox<>();
+
+    cbGender.addItem(new ComboOption(-1, POSConstants.GENDER_ALL));
+    cbGender.addItem(new ComboOption(0, POSConstants.GENDER_FEMALE));
+    cbGender.addItem(new ComboOption(1, POSConstants.GENDER_MALE));
+
+    return cbGender;
+  }
+
 }

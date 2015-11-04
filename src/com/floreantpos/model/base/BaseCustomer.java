@@ -66,8 +66,8 @@ public abstract class BaseCustomer implements Comparable<BaseCustomer>, Serializ
 
   // fields
   private java.lang.String phone;
-  private Integer ageRange;
-  private Integer gender;
+  private Integer ageRange = -1; // unknown as default
+  private Integer gender = GENDER_FEMALE; // female as default
   private java.lang.String name;
   private Date dob;
   private java.lang.String email;

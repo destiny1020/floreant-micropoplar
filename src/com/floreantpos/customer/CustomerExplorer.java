@@ -5,24 +5,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXTable;
+
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
+import com.floreantpos.bo.ui.ComboOption;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
-import com.floreantpos.swing.BeanTableModel;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 import com.floreantpos.ui.forms.CustomerForm;
-import com.floreantpos.util.POSComparators;
+import com.floreantpos.ui.util.UiUtil;
+import com.micropoplar.pos.ui.TextFieldWithPrompt;
+import com.micropoplar.pos.ui.util.ControllerGenerator;
+
+import net.miginfocom.swing.MigLayout;
 
 public class CustomerExplorer extends TransparentPanel {
   /**
@@ -30,37 +40,119 @@ public class CustomerExplorer extends TransparentPanel {
    */
   private static final long serialVersionUID = 1L;
 
-  private List<Customer> customerList;
+  private JXTable explorerTable;
+  private CustomerListTableModel tableModel;
+  private List<Customer> customers;
 
-  private JTable table;
+  private JLabel lblSearch;
+  private TextFieldWithPrompt tfSearch;
 
-  private BeanTableModel<Customer> tableModel;
+  private JLabel lblCreateTimeStart;
+  private JLabel lblCreateTimeEnd;
+  private JXDatePicker dpCreateTimeStart;
+  private JXDatePicker dpCreateTimeEnd;
+
+  private JLabel lblLastActiveTimeStart;
+  private JLabel lblLastActiveTimeEnd;
+  private JXDatePicker dpLastActiveTimeStart;
+  private JXDatePicker dpLastActiveTimeEnd;
+
+  private JLabel lblGender;
+  private JComboBox<ComboOption> cbGender;
+
+  private JLabel lblAgeRange;
+  private JComboBox<ComboOption> cbAgeRange;
+
+  private JButton btnLoad;
+  private TransparentPanel pnlFilters;
 
   public CustomerExplorer() {
-    CustomerDAO dao = new CustomerDAO();
-    customerList = dao.findAll();
+    setLayout(new BorderLayout());
 
-    // sort customers by ID asc default:
-    Collections.sort(customerList, POSComparators.COMPARATOR_ID);
+    initTableGroup();
+    initFilterGroup();
+    initControlGroup();
+  }
 
-    tableModel = new BeanTableModel<Customer>(Customer.class);
-    tableModel.addColumn("电话", "telephoneNo");
-    tableModel.addColumn("邮箱", "email");
-    tableModel.addColumn("姓名", "name");
-    tableModel.addColumn("生日", "dob");
-    tableModel.addColumn("地址", "address");
-    tableModel.addColumn("城市", "city");
-    tableModel.addColumn("备注", "note");
-    tableModel.addRows(customerList);
+  private void initTableGroup() {
+    tableModel = new CustomerListTableModel(customers);
+    explorerTable = new JXTable(tableModel);
+    explorerTable.setDefaultRenderer(Object.class, new PosTableRenderer());
+    explorerTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    explorerTable.setColumnControlVisible(true);
+    explorerTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    explorerTable.setHorizontalScrollEnabled(false);
 
-    table = new JTable(tableModel);
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-    table.setDefaultRenderer(Object.class, new PosTableRenderer());
-    //    PosGuiUtil.setColumnWidth(table, 0, 40);
+    add(new JScrollPane(explorerTable), BorderLayout.CENTER);
+  }
 
-    setLayout(new BorderLayout(5, 5));
-    add(new JScrollPane(table));
+  private void initFilterGroup() {
+    pnlFilters = new TransparentPanel();
+    pnlFilters.setLayout(new MigLayout("", "[][][][][][][][][grow]", "[][][][]"));
 
+    lblSearch = new JLabel(POSConstants.CUSTOMER_EXPLORER_SEARCH + POSConstants.COLON);
+    pnlFilters.add(lblSearch, "cell 0 0, alignx left, aligny center");
+    tfSearch = new TextFieldWithPrompt(POSConstants.CUSTOMER_EXPLORER_SEARCH_PROMPT);
+    pnlFilters.add(tfSearch, "cell 1 0 5 1, grow");
+
+    lblCreateTimeStart =
+        new JLabel(POSConstants.CUSTOMER_EXPLORER_CREATE_TIME_START + POSConstants.COLON);
+    pnlFilters.add(lblCreateTimeStart, "cell 0 1, alignx left, aligny center");
+
+    dpCreateTimeStart = UiUtil.getCurrentMonthStart();
+    pnlFilters.add(dpCreateTimeStart, "cell 1 1, alignx left, aligny center");
+
+    lblCreateTimeEnd =
+        new JLabel(POSConstants.CUSTOMER_EXPLORER_CREATE_TIME_END + POSConstants.COLON);
+    pnlFilters.add(lblCreateTimeEnd, "cell 2 1, alignx left, aligny center");
+
+    dpCreateTimeEnd = UiUtil.getCurrentMonthEnd();
+    pnlFilters.add(dpCreateTimeEnd, "cell 3 1, alignx left, aligny center");
+
+    lblLastActiveTimeStart =
+        new JLabel(POSConstants.CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_START + POSConstants.COLON);
+    pnlFilters.add(lblLastActiveTimeStart, "cell 4 1, alignx left, aligny center");
+
+    dpLastActiveTimeStart = UiUtil.getCurrentMonthStart();
+    pnlFilters.add(dpLastActiveTimeStart, "cell 5 1, alignx left, aligny center");
+
+    lblLastActiveTimeEnd =
+        new JLabel(POSConstants.CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_END + POSConstants.COLON);
+    pnlFilters.add(lblLastActiveTimeEnd, "cell 6 1, alignx left, aligny center");
+
+    dpLastActiveTimeEnd = UiUtil.getCurrentMonthEnd();
+    pnlFilters.add(dpLastActiveTimeEnd, "cell 7 1, alignx left, aligny center");
+
+    lblGender = new JLabel(POSConstants.CUSTOMER_EXPLORER_GENDER + POSConstants.COLON);
+    pnlFilters.add(lblGender, "cell 0 2, alignx left, aligny center");
+
+    cbGender = ControllerGenerator.getGenderComboBox();
+    pnlFilters.add(cbGender, "cell 1 2, alignx left, aligny center");
+
+    lblAgeRange = new JLabel(POSConstants.CUSTOMER_EXPLORER_AGE_RANGE + POSConstants.COLON);
+    pnlFilters.add(lblAgeRange, "cell 2 2, alignx left, aligny center");
+
+    cbAgeRange = ControllerGenerator.getAgeRangeComboBox();
+    pnlFilters.add(cbAgeRange, "cell 3 2, alignx left, aligny center");
+
+    btnLoad = new JButton(POSConstants.LOAD);
+    btnLoad.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent evt) {
+        doLoadCustomers(evt);
+      }
+    });
+
+    pnlFilters.add(btnLoad, "cell 2 3 2 1, growx");
+
+    add(pnlFilters, BorderLayout.NORTH);
+  }
+
+  private void doLoadCustomers(ActionEvent evt) {
+
+  }
+
+  private void initControlGroup() {
     JButton addButton = new JButton(com.floreantpos.POSConstants.ADD);
     addButton.addActionListener(new ActionListener() {
       @Override
@@ -73,7 +165,7 @@ public class CustomerExplorer extends TransparentPanel {
           if (dialog.isCanceled())
             return;
           Customer customer = editor.getBean();
-          tableModel.addRow(customer);
+          tableModel.addItem(customer);
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
@@ -86,11 +178,11 @@ public class CustomerExplorer extends TransparentPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          int index = table.getSelectedRow();
+          int index = explorerTable.getSelectedRow();
           if (index < 0)
             return;
 
-          Customer customer = customerList.get(index);
+          Customer customer = customers.get(index);
 
           CustomerForm editor = new CustomerForm();
           editor.setBean(customer);
@@ -100,13 +192,13 @@ public class CustomerExplorer extends TransparentPanel {
           if (dialog.isCanceled())
             return;
 
-          table.repaint();
+          explorerTable.repaint();
         } catch (Throwable x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
       }
     });
-    table.addMouseListener(new MouseAdapter() {
+    explorerTable.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent evt) {
         if (evt.getClickCount() == 2) {
@@ -120,17 +212,17 @@ public class CustomerExplorer extends TransparentPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          int index = table.getSelectedRow();
+          int index = explorerTable.getSelectedRow();
           if (index < 0)
             return;
 
           if (ConfirmDeleteDialog.showMessage(CustomerExplorer.this,
               com.floreantpos.POSConstants.CONFIRM_DELETE,
               com.floreantpos.POSConstants.DELETE) == ConfirmDeleteDialog.YES) {
-            Customer customer = customerList.get(index);
+            Customer customer = customers.get(index);
             CustomerDAO dao = new CustomerDAO();
             dao.delete(customer);
-            tableModel.removeRow(customer);
+            tableModel.deleteItem(index);
           }
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);

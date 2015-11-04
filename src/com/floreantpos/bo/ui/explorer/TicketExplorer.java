@@ -7,7 +7,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +46,6 @@ public class TicketExplorer extends TransparentPanel implements ItemListener {
    * 
    */
   private static final long serialVersionUID = 1L;
-
-  DecimalFormat numberFormat = new DecimalFormat("0.00"); //$NON-NLS-1$
 
   private JXTable explorerTable;
   private List<Ticket> tickets;
