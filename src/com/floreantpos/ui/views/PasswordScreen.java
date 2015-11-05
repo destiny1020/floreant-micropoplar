@@ -52,6 +52,11 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PasswordScreen extends JPanel {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   /** Creates new form PasswordScreen */
   public PasswordScreen() {
     // setMinimumSize(new Dimension(320, 10));
@@ -255,9 +260,15 @@ public class PasswordScreen extends JPanel {
   }// </editor-fold>//GEN-END:initComponents
 
   private void setButtonsEnabled(boolean enabled) {
+    tfUsername.setEnabled(enabled);
+    tfPassword.setEnabled(enabled);
     psbtnLogin.setEnabled(enabled);
     btnConfigureDatabase.setEnabled(enabled);
     btnShutdown.setEnabled(enabled);
+
+    if (enabled) {
+      tfUsername.requestFocus();
+    }
   }
 
   // TODO: check login logic, everytime when entered a new day, throws:
