@@ -1,13 +1,14 @@
 package com.micropoplar.pos.model.base;
 
 import java.util.Date;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.User;
+import com.micropoplar.pos.model.CompaignShift;
 import com.micropoplar.pos.model.CompaignType;
 
 public class BaseCompaign {
@@ -74,7 +75,7 @@ public class BaseCompaign {
 
   private CompaignShift compaignShift;
   private CompaignType compaignType;
-  private Properties compaignProperties;
+  private Map<String, String> properties;
 
   private Date createDate;
   private User creator;
@@ -223,14 +224,6 @@ public class BaseCompaign {
     this.compaignType = compaignType;
   }
 
-  public Properties getCompaignProperties() {
-    return compaignProperties;
-  }
-
-  public void setCompaignProperties(Properties compaignProperties) {
-    this.compaignProperties = compaignProperties;
-  }
-
   public Date getCreateDate() {
     return createDate;
   }
@@ -245,6 +238,14 @@ public class BaseCompaign {
 
   public void setCreator(User creator) {
     this.creator = creator;
+  }
+
+  public Map<String, String> getProperties() {
+    return properties;
+  }
+
+  public void setProperties(Map<String, String> properties) {
+    this.properties = properties;
   }
 
 }

@@ -1,4 +1,4 @@
-package com.micropoplar.pos.model.base;
+package com.micropoplar.pos.model;
 
 /**
  * Represent the shift for the compaign.

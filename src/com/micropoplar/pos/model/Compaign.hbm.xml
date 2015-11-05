@@ -8,43 +8,52 @@
         <version column="MODIFIED_TIME" name="modifiedTime" type="timestamp" />
         <property column="NAME" length="30" name="name" not-null="true" type="java.lang.String" />
         <property column="DESCRIPTION" length="255" name="description" type="java.lang.String" />
-        <property column="BARCODE" length="120" name="barcode" not-null="true" type="java.lang.String" />
-        <property column="PRICE" length="52" name="price" not-null="true" type="java.lang.Double" />
-        <property column="MEMBER_PRICE" length="52" name="memberPrice" not-null="false" type="java.lang.Double" />
-        <property column="DISCOUNT_RATE" length="52" name="discountRate" type="java.lang.Double" />
-        <property column="VISIBLE" name="visible" type="java.lang.Boolean">
+        <property column="ENABLED" name="enabled" type="java.lang.Boolean">
             <meta attribute="defaultValue">true</meta>
         </property>
-        <property column="INVENTORY_COUNT" name="inventoryCount" type="java.lang.Integer" />
-        <property name="image" column="IMAGE" not-null="false" type="binary" length="20480" />
-        <property name="showImageOnly" column="SHOW_IMAGE_ONLY" type="java.lang.Boolean" />
-        <property name="unitName">
-            <column name="UNIT_NAME" length="5" not-null="false"/>
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">com.micropoplar.pos.model.UnitName</param> 
-                <param name="type">12</param> 
-            </type> 
+        <property column="EXCLUSIVE" name="exclusive" type="java.lang.Boolean" />
+        <property column="PRIORITY" name="priority" type="java.lang.Integer">
+            <meta attribute="defaultValue">5</meta>
         </property>
-        
-        <many-to-one class="com.floreantpos.model.MenuGroup" name="group">
-            <column name="GROUP_ID" />
+        <property column="REPEATABLE" name="repeatable" type="java.lang.Boolean" />
+        <property column="GLOBAL" name="global" type="java.lang.Boolean" />
+        <property column="PER_TICKET" name="perTicket" type="java.lang.Boolean" />
+        <property column="MEMBERSHIP" name="membership" type="java.lang.Boolean">
+            <meta attribute="defaultValue">true</meta>
+        </property>
+        <property column="CREATE_DATE" length="10" name="createDate" type="java.util.Date" />
+        <property column="TYPE" name="compaignType" type="java.lang.Integer" />
+
+        <many-to-one class="com.floreantpos.model.User" lazy="false" name="creator">
+            <column name="CREATOR_ID" />
         </many-to-one>
-        <many-to-one class="com.floreantpos.model.MenuCategory" name="category">
-            <column name="CATEGORY_ID" />
+
+        <set cascade="all" inverse="false" lazy="false" name="categories" table="COMPAIGN_CATEGORY">
+            <key column="COMPAIGN_ID"/>
+            <many-to-many class="com.floreantpos.model.MenuCategory" />
+        </set>
+        <set cascade="all" inverse="false" lazy="false" name="groups" table="COMPAIGN_GROUP">
+            <key column="COMPAIGN_ID"/>
+            <many-to-many class="com.floreantpos.model.MenuGroup" />
+        </set>
+        <set cascade="all" inverse="false" lazy="false" name="items" table="COMPAIGN_ITEM">
+            <key column="COMPAIGN_ID"/>
+            <many-to-many class="com.floreantpos.model.MenuItem" />
+        </set>
+        <set cascade="all" inverse="false" lazy="false" name="excludedItems" table="COMPAIGN_EXCLUDED_ITEM">
+            <key column="COMPAIGN_ID"/>
+            <many-to-many class="com.floreantpos.model.MenuItem" />
+        </set>
+
+        <many-to-one class="com.micropoplar.pos.model.CompaignShift" name="compaignShift">
+            <column name="COMPAIGN_SHIFT_ID" />
         </many-to-one>
-        <many-to-one class="com.floreantpos.model.inventory.Recepie" lazy="false" cascade="all" name="recepie">
-            <column name="RECEPIE" />
-        </many-to-one>
-        <many-to-one class="com.floreantpos.model.VirtualPrinter" lazy="false" cascade="none" name="virtualPrinter">
-            <column name="VPRINTER_ID" />
-        </many-to-one>
-        
-        <list cascade="all" inverse="false" lazy="false" name="items" table="SET_ITEM">
-            <key>
-                <column name="MENU_ITEM_SET_ID" />
-            </key>
-            <list-index column="ITEM_ORDER" />
-            <one-to-many class="com.micropoplar.pos.model.SetItem" />
-        </list>
+
+        <map name="properties" cascade="all" lazy="false">
+            <key column="id"/>
+            <index column="property_name" type="string" />
+            <element column="property_value" type="string" />
+        </map>
+
     </class>
 </hibernate-mapping>
