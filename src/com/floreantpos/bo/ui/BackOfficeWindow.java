@@ -24,7 +24,6 @@ import com.floreantpos.actions.AboutAction;
 import com.floreantpos.bo.actions.CategoryExplorerAction;
 import com.floreantpos.bo.actions.ConfigureRestaurantAction;
 import com.floreantpos.bo.actions.CookingInstructionExplorerAction;
-import com.floreantpos.bo.actions.CouponExplorerAction;
 import com.floreantpos.bo.actions.CustomerExplorerAction;
 import com.floreantpos.bo.actions.DrawerPullReportExplorerAction;
 import com.floreantpos.bo.actions.GroupExplorerAction;
@@ -74,6 +73,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
     setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     addWindowListener(new WindowAdapter() {
+      @Override
       public void windowClosing(WindowEvent e) {
         close();
       }
@@ -244,6 +244,7 @@ public class BackOfficeWindow extends javax.swing.JFrame {
    */
   public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
+      @Override
       public void run() {
         new BackOfficeWindow().setVisible(true);
       }

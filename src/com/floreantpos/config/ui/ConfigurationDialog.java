@@ -12,8 +12,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import net.miginfocom.swing.MigLayout;
-
 import com.floreantpos.Messages;
 import com.floreantpos.POSConstants;
 import com.floreantpos.PosException;
@@ -22,7 +20,14 @@ import com.floreantpos.main.Application;
 import com.floreantpos.ui.dialog.POSDialog;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
+import net.miginfocom.swing.MigLayout;
+
 public class ConfigurationDialog extends POSDialog implements ChangeListener, ActionListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private static final String OK = com.floreantpos.POSConstants.OK;
   private static final String CANCEL = com.floreantpos.POSConstants.CANCEL;
   private JTabbedPane tabbedPane = new JTabbedPane();
@@ -38,7 +43,7 @@ public class ConfigurationDialog extends POSDialog implements ChangeListener, Ac
     add(tabbedPane, "span, grow"); //$NON-NLS-1$
 
     addView(new RestaurantConfigurationView());
-    addView(new TerminalConfigurationView());
+    //    addView(new TerminalConfigurationView());
     addView(new PrintConfigurationView());
     // addView(new DrawerPullConfigurationView());
     // addView(new CardConfigurationView());
@@ -80,6 +85,7 @@ public class ConfigurationDialog extends POSDialog implements ChangeListener, Ac
     }
   }
 
+  @Override
   public void stateChanged(ChangeEvent e) {
     ConfigurationView view = (ConfigurationView) tabbedPane.getSelectedComponent();
     if (!view.isInitialized()) {
@@ -91,6 +97,7 @@ public class ConfigurationDialog extends POSDialog implements ChangeListener, Ac
     }
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     if (OK.equalsIgnoreCase(e.getActionCommand())) {
       try {

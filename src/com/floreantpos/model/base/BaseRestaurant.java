@@ -1,6 +1,5 @@
 package com.floreantpos.model.base;
 
-import java.lang.Comparable;
 import java.io.Serializable;
 
 
@@ -424,6 +423,7 @@ public abstract class BaseRestaurant implements Comparable, Serializable {
 
 
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -438,6 +438,7 @@ public abstract class BaseRestaurant implements Comparable, Serializable {
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -450,6 +451,7 @@ public abstract class BaseRestaurant implements Comparable, Serializable {
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(Object obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -459,6 +461,7 @@ public abstract class BaseRestaurant implements Comparable, Serializable {
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

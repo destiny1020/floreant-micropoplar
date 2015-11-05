@@ -443,6 +443,7 @@ public class POSConstants {
   public static final String TICKET_VIEW_CANCEL_CONFIRM_TITLE = Messages.getString("PosMessage.481");
   public static final String TICKET_VIEW_OPERATOR = Messages.getString("PosMessage.396");
   public static final String COOKING_INSTRUCTIONS_EXPLORER = Messages.getString("PosMessage.483");
+
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
@@ -634,6 +635,7 @@ public class POSConstants {
   public static final String ERROR_CUSTOMER_ALREADY_EXISTED = Messages.getString("ERROR_CUSTOMER_ALREADY_EXISTED");
   public static final String ERROR_EMAIL_NOT_VALID = Messages.getString("ERROR_EMAIL_NOT_VALID");
   public static final String ERROR_TEMPLATE_FIELD_TOO_LONG = Messages.getString("ERROR_TEMPLATE_FIELD_TOO_LONG");
+  public static final String ERROR_TENDER_AMOUNT_LESS_THAN_DUE_AMOUNT = Messages.getString("ERROR_TENDER_AMOUNT_LESS_THAN_DUE_AMOUNT");
 
   // USER FORM
   public static final String ERROR_USER_FORM_EMPTY_NAME = Messages.getString("ERROR_USER_FORM_EMPTY_NAME");

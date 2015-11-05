@@ -10,6 +10,11 @@ import com.floreantpos.config.ui.ConfigurationDialog;
 
 public class ConfigureRestaurantAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public ConfigureRestaurantAction() {
     super(com.floreantpos.POSConstants.CONFIGURATION);
   }
@@ -22,6 +27,7 @@ public class ConfigureRestaurantAction extends AbstractAction {
     super(name, icon);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     ConfigurationDialog dialog = new ConfigurationDialog(BackOfficeWindow.getInstance());
     dialog.pack();
