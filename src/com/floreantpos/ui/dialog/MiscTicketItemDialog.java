@@ -8,6 +8,7 @@ package com.floreantpos.ui.dialog;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.model.TicketItem;
 
 /**
@@ -15,7 +16,14 @@ import com.floreantpos.model.TicketItem;
  * @author MShahriar
  */
 public class MiscTicketItemDialog extends POSDialog {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private static int customIdx = 1;
+
+  private String currentCustomItemName = POSConstants.OTHERS_VIEW_CUSTOM_ITEM_PREFIX + customIdx++;
   private TicketItem ticketItem;
 
   /** Creates new form MiscTicketItemDialog */
@@ -24,6 +32,7 @@ public class MiscTicketItemDialog extends POSDialog {
     initComponents();
 
     noteView1.setNoteLength(30);
+    noteView1.setNote(currentCustomItemName);
     numberSelectionView1.setDecimalAllowed(true);
   }
 
@@ -49,6 +58,7 @@ public class MiscTicketItemDialog extends POSDialog {
     posButton1.setText(com.floreantpos.POSConstants.FINISH);
     posButton1.setPreferredSize(new java.awt.Dimension(120, 50));
     posButton1.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doFinish(evt);
       }
@@ -60,6 +70,7 @@ public class MiscTicketItemDialog extends POSDialog {
     posButton2.setText(com.floreantpos.POSConstants.CANCEL);
     posButton2.setPreferredSize(new java.awt.Dimension(120, 50));
     posButton2.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doCancel(evt);
       }
@@ -97,7 +108,7 @@ public class MiscTicketItemDialog extends POSDialog {
     double amount = numberSelectionView1.getValue();
     String itemName = noteView1.getNote();
     if (StringUtils.isBlank(itemName)) {
-      itemName = "自定义商品" + customIdx++;
+      itemName = currentCustomItemName;
     }
 
     ticketItem = new TicketItem();
@@ -120,6 +131,7 @@ public class MiscTicketItemDialog extends POSDialog {
    */
   public static void main(String args[]) {
     java.awt.EventQueue.invokeLater(new Runnable() {
+      @Override
       public void run() {
         new MiscTicketItemDialog(new javax.swing.JFrame(), true).setVisible(true);
       }

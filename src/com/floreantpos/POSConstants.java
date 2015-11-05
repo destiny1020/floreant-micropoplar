@@ -721,4 +721,12 @@ public class POSConstants {
   public static final String GENDER_FEMALE = Messages.getString("PosMessage.441");
   public static final String GENDER_UNKNOWN = Messages.getString("PosMessage.442");
 
+  // OTHERS VIEW
+  public static final String OTHERS_VIEW_SEARCH_ITEM_BY_BARCODE = Messages.getString("PosMessage.465");
+  public static final String OTHERS_VIEW_QUICK_INPUT_CUSTOMER = Messages.getString("PosMessage.466");
+  public static final String OTHERS_VIEW_INPUT_BARCODE = Messages.getString("PosMessage.467");
+  public static final String OTHERS_VIEW_BARCODE_NO_ITEM = Messages.getString("PosMessage.468");
+  public static final String OTHERS_VIEW_BORDER_TITLE = Messages.getString("PosMessage.469");
+  public static final String OTHERS_VIEW_CUSTOM_ITEM_PREFIX = Messages.getString("PosMessage.470");
+
 }

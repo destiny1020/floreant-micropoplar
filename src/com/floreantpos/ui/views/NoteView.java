@@ -21,6 +21,11 @@ import com.floreantpos.swing.PosButton;
 import com.floreantpos.swing.TransparentPanel;
 
 public class NoteView extends JPanel implements ActionListener, ChangeListener {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   Font buttonFont = getFont().deriveFont(Font.BOLD, 24);
 
   String[] s1 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
@@ -94,6 +99,7 @@ public class NoteView extends JPanel implements ActionListener, ChangeListener {
     return panel;
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     note.requestFocus();
 
@@ -127,6 +133,7 @@ public class NoteView extends JPanel implements ActionListener, ChangeListener {
     }
   }
 
+  @Override
   public void stateChanged(ChangeEvent e) {
     JToggleButton b = (JToggleButton) e.getSource();
 
@@ -143,6 +150,10 @@ public class NoteView extends JPanel implements ActionListener, ChangeListener {
 
   public String getNote() {
     return note.getText();
+  }
+
+  public void setNote(String text) {
+    note.setText(text);
   }
 
   public void setNoteLength(int length) {
