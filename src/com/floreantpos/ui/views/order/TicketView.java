@@ -639,6 +639,7 @@ public class TicketView extends JPanel implements ActionListener {
     String cellphone = ticket.getCustomerPhone();
     if (StringUtils.isNotBlank(cellphone)) {
       tfCustomerPhone.setText(cellphone);
+      btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
     }
 
     lblTotalContent.setText(NumberUtil.formatNumber(ticket.getTotalAmount()));
@@ -841,6 +842,8 @@ public class TicketView extends JPanel implements ActionListener {
     btnCustomerConfirm.setText(POSConstants.TICKET_CUSTOMER_CONFIRMED);
     ticket.setCustomer(customer);
     ticket.setCustomerPhone(phone);
+
+    TicketDAO.getInstance().saveOrUpdate(ticket);
   }
 
   public void resetMemberInfo() {

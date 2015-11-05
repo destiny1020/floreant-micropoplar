@@ -6,7 +6,7 @@
 			<generator class="identity" />
 		</id>
 		<version column="MODIFIED_TIME" name="modifiedTime" type="timestamp" />
-		<property column="UNIQ_ID" name="uniqId" length="16" type="string" index="uniqid" />
+		<property column="UNIQ_ID" name="uniqId" length="16" type="string" index="uniqid" unique="true" not-null="true" />
 		<property column="CREATE_DATE" index="ticketcreateDate" length="10" name="createDate" type="java.util.Date" />
 		<property column="CLOSING_DATE" index="ticketclosingDate" length="10" name="closingDate" type="java.util.Date" />
 		<property column="ACTIVE_DATE" index="ticketactiveDate" length="10" name="activeDate" type="java.util.Date" />
