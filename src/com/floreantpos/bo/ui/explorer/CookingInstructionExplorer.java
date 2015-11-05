@@ -13,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.model.CookingInstruction;
@@ -22,6 +24,11 @@ import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.ConfirmDeleteDialog;
 
 public class CookingInstructionExplorer extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private List<CookingInstruction> categoryList;
 
   private JTable table;
@@ -41,11 +48,12 @@ public class CookingInstructionExplorer extends TransparentPanel {
 
     JButton addButton = new JButton(com.floreantpos.POSConstants.ADD);
     addButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           String instruction = JOptionPane.showInputDialog(BackOfficeWindow.getInstance(),
               com.floreantpos.POSConstants.ENTER_INSTRUCTION_DESCRIPTION);
-          if (instruction == null) {
+          if (StringUtils.isBlank(instruction)) {
             BOMessageDialog.showError(BackOfficeWindow.getInstance(),
                 com.floreantpos.POSConstants.INSTRUCTION_CANNOT_BE_EMPTY);
             return;
@@ -70,6 +78,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
 
     final JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
     editButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -81,7 +90,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
               com.floreantpos.POSConstants.ENTER_INSTRUCTION_DESCRIPTION,
               cookingInstruction.getDescription());
 
-          if (instruction == null) {
+          if (StringUtils.isBlank(instruction)) {
             BOMessageDialog.showError(BackOfficeWindow.getInstance(),
                 com.floreantpos.POSConstants.INSTRUCTION_CANNOT_BE_EMPTY);
             return;
@@ -110,6 +119,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
 
     JButton deleteButton = new JButton(com.floreantpos.POSConstants.DELETE);
     deleteButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -141,6 +151,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
     String[] columnNames =
         {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.DESCRIPTION};
 
+    @Override
     public int getRowCount() {
       if (categoryList == null) {
         return 0;
@@ -148,6 +159,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
       return categoryList.size();
     }
 
+    @Override
     public int getColumnCount() {
       return 2;
     }
@@ -162,6 +174,7 @@ public class CookingInstructionExplorer extends TransparentPanel {
       return false;
     }
 
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
       if (categoryList == null)
         return ""; //$NON-NLS-1$

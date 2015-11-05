@@ -198,7 +198,19 @@ public class TicketView extends JPanel implements ActionListener {
     lblTotalContent = new JLabel();
     lblTotalContent.setFont(FontUtil.FONT_BIG);
     lblTotalContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    pnlTicketInfo.add(lblTotalContent, "cell 1 2 3 1,growx,aligny center");
+    pnlTicketInfo.add(lblTotalContent, "cell 1 2,growx,aligny center");
+
+    // operator
+    lblOperator = new javax.swing.JLabel();
+    lblOperator.setFont(FontUtil.FONT_BIG);
+    lblOperator.setForeground(new java.awt.Color(204, 102, 0));
+    lblOperator.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+    lblOperator.setText(POSConstants.TICKET_VIEW_OPERATOR + POSConstants.COLON);
+    pnlTicketInfo.add(lblOperator, "cell 2 2,growx,aligny center");
+    lblOperatorContent = new JLabel();
+    lblOperatorContent.setFont(FontUtil.FONT_BIG);
+    lblOperatorContent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    pnlTicketInfo.add(lblOperatorContent, "cell 3 2,growx,aligny center");
 
     // customer phone
     lblCustomerPhone = new JLabel();
@@ -594,6 +606,8 @@ public class TicketView extends JPanel implements ActionListener {
   private JLabel lblSubtotalContent;
   private JLabel lblTotal;
   private JLabel lblTotalContent;
+  private JLabel lblOperator;
+  private JLabel lblOperatorContent;
 
   private com.floreantpos.ui.ticket.TicketViewerTable ticketViewerTable;
   private PosButton btnAddCookingInstruction;
@@ -647,6 +661,7 @@ public class TicketView extends JPanel implements ActionListener {
     lblItemNumberContent.setText(String.valueOf(ticket.getTicketItems().size()));
     lblSubtotalContent.setText(NumberUtil.formatNumber(ticket.getSubtotalAmount()));
     lblDiscountContent.setText(NumberUtil.formatNumber(ticket.getDiscountAmount()));
+    lblOperatorContent.setText(Application.getCurrentUser().getName());
 
     // update customer cellphone
     String cellphone = ticket.getCustomerPhone();

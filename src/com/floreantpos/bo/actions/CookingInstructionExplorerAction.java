@@ -11,6 +11,11 @@ import com.floreantpos.bo.ui.explorer.CookingInstructionExplorer;
 
 public class CookingInstructionExplorerAction extends AbstractAction {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public CookingInstructionExplorerAction() {
     super(com.floreantpos.POSConstants.COOKING_INSTRUCTIONS);
   }
@@ -23,15 +28,16 @@ public class CookingInstructionExplorerAction extends AbstractAction {
     super(name, icon);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     BackOfficeWindow backOfficeWindow = BackOfficeWindow.getInstance();
 
     CookingInstructionExplorer explorer = null;
     JTabbedPane tabbedPane = backOfficeWindow.getTabbedPane();
-    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.COOKING_INSTRUCTIONS);
+    int index = tabbedPane.indexOfTab(com.floreantpos.POSConstants.COOKING_INSTRUCTIONS_EXPLORER);
     if (index == -1) {
       explorer = new CookingInstructionExplorer();
-      tabbedPane.addTab(com.floreantpos.POSConstants.COOKING_INSTRUCTIONS, explorer);
+      tabbedPane.addTab(com.floreantpos.POSConstants.COOKING_INSTRUCTIONS_EXPLORER, explorer);
     } else {
       explorer = (CookingInstructionExplorer) tabbedPane.getComponentAt(index);
     }
