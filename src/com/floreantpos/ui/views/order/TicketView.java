@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -123,7 +124,7 @@ public class TicketView extends JPanel implements ActionListener {
     controlPanel.setOpaque(true);
     btnPay = new com.floreantpos.swing.PosButton();
     btnCancel = new com.floreantpos.swing.PosButton();
-    btnFinish = new com.floreantpos.swing.PosButton();
+    btnSuspend = new com.floreantpos.swing.PosButton();
     scrollerPanel = new com.floreantpos.swing.TransparentPanel();
     btnIncreaseAmount = new com.floreantpos.swing.PosButton();
     btnDecreaseAmount = new com.floreantpos.swing.PosButton();
@@ -246,7 +247,7 @@ public class TicketView extends JPanel implements ActionListener {
     controlPanel.add(btnPay, "cell 0 0 2 1,grow");
 
     btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel_32.png")));
-    btnCancel.setText(com.floreantpos.POSConstants.CANCEL);
+    btnCancel.setText(com.floreantpos.POSConstants.TICKET_VIEW_CANCEL_BTN);
     btnCancel.setPreferredSize(new java.awt.Dimension(76, 45));
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
       @Override
@@ -256,16 +257,17 @@ public class TicketView extends JPanel implements ActionListener {
     });
     controlPanel.add(btnCancel, "cell 0 1,grow");
 
-    btnFinish.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/finish_32.png")));
-    btnFinish.setText(com.floreantpos.POSConstants.FINISH);
-    btnFinish.setPreferredSize(new java.awt.Dimension(76, 45));
-    btnFinish.addActionListener(new java.awt.event.ActionListener() {
+    btnSuspend
+        .setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new_ticket_32.png")));
+    btnSuspend.setText(com.floreantpos.POSConstants.TICKET_VIEW_SUSPEND_BTN);
+    btnSuspend.setPreferredSize(new java.awt.Dimension(76, 45));
+    btnSuspend.addActionListener(new java.awt.event.ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doFinishOrder(evt);
       }
     });
-    controlPanel.add(btnFinish, "cell 1 1,grow");
+    controlPanel.add(btnSuspend, "cell 1 1,grow");
 
     btnIncreaseAmount
         .setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_user_32.png")));
@@ -464,6 +466,19 @@ public class TicketView extends JPanel implements ActionListener {
   }
 
   private void doCancelOrder(java.awt.event.ActionEvent evt) {
+    boolean partialFinished = ticket.getCustomer() != null
+        || (ticket.getTicketItems() != null && ticket.getTicketItems().size() > 0) ? true : false;
+
+    if (partialFinished) {
+      // let user confirm
+      int answer = JOptionPane.showConfirmDialog(OrderView.getInstance(),
+          POSConstants.TICKET_VIEW_CANCEL_CONFIRM_MSG,
+          POSConstants.TICKET_VIEW_CANCEL_CONFIRM_TITLE, JOptionPane.YES_NO_OPTION);
+      if (answer == JOptionPane.NO_OPTION) {
+        return;
+      }
+    }
+
     RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
 
     // remove the current ticket in customer ticket view
@@ -548,7 +563,7 @@ public class TicketView extends JPanel implements ActionListener {
   private com.floreantpos.swing.PosButton btnCancel;
   private com.floreantpos.swing.PosButton btnDecreaseAmount;
   private com.floreantpos.swing.PosButton btnDelete;
-  private com.floreantpos.swing.PosButton btnFinish;
+  private com.floreantpos.swing.PosButton btnSuspend;
   private com.floreantpos.swing.PosButton btnIncreaseAmount;
   private com.floreantpos.swing.PosButton btnPay;
   private com.floreantpos.swing.PosButton btnScrollDown;

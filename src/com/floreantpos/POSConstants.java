@@ -437,6 +437,10 @@ public class POSConstants {
   public static final String TICKET_INPUT_DINE_IN_NUMBER_HINT = Messages.getString("PosMessage.464");
   public static final String TICKET_OTHERS_VIEW_ENABLE_SCAN = Messages.getString("PosMessage.477");
   public static final String TICKET_OTHERS_VIEW_ENABLED_SCAN = Messages.getString("PosMessage.478");
+  public static final String TICKET_VIEW_SUSPEND_BTN = Messages.getString("PosMessage.479");
+  public static final String TICKET_VIEW_CANCEL_BTN = Messages.getString("PosMessage.208");
+  public static final String TICKET_VIEW_CANCEL_CONFIRM_MSG = Messages.getString("PosMessage.480");
+  public static final String TICKET_VIEW_CANCEL_CONFIRM_TITLE = Messages.getString("PosMessage.481");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
