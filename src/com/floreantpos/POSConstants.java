@@ -607,6 +607,8 @@ public class POSConstants {
   // COMMONS
   public static final String COMMON_YES = Messages.getString("COMMON_YES");
   public static final String COMMON_NO = Messages.getString("COMMON_NO");
+  public static final String COMMON_REQUIRED = Messages.getString("COMMON_REQUIRED");
+  public static final String COMMON_OPTIONAL = Messages.getString("COMMON_OPTIONAL");
 
   // ERROR related
   public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
@@ -695,6 +697,14 @@ public class POSConstants {
   public static final String CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_END = Messages.getString("PosMessage.446");
   public static final String CUSTOMER_EXPLORER_GENDER = Messages.getString("PosMessage.422");
   public static final String CUSTOMER_EXPLORER_AGE_RANGE = Messages.getString("PosMessage.421");
+  public static final String CUSTOMER_FORM_PHONE = Messages.getString("PosMessage.471");
+  public static final String CUSTOMER_FORM_GENDER = Messages.getString("PosMessage.422");
+  public static final String CUSTOMER_FORM_AGE_RANGE = Messages.getString("PosMessage.421");
+  public static final String CUSTOMER_FORM_NAME = Messages.getString("PosMessage.472");
+  public static final String CUSTOMER_FORM_DOB = Messages.getString("PosMessage.423");
+  public static final String CUSTOMER_FORM_EMAIL = Messages.getString("PosMessage.424");
+  public static final String CUSTOMER_FORM_ADDRESS = Messages.getString("PosMessage.425");
+  public static final String CUSTOMER_FORM_NOTE = Messages.getString("PosMessage.426");
 
   // CUSTOMER QUICK INPUT DLG
   public static final String CUSTOMER_QUICK_DLG_TITLE = Messages.getString("PosMessage.449");

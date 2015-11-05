@@ -73,6 +73,7 @@ public class BeanEditorDialog extends javax.swing.JDialog implements WindowListe
       btnOkAndSelect = new PosSmallButton();
       btnOkAndSelect.setText(com.floreantpos.POSConstants.OK_AND_SELECT);
       btnOkAndSelect.addActionListener(new java.awt.event.ActionListener() {
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent evt) {
           performOk(evt);
         }
@@ -83,6 +84,7 @@ public class BeanEditorDialog extends javax.swing.JDialog implements WindowListe
 
     btnOk.setText(com.floreantpos.POSConstants.OK);
     btnOk.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         performOk(evt);
       }
@@ -92,6 +94,7 @@ public class BeanEditorDialog extends javax.swing.JDialog implements WindowListe
 
     btnCancel.setText(com.floreantpos.POSConstants.CANCEL);
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         performCancel(evt);
       }
@@ -145,6 +148,7 @@ public class BeanEditorDialog extends javax.swing.JDialog implements WindowListe
 
   // End of variables declaration//GEN-END:variables
 
+  @Override
   public void setTitle(String title) {
     super.setTitle(title);
 
@@ -166,20 +170,27 @@ public class BeanEditorDialog extends javax.swing.JDialog implements WindowListe
     return (Frame) getOwner();
   }
 
+  @Override
   public void windowOpened(WindowEvent e) {}
 
+  @Override
   public void windowClosing(WindowEvent e) {
     performCancel(null);
   }
 
+  @Override
   public void windowClosed(WindowEvent e) {}
 
+  @Override
   public void windowIconified(WindowEvent e) {}
 
+  @Override
   public void windowDeiconified(WindowEvent e) {}
 
+  @Override
   public void windowActivated(WindowEvent e) {}
 
+  @Override
   public void windowDeactivated(WindowEvent e) {}
 
   public BeanEditor getBeanEditor() {

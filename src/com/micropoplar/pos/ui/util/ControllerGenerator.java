@@ -1,11 +1,16 @@
 package com.micropoplar.pos.ui.util;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
@@ -122,30 +127,26 @@ public class ControllerGenerator {
     return cbPaymentType;
   }
 
-  private static JComboBox<ComboOption> cbAgeRnge;
-
   /**
    * Return the combo box for the age range.
    * 
    * @return
    */
-  public static JComboBox<ComboOption> getAgeRangeComboBox() {
-    if (cbAgeRnge != null) {
-      return cbAgeRnge;
-    }
-
-    cbAgeRnge = new JComboBox<>();
+  public static JComboBox<ComboOption> getAgeRangeComboBox(boolean generateAllOption) {
+    JComboBox<ComboOption> cbAgeRange = new JComboBox<>();
 
     // All Option
-    cbAgeRnge.addItem(new ComboOption(0, POSConstants.AGE_RANGE_OPTION_ALL));
+    if (generateAllOption) {
+      cbAgeRange.addItem(new ComboOption(0, POSConstants.AGE_RANGE_OPTION_ALL));
+    }
 
     AgeRange[] ageRanges = AgeRange.values();
 
     for (AgeRange ar : ageRanges) {
-      cbAgeRnge.addItem(new ComboOption(ar.getType(), ar.getDisplayString()));
+      cbAgeRange.addItem(new ComboOption(ar.getType(), ar.getDisplayString()));
     }
 
-    return cbAgeRnge;
+    return cbAgeRange;
   }
 
   private static JComboBox<ComboOption> cbGender;
@@ -167,6 +168,25 @@ public class ControllerGenerator {
     cbGender.addItem(new ComboOption(1, POSConstants.GENDER_MALE));
 
     return cbGender;
+  }
+
+  private static final Color LABEL_COLOR = new Color(0, 70, 213);
+
+  public static void addSeparator(JPanel panel, String text) {
+    JLabel l = createLabel(text);
+    l.setForeground(LABEL_COLOR);
+
+    panel.add(l, "gapbottom 1, span, split 2, aligny center");
+    panel.add(new JSeparator(), "gapleft rel, growx");
+  }
+
+  // support methods for addSeparator
+  private static JLabel createLabel(String text) {
+    return createLabel(text, SwingConstants.LEADING);
+  }
+
+  private static JLabel createLabel(String text, int align) {
+    return new JLabel(text, align);
   }
 
 }

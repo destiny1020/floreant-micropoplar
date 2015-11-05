@@ -1,11 +1,13 @@
 package com.floreantpos.ui.forms;
 
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.StaleObjectStateException;
@@ -13,14 +15,15 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.BOMessageDialog;
+import com.floreantpos.bo.ui.ComboOption;
 import com.floreantpos.model.Customer;
 import com.floreantpos.model.dao.CustomerDAO;
-import com.floreantpos.model.util.DateUtil;
 import com.floreantpos.model.util.IllegalModelStateException;
 import com.floreantpos.swing.FixedLengthTextField;
-import com.floreantpos.swing.QwertyKeyPad;
 import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.dialog.POSMessageDialog;
+import com.micropoplar.pos.ui.util.ControllerGenerator;
+import com.micropoplar.pos.util.ValidateUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -30,72 +33,87 @@ public class CustomerForm extends BeanEditor<Customer> {
    */
   private static final long serialVersionUID = 1L;
 
+  private JLabel lblPhone;
   private FixedLengthTextField tfPhone;
-  private FixedLengthTextField tfName;
+
+  private JLabel lblGender;
+  private ButtonGroup btgGender;
+
+  private JLabel lblAgeRange;
+  private JComboBox<ComboOption> cbAgeRange;
+
+  private JLabel lblName;
+  private JTextField tfName;
+
+  private JLabel lblDob;
   private JXDatePicker dpDob;
 
-  private FixedLengthTextField tfEmail;
-  private FixedLengthTextField tfAddress;
-  private JLabel lblDob;
-  private JPanel panel;
-  private QwertyKeyPad qwertyKeyPad;
+  private JLabel lblEmail;
+  private JTextField tfEmail;
+
+  private JLabel lblAddress;
+  private JTextField tfAddress;
+
+  private JLabel lblNote;
+  private JTextArea taNote;
 
   public CustomerForm() {
-    setLayout(new MigLayout("", "[][grow][][][][grow]", "[19px][][][][][][][grow]"));
-
-    // Phone
-    JLabel lblPhone = new JLabel("电话");
-    add(lblPhone, "cell 0 0,alignx trailing");
-
-    tfPhone = new FixedLengthTextField(30);
-    tfPhone.setLength(30);
-    add(tfPhone, "cell 1 0 5 1,growx");
-
-    // Name
-    JLabel lblName = new JLabel("姓名");
-    add(lblName, "cell 0 1,alignx trailing");
-
-    tfName = new FixedLengthTextField(60);
-    tfName.setLength(60);
-    add(tfName, "cell 1 1 5 1,growx");
-
-    // DoB
-    lblDob = new JLabel("生日 (年-月-日，例如:1987-10-20)");
-    add(lblDob, "cell 0 2,alignx trailing");
-
-    dpDob = new JXDatePicker(getDefaultLocale());
-    dpDob.setFormats(DateUtil.getDOBFormatter());
-    add(dpDob, "cell 1 2 5 1,growx");
-
-    // E-Mail
-    JLabel lblEmail = new JLabel("电子邮箱");
-    add(lblEmail, "cell 0 3,alignx trailing");
-
-    tfEmail = new FixedLengthTextField(40);
-    tfEmail.setLength(40);
-    add(tfEmail, "cell 1 3 5 1,growx");
-
-    // Address
-    JLabel lblAddress = new JLabel("地址");
-    add(lblAddress, "cell 0 4,alignx trailing");
-
-    tfAddress = new FixedLengthTextField(120);
-    tfAddress.setLength(120);
-    add(tfAddress, "cell 1 4 5 1,growx");
-
-    panel = new JPanel();
-    add(panel, "cell 0 7 6 1,grow");
-
-    qwertyKeyPad = new QwertyKeyPad();
-    panel.add(qwertyKeyPad);
+    this(new Customer());
   }
 
-  public void setFieldsEditable(boolean editable) {
-    tfName.setEditable(editable);
-    tfPhone.setEditable(editable);
-    tfEmail.setEditable(editable);
-    tfAddress.setEditable(editable);
-    dpDob.setEditable(editable);
+  public CustomerForm(Customer customer) {
+    initComponents();
+  }
+
+  private void initComponents() {
+    setLayout(new MigLayout());
+
+    ControllerGenerator.addSeparator(this, POSConstants.COMMON_REQUIRED);
+
+    lblPhone = new JLabel(POSConstants.CUSTOMER_FORM_PHONE + POSConstants.COLON);
+    tfPhone = new FixedLengthTextField(11);
+    add(lblPhone, "gap para");
+    add(tfPhone, "span, growx, wrap");
+
+    lblGender = new JLabel(POSConstants.CUSTOMER_FORM_GENDER + POSConstants.COLON);
+    JRadioButton rdbMale = new JRadioButton(POSConstants.GENDER_MALE);
+    JRadioButton rdbFemale = new JRadioButton(POSConstants.GENDER_FEMALE);
+    btgGender = new ButtonGroup();
+    btgGender.add(rdbMale);
+    btgGender.add(rdbFemale);
+    rdbFemale.setSelected(true);
+    add(lblGender, "gap para");
+    add(rdbMale, "split 2");
+    add(rdbFemale, "wrap");
+
+    lblAgeRange = new JLabel(POSConstants.CUSTOMER_FORM_AGE_RANGE + POSConstants.COLON);
+    cbAgeRange = ControllerGenerator.getAgeRangeComboBox(false);
+    add(lblAgeRange, "gap para");
+    add(cbAgeRange, "span, wrap");
+
+    ControllerGenerator.addSeparator(this, POSConstants.COMMON_OPTIONAL);
+
+    lblName = new JLabel(POSConstants.CUSTOMER_FORM_NAME + POSConstants.COLON);
+    tfName = new JTextField();
+    add(lblName, "gap para");
+    add(tfName, "span, growx, wrap");
+
+    lblEmail = new JLabel(POSConstants.CUSTOMER_FORM_EMAIL + POSConstants.COLON);
+    tfEmail = new JTextField();
+    add(lblEmail, "gap para");
+    add(tfEmail, "span, growx, wrap");
+
+    lblAddress = new JLabel(POSConstants.CUSTOMER_FORM_ADDRESS + POSConstants.COLON);
+    tfAddress = new JTextField();
+    add(lblAddress, "gap para");
+    add(tfAddress, "span, growx, wrap");
+
+    lblNote = new JLabel(POSConstants.CUSTOMER_FORM_NOTE + POSConstants.COLON);
+    taNote = new JTextArea();
+    taNote.setRows(10);
+    taNote.setColumns(40);
+    add(lblNote, "gap para");
+    add(taNote, "height pref");
   }
 
   @Override
@@ -157,7 +175,7 @@ public class CustomerForm extends BeanEditor<Customer> {
     }
 
     // check phone number
-    if (!isMobileNO(phoneString)) {
+    if (!ValidateUtil.isMobileNO(phoneString)) {
       POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
       return false;
     }
@@ -179,16 +197,6 @@ public class CustomerForm extends BeanEditor<Customer> {
     customer.setPhone(phoneString);
 
     return true;
-  }
-
-  private boolean isMobileNO(String mobileNumber) {
-
-    Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-
-    Matcher m = p.matcher(mobileNumber);
-
-    return m.matches();
-
   }
 
   @Override

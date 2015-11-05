@@ -135,7 +135,7 @@ public class CustomerExplorer extends TransparentPanel {
     lblAgeRange = new JLabel(POSConstants.CUSTOMER_EXPLORER_AGE_RANGE + POSConstants.COLON);
     pnlFilters.add(lblAgeRange, "cell 2 2, alignx left, aligny center");
 
-    cbAgeRange = ControllerGenerator.getAgeRangeComboBox();
+    cbAgeRange = ControllerGenerator.getAgeRangeComboBox(true);
     pnlFilters.add(cbAgeRange, "cell 3 2, alignx left, aligny center");
 
     btnLoad = new JButton(POSConstants.LOAD);
@@ -262,13 +262,12 @@ public class CustomerExplorer extends TransparentPanel {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
         }
       }
-
     });
 
     TransparentPanel panel = new TransparentPanel();
     panel.add(addButton);
     panel.add(editButton);
-    panel.add(deleteButton);
+    //    panel.add(deleteButton);
     add(panel, BorderLayout.SOUTH);
   }
 }
