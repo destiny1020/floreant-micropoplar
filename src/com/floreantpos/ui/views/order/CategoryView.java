@@ -43,7 +43,7 @@ public class CategoryView extends SelectionView implements ActionListener {
 
   /** Creates new form CategoryView */
   public CategoryView() {
-    super(com.floreantpos.POSConstants.CATEGORIES, 120, 69);
+    super(com.floreantpos.POSConstants.CATEGORIES, 120, 68);
 
     setBackVisible(false);
 
@@ -125,6 +125,7 @@ public class CategoryView extends SelectionView implements ActionListener {
   }
 
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     CategoryButton button = (CategoryButton) e.getSource();
     if (button.isSelected()) {

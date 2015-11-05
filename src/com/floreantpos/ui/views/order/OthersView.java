@@ -80,15 +80,6 @@ public class OthersView extends JPanel {
     });
     buttonPanel.add(btnOrderInfo);
 
-    btnCustomer = new PosButton(POSConstants.OTHERS_VIEW_QUICK_INPUT_CUSTOMER);
-    btnCustomer.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doAddEditCustomer();
-      }
-    });
-    buttonPanel.add(btnCustomer);
-
     btnQuickAddItem.setText(com.floreantpos.POSConstants.MISC);
     btnQuickAddItem.addActionListener(new java.awt.event.ActionListener() {
       @Override
@@ -137,7 +128,6 @@ public class OthersView extends JPanel {
 
   private com.floreantpos.swing.PosButton btnQuickAddItem;
   private com.floreantpos.swing.PosButton btnOrderInfo;
-  private com.floreantpos.swing.PosButton btnCustomer;
   private com.floreantpos.swing.PosButton btnSearchItem;
   private JPanel buttonPanel;
 
