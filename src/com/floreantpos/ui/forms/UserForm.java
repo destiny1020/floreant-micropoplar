@@ -1,9 +1,3 @@
-/*
- * UserForm2.java
- *
- * Created on February 8, 2008, 6:08 PM
- */
-
 package com.floreantpos.ui.forms;
 
 import java.util.List;
@@ -28,11 +22,12 @@ import com.floreantpos.util.POSUtil;
 
 import net.miginfocom.swing.MigLayout;
 
-/**
- * 
- * @author rodaya
- */
-public class UserForm extends BeanEditor {
+public class UserForm extends BeanEditor<User> {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /** Creates new form UserForm2 */
   public UserForm() {
@@ -58,22 +53,16 @@ public class UserForm extends BeanEditor {
     lblUserId = new javax.swing.JLabel();
     // jLabel2 = new javax.swing.JLabel();
     lblUsername = new javax.swing.JLabel();
-    jLabel4 = new javax.swing.JLabel();
     lblPassword = new javax.swing.JLabel();
     lblPasswordConfirm = new javax.swing.JLabel();
-    tfPassword1 = new javax.swing.JPasswordField(new FixedLengthDocument(4), "", 10);
+    tfPassword1 = new javax.swing.JPasswordField(new FixedLengthDocument(12), "", 10);
     tfPassword1.setColumns(16);
-    tfPassword2 = new javax.swing.JPasswordField(new FixedLengthDocument(4), "", 10);
+    tfPassword2 = new javax.swing.JPasswordField(new FixedLengthDocument(12), "", 10);
     tfPassword2.setColumns(16);
     tfId = new FixedLengthTextField();
-    // tfSsn = new FixedLengthTextField();
-    // tfSsn.setLength(30);
-    // tfSsn.setColumns(30);
     tfName = new FixedLengthTextField();
     tfName.setColumns(30);
     tfName.setLength(30);
-    // jLabel5 = new javax.swing.JLabel();
-    // tfCostPerHour = new DoubleTextField();
     lblUserType = new javax.swing.JLabel();
     cbUserType = new javax.swing.JComboBox();
     setLayout(
@@ -103,7 +92,6 @@ public class UserForm extends BeanEditor {
 
     lblUserType.setText(POSConstants.USER_TYPE + POSConstants.COLON);
     add(lblUserType, "cell 0 6,alignx trailing,aligny center");
-    cbUserType.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"经理", "收银员", "服务员"}));
     add(cbUserType, "cell 1 6,growx,aligny center");
 
     lblPhone = new JLabel(POSConstants.TELEPHONE + POSConstants.COLON);
@@ -120,7 +108,6 @@ public class UserForm extends BeanEditor {
   private javax.swing.JLabel lblPasswordConfirm;
 
   private javax.swing.JLabel lblUsername;
-  private javax.swing.JLabel jLabel4;
   private javax.swing.JLabel lblUserType;
   private javax.swing.JLabel lblPassword;
   private FixedLengthTextField tfName;
@@ -138,7 +125,7 @@ public class UserForm extends BeanEditor {
     if (isEditMode())
       return "编辑用户";
 
-    return "添加新用户";
+    return "添加用户";
   }
 
   private boolean editMode;
@@ -155,7 +142,7 @@ public class UserForm extends BeanEditor {
       return false;
     }
 
-    User user = (User) getBean();
+    User user = getBean();
     UserDAO userDAO = UserDAO.getInstance();
 
     if (!editMode) {
@@ -186,7 +173,7 @@ public class UserForm extends BeanEditor {
     if (!(getBean() instanceof User)) {
       user = new User();
     } else {
-      user = (User) getBean();
+      user = getBean();
     }
 
     String id = tfId.getText();
@@ -244,7 +231,7 @@ public class UserForm extends BeanEditor {
     if (!(getBean() instanceof User)) {
       return;
     }
-    User user = (User) getBean();
+    User user = getBean();
     setData(user);
   }
 
@@ -261,10 +248,12 @@ public class UserForm extends BeanEditor {
     cbUserType.setSelectedItem(data.getType());
   }
 
+  @Override
   public boolean isEditMode() {
     return editMode;
   }
 
+  @Override
   public void setEditMode(boolean editMode) {
     this.editMode = editMode;
     if (editMode) {

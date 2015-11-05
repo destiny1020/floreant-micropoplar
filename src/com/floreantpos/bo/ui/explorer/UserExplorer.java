@@ -23,6 +23,11 @@ import com.floreantpos.ui.forms.UserForm;
 
 public class UserExplorer extends TransparentPanel {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private JTable table;
   private UserTableModel tableModel;
 
@@ -38,6 +43,7 @@ public class UserExplorer extends TransparentPanel {
 
     JButton addButton = new JButton(com.floreantpos.POSConstants.ADD);
     addButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           UserForm editor = new UserForm();
@@ -46,7 +52,7 @@ public class UserExplorer extends TransparentPanel {
           dialog.open();
           if (dialog.isCanceled())
             return;
-          User user = (User) editor.getBean();
+          User user = editor.getBean();
           tableModel.addItem(user);
         } catch (Exception x) {
           x.printStackTrace();
@@ -57,6 +63,7 @@ public class UserExplorer extends TransparentPanel {
     });
     JButton copyButton = new JButton(com.floreantpos.POSConstants.COPY);
     copyButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -70,7 +77,7 @@ public class UserExplorer extends TransparentPanel {
           user2.setType(user.getType());
           user2.setName(user.getName());
           user2.setPassword(user.getPassword());
-          user2.setSsn(user.getSsn());
+          user2.setPhoneNo(user.getPhoneNo());
 
           UserForm editor = new UserForm();
           editor.setEditMode(false);
@@ -81,7 +88,7 @@ public class UserExplorer extends TransparentPanel {
           if (dialog.isCanceled())
             return;
 
-          User newUser = (User) editor.getBean();
+          User newUser = editor.getBean();
           tableModel.addItem(newUser);
         } catch (Exception x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
@@ -92,6 +99,7 @@ public class UserExplorer extends TransparentPanel {
 
     JButton editButton = new JButton(com.floreantpos.POSConstants.EDIT);
     editButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -117,6 +125,7 @@ public class UserExplorer extends TransparentPanel {
     });
     JButton deleteButton = new JButton(com.floreantpos.POSConstants.DELETE);
     deleteButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         int index = table.getSelectedRow();
         if (index < 0)
@@ -161,6 +170,7 @@ public class UserExplorer extends TransparentPanel {
     }
 
 
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
       User user = (User) rows.get(rowIndex);
 

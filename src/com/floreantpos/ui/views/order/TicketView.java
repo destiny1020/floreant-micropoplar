@@ -360,6 +360,8 @@ public class TicketView extends JPanel implements ActionListener {
     ticketTypeButtonGroup.add(btnTicketTypeTakeOut);
     btnTicketTypeHomeDelivery = new TicketTypeButton(TicketType.HOME_DELIVERY, this);
     btnTicketTypeHomeDelivery.addActionListener(this);
+    // TODO: now let home delivery disabled
+    btnTicketTypeHomeDelivery.setEnabled(false);
     ticketTypeButtonGroup.add(btnTicketTypeHomeDelivery);
 
     tfDineInNumber = new FixedLengthTextField(3);

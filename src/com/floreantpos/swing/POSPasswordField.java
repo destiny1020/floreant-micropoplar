@@ -8,6 +8,11 @@ import javax.swing.text.Document;
 
 public class POSPasswordField extends JPasswordField implements FocusListener {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public POSPasswordField() {
     addFocusListener(this);
   }
@@ -32,10 +37,12 @@ public class POSPasswordField extends JPasswordField implements FocusListener {
     addFocusListener(this);
   }
 
+  @Override
   public void focusGained(FocusEvent e) {
     selectAll();
   }
 
+  @Override
   public void focusLost(FocusEvent e) {}
 
 }
