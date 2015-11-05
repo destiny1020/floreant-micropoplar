@@ -699,6 +699,8 @@ public class POSConstants {
   public static final String CUSTOMER_EXPLORER_LAST_ACTIVE_TIME_END = Messages.getString("PosMessage.446");
   public static final String CUSTOMER_EXPLORER_GENDER = Messages.getString("PosMessage.422");
   public static final String CUSTOMER_EXPLORER_AGE_RANGE = Messages.getString("PosMessage.421");
+  public static final String CUSTOMER_EXPLORER_INCLUDE_INACTIVE = Messages.getString("PosMessage.475");
+  public static final String CUSTOMER_EXPLORER_CREATE_TIME_IGNORE = Messages.getString("PosMessage.476");
   public static final String CUSTOMER_FORM_PHONE = Messages.getString("PosMessage.471");
   public static final String CUSTOMER_FORM_GENDER = Messages.getString("PosMessage.422");
   public static final String CUSTOMER_FORM_AGE_RANGE = Messages.getString("PosMessage.421");

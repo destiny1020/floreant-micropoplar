@@ -15,6 +15,7 @@ public class CustomerSearchDto {
   private Date createTimeEnd;
   private Date lastActiveTimeStart;
   private Date lastActiveTimeEnd;
+  private boolean includeInactive;
   private ComboOption gender;
   private ComboOption ageRange;
 
@@ -72,6 +73,14 @@ public class CustomerSearchDto {
 
   public void setAgeRange(ComboOption ageRange) {
     this.ageRange = ageRange;
+  }
+
+  public boolean isIncludeInactive() {
+    return includeInactive;
+  }
+
+  public void setIncludeInactive(boolean includeInactive) {
+    this.includeInactive = includeInactive;
   }
 
 }

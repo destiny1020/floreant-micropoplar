@@ -88,12 +88,12 @@ public class CustomerDAO extends BaseCustomerDAO {
         criteria.add(Restrictions.le(Customer.PROP_CREATE_TIME, searchDto.getCreateTimeEnd()));
       }
 
-      if (searchDto.getLastActiveTimeStart() != null) {
+      if (!searchDto.isIncludeInactive() && searchDto.getLastActiveTimeStart() != null) {
         criteria.add(
             Restrictions.ge(Customer.PROP_LAST_ACTIVE_TIME, searchDto.getLastActiveTimeStart()));
       }
 
-      if (searchDto.getLastActiveTimeEnd() != null) {
+      if (!searchDto.isIncludeInactive() && searchDto.getLastActiveTimeEnd() != null) {
         criteria
             .add(Restrictions.le(Customer.PROP_LAST_ACTIVE_TIME, searchDto.getLastActiveTimeEnd()));
       }

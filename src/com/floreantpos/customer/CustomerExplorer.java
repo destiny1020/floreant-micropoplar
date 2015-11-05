@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -59,6 +60,7 @@ public class CustomerExplorer extends TransparentPanel {
   private JLabel lblLastActiveTimeEnd;
   private JXDatePicker dpLastActiveTimeStart;
   private JXDatePicker dpLastActiveTimeEnd;
+  private JCheckBox chkIncludeInactive;
 
   private JLabel lblGender;
   private JComboBox<ComboOption> cbGender;
@@ -126,6 +128,9 @@ public class CustomerExplorer extends TransparentPanel {
     dpLastActiveTimeEnd = UiUtil.getCurrentMonthEnd();
     pnlFilters.add(dpLastActiveTimeEnd, "cell 7 1, alignx left, aligny center");
 
+    chkIncludeInactive = new JCheckBox(POSConstants.CUSTOMER_EXPLORER_INCLUDE_INACTIVE);
+    pnlFilters.add(chkIncludeInactive, "cell 8 1, alignx left, aligny center");
+
     lblGender = new JLabel(POSConstants.CUSTOMER_EXPLORER_GENDER + POSConstants.COLON);
     pnlFilters.add(lblGender, "cell 0 2, alignx left, aligny center");
 
@@ -180,6 +185,7 @@ public class CustomerExplorer extends TransparentPanel {
     searchDto.setCreateTimeEnd(dpCreateTimeEnd.getDate());
     searchDto.setLastActiveTimeStart(dpLastActiveTimeStart.getDate());
     searchDto.setLastActiveTimeEnd(dpLastActiveTimeEnd.getDate());
+    searchDto.setIncludeInactive(chkIncludeInactive.isSelected());
     searchDto.setGender((ComboOption) cbGender.getSelectedItem());
     searchDto.setAgeRange((ComboOption) cbAgeRange.getSelectedItem());
 
