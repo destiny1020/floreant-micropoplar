@@ -16,8 +16,6 @@ import com.floreantpos.bo.actions.DataImportAction;
 import com.floreantpos.model.Generator;
 import com.floreantpos.model.PosTransaction;
 import com.floreantpos.model.Restaurant;
-import com.floreantpos.model.Shift;
-import com.floreantpos.model.Tax;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
@@ -25,8 +23,6 @@ import com.floreantpos.model.UserType;
 import com.floreantpos.model.dao.GenDAO;
 import com.floreantpos.model.dao.PosTransactionDAO;
 import com.floreantpos.model.dao.RestaurantDAO;
-import com.floreantpos.model.dao.ShiftDAO;
-import com.floreantpos.model.dao.TaxDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.model.dao.UserDAO;
 import com.floreantpos.model.dao.UserTypeDAO;
@@ -99,17 +95,17 @@ public class DatabaseUtil {
       restaurant.setItemPriceIncludesTax(true);
       RestaurantDAO.getInstance().saveOrUpdate(restaurant);
 
-      Shift shift = new Shift();
-      shift.setName(com.floreantpos.POSConstants.GENERAL);
-      java.util.Date shiftStartTime = ShiftUtil.buildShiftStartTime(0, 0, 0, 11, 59, 1);
-      java.util.Date shiftEndTime = ShiftUtil.buildShiftEndTime(0, 0, 0, 11, 59, 1);
-
-      shift.setStartTime(shiftStartTime);
-      shift.setEndTime(shiftEndTime);
-      long length = Math.abs(shiftStartTime.getTime() - shiftEndTime.getTime());
-
-      shift.setShiftLength(Long.valueOf(length));
-      ShiftDAO.getInstance().saveOrUpdate(shift);
+      //      Shift shift = new Shift();
+      //      shift.setName(com.floreantpos.POSConstants.GENERAL);
+      //      java.util.Date shiftStartTime = ShiftUtil.buildShiftStartTime(0, 0, 0, 11, 59, 1);
+      //      java.util.Date shiftEndTime = ShiftUtil.buildShiftEndTime(0, 0, 0, 11, 59, 1);
+      //
+      //      shift.setStartTime(shiftStartTime);
+      //      shift.setEndTime(shiftEndTime);
+      //      long length = Math.abs(shiftStartTime.getTime() - shiftEndTime.getTime());
+      //
+      //      shift.setShiftLength(Long.valueOf(length));
+      //      ShiftDAO.getInstance().saveOrUpdate(shift);
 
       UserType type = new UserType();
       type.setName(com.floreantpos.POSConstants.ADMINISTRATOR);
