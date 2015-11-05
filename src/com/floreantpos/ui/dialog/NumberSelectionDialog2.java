@@ -322,8 +322,22 @@ public class NumberSelectionDialog2 extends POSDialog implements ActionListener 
    * @return
    */
   public static String takeStringInput(String title, String initProvidedValue) {
+    return takeStringInput(title, title, initProvidedValue);
+  }
+
+  /**
+   * Return the input result as String. Give a default value for the number TF.
+   * Also provide parameter for the top panel title.
+   * 
+   * @param title
+   * @param panelTitle
+   * @param initProvidedValue
+   * @return
+   */
+  public static String takeStringInput(String title, String panelTitle, String initProvidedValue) {
     NumberSelectionDialog2 dialog = new NumberSelectionDialog2();
-    dialog.setTitle(title);
+    dialog.setTitle(panelTitle);
+    dialog.setDialogTitle(title);
 
     if (StringUtils.isNotBlank(initProvidedValue)) {
       dialog.setInitNumber(initProvidedValue);

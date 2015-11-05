@@ -16,7 +16,42 @@ public class ValidateUtil {
     Matcher m = p.matcher(mobileNumber);
 
     return m.matches();
+  }
 
+  /**
+   * Check whether designated text is within certain range.
+   * 
+   * @param text
+   * @param lowerBound
+   * @param upperBound
+   * @return
+   */
+  public static boolean isNumber(String text, int lowerBound, int upperBound) {
+    try {
+      Integer number = Integer.parseInt(text);
+
+      if (number < lowerBound || number > upperBound) {
+        return false;
+      }
+
+      return true;
+    } catch (NumberFormatException nfe) {
+      nfe.printStackTrace();
+      return false;
+    }
+  }
+
+  public static final int DINE_IN_NUMBER_LOWER_BOUND = 1;
+  public static final int DINE_IN_NUMBER_UPPER_BOUND = 999;
+
+  /**
+   * Check whether desigated dine in number is valid.
+   * 
+   * @param text
+   * @return
+   */
+  public static boolean isDineInNumber(String text) {
+    return isNumber(text, DINE_IN_NUMBER_LOWER_BOUND, DINE_IN_NUMBER_UPPER_BOUND);
   }
 
 }

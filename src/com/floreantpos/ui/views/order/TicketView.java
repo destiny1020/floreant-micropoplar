@@ -60,7 +60,6 @@ import com.micropoplar.pos.ui.ITicketTypeSelectionListener;
 import com.micropoplar.pos.ui.TicketTypeButton;
 import com.micropoplar.pos.ui.dialog.CustomerQuickInputDialog;
 import com.micropoplar.pos.util.FontUtil;
-import com.micropoplar.pos.util.PatternChecker;
 import com.micropoplar.pos.util.ValidateUtil;
 
 import net.miginfocom.swing.MigLayout;
@@ -351,6 +350,17 @@ public class TicketView extends JPanel implements ActionListener {
 
     tfDineInNumber = new FixedLengthTextField(3);
     tfDineInNumber.setMaximumSize(new Dimension(60, 25));
+    tfDineInNumber.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        // move focus to parent component to prevent dead loop
+        requestFocus();
+        requireDineInNumber();
+      }
+
+      @Override
+      public void focusLost(FocusEvent e) {}
+    });
 
     scrollerPanel.add(btnTicketTypeDineIn, "cell 0 2,grow");
     scrollerPanel.add(btnTicketTypeTakeOut, "cell 1 2,grow");
@@ -473,10 +483,11 @@ public class TicketView extends JPanel implements ActionListener {
     if (ticket.getTicketType().equals(TicketType.DINE_IN.name())) {
       String dineInNumber = tfDineInNumber.getText();
       if (StringUtils.isNotBlank(dineInNumber)) {
-        if (PatternChecker.isNumber(dineInNumber, 1, 999)) {
+        if (ValidateUtil.isDineInNumber(dineInNumber)) {
           ticket.setDineInNumber(Integer.parseInt(dineInNumber));
         } else {
-          throw new PosException(String.format(POSConstants.ERROR_DINE_IN_NUMBER, 1, 999));
+          throw new PosException(String.format(POSConstants.ERROR_DINE_IN_NUMBER,
+              ValidateUtil.DINE_IN_NUMBER_LOWER_BOUND, ValidateUtil.DINE_IN_NUMBER_UPPER_BOUND));
         }
       }
     }
@@ -768,6 +779,28 @@ public class TicketView extends JPanel implements ActionListener {
 
     scrollerPanel.validate();
     scrollerPanel.repaint(50L);
+  }
+
+  private void requireDineInNumber() {
+    String dineInNumber =
+        NumberSelectionDialog2.takeStringInput(POSConstants.TICKET_INPUT_DINE_IN_NUMBER,
+            String.format(POSConstants.TICKET_INPUT_DINE_IN_NUMBER_HINT,
+                ValidateUtil.DINE_IN_NUMBER_LOWER_BOUND, ValidateUtil.DINE_IN_NUMBER_UPPER_BOUND),
+        tfDineInNumber.getText().trim());
+
+    if (StringUtils.isBlank(dineInNumber)) {
+      return;
+    }
+
+    boolean isValidDineInNumber = ValidateUtil.isDineInNumber(dineInNumber);
+    if (!isValidDineInNumber) {
+      POSMessageDialog.showError(OrderView.getInstance(),
+          String.format(POSConstants.ERROR_DINE_IN_NUMBER, ValidateUtil.DINE_IN_NUMBER_LOWER_BOUND,
+              ValidateUtil.DINE_IN_NUMBER_UPPER_BOUND));
+      requireDineInNumber();
+    } else {
+      tfDineInNumber.setText(dineInNumber);
+    }
   }
 
   private void requireCustomerPhone() {

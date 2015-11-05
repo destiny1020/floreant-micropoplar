@@ -433,6 +433,8 @@ public class POSConstants {
   public static final String TICKET_CUSTOMER_CONFIRMED = Messages.getString("PosMessage.458");
   public static final String TICKET_CUSTOMER_NOT_CONFIRMED = Messages.getString("PosMessage.462");
   public static final String TICKET_INPUT_CUSTOMER_PHONE = Messages.getString("PosMessage.459");
+  public static final String TICKET_INPUT_DINE_IN_NUMBER = Messages.getString("PosMessage.463");
+  public static final String TICKET_INPUT_DINE_IN_NUMBER_HINT = Messages.getString("PosMessage.464");
   
   // Common Editor Properties
   public static final String EDITOR_CATEGORY = Messages.getString("LABEL_CATEGORY");
