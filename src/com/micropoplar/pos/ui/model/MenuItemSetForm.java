@@ -3,15 +3,12 @@ package com.micropoplar.pos.ui.model;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -21,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
@@ -73,20 +69,19 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   private JLabel lblCode;
   private FixedLengthTextField tfCode;
+
   private JLabel lblName;
   private FixedLengthTextField tfName;
+
   private JLabel lblBarcode;
   private FixedLengthTextField tfBarcode;
+
   private JLabel lblPrice;
   private DoubleTextField tfPrice;
+  private JLabel lblPriceHint;
+
   private JCheckBox chkVisible;
 
-  private JLabel lblImage;
-  private JLabel lblImagePreview;
-  private JButton btnImageSelect;
-  private JButton btnImageClear;
-
-  private JCheckBox chkShowTextWithImage;
   private JLabel lblVirtualPrinter;
   private JComboBox<VirtualPrinter> cbVirtualPrinter;
 
@@ -185,12 +180,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     }
 
     chkVisible.setSelected(menuItemSet.isVisible());
-    chkShowTextWithImage.setSelected(menuItemSet.isShowImageOnly());
-    if (menuItemSet.getImage() != null) {
-      ImageIcon imageIcon = new ImageIcon(new ImageIcon(menuItemSet.getImage()).getImage()
-          .getScaledInstance(60, 60, Image.SCALE_SMOOTH));
-      lblImagePreview.setIcon(imageIcon);
-    }
 
     if (menuItemSet.getId() == null) {
       cbGroup.setSelectedIndex(0);
@@ -234,7 +223,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
     menuItem.setPrice(Double.valueOf(tfPrice.getText()));
     menuItem.setVisible(chkVisible.isSelected());
-    menuItem.setShowImageOnly(chkShowTextWithImage.isSelected());
 
     int tabCount = tabbedPane.getTabCount();
     for (int i = 0; i < tabCount; i++) {
@@ -272,7 +260,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       dialog.initSelectedMenuItems(menuItemSetTableModel.getItemSet().getItems());
     }
 
-    dialog.setSize(1024, 768);
+    dialog.setSize(960, 680);
     dialog.open();
 
     if (!dialog.isCanceled()) {
@@ -318,24 +306,12 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tfPrice = new DoubleTextField();
     tfPrice.setHorizontalAlignment(SwingConstants.LEADING);
     tfPrice.setFocusable(false);
+    lblPriceHint = new JLabel(POSConstants.EDITOR_PRICE_HINT);
 
     chkVisible = new JCheckBox();
     chkVisible.setText(POSConstants.EDITOR_VISIBLE);
     chkVisible.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     chkVisible.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
-    lblImage = new JLabel();
-    lblImage.setHorizontalAlignment(SwingConstants.TRAILING);
-    lblImage.setText(POSConstants.EDITOR_IMAGE);
-    lblImagePreview = new JLabel("");
-    lblImagePreview.setHorizontalAlignment(JLabel.CENTER);
-    lblImagePreview.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-    lblImagePreview.setPreferredSize(new Dimension(60, 120));
-    btnImageSelect = new JButton(POSConstants.EDITOR_OMIT);
-    btnImageClear = new JButton(POSConstants.EDITOR_CLEAR);
-
-    chkShowTextWithImage = new JCheckBox(POSConstants.EDITOR_IMAGE_ONLY);
-    chkShowTextWithImage.setActionCommand("Show Text with Image");
 
     lblVirtualPrinter = new JLabel();
     lblVirtualPrinter.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -367,19 +343,13 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     pnlMainEditor.add(cbGroup, "cell 1 3 3 1, growx");
 
     pnlMainEditor.add(lblPrice, "cell 0 4, alignx leading");
-    pnlMainEditor.add(tfPrice, "cell 1 4 3 1, growx");
+    pnlMainEditor.add(tfPrice, "cell 1 4 2 1, growx");
+    pnlMainEditor.add(lblPriceHint, "cell 3 4, growx");
 
-    pnlMainEditor.add(lblImage, "cell 0 5, aligny center");
-    pnlMainEditor.add(lblImagePreview, "cell 1 5, grow");
-    pnlMainEditor.add(btnImageSelect, "cell 2 5");
-    pnlMainEditor.add(btnImageClear, "cell 3 5");
+    pnlMainEditor.add(lblVirtualPrinter, "cell 0 5");
+    pnlMainEditor.add(cbVirtualPrinter, "cell 1 5 3 1, growx");
 
-    pnlMainEditor.add(chkShowTextWithImage, "cell 1 6 3 1");
-
-    pnlMainEditor.add(lblVirtualPrinter, "cell 0 7");
-    pnlMainEditor.add(cbVirtualPrinter, "cell 1 7, growx");
-
-    pnlMainEditor.add(chkVisible, "cell 1 8, alignx left, aligny top");
+    pnlMainEditor.add(chkVisible, "cell 1 6, alignx left, aligny top");
 
     // layout for the details tab
     tabbedPane.addTab(POSConstants.MENU_ITEM_SET_EDITOR_TAB_DETAIL, pnlDetailEditor);
@@ -391,6 +361,39 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tableDetail.setModel(menuItemSetTableModel);
     spDetailTable.setViewportView(tableDetail);
     menuItemSetTableModel.setItemCountEditor();
+
+    // add components into container
+    lblItemDetails = new JLabel();
+    lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
+    lblItemDetails.setText(POSConstants.MENU_ITEM_SET_EDITOR_ITEMS);
+
+    btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
+    btnEditMenuItem.addActionListener(this);
+
+    JPanel pnlButtonGroup = new JPanel();
+    pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
+    pnlButtonGroup.add(btnEditMenuItem, "cell 0 0 3 1");
+
+    lblTotalPrice = new JLabel();
+    lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);
+    lblTotalPrice.setVisible(false);
+
+    pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
+    pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");
+    pnlDetailEditor.add(lblTotalPrice, "cell 0 2, alignx right, aligny center");
+    pnlDetailEditor.add(pnlButtonGroup, "cell 0 3, alignx right, aligny top");
+
+    tabbedPane.addChangeListener(this);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void initData() {
+    MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
+    List<MenuGroup> groups = groupDAO.findAll();
+    cbGroup.setModel(new ComboBoxModel(groups));
+  }
+
+  private void initActions() {
     menuItemSetTableModel.addTableModelListener(new TableModelListener() {
 
       @Override
@@ -432,62 +435,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
         }
       }
     });
-
-    // add components into container
-    lblItemDetails = new JLabel();
-    lblItemDetails.setHorizontalAlignment(SwingConstants.CENTER);
-    lblItemDetails.setText(POSConstants.MENU_ITEM_SET_EDITOR_ITEMS);
-
-    btnEditMenuItem = new JButton(POSConstants.MENU_ITEM_SET_EDITOR_EDIT_ITEM);
-    btnEditMenuItem.addActionListener(this);
-
-    JPanel pnlButtonGroup = new JPanel();
-    pnlButtonGroup.setLayout(new MigLayout("", "[][][]", "[]"));
-    pnlButtonGroup.add(btnEditMenuItem, "cell 0 0 3 1");
-
-    lblTotalPrice = new JLabel();
-    lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);
-    lblTotalPrice.setVisible(false);
-
-    pnlDetailEditor.add(lblItemDetails, "cell 0 0, alignx center, aligny center");
-    pnlDetailEditor.add(spDetailTable, "cell 0 1, growx, aligny top");
-    pnlDetailEditor.add(lblTotalPrice, "cell 0 2, alignx right, aligny center");
-    pnlDetailEditor.add(pnlButtonGroup, "cell 0 3, alignx right, aligny top");
-
-    tabbedPane.addChangeListener(this);
-  }
-
-  @SuppressWarnings("unchecked")
-  private void initData() {
-    MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
-    List<MenuGroup> groups = groupDAO.findAll();
-    cbGroup.setModel(new ComboBoxModel(groups));
-  }
-
-  private void initActions() {
-    btnImageSelect.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doSelectImageFile();
-      }
-    });
-
-    btnImageClear.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doClearImage();
-      }
-    });
-  }
-
-  private void doSelectImageFile() {
-    // TODO Auto-generated method stub
-
-  }
-
-  private void doClearImage() {
-    // TODO Auto-generated method stub
-
   }
 
 }

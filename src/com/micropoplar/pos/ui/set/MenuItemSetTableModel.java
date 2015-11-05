@@ -15,6 +15,7 @@ import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
 
+@SuppressWarnings({"rawtypes", "serial"})
 public class MenuItemSetTableModel extends ListTableModel {
 
   private JTable table;
@@ -30,9 +31,6 @@ public class MenuItemSetTableModel extends ListTableModel {
 
   //TODO: externalize
   protected String[] columnNames = {"商品", "单价", "数量", "小计"};
-
-  private boolean forReciptPrint;
-  private boolean printCookingInstructions;
 
   public MenuItemSetTableModel(JTable table) {
     this(table, null);

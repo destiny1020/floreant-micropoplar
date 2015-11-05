@@ -457,6 +457,7 @@ public class POSConstants {
   public static final String EDITOR_CLEAR = Messages.getString("LABEL_CLEAR");
   public static final String EDITOR_VISIBLE = Messages.getString("LABEL_VISIBLE");
   public static final String EDITOR_PRICE = Messages.getString("LABEL_PRICE");
+  public static final String EDITOR_PRICE_HINT = Messages.getString("LABEL_PRICE_HINT");
   
   // Menu Item Editor
   public static final String MENU_ITEM_EDITOR_GROUP = Messages.getString("LABEL_GROUP");
@@ -465,7 +466,16 @@ public class POSConstants {
   public static final String MENU_ITEM_EDITOR_BUY_PRICE = Messages.getString("LABEL_BUY_PRICE");
   public static final String MENU_ITEM_EDITOR_DISCOUNT_UNIT =
       Messages.getString("LABEL_DISCOUNT_UNIT");
-  
+
+  // Menu Item Explorer
+  public static final String MENU_ITEM_EXPLORER_CODE = Messages.getString("LABEL_CODE");
+  public static final String MENU_ITEM_EXPLORER_NAME = Messages.getString("LABEL_NAME");
+  public static final String MENU_ITEM_EXPLORER_BARCODE = Messages.getString("LABEL_BARCODE");
+  public static final String MENU_ITEM_EXPLORER_PRICE = Messages.getString("LABEL_PRICE");
+  public static final String MENU_ITEM_EXPLORER_GROUP = Messages.getString("LABEL_GROUP");
+  public static final String MENU_ITEM_EXPLORER_CATEGORY = Messages.getString("LABEL_CATEGORY");
+  public static final String MENU_ITEM_EXPLORER_VISIBILITY = Messages.getString("LABEL_VISIBILITY");
+
   // Menu Item Set Editor
   public static final String MENU_ITEM_SET_EDITOR_BARCODE = Messages.getString("LABEL_BARCODE");
   public static final String MENU_ITEM_SET_EDITOR_CODE = Messages.getString("LABEL_CODE");
@@ -484,6 +494,15 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT = Messages.getString("PosMessage.365");
   public static final String MENU_ITEM_SET_EDITOR_CATEGORY_NEEDED = Messages.getString("PosMessage.484");
   public static final String MENU_ITEM_SET_EDITOR_GROUP_NEEDED = Messages.getString("PosMessage.485");
+
+  // Menu Item Set Explorer
+  public static final String MENU_ITEM_SET_EXPLORER_CODE = Messages.getString("LABEL_CODE");
+  public static final String MENU_ITEM_SET_EXPLORER_NAME = Messages.getString("LABEL_NAME");
+  public static final String MENU_ITEM_SET_EXPLORER_BARCODE = Messages.getString("LABEL_BARCODE");
+  public static final String MENU_ITEM_SET_EXPLORER_PRICE = Messages.getString("LABEL_PRICE");
+  public static final String MENU_ITEM_SET_EXPLORER_GROUP = Messages.getString("LABEL_GROUP");
+  public static final String MENU_ITEM_SET_EXPLORER_CATEGORY = Messages.getString("LABEL_CATEGORY");
+  public static final String MENU_ITEM_SET_EXPLORER_VISIBILITY = Messages.getString("LABEL_VISIBILITY");
 
   // Ticket Explorer
   public static final String TICKET_EXPLORER_CHK_PAID = Messages.getString("PosMessage.369");

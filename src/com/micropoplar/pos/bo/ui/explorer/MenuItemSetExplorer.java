@@ -16,7 +16,6 @@ import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.bo.ui.explorer.ExplorerButtonPanel;
 import com.floreantpos.bo.ui.explorer.ListTableModel;
-import com.floreantpos.main.Application;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.PosTableRenderer;
 import com.floreantpos.ui.dialog.BeanEditorDialog;
@@ -38,11 +37,8 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
   private JTable table;
   private MenuItemSetExplorerTableModel tableModel;
-  private String currencySymbol;
 
   public MenuItemSetExplorer() {
-    currencySymbol = Application.getCurrencySymbol();
-
     MenuItemSetDAO dao = new MenuItemSetDAO();
     itemSetList = dao.findAll();
 
@@ -160,10 +156,18 @@ public class MenuItemSetExplorer extends TransparentPanel {
      * 
      */
     private static final long serialVersionUID = 1L;
-    private String[] columnNames =
-        {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
-            com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")",
-            com.floreantpos.POSConstants.VISIBLE};
+
+    // @formatter:off
+    private String[] columnNames =  {
+        POSConstants.MENU_ITEM_SET_EXPLORER_CODE,
+        POSConstants.MENU_ITEM_SET_EXPLORER_NAME,
+        POSConstants.MENU_ITEM_SET_EXPLORER_BARCODE, 
+        POSConstants.MENU_ITEM_SET_EXPLORER_PRICE,
+        POSConstants.MENU_ITEM_SET_EXPLORER_GROUP,
+        POSConstants.MENU_ITEM_SET_EXPLORER_CATEGORY,
+        POSConstants.MENU_ITEM_SET_EXPLORER_VISIBILITY
+    };
+    // @formatter:on
 
     MenuItemSetExplorerTableModel() {
       setColumnNames(columnNames);
@@ -171,20 +175,35 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-      MenuItemSet itemSet = rows.get(rowIndex);
+      MenuItemSet item = rows.get(rowIndex);
 
       switch (columnIndex) {
         case 0:
-          return String.valueOf(itemSet.getId());
+          return item.getCode();
 
         case 1:
-          return itemSet.getName();
+          return item.getName();
 
         case 2:
-          return Double.valueOf(itemSet.getPrice());
+          return item.getBarcode();
 
         case 3:
-          return itemSet.isVisible();
+          return String.valueOf(item.getPrice());
+
+        case 4:
+          if (item.getGroup() != null) {
+            return item.getGroup().getName();
+          }
+          return "";
+
+        case 5:
+          if (item.getGroup() != null && item.getGroup().getCategory() != null) {
+            return item.getGroup().getCategory().getName();
+          }
+          return "";
+
+        case 6:
+          return item.isVisible();
       }
 
       return null;

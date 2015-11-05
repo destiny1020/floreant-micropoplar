@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.floreantpos.model.MenuItem;
+import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 
@@ -108,7 +109,8 @@ public class BaseMenuItemSet extends MenuItem implements Serializable {
         totalAmount += itemCount * unitPrice;
       }
     }
-    return totalAmount;
+
+    return NumberUtil.roundToTwoDigit(totalAmount);
   }
 
 }

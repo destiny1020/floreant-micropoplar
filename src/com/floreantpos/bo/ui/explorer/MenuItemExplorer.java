@@ -14,7 +14,6 @@ import javax.swing.ListSelectionModel;
 
 import com.floreantpos.bo.ui.BOMessageDialog;
 import com.floreantpos.bo.ui.BackOfficeWindow;
-import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.swing.TransparentPanel;
@@ -25,15 +24,17 @@ import com.floreantpos.ui.model.MenuItemForm;
 import com.micropoplar.pos.ui.model.MenuItemExplorerTableModel;
 
 public class MenuItemExplorer extends TransparentPanel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private List<MenuItem> itemList;
 
   private JTable table;
   private MenuItemExplorerTableModel tableModel;
-  private String currencySymbol;
 
   public MenuItemExplorer() {
-    currencySymbol = Application.getCurrencySymbol();
-
     MenuItemDAO dao = new MenuItemDAO();
     itemList = dao.findAll();
 
@@ -51,6 +52,7 @@ public class MenuItemExplorer extends TransparentPanel {
     JButton deleteButton = explorerButton.getDeleteButton();
 
     editButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -84,6 +86,7 @@ public class MenuItemExplorer extends TransparentPanel {
     });
 
     addButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           MenuItemForm editor = new MenuItemForm();
@@ -92,7 +95,7 @@ public class MenuItemExplorer extends TransparentPanel {
           dialog.open();
           if (dialog.isCanceled())
             return;
-          MenuItem foodItem = (MenuItem) editor.getBean();
+          MenuItem foodItem = editor.getBean();
           tableModel.addMenuItem(foodItem);
         } catch (Throwable x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
@@ -102,6 +105,7 @@ public class MenuItemExplorer extends TransparentPanel {
     });
 
     deleteButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();

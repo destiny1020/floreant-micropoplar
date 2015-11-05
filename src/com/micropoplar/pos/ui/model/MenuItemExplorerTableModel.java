@@ -2,8 +2,8 @@ package com.micropoplar.pos.ui.model;
 
 import java.util.List;
 
+import com.floreantpos.POSConstants;
 import com.floreantpos.bo.ui.explorer.ListTableModel;
-import com.floreantpos.main.Application;
 import com.floreantpos.model.MenuItem;
 import com.micropoplar.pos.model.SetItem;
 
@@ -14,39 +14,57 @@ public class MenuItemExplorerTableModel extends ListTableModel<MenuItem> {
   private static final long serialVersionUID = 1L;
 
   private List<SetItem> items;
-  private String[] columnNames =
-      {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
-          com.floreantpos.POSConstants.PRICE + " (" + Application.getCurrencySymbol() + ")",
-          com.floreantpos.POSConstants.VISIBLE, com.floreantpos.POSConstants.FOOD_GROUP};
+
+  // @formatter:off
+  private String[] columnNames =  {
+      POSConstants.MENU_ITEM_EXPLORER_CODE,
+      POSConstants.MENU_ITEM_EXPLORER_NAME,
+      POSConstants.MENU_ITEM_EXPLORER_BARCODE, 
+      POSConstants.MENU_ITEM_EXPLORER_PRICE,
+      POSConstants.MENU_ITEM_EXPLORER_GROUP,
+      POSConstants.MENU_ITEM_EXPLORER_CATEGORY,
+      POSConstants.MENU_ITEM_EXPLORER_VISIBILITY
+  };
+  // @formatter:on
 
   public MenuItemExplorerTableModel() {
     setColumnNames(columnNames);
   }
 
+  @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
-    MenuItem item = (MenuItem) rows.get(rowIndex);
+    MenuItem item = rows.get(rowIndex);
 
     switch (columnIndex) {
       case 0:
-        return String.valueOf(item.getId());
+        return item.getCode();
 
       case 1:
         return item.getName();
 
       case 2:
-        return Double.valueOf(item.getPrice());
+        return item.getBarcode();
 
       case 3:
-        return item.isVisible();
+        return String.valueOf(item.getPrice());
 
       case 4:
+        if (item.getGroup() != null) {
+          return item.getGroup().getName();
+        }
+        return "";
+
+      case 5:
         if (item.getGroup() != null && item.getGroup().getCategory() != null) {
           return item.getGroup().getCategory().getName();
         }
         return "";
 
+      case 6:
+        return item.isVisible();
     }
-    return null;
+
+    return "";
   }
 
   public void addMenuItem(MenuItem menuItem) {

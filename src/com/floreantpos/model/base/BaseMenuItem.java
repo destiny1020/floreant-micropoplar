@@ -26,10 +26,10 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
 
   public static String REF = "MenuItem";
   public static String PROP_ID = "id";
-  public static String PROP_GROUP = "group";
   public static String PROP_CODE = "code";
-  public static String PROP_BARCODE = "barcode";
   public static String PROP_NAME = "name";
+  public static String PROP_BARCODE = "barcode";
+  public static String PROP_GROUP = "group";
   public static String PROP_UNIT_NAME = "unitName";
   public static String PROP_VISIBLE = "visible";
   public static String PROP_PRICE = "price";
@@ -84,6 +84,7 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
   private Boolean isSet = false;
   private List<SetItem> items;
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -98,6 +99,7 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -110,6 +112,7 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(BaseMenuItem obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -119,6 +122,7 @@ public abstract class BaseMenuItem implements Comparable<BaseMenuItem>, Serializ
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }
