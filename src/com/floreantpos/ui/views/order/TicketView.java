@@ -247,7 +247,7 @@ public class TicketView extends JPanel implements ActionListener {
     controlPanel.add(btnPay, "cell 0 0 2 1,grow");
 
     btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cancel_32.png")));
-    btnCancel.setText(com.floreantpos.POSConstants.TICKET_VIEW_CANCEL_BTN);
+    btnCancel.setText(com.floreantpos.POSConstants.TICKET_VIEW_RETURN_BTN);
     btnCancel.setPreferredSize(new java.awt.Dimension(76, 45));
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
       @Override
@@ -264,7 +264,7 @@ public class TicketView extends JPanel implements ActionListener {
     btnSuspend.addActionListener(new java.awt.event.ActionListener() {
       @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        doFinishOrder(evt);
+        doSuspendOrder(evt);
       }
     });
     controlPanel.add(btnSuspend, "cell 1 1,grow");
@@ -434,15 +434,10 @@ public class TicketView extends JPanel implements ActionListener {
     }
   }
 
-  private synchronized void doFinishOrder(java.awt.event.ActionEvent evt) {
+  private synchronized void doSuspendOrder(java.awt.event.ActionEvent evt) {
     try {
 
       updateModel();
-
-      if (ticket.getType() != TicketType.TAKE_OUT) {
-        OrderController.saveOrder(ticket);
-      }
-
       if (ticket.needsKitchenPrint()) {
         JReportPrintService.printTicketToKitchen(ticket);
       }
@@ -450,10 +445,13 @@ public class TicketView extends JPanel implements ActionListener {
       ticket.clearDeletedItems();
       OrderController.saveOrder(ticket);
 
-      RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
+      // not to return to the switchboard view, just generate new ticket
+      ticket = SwitchboardView.getInstance().prepareNewTicket(TicketType.TAKE_OUT);
+      OrderView.getInstance().setCurrentTicket(ticket);
+      //      RootView.getInstance().showView(SwitchboardView.VIEW_NAME);
 
       // remove the current ticket in customer ticket view
-      CustomerView.getInstance().getCustomerTicketView().setTicket(null);
+      CustomerView.getInstance().getCustomerTicketView().setTicket(ticket);
 
     } catch (StaleObjectStateException e) {
       POSMessageDialog.showError("当前订单似乎已经被其他人员或者终端修改, 修改失败.");

@@ -438,7 +438,7 @@ public class POSConstants {
   public static final String TICKET_OTHERS_VIEW_ENABLE_SCAN = Messages.getString("PosMessage.477");
   public static final String TICKET_OTHERS_VIEW_ENABLED_SCAN = Messages.getString("PosMessage.478");
   public static final String TICKET_VIEW_SUSPEND_BTN = Messages.getString("PosMessage.479");
-  public static final String TICKET_VIEW_CANCEL_BTN = Messages.getString("PosMessage.208");
+  public static final String TICKET_VIEW_RETURN_BTN = Messages.getString("PosMessage.482");
   public static final String TICKET_VIEW_CANCEL_CONFIRM_MSG = Messages.getString("PosMessage.480");
   public static final String TICKET_VIEW_CANCEL_CONFIRM_TITLE = Messages.getString("PosMessage.481");
   
