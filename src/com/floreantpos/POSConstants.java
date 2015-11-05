@@ -456,6 +456,7 @@ public class POSConstants {
   public static final String EDITOR_OMIT = Messages.getString("LABEL_OMIT");
   public static final String EDITOR_CLEAR = Messages.getString("LABEL_CLEAR");
   public static final String EDITOR_VISIBLE = Messages.getString("LABEL_VISIBLE");
+  public static final String EDITOR_PRICE = Messages.getString("LABEL_PRICE");
   
   // Menu Item Editor
   public static final String MENU_ITEM_EDITOR_GROUP = Messages.getString("LABEL_GROUP");
