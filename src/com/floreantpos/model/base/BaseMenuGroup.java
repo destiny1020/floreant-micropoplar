@@ -163,6 +163,7 @@ public abstract class BaseMenuGroup implements Comparable<BaseMenuGroup>, Serial
 
 
 
+  @Override
   public boolean equals(Object obj) {
     if (null == obj)
       return false;
@@ -177,6 +178,7 @@ public abstract class BaseMenuGroup implements Comparable<BaseMenuGroup>, Serial
     }
   }
 
+  @Override
   public int hashCode() {
     if (Integer.MIN_VALUE == this.hashCode) {
       if (null == this.getId())
@@ -189,6 +191,7 @@ public abstract class BaseMenuGroup implements Comparable<BaseMenuGroup>, Serial
     return this.hashCode;
   }
 
+  @Override
   public int compareTo(BaseMenuGroup obj) {
     if (obj.hashCode() > hashCode())
       return 1;
@@ -198,6 +201,7 @@ public abstract class BaseMenuGroup implements Comparable<BaseMenuGroup>, Serial
       return 0;
   }
 
+  @Override
   public String toString() {
     return super.toString();
   }

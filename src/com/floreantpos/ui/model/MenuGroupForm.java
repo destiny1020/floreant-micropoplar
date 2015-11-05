@@ -9,6 +9,9 @@ package com.floreantpos.ui.model;
 import java.awt.Frame;
 import java.util.List;
 
+import com.floreantpos.POSConstants;
+import com.floreantpos.bo.ui.BOMessageDialog;
+import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.model.MenuCategory;
 import com.floreantpos.model.MenuGroup;
 import com.floreantpos.model.dao.MenuCategoryDAO;
@@ -24,13 +27,19 @@ import com.floreantpos.util.POSUtil;
  *
  * @author MShahriar
  */
-public class MenuGroupForm extends BeanEditor {
+public class MenuGroupForm extends BeanEditor<MenuGroup> {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /** Creates new form FoodGroupEditor */
   public MenuGroupForm() {
     this(new MenuGroup());
   }
 
+  @SuppressWarnings("unchecked")
   public MenuGroupForm(MenuGroup foodGroup) {
     initComponents();
 
@@ -49,23 +58,24 @@ public class MenuGroupForm extends BeanEditor {
    */
   // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
   private void initComponents() {
-    jLabel1 = new javax.swing.JLabel();
+    lblName = new javax.swing.JLabel();
     tfName = new com.floreantpos.swing.FixedLengthTextField();
-    jLabel2 = new javax.swing.JLabel();
+    lblCategory = new javax.swing.JLabel();
     cbCategory = new javax.swing.JComboBox<>();
     chkVisible = new javax.swing.JCheckBox();
     btnNewCategory = new javax.swing.JButton();
 
-    jLabel1.setText(com.floreantpos.POSConstants.NAME + ":");
+    lblName.setText(POSConstants.NAME + POSConstants.COLON);
+    lblCategory.setText(POSConstants.CATEGORY + POSConstants.COLON);
 
-    jLabel2.setText(com.floreantpos.POSConstants.CATEGORY + ":");
-
-    chkVisible.setText(com.floreantpos.POSConstants.VISIBLE);
+    chkVisible.setText(POSConstants.VISIBLE);
     chkVisible.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
     chkVisible.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    chkVisible.setSelected(true);
 
     btnNewCategory.setText("...");
     btnNewCategory.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doNewCategory(evt);
       }
@@ -79,7 +89,7 @@ public class MenuGroupForm extends BeanEditor {
                 .add(
                     layout.createSequentialGroup().addContainerGap()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel2).add(jLabel1))
+                            .add(lblCategory).add(lblName))
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(tfName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 295,
@@ -91,13 +101,14 @@ public class MenuGroupForm extends BeanEditor {
                         .addContainerGap()));
     layout.setVerticalGroup(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
         .add(layout.createSequentialGroup().addContainerGap()
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(jLabel1)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(lblName)
                 .add(tfName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(jLabel2)
-                .add(btnNewCategory).add(cbCategory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(lblCategory).add(btnNewCategory).add(cbCategory,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(chkVisible)
@@ -110,7 +121,7 @@ public class MenuGroupForm extends BeanEditor {
       BeanEditorDialog dialog = new BeanEditorDialog(editor, new Frame(), true);
       dialog.open();
       if (!dialog.isCanceled()) {
-        MenuCategory foodCategory = (MenuCategory) editor.getBean();
+        MenuCategory foodCategory = editor.getBean();
         ComboBoxModel model = (ComboBoxModel) cbCategory.getModel();
         model.addElement(foodCategory);
         model.setSelectedItem(foodCategory);
@@ -125,8 +136,8 @@ public class MenuGroupForm extends BeanEditor {
   private javax.swing.JButton btnNewCategory;
   private javax.swing.JComboBox<MenuCategory> cbCategory;
   private javax.swing.JCheckBox chkVisible;
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel2;
+  private javax.swing.JLabel lblName;
+  private javax.swing.JLabel lblCategory;
   private com.floreantpos.swing.FixedLengthTextField tfName;
 
   // End of variables declaration//GEN-END:variables
@@ -135,7 +146,7 @@ public class MenuGroupForm extends BeanEditor {
     if (!updateModel())
       return false;
 
-    MenuGroup foodGroup = (MenuGroup) getBean();
+    MenuGroup foodGroup = getBean();
 
     try {
       MenuGroupDAO foodGroupDAO = new MenuGroupDAO();
@@ -149,7 +160,7 @@ public class MenuGroupForm extends BeanEditor {
 
   @Override
   protected void updateView() {
-    MenuGroup foodGroup = (MenuGroup) getBean();
+    MenuGroup foodGroup = getBean();
     if (foodGroup == null) {
       tfName.setText("");
       cbCategory.setSelectedItem(null);
@@ -162,24 +173,30 @@ public class MenuGroupForm extends BeanEditor {
     if (foodGroup.getCategory() != null) {
       cbCategory.setSelectedItem(foodGroup.getCategory());
     }
+
+    if (foodGroup.getId() == null) {
+      chkVisible.setSelected(true);
+    } else {
+      chkVisible.setSelected(foodGroup.isVisible());
+    }
   }
 
   @Override
   protected boolean updateModel() {
-    MenuGroup foodGroup = (MenuGroup) getBean();
+    MenuGroup foodGroup = getBean();
     if (foodGroup == null) {
       return false;
     }
 
     String name = tfName.getText();
     if (POSUtil.isBlankOrNull(name)) {
-      MessageDialog.showError(this, "需要二级类目名称");
+      BOMessageDialog.showError(BackOfficeWindow.getInstance(), "需要二级类目名称");
       return false;
     }
 
     MenuCategory category = (MenuCategory) cbCategory.getSelectedItem();
     if (category == null) {
-      MessageDialog.showError(this, "需要关联一级类目");
+      BOMessageDialog.showError(BackOfficeWindow.getInstance(), "需要关联一级类目");
       return false;
     }
 
@@ -191,8 +208,9 @@ public class MenuGroupForm extends BeanEditor {
     return true;
   }
 
+  @Override
   public String getDisplayText() {
-    MenuGroup foodGroup = (MenuGroup) getBean();
+    MenuGroup foodGroup = getBean();
     if (foodGroup.getId() == null) {
       return "新建二级类目";
     }

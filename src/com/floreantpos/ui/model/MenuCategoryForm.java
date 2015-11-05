@@ -17,7 +17,12 @@ import com.floreantpos.util.POSUtil;
  *
  * @author MShahriar
  */
-public class MenuCategoryForm extends BeanEditor {
+public class MenuCategoryForm extends BeanEditor<MenuCategory> {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   /** Creates new form CategoryBeanEditor */
   public MenuCategoryForm() throws Exception {
@@ -31,8 +36,9 @@ public class MenuCategoryForm extends BeanEditor {
     setBean(category);
   }
 
+  @Override
   public String getDisplayText() {
-    MenuCategory foodCategory = (MenuCategory) getBean();
+    MenuCategory foodCategory = getBean();
     if (foodCategory.getId() == null) {
       return com.floreantpos.POSConstants.NEW_MENU_CATEGORY;
     }
@@ -85,8 +91,9 @@ public class MenuCategoryForm extends BeanEditor {
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
   }// </editor-fold>//GEN-END:initComponents
 
+  @Override
   protected void updateView() {
-    MenuCategory foodCategory = (MenuCategory) getBean();
+    MenuCategory foodCategory = getBean();
     if (foodCategory == null) {
       tfName.setText("");
       chkVisible.setSelected(false);
@@ -101,8 +108,9 @@ public class MenuCategoryForm extends BeanEditor {
     }
   }
 
+  @Override
   protected boolean updateModel() {
-    MenuCategory foodCategory = (MenuCategory) getBean();
+    MenuCategory foodCategory = getBean();
     if (foodCategory == null) {
       return false;
     }
@@ -134,7 +142,7 @@ public class MenuCategoryForm extends BeanEditor {
       if (!updateModel())
         return false;
 
-      MenuCategory foodCategory = (MenuCategory) getBean();
+      MenuCategory foodCategory = getBean();
       MenuCategoryDAO foodCategoryDAO = new MenuCategoryDAO();
       foodCategoryDAO.saveOrUpdate(foodCategory);
       return true;

@@ -53,7 +53,7 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author MShahriar
  */
-public class MenuItemForm extends BeanEditor<MenuItem> implements ChangeListener {
+public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener {
   /**
    * 
    */
@@ -142,6 +142,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ChangeListener
     });
   }
 
+  @SuppressWarnings("unchecked")
   private void initData() {
     MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
     List<MenuGroup> groups = groupDAO.findAll();
@@ -192,7 +193,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ChangeListener
     lblPrice.setHorizontalAlignment(SwingConstants.TRAILING);
     tfPrice = new DoubleTextField();
     tfPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-    pnlMainEditor.add(lblPrice, "cell 0 4, growx, aligny top");
+    pnlMainEditor.add(lblPrice, "cell 0 4, alignx left, aligny center");
     pnlMainEditor.add(tfPrice, "cell 1 4, growx, aligny top");
 
     lblKitchenPrinter = new JLabel(POSConstants.EDITOR_V_PRINTER);
@@ -218,7 +219,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ChangeListener
     BeanEditorDialog dialog = new BeanEditorDialog(editor, getParentFrame(), true);
     dialog.open();
     if (!dialog.isCanceled()) {
-      MenuGroup foodGroup = (MenuGroup) editor.getBean();
+      MenuGroup foodGroup = editor.getBean();
       ComboBoxModel model = (ComboBoxModel) cbGroup.getModel();
       model.addElement(foodGroup);
       model.setSelectedItem(foodGroup);
