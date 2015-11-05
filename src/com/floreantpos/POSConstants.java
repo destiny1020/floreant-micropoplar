@@ -705,6 +705,8 @@ public class POSConstants {
   public static final String CUSTOMER_FORM_EMAIL = Messages.getString("PosMessage.424");
   public static final String CUSTOMER_FORM_ADDRESS = Messages.getString("PosMessage.425");
   public static final String CUSTOMER_FORM_NOTE = Messages.getString("PosMessage.426");
+  public static final String CUSTOMER_FORM_ADD_MODE = Messages.getString("PosMessage.473");
+  public static final String CUSTOMER_FORM_EDIT_MODE = Messages.getString("PosMessage.474");
 
   // CUSTOMER QUICK INPUT DLG
   public static final String CUSTOMER_QUICK_DLG_TITLE = Messages.getString("PosMessage.449");

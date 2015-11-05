@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingx.plaf.basic.CalendarHeaderHandler;
+import org.jdesktop.swingx.plaf.basic.SpinningCalendarHeaderHandler;
 
 import com.floreantpos.Messages;
 import com.floreantpos.POSConstants;
@@ -43,7 +45,6 @@ import com.floreantpos.util.DatabaseUtil;
 import com.floreantpos.util.POSUtil;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
-import com.lowagie.text.FontFactory;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
@@ -134,6 +135,11 @@ public class Application {
       UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
       // UIManager.setLookAndFeel(new NimbusLookAndFeel());
       UIManager.put("ComboBox.is3DEnabled", Boolean.FALSE); //$NON-NLS-1$
+
+      // for the DatePicker
+      UIManager.put(CalendarHeaderHandler.uiControllerID,
+          "org.jdesktop.swingx.plaf.basic.SpinningCalendarHeaderHandler");
+      UIManager.put(SpinningCalendarHeaderHandler.ARROWS_SURROUND_MONTH, Boolean.TRUE);
     } catch (Exception ignored) {
       ignored.printStackTrace();
     }

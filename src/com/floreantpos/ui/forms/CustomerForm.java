@@ -98,6 +98,13 @@ public class CustomerForm extends BeanEditor<Customer> {
     add(lblName, "gap para");
     add(tfName, "span, growx, wrap");
 
+    lblDob = new JLabel(POSConstants.CUSTOMER_FORM_DOB + POSConstants.COLON);
+    dpDob = new JXDatePicker();
+    dpDob.getMonthView().setZoomable(true);
+    dpDob.setFormats(new String[] {"yyyy-MM-dd"});
+    add(lblDob, "gap para");
+    add(dpDob, "span, wrap");
+
     lblEmail = new JLabel(POSConstants.CUSTOMER_FORM_EMAIL + POSConstants.COLON);
     tfEmail = new JTextField();
     add(lblEmail, "gap para");
@@ -167,7 +174,7 @@ public class CustomerForm extends BeanEditor<Customer> {
 
   @Override
   protected boolean updateModel() throws IllegalModelStateException {
-    String phoneString = tfPhone.getText();
+    String phoneString = tfPhone.getText().trim();
 
     if (StringUtils.isEmpty(phoneString)) {
       POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_PROVIDED);
@@ -202,8 +209,8 @@ public class CustomerForm extends BeanEditor<Customer> {
   @Override
   public String getDisplayText() {
     if (editMode) {
-      return "编辑会员";
+      return POSConstants.CUSTOMER_FORM_EDIT_MODE;
     }
-    return "创建会员";
+    return POSConstants.CUSTOMER_FORM_ADD_MODE;
   }
 }
