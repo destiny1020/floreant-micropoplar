@@ -60,11 +60,11 @@ public class BaseCompaign {
   private String description;
   private Boolean enabled = true;
   private Boolean exclusive;
-  private Integer priority;
+  private Integer priority = 5;
   private Boolean repeatable;
   private Boolean global;
   private Boolean perTicket;
-  private Boolean membership;
+  private Boolean membership = true;
 
   // collections
   private Set<MenuCategory> categories;

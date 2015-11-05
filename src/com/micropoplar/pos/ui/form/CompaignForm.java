@@ -12,10 +12,17 @@ public class CompaignForm extends BeanEditor<Compaign> {
    */
   private static final long serialVersionUID = 1L;
 
-  private boolean addMode;
+  public CompaignForm() {
+    this(new Compaign());
+  }
 
-  public CompaignForm(boolean addMode) {
-    this.addMode = addMode;
+  public CompaignForm(Compaign compaign) {
+    initComponents();
+  }
+
+  private void initComponents() {
+    // TODO Auto-generated method stub
+
   }
 
   @Override
@@ -38,16 +45,8 @@ public class CompaignForm extends BeanEditor<Compaign> {
 
   @Override
   public String getDisplayText() {
-    return addMode ? POSConstants.COMPAIGN_FORM_TITLE_ADD_MODE
+    return editMode ? POSConstants.COMPAIGN_FORM_TITLE_ADD_MODE
         : POSConstants.COMPAIGN_FORM_TITLE_EDIT_MODE;
-  }
-
-  public boolean isAddMode() {
-    return addMode;
-  }
-
-  public void setAddMode(boolean addMode) {
-    this.addMode = addMode;
   }
 
 }

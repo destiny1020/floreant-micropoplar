@@ -226,6 +226,7 @@ public class CustomerExplorer extends TransparentPanel {
 
           CustomerForm editor = new CustomerForm();
           editor.setBean(customer);
+          editor.setEditMode(true);
           BeanEditorDialog dialog =
               new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
           dialog.open();

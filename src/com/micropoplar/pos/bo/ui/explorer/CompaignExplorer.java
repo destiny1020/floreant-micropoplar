@@ -61,7 +61,7 @@ public class CompaignExplorer extends TransparentPanel {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          CompaignForm editor = new CompaignForm(true);
+          CompaignForm editor = new CompaignForm();
           BeanEditorDialog dialog =
               new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
           dialog.open();
@@ -87,8 +87,9 @@ public class CompaignExplorer extends TransparentPanel {
             return;
 
           Compaign compaign = compaigns.get(index);
-          CompaignForm editor = new CompaignForm(false);
+          CompaignForm editor = new CompaignForm();
           editor.setBean(compaign);
+          editor.setEditMode(true);
           BeanEditorDialog dialog =
               new BeanEditorDialog(editor, BackOfficeWindow.getInstance(), true);
           dialog.open();
