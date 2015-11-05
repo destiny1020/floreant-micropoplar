@@ -57,7 +57,7 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author MShahriar
  */
-public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener {
+public class MenuItemForm extends BeanEditor<MenuItem> implements ChangeListener {
   /**
    * 
    */
@@ -90,7 +90,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
             new ImageIcon(itemImage).getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
         lblImagePreview.setIcon(imageIcon);
 
-        MenuItem menuItem = (MenuItem) getBean();
+        MenuItem menuItem = getBean();
         menuItem.setImage(itemImage);
 
       } catch (IOException e) {
@@ -100,7 +100,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
   }
 
   protected void doClearImage() {
-    MenuItem menuItem = (MenuItem) getBean();
+    MenuItem menuItem = getBean();
     menuItem.setImage(null);
     lblImagePreview.setIcon(null);
   }
@@ -138,6 +138,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
 
     JButton btnSelectImage = new JButton(POSConstants.EDITOR_OMIT);
     btnSelectImage.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSelectImageFile();
       }
@@ -146,6 +147,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
 
     btnClearImage = new JButton(POSConstants.EDITOR_CLEAR);
     btnClearImage.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doClearImage();
       }
@@ -210,6 +212,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
 
     btnNewGroup.setText(POSConstants.EDITOR_OMIT);
     btnNewGroup.addActionListener(new java.awt.event.ActionListener() {
+      @Override
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         doCreateNewGroup(evt);
       }
@@ -264,8 +267,8 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
       if (!updateModel())
         return false;
 
-      MenuItem menuItem = (MenuItem) getBean();
-      MenuItemDAO menuItemDAO = new MenuItemDAO();
+      MenuItem menuItem = getBean();
+      MenuItemDAO menuItemDAO = MenuItemDAO.getInstance();
       menuItemDAO.saveOrUpdate(menuItem);
     } catch (Exception e) {
       MessageDialog.showError(this, com.floreantpos.POSConstants.ERROR_MESSAGE, e);
@@ -337,8 +340,9 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
     return true;
   }
 
+  @Override
   public String getDisplayText() {
-    MenuItem foodItem = (MenuItem) getBean();
+    MenuItem foodItem = getBean();
     if (foodItem.getId() == null) {
       return com.floreantpos.POSConstants.NEW_MENU_ITEM;
     }
@@ -354,7 +358,7 @@ public class MenuItemForm extends BeanEditor<MenuItem>implements ChangeListener 
 
     IUpdatebleView view = (IUpdatebleView) selectedComponent;
 
-    MenuItem menuItem = (MenuItem) getBean();
+    MenuItem menuItem = getBean();
     view.initView(menuItem);
   }
 

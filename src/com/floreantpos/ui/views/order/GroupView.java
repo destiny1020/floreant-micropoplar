@@ -25,6 +25,11 @@ import com.floreantpos.ui.views.order.actions.GroupSelectionListener;
  * @author MShahriar
  */
 public class GroupView extends SelectionView {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   private Vector<GroupSelectionListener> listenerList = new Vector<GroupSelectionListener>();
 
   private MenuCategory menuCategory;
@@ -105,6 +110,11 @@ public class GroupView extends SelectionView {
 
 
   private class GroupButton extends PosButton implements ActionListener {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     MenuGroup foodGroup;
 
     GroupButton(MenuGroup foodGroup) {
@@ -114,6 +124,7 @@ public class GroupView extends SelectionView {
       addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       fireGroupSelected(foodGroup);
     }

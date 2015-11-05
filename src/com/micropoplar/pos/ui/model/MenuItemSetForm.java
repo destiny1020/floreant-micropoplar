@@ -7,9 +7,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -21,7 +18,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -36,11 +32,10 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import com.floreantpos.POSConstants;
-import com.floreantpos.model.MenuCategory;
+import com.floreantpos.bo.ui.BOMessageDialog;
+import com.floreantpos.bo.ui.BackOfficeWindow;
 import com.floreantpos.model.MenuGroup;
-import com.floreantpos.model.MenuItemShift;
 import com.floreantpos.model.VirtualPrinter;
-import com.floreantpos.model.dao.MenuCategoryDAO;
 import com.floreantpos.model.dao.MenuGroupDAO;
 import com.floreantpos.model.dao.VirtualPrinterDAO;
 import com.floreantpos.model.util.IllegalModelStateException;
@@ -51,15 +46,11 @@ import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.IUpdatebleView;
 import com.floreantpos.swing.MessageDialog;
 import com.floreantpos.ui.BeanEditor;
-import com.floreantpos.ui.model.MenuItemShiftDialog;
-import com.floreantpos.ui.model.ShiftTableModel;
-import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.bo.ui.dialog.MenuItemDialog;
 import com.micropoplar.pos.model.MenuItemSet;
 import com.micropoplar.pos.model.SetItem;
 import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.ui.set.MenuItemSetTableModel;
-import com.micropoplar.pos.ui.util.ControllerGenerator;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -72,12 +63,10 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   // data
   private MenuItemSet menuItemSet;
-  private ShiftTableModel shiftTableModel;
   private MenuItemSetTableModel menuItemSetTableModel;
 
   // components --- under general tab
   private JTabbedPane tabbedPane;
-  private JTable shiftTable;
 
   private JPanel pnlMainEditor;
   private JPanel pnlDetailEditor;
@@ -90,10 +79,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private FixedLengthTextField tfBarcode;
   private JLabel lblPrice;
   private DoubleTextField tfPrice;
-  private JLabel lblDiscountRate;
-  private JSpinner spinDiscountRate;
-  private JLabel lblMemberPrice;
-  private DoubleTextField tfMemberPrice;
   private JCheckBox chkVisible;
 
   private JLabel lblImage;
@@ -105,8 +90,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private JLabel lblVirtualPrinter;
   private JComboBox<VirtualPrinter> cbVirtualPrinter;
 
-  private JLabel lblCategory;
-  private JComboBox<MenuCategory> cbCategory;
   private JLabel lblGroup;
   private JComboBox<MenuGroup> cbGroup;
 
@@ -136,6 +119,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     setBean(menuItemSet);
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public void stateChanged(ChangeEvent e) {
     Component selectedComponent = tabbedPane.getSelectedComponent();
@@ -145,7 +129,7 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
     IUpdatebleView view = (IUpdatebleView) selectedComponent;
 
-    MenuItemSet menuItem = (MenuItemSet) getBean();
+    MenuItemSet menuItem = getBean();
     view.initView(menuItem);
   }
 
@@ -167,9 +151,8 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
       if (!updateModel())
         return false;
 
-      MenuItemSet menuItemSet = (MenuItemSet) getBean();
-      MenuItemSetDAO menuItemSetDAO = new MenuItemSetDAO();
-      menuItemSet = menuItemSetDAO.initialize(menuItemSet);
+      MenuItemSet menuItemSet = getBean();
+      MenuItemSetDAO menuItemSetDAO = MenuItemSetDAO.getInstance();
       menuItemSetDAO.saveOrUpdate(menuItemSet);
     } catch (Exception e) {
       MessageDialog.showError(this, POSConstants.ERROR_MESSAGE, e);
@@ -221,38 +204,33 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     menuItemSetTableModel.setMenuItemSet(menuItemSet);
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   protected boolean updateModel() throws IllegalModelStateException {
     String code = tfCode.getText();
     if (StringUtils.isBlank(code)) {
-      MessageDialog.showError(this, POSConstants.ERROR_CODE_REQUIRED);
+      BOMessageDialog.showError(BackOfficeWindow.getInstance(), POSConstants.ERROR_CODE_REQUIRED);
       return false;
     }
 
     String itemName = tfName.getText();
     if (StringUtils.isBlank(itemName)) {
-      MessageDialog.showError(this, POSConstants.NAME_REQUIRED);
+      BOMessageDialog.showError(BackOfficeWindow.getInstance(), POSConstants.NAME_REQUIRED);
       return false;
     }
 
-    // check member price and total price
-    String totalPrice = tfPrice.getText();
-    String memberPrice = tfMemberPrice.getText();
-    if (StringUtils.isNotBlank(memberPrice)) {
-      if (new BigDecimal(totalPrice).compareTo(new BigDecimal(memberPrice)) < 0) {
-        MessageDialog.showError(this, POSConstants.ERROR_MEMBER_PRICE_TOO_HIGH);
-        return false;
-      }
+    MenuGroup group = (MenuGroup) cbGroup.getSelectedItem();
+    if (group == null) {
+      BOMessageDialog.showError(BackOfficeWindow.getInstance(),
+          POSConstants.MENU_ITEM_SET_EDITOR_GROUP_NEEDED);
+      return false;
     }
 
     MenuItemSet menuItem = getBean();
     menuItem.setCode(code);
     menuItem.setName(itemName);
     menuItem.setBarcode(tfBarcode.getText());
-
-    if (cbGroup.getSelectedItem() != null) {
-      menuItem.setGroup((MenuGroup) cbGroup.getSelectedItem());
-    }
+    menuItem.setGroup(group);
 
     menuItem.setPrice(Double.valueOf(tfPrice.getText()));
     menuItem.setVisible(chkVisible.isSelected());
@@ -276,29 +254,11 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
 
   @Override
   public String getDisplayText() {
-    MenuItemSet menuItemSet = (MenuItemSet) getBean();
+    MenuItemSet menuItemSet = getBean();
     if (menuItemSet.getId() == null) {
       return POSConstants.NEW_MENU_ITEM_SET;
     }
     return POSConstants.EDIT_MENU_ITEM_SET;
-  }
-
-  private void addShift() {
-    MenuItemShiftDialog dialog = new MenuItemShiftDialog((Dialog) this.getTopLevelAncestor());
-    dialog.setSize(350, 220);
-    dialog.open();
-
-    if (!dialog.isCanceled()) {
-      MenuItemShift menuItemShift = dialog.getMenuItemShift();
-      shiftTableModel.add(menuItemShift);
-    }
-  }
-
-  private void deleteShift() {
-    int selectedRow = shiftTable.getSelectedRow();
-    if (selectedRow >= 0) {
-      shiftTableModel.remove(selectedRow);
-    }
   }
 
   private void addMenuItem() {}
@@ -334,7 +294,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tabbedPane = new JTabbedPane();
     pnlMainEditor = new JPanel();
     pnlDetailEditor = new JPanel();
-    shiftTable = new JTable();
 
     lblCode = new JLabel();
     lblCode.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -378,46 +337,16 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     chkShowTextWithImage = new JCheckBox(POSConstants.EDITOR_IMAGE_ONLY);
     chkShowTextWithImage.setActionCommand("Show Text with Image");
 
-    lblDiscountRate = new JLabel();
-    lblDiscountRate.setHorizontalAlignment(SwingConstants.TRAILING);
-    lblDiscountRate.setText(POSConstants.MENU_ITEM_SET_EDITOR_DISCOUNT_RATE);
-    spinDiscountRate = ControllerGenerator.getDiscountSpinner(8.0);
-
-    // set the listener for the discount spinner
-    spinDiscountRate.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        JSpinner target = (JSpinner) e.getSource();
-        Double discount = (Double) target.getValue();
-
-        double memberPrice = MenuItemSetForm.this
-            .calculateAmount(MenuItemSetForm.this.menuItemSet.getPrice(), discount);
-        MenuItemSetForm.this.tfMemberPrice.setText(String.valueOf(memberPrice));
-      }
-    });
-    spinDiscountRate.setEnabled(false);
-
-    lblMemberPrice = new JLabel();
-    lblMemberPrice.setHorizontalAlignment(SwingConstants.TRAILING);
-    lblMemberPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_MEMBER_PRICE);
-    tfMemberPrice = new DoubleTextField();
-    tfMemberPrice.setHorizontalAlignment(SwingConstants.LEADING);
-    tfMemberPrice.setFocusable(false);
-
     lblVirtualPrinter = new JLabel();
     lblVirtualPrinter.setHorizontalAlignment(SwingConstants.TRAILING);
     lblVirtualPrinter.setText(POSConstants.EDITOR_V_PRINTER);
     cbVirtualPrinter = new JComboBox<VirtualPrinter>(new DefaultComboBoxModel<VirtualPrinter>(
         VirtualPrinterDAO.getInstance().findAll().toArray(new VirtualPrinter[0])));
 
-    lblCategory = new JLabel();
-    lblCategory.setHorizontalAlignment(SwingConstants.TRAILING);
-    lblCategory.setText(POSConstants.EDITOR_CATEGORY);
-    cbGroup = new JComboBox<>();
-
     lblGroup = new JLabel();
     lblGroup.setHorizontalAlignment(SwingConstants.TRAILING);
     lblGroup.setText(POSConstants.EDITOR_GROUP);
-    cbCategory = new JComboBox<>();
+    cbGroup = new JComboBox<>();
 
     // layout for the general tab
     tabbedPane.addTab(POSConstants.GENERAL, pnlMainEditor);
@@ -434,31 +363,23 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     pnlMainEditor.add(lblBarcode, "cell 0 2, alignx leading");
     pnlMainEditor.add(tfBarcode, "cell 1 2 3 1, growx");
 
-    pnlMainEditor.add(lblCategory, "cell 0 3, alignx leading");
-    pnlMainEditor.add(cbCategory, "cell 1 3 3 1, growx");
+    pnlMainEditor.add(lblGroup, "cell 0 3, alignx leading");
+    pnlMainEditor.add(cbGroup, "cell 1 3 3 1, growx");
 
-    pnlMainEditor.add(lblGroup, "cell 0 4, alignx leading");
-    pnlMainEditor.add(cbGroup, "cell 1 4 3 1, growx");
+    pnlMainEditor.add(lblPrice, "cell 0 4, alignx leading");
+    pnlMainEditor.add(tfPrice, "cell 1 4 3 1, growx");
 
-    pnlMainEditor.add(lblPrice, "cell 0 5, alignx leading");
-    pnlMainEditor.add(tfPrice, "cell 1 5 3 1, growx");
+    pnlMainEditor.add(lblImage, "cell 0 5, aligny center");
+    pnlMainEditor.add(lblImagePreview, "cell 1 5, grow");
+    pnlMainEditor.add(btnImageSelect, "cell 2 5");
+    pnlMainEditor.add(btnImageClear, "cell 3 5");
 
-    pnlMainEditor.add(lblMemberPrice, "cell 0 6, alignx leading");
-    pnlMainEditor.add(tfMemberPrice, "cell 1 6 1 1, growx");
-    pnlMainEditor.add(lblDiscountRate, "cell 2 6, alignx leading");
-    pnlMainEditor.add(spinDiscountRate, "cell 3 6");
+    pnlMainEditor.add(chkShowTextWithImage, "cell 1 6 3 1");
 
-    pnlMainEditor.add(lblImage, "cell 0 7, aligny center");
-    pnlMainEditor.add(lblImagePreview, "cell 1 7, grow");
-    pnlMainEditor.add(btnImageSelect, "cell 2 7");
-    pnlMainEditor.add(btnImageClear, "cell 3 7");
+    pnlMainEditor.add(lblVirtualPrinter, "cell 0 7");
+    pnlMainEditor.add(cbVirtualPrinter, "cell 1 7, growx");
 
-    pnlMainEditor.add(chkShowTextWithImage, "cell 1 8 3 1");
-
-    pnlMainEditor.add(lblVirtualPrinter, "cell 0 9");
-    pnlMainEditor.add(cbVirtualPrinter, "cell 1 9, growx");
-
-    pnlMainEditor.add(chkVisible, "cell 1 10, alignx left, aligny top");
+    pnlMainEditor.add(chkVisible, "cell 1 8, alignx left, aligny top");
 
     // layout for the details tab
     tabbedPane.addTab(POSConstants.MENU_ITEM_SET_EDITOR_TAB_DETAIL, pnlDetailEditor);
@@ -503,15 +424,10 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
             lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT
                 + POSConstants.COLON + "   " + menuItemSet.getPrice());
             tfPrice.setText(String.valueOf(menuItemSet.getPrice()));
-            tfMemberPrice.setText(String.valueOf(
-                calculateAmount(menuItemSet.getPrice(), (Double) spinDiscountRate.getValue())));
-            spinDiscountRate.setEnabled(true);
           } else {
             lblTotalPrice.setVisible(false);
             lblTotalPrice.setText(POSConstants.MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT);
             tfPrice.setText("");
-            tfMemberPrice.setText("");
-            spinDiscountRate.setEnabled(false);
           }
         }
       }
@@ -541,42 +457,25 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
     tabbedPane.addChangeListener(this);
   }
 
+  @SuppressWarnings("unchecked")
   private void initData() {
-    MenuCategoryDAO categoryDAO = MenuCategoryDAO.getInstance();
-    List<MenuCategory> categories = categoryDAO.findAll();
-    cbCategory.setModel(new ComboBoxModel(categories));
-
-    if (categories != null && categories.size() > 0) {
-      MenuCategory selectedCategory = categories.get(0);
-
-      MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
-      List<MenuGroup> groups = groupDAO.findEnabledByParent(selectedCategory);
-      cbGroup.setModel(new ComboBoxModel(groups));
-    }
+    MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
+    List<MenuGroup> groups = groupDAO.findAll();
+    cbGroup.setModel(new ComboBoxModel(groups));
   }
 
   private void initActions() {
     btnImageSelect.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doSelectImageFile();
       }
     });
 
     btnImageClear.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         doClearImage();
-      }
-    });
-
-    cbCategory.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        MenuCategory selectedCategory = (MenuCategory) e.getItem();
-
-        // update the group cb
-        MenuGroupDAO groupDAO = MenuGroupDAO.getInstance();
-        List<MenuGroup> groups = groupDAO.findEnabledByParent(selectedCategory);
-        cbGroup.setModel(new ComboBoxModel(groups));
       }
     });
   }
@@ -589,10 +488,6 @@ public class MenuItemSetForm extends BeanEditor<MenuItemSet>
   private void doClearImage() {
     // TODO Auto-generated method stub
 
-  }
-
-  private double calculateAmount(double amount, double discount) {
-    return NumberUtil.roundToTwoDigit(amount * discount / 10);
   }
 
 }

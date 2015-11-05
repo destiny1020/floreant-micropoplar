@@ -481,6 +481,8 @@ public class POSConstants {
   public static final String MENU_ITEM_SET_EDITOR_EDIT_DLG = Messages.getString("PosMessage.363");
   public static final String MENU_ITEM_SET_EDITOR_ITEMS = Messages.getString("PosMessage.364");
   public static final String MENU_ITEM_SET_EDITOR_TOTAL_AMOUNT = Messages.getString("PosMessage.365");
+  public static final String MENU_ITEM_SET_EDITOR_CATEGORY_NEEDED = Messages.getString("PosMessage.484");
+  public static final String MENU_ITEM_SET_EDITOR_GROUP_NEEDED = Messages.getString("PosMessage.485");
 
   // Ticket Explorer
   public static final String TICKET_EXPLORER_CHK_PAID = Messages.getString("PosMessage.369");

@@ -24,8 +24,6 @@ import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.swing.ImageIcon;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
-import com.micropoplar.pos.model.MenuItemSet;
-import com.micropoplar.pos.model.dao.MenuItemSetDAO;
 import com.micropoplar.pos.ui.IOrderViewItem;
 
 /**
@@ -33,6 +31,11 @@ import com.micropoplar.pos.ui.IOrderViewItem;
  * @author MShahriar
  */
 public class MenuItemAndMenuItemSetView extends SelectionView {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public final static String VIEW_NAME = "ITEM_VIEW";
 
   private Vector<ItemSelectionListener> listenerList = new Vector<ItemSelectionListener>();
@@ -60,15 +63,12 @@ public class MenuItemAndMenuItemSetView extends SelectionView {
     }
 
     MenuItemDAO dao = MenuItemDAO.getInstance();
-    MenuItemSetDAO setDao = MenuItemSetDAO.getInstance();
     try {
       List<MenuItem> menuItems = dao.findByParent(menuGroup, false);
-      List<MenuItemSet> setItems = setDao.findByParent(menuGroup, false);
 
       // put MenuItem and MenuItemSet together
-      List<IOrderViewItem> items = new ArrayList<>(menuItems.size() + setItems.size());
+      List<IOrderViewItem> items = new ArrayList<>(menuItems.size());
       items.addAll(menuItems);
-      items.addAll(setItems);
 
       setBackEnable(items.size() > 0);
       setItems(items);
@@ -113,6 +113,11 @@ public class MenuItemAndMenuItemSetView extends SelectionView {
   }
 
   private class ItemButton extends PosButton implements ActionListener {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private static final int BUTTON_SIZE = 100;
     IOrderViewItem foodItem;
 
@@ -151,6 +156,7 @@ public class MenuItemAndMenuItemSetView extends SelectionView {
       addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       fireItemSelected(foodItem);
     }

@@ -60,6 +60,7 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
     // bind actions
     editButton.addActionListener(new ActionListener() {
+      @Override
       public void actionPerformed(ActionEvent e) {
         try {
           int index = table.getSelectedRow();
@@ -104,7 +105,7 @@ public class MenuItemSetExplorer extends TransparentPanel {
           if (dialog.isCanceled()) {
             return;
           }
-          MenuItemSet setItem = (MenuItemSet) editor.getBean();
+          MenuItemSet setItem = editor.getBean();
           tableModel.addItem(setItem);
         } catch (Throwable x) {
           BOMessageDialog.showError(com.floreantpos.POSConstants.ERROR_MESSAGE, x);
@@ -153,8 +154,12 @@ public class MenuItemSetExplorer extends TransparentPanel {
     add(panel, BorderLayout.SOUTH);
   }
 
-  class MenuItemSetExplorerTableModel extends ListTableModel {
+  class MenuItemSetExplorerTableModel extends ListTableModel<MenuItemSet> {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private String[] columnNames =
         {com.floreantpos.POSConstants.ID, com.floreantpos.POSConstants.NAME,
             com.floreantpos.POSConstants.PRICE + " (" + currencySymbol + ")",
@@ -166,7 +171,7 @@ public class MenuItemSetExplorer extends TransparentPanel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-      MenuItemSet itemSet = (MenuItemSet) rows.get(rowIndex);
+      MenuItemSet itemSet = rows.get(rowIndex);
 
       switch (columnIndex) {
         case 0:
