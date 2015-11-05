@@ -1,6 +1,5 @@
 package com.floreantpos.ui.views.order;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import com.floreantpos.model.MenuItem;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketItem;
 import com.floreantpos.model.dao.MenuItemDAO;
+import com.floreantpos.swing.POSToggleButton;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.dialog.MiscTicketItemDialog;
 import com.floreantpos.ui.dialog.NumberSelectionDialog2;
@@ -25,6 +25,8 @@ import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.ui.views.OrderInfoDialog;
 import com.floreantpos.ui.views.OrderInfoView;
 import com.floreantpos.ui.views.order.actions.ItemSelectionListener;
+
+import net.miginfocom.swing.MigLayout;
 
 public class OthersView extends JPanel {
 
@@ -35,6 +37,11 @@ public class OthersView extends JPanel {
 
   private Ticket currentTicket;
   private ItemSelectionListener itemSelectionListener;
+
+  private POSToggleButton btnEnableScan;
+  private com.floreantpos.swing.PosButton btnQuickAddItem;
+  private com.floreantpos.swing.PosButton btnOrderInfo;
+  private com.floreantpos.swing.PosButton btnSearchItem;
 
   /** Creates new form OthersView */
   public OthersView() {
@@ -48,16 +55,29 @@ public class OthersView extends JPanel {
   }
 
   private void initComponents() {
-
-    buttonPanel = new JPanel();
-    btnOrderInfo = new com.floreantpos.swing.PosButton();
-    btnQuickAddItem = new com.floreantpos.swing.PosButton();
-
     setBorder(javax.swing.BorderFactory.createTitledBorder(null,
         POSConstants.OTHERS_VIEW_BORDER_TITLE, javax.swing.border.TitledBorder.CENTER,
         javax.swing.border.TitledBorder.DEFAULT_POSITION));
-    setLayout(new BorderLayout());
+    setLayout(
+        new MigLayout("", "[0:0, grow 33, fill][0:0, grow 33, fill][0:0, grow 33, fill]", "[][]"));
 
+    btnEnableScan = new POSToggleButton(POSConstants.TICKET_OTHERS_VIEW_ENABLE_SCAN);
+    btnEnableScan.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        boolean enableScan = btnEnableScan.isSelected();
+        if (enableScan) {
+          btnEnableScan.setText(POSConstants.TICKET_OTHERS_VIEW_ENABLED_SCAN);
+        } else {
+          btnEnableScan.setText(POSConstants.TICKET_OTHERS_VIEW_ENABLE_SCAN);
+        }
+        OrderView.getInstance().setScanEnabled(enableScan);
+      }
+    });
+    add(btnEnableScan, "span, growx, wrap");
+
+    btnOrderInfo = new com.floreantpos.swing.PosButton();
+    btnQuickAddItem = new com.floreantpos.swing.PosButton();
     btnSearchItem = new PosButton(POSConstants.OTHERS_VIEW_SEARCH_ITEM_BY_BARCODE);
     btnSearchItem.addActionListener(new ActionListener() {
       @Override
@@ -66,10 +86,7 @@ public class OthersView extends JPanel {
         searchItem(true);
       }
     });
-    buttonPanel.add(btnSearchItem);
-
-    buttonPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    buttonPanel.setLayout(new java.awt.GridLayout(2, 0, 5, 5));
+    add(btnSearchItem, "");
 
     btnOrderInfo.setText(com.floreantpos.POSConstants.ORDER_INFO);
     btnOrderInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +95,7 @@ public class OthersView extends JPanel {
         doViewOrderInfo();
       }
     });
-    buttonPanel.add(btnOrderInfo);
+    add(btnOrderInfo, "");
 
     btnQuickAddItem.setText(com.floreantpos.POSConstants.MISC);
     btnQuickAddItem.addActionListener(new java.awt.event.ActionListener() {
@@ -87,9 +104,7 @@ public class OthersView extends JPanel {
         doInsertMisc(evt);
       }
     });
-    buttonPanel.add(btnQuickAddItem);
-
-    add(buttonPanel);
+    add(btnQuickAddItem, "wrap");
   }
 
   protected void doAddEditCustomer() {
@@ -125,11 +140,6 @@ public class OthersView extends JPanel {
       // TODO: handle exception
     }
   }
-
-  private com.floreantpos.swing.PosButton btnQuickAddItem;
-  private com.floreantpos.swing.PosButton btnOrderInfo;
-  private com.floreantpos.swing.PosButton btnSearchItem;
-  private JPanel buttonPanel;
 
   public void updateView() {}
 
@@ -174,6 +184,11 @@ public class OthersView extends JPanel {
       return;
     }
     itemSelectionListener.itemSelected(menuItem);
+  }
+
+  public void unselectScan() {
+    btnEnableScan.setSelected(false);
+    btnEnableScan.setText(POSConstants.TICKET_OTHERS_VIEW_ENABLE_SCAN);
   }
 
 }

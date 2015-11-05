@@ -9,6 +9,10 @@ package com.floreantpos.ui.views.order;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
@@ -34,9 +38,34 @@ public class OrderView extends TransparentPanel {
 
   private Ticket currentTicket;
 
+  // whether scan is enabled
+  private boolean enableScan;
+
   /** Creates new form OrderView */
   private OrderView() {
     initComponents();
+    initActions();
+  }
+
+  private void initActions() {
+    addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+        if (enableScan) {
+          System.out.println(e.getKeyChar());
+        }
+      }
+    });
+
+    addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        othersView.unselectScan();
+      }
+
+      @Override
+      public void focusGained(FocusEvent e) {}
+    });
   }
 
   public void addView(final String viewName, final JComponent view) {
@@ -214,5 +243,10 @@ public class OrderView extends TransparentPanel {
 
   public void setHasClosedSearchDialog(boolean hasClosedSearchDialog) {
     this.hasClosedSearchDialog = hasClosedSearchDialog;
+  }
+
+  public void setScanEnabled(boolean selected) {
+    enableScan = selected;
+    requestFocusInWindow();
   }
 }
