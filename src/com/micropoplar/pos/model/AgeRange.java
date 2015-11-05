@@ -4,12 +4,12 @@ import com.floreantpos.POSConstants;
 
 public enum AgeRange {
   //@formatter:off
+  AGE_UNKNOWN(-1, POSConstants.AGE_RANGE_OPTION_UNKNOWN),
   AGE_20_MINUS(1, POSConstants.AGE_RANGE_OPTION_1), 
   AGE_20_30(2, POSConstants.AGE_RANGE_OPTION_2),
   AGE_30_40(3, POSConstants.AGE_RANGE_OPTION_3), 
   AGE_40_50(4, POSConstants.AGE_RANGE_OPTION_4), 
-  AGE_50_PLUS(5, POSConstants.AGE_RANGE_OPTION_5),
-  AGE_UNKNOWN(-1, POSConstants.AGE_RANGE_OPTION_UNKNOWN);
+  AGE_50_PLUS(5, POSConstants.AGE_RANGE_OPTION_5);
   //@formatter:on
 
   private int type;

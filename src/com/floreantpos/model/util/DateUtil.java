@@ -52,30 +52,58 @@ public class DateUtil {
   }
 
   public static String getDateString(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return SDF_E.format(date);
   }
 
   public static String getReceiptDateTime(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return RECEIPT.format(date);
   }
 
   public static String getReceiptDate(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return RECEIPT_SHORT.format(date);
   }
 
   public static String getReportFullDate(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return REPORT_FULL.format(date);
   }
 
   public static String getReportShortDate(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return REPORT_SHORT.format(date);
   }
 
   public static String getTicketViewDate(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return TICKET_VIEW_TIME.format(date);
   }
 
   public static String getTicketViewShortDate(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return TICKET_VIEW_TIME_SHORT.format(date);
   }
 
@@ -84,6 +112,10 @@ public class DateUtil {
   }
 
   public static String getWeChatTimestamp(Date date) {
+    if (date == null) {
+      return "";
+    }
+
     return WECHAT_TIMESTAMP.format(date);
   }
 }

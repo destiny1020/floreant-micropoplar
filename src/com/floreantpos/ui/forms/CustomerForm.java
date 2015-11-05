@@ -9,7 +9,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.StaleObjectStateException;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -21,7 +21,6 @@ import com.floreantpos.model.dao.CustomerDAO;
 import com.floreantpos.model.util.IllegalModelStateException;
 import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.ui.BeanEditor;
-import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
 import com.micropoplar.pos.util.ValidateUtil;
 
@@ -37,6 +36,8 @@ public class CustomerForm extends BeanEditor<Customer> {
   private FixedLengthTextField tfPhone;
 
   private JLabel lblGender;
+  private JRadioButton rdbMale;
+  private JRadioButton rdbFemale;
   private ButtonGroup btgGender;
 
   private JLabel lblAgeRange;
@@ -76,8 +77,8 @@ public class CustomerForm extends BeanEditor<Customer> {
     add(tfPhone, "span, growx, wrap");
 
     lblGender = new JLabel(POSConstants.CUSTOMER_FORM_GENDER + POSConstants.COLON);
-    JRadioButton rdbMale = new JRadioButton(POSConstants.GENDER_MALE);
-    JRadioButton rdbFemale = new JRadioButton(POSConstants.GENDER_FEMALE);
+    rdbMale = new JRadioButton(POSConstants.GENDER_MALE);
+    rdbFemale = new JRadioButton(POSConstants.GENDER_FEMALE);
     btgGender = new ButtonGroup();
     btgGender.add(rdbMale);
     btgGender.add(rdbFemale);
@@ -157,18 +158,33 @@ public class CustomerForm extends BeanEditor<Customer> {
     Customer customer = getBean();
 
     if (customer != null) {
+      tfPhone.setText(customer.getPhone());
+      Integer gender = customer.getGender();
+      if (gender == 1) {
+        rdbMale.setSelected(true);
+      } else if (gender == 0) {
+        rdbFemale.setSelected(true);
+      }
+      Integer ageRange = customer.getAgeRange();
+      if (ageRange == -1) {
+        cbAgeRange.setSelectedIndex(0);
+      } else {
+        cbAgeRange.setSelectedIndex(ageRange);
+      }
       tfName.setText(customer.getName());
       if (customer.getDob() != null) {
         dpDob.setDate(customer.getDob());
       }
-      tfAddress.setText(customer.getAddress());
       tfEmail.setText(customer.getEmail());
-      tfPhone.setText(customer.getPhone());
+      tfAddress.setText(customer.getAddress());
+      taNote.setText(customer.getNote());
     } else {
-      tfName.setText("");
-      tfAddress.setText("");
-      tfEmail.setText("");
       tfPhone.setText("");
+      rdbFemale.setSelected(true);
+      tfName.setText("");
+      tfEmail.setText("");
+      tfAddress.setText("");
+      taNote.setText("");
     }
   }
 
@@ -177,13 +193,48 @@ public class CustomerForm extends BeanEditor<Customer> {
     String phoneString = tfPhone.getText().trim();
 
     if (StringUtils.isEmpty(phoneString)) {
-      POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_PROVIDED);
+      BOMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_PROVIDED);
       return false;
     }
 
     // check phone number
     if (!ValidateUtil.isMobileNO(phoneString)) {
-      POSMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+      BOMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+      return false;
+    }
+
+    // check email if any
+    String email = tfEmail.getText();
+    if (StringUtils.isNotBlank(email) && !ValidateUtil.isEmail(email)) {
+      BOMessageDialog.showError(POSConstants.ERROR_CUSTOMER_PHONE_NOT_VALID);
+      return false;
+    }
+
+    // check fields length
+    String name = tfName.getText();
+    if (StringUtils.isNotBlank(name) && name.length() > 20) {
+      BOMessageDialog.showError(String.format(POSConstants.ERROR_TEMPLATE_FIELD_TOO_LONG,
+          POSConstants.CUSTOMER_FORM_NAME, 20));
+      return false;
+    }
+
+    if (StringUtils.isNotBlank(email) && email.length() > 40) {
+      BOMessageDialog.showError(String.format(POSConstants.ERROR_TEMPLATE_FIELD_TOO_LONG,
+          POSConstants.CUSTOMER_FORM_EMAIL, 40));
+      return false;
+    }
+
+    String address = tfAddress.getText();
+    if (StringUtils.isNotBlank(address) && address.length() > 120) {
+      BOMessageDialog.showError(String.format(POSConstants.ERROR_TEMPLATE_FIELD_TOO_LONG,
+          POSConstants.CUSTOMER_FORM_ADDRESS, 120));
+      return false;
+    }
+
+    String note = taNote.getText();
+    if (StringUtils.isNotBlank(note) && note.length() > 255) {
+      BOMessageDialog.showError(String.format(POSConstants.ERROR_TEMPLATE_FIELD_TOO_LONG,
+          POSConstants.CUSTOMER_FORM_NOTE, 255));
       return false;
     }
 
@@ -191,17 +242,26 @@ public class CustomerForm extends BeanEditor<Customer> {
 
     if (customer == null) {
       customer = new Customer();
+      customer.setCreateTime(new Date());
       setBean(customer, false);
     }
 
-    customer.setName(tfName.getText());
+    customer.setPhone(phoneString);
+    if (rdbMale.isSelected()) {
+      customer.setGender(Customer.GENDER_MALE);
+    } else if (rdbFemale.isSelected()) {
+      customer.setGender(Customer.GENDER_FEMALE);
+    }
 
+    ComboOption selectedAgeRange = (ComboOption) cbAgeRange.getSelectedItem();
+    customer.setAgeRange(selectedAgeRange.getValue());
+
+    customer.setName(name);
     Date dob = dpDob.getDate();
     customer.setDob(dob);
-
-    customer.setAddress(tfAddress.getText());
-    customer.setEmail(tfEmail.getText());
-    customer.setPhone(phoneString);
+    customer.setEmail(email);
+    customer.setAddress(address);
+    customer.setNote(note);
 
     return true;
   }

@@ -624,6 +624,8 @@ public class POSConstants {
   public static final String ERROR_CUSTOMER_PHONE_NOT_VALID = Messages.getString("ERROR_CUSTOMER_PHONE_NOT_VALID");
   public static final String ERROR_UNKNOWN_COMMAND = Messages.getString("ERROR_UNKNOWN_COMMAND");
   public static final String ERROR_CUSTOMER_ALREADY_EXISTED = Messages.getString("ERROR_CUSTOMER_ALREADY_EXISTED");
+  public static final String ERROR_EMAIL_NOT_VALID = Messages.getString("ERROR_EMAIL_NOT_VALID");
+  public static final String ERROR_TEMPLATE_FIELD_TOO_LONG = Messages.getString("ERROR_TEMPLATE_FIELD_TOO_LONG");
 
   // USER FORM
   public static final String ERROR_USER_FORM_EMPTY_NAME = Messages.getString("ERROR_USER_FORM_EMPTY_NAME");

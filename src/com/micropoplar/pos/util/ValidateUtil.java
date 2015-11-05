@@ -5,6 +5,12 @@ import java.util.regex.Pattern;
 
 public class ValidateUtil {
 
+  private static final Pattern VALID_MOBILE_NUMBER_REGEX =
+      Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+
+  private static final Pattern VALID_EMAIL_REGEX =
+      Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
   /**
    * To validate a phone number is valid Chinese mainland phone.
    * 
@@ -12,9 +18,18 @@ public class ValidateUtil {
    * @return
    */
   public static boolean isMobileNO(String mobileNumber) {
-    Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-    Matcher m = p.matcher(mobileNumber);
+    Matcher m = VALID_MOBILE_NUMBER_REGEX.matcher(mobileNumber);
+    return m.matches();
+  }
 
+  /**
+   * To validate a email address.
+   * 
+   * @param email
+   * @return
+   */
+  public static boolean isEmail(String email) {
+    Matcher m = VALID_EMAIL_REGEX.matcher(email);
     return m.matches();
   }
 
