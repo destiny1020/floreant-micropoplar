@@ -1,5 +1,7 @@
 package com.floreantpos;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -25,5 +27,9 @@ public class IconFactory {
     } catch (Exception x) {
     }
     return null;
+  }
+
+  public static URL getImageStream(String imageName) {
+    return IconFactory.class.getResource("/images/" + imageName);
   }
 }

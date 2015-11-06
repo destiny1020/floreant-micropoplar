@@ -8,7 +8,7 @@ package com.floreantpos.ui.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Image;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,13 +25,17 @@ import com.floreantpos.swing.ImageComponent;
  * @author MShahriar
  */
 public class LoginScreen extends JPanel {
-  public final static String VIEW_NAME = "LOGIN_VIEW";
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-  private Image backgroundImage;
+  public final static String VIEW_NAME = "LOGIN_VIEW";
 
   private PasswordScreen passwordScreen;
 
-  /** Creates new form LoginScreen */
+  /** Creates new form LoginScreen 
+   * @throws IOException */
   public LoginScreen() {
     // setLayout(new MigLayout("ins 20 10 20 10, fill","[fill,growprio 100,grow][]",""));
     setLayout(new BorderLayout(5, 5));
@@ -39,11 +43,10 @@ public class LoginScreen extends JPanel {
     JLabel titleLabel = new JLabel(IconFactory.getIcon("title.png"));
     titleLabel.setOpaque(true);
     titleLabel.setBackground(Color.WHITE);
-
     add(titleLabel, BorderLayout.NORTH);
 
     JPanel centerPanel = new JPanel(new BorderLayout());
-    centerPanel.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(20, 20, 20, 20)));
+    centerPanel.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(0, 0, 0, 0)));
     //    ImageIcon icon = IconFactory.getIcon("/", "logo.png");
     ImageIcon icon = null;
 
@@ -76,4 +79,5 @@ public class LoginScreen extends JPanel {
   public void enableControlButtons() {
     passwordScreen.enableControlButtons();
   }
+
 }
