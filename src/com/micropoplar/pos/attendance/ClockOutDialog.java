@@ -1,6 +1,7 @@
 package com.micropoplar.pos.attendance;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -8,24 +9,34 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.math.BigDecimal;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.floreantpos.POSConstants;
+import com.floreantpos.main.Application;
+import com.floreantpos.model.User;
+import com.floreantpos.model.dao.TicketDAO;
+import com.floreantpos.model.util.DateUtil;
+import com.floreantpos.swing.FixedLengthTextField;
 import com.floreantpos.swing.IntegerTextField;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.swing.TransparentPanel;
 import com.floreantpos.ui.dialog.POSDialog;
+import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.ui.util.ControllerGenerator;
+import com.micropoplar.pos.util.FontUtil;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -68,6 +79,9 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
   private JLabel lblCashActual;
   private JLabel lblCashActualContent;
 
+  private JLabel lblCashDiff;
+  private JLabel lblCashDiffContent;
+
   private JLabel lblAttendanceOperator;
   private JLabel lblAttendanceOperatorContent;
 
@@ -91,9 +105,18 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
 
   private IntegerTextField tfTarget;
 
+  // control group
+  private TransparentPanel pnlControls;
+  private JLabel lblClockOutHint;
+  private FixedLengthTextField tfClockOutHint;
+  private PosButton btnClockOut;
+  private PosButton btnCancel;
+
   private static final String ZERO = "0";
   private static final String ADD = "0";
   private static final String REMOVE = "1";
+
+  private boolean cashMatched = false;
 
   public ClockOutDialog(Frame owner) {
     super(owner, true);
@@ -103,11 +126,42 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
 
     initComponents();
     initRightPanel();
+    initControlGroup();
+    initData();
   }
 
+  private void initData() {
+    tfCash100.setText(ZERO);
+    tfCash50.setText(ZERO);
+    tfCash20.setText(ZERO);
+    tfCash10.setText(ZERO);
+    tfCash5.setText(ZERO);
+    tfCash1.setText(ZERO);
+    tfCash5M.setText(ZERO);
+    tfCash1M.setText(ZERO);
+
+    User currentUser = Application.getCurrentUser();
+    lblAttendanceOperatorContent.setText(currentUser.getName());
+    lblAttendanceInfoContent.setText(DateUtil.getTicketViewDate(currentUser.getLastClockInTime()));
+
+    // calculate the total cash amount during the 
+    TicketDAO ticketDAO = TicketDAO.getInstance();
+    double totalCashAmount = ticketDAO.getTotalCashAmountSince(currentUser.getLastClockInTime());
+    lblCashShouldContent.setText(String.valueOf(totalCashAmount));
+    lblCashDiffContent.setText(String.valueOf(NumberUtil
+        .roundToTwoDigit(Double.parseDouble(lblCashActualContent.getText()) - totalCashAmount)));
+  }
+
+  private void initControlGroup() {
+    pnlControls = new TransparentPanel();
+    pnlRight.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(5, 5, 5, 5)));
+
+    // TODO
+  }
 
   private void initRightPanel() {
     pnlRight = new TransparentPanel();
+    pnlRight.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(20, 20, 20, 20)));
 
     posButton1 = new PosButton();
     posButton2 = new PosButton();
@@ -122,7 +176,6 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     posButton10 = new PosButton();
     posButton12 = new PosButton();
 
-    pnlRight.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
     pnlRight.setLayout(new GridLayout(0, 3, 5, 5));
 
     posButton1.setAction(calAction);
@@ -187,6 +240,7 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
 
     posButton10.setAction(calAction);
     posButton10.setIcon(new ImageIcon(getClass().getResource("/images/previous_32.png")));
+    posButton10.setText(POSConstants.COMMON_BACKSPACE);
     posButton10.setActionCommand(".");
     posButton10.setFocusable(false);
     pnlRight.add(posButton10);
@@ -201,22 +255,26 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     add(pnlRight, BorderLayout.EAST);
   }
 
-
   private void initComponents() {
     pnlLeft = new TransparentPanel(new MigLayout());
 
     ControllerGenerator.addSeparator(pnlLeft, POSConstants.CLOCK_OUT_DLG_AREA_CASH);
 
     lblCashShould = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_SHOULD + POSConstants.COLON);
+    lblCashShould.setFont(FontUtil.FONT_BIG);
+    lblCashShould.setForeground(new java.awt.Color(204, 102, 0));
     lblCashShouldContent = new JLabel();
-    pnlLeft.add(lblCashShould, "gap para");
-    pnlLeft.add(lblCashShouldContent, "span, growx, wrap");
+    lblCashShouldContent.setFont(FontUtil.FONT_BIG);
+    pnlLeft.add(lblCashShould, "gapleft para, gapbottom 20px");
+    pnlLeft.add(lblCashShouldContent, "span, growx, gapbottom 20px, wrap");
 
     ControllerGenerator.addSeparator(pnlLeft, POSConstants.CLOCK_OUT_DLG_AREA_CASH_STAT);
 
     Dimension dimension = new Dimension(100, 25);
 
     lblCash100 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_100 + POSConstants.COLON);
+    lblCash100.setFont(FontUtil.FONT_BIG);
+    lblCash100.setForeground(new java.awt.Color(204, 102, 0));
     tfCash100 = new IntegerTextField();
     tfCash100.setPreferredSize(dimension);
     tfCash100.getDocument().addDocumentListener(this);
@@ -225,6 +283,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash100, "span, growx, wrap");
 
     lblCash50 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_50 + POSConstants.COLON);
+    lblCash50.setFont(FontUtil.FONT_BIG);
+    lblCash50.setForeground(new java.awt.Color(204, 102, 0));
     tfCash50 = new IntegerTextField();
     tfCash50.setPreferredSize(dimension);
     tfCash50.getDocument().addDocumentListener(this);
@@ -233,6 +293,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash50, "span, growx, wrap");
 
     lblCash20 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_20 + POSConstants.COLON);
+    lblCash20.setFont(FontUtil.FONT_BIG);
+    lblCash20.setForeground(new java.awt.Color(204, 102, 0));
     tfCash20 = new IntegerTextField();
     tfCash20.setPreferredSize(dimension);
     tfCash20.getDocument().addDocumentListener(this);
@@ -241,6 +303,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash20, "span, growx, wrap");
 
     lblCash10 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_10 + POSConstants.COLON);
+    lblCash10.setFont(FontUtil.FONT_BIG);
+    lblCash10.setForeground(new java.awt.Color(204, 102, 0));
     tfCash10 = new IntegerTextField();
     tfCash10.setPreferredSize(dimension);
     tfCash10.getDocument().addDocumentListener(this);
@@ -249,6 +313,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash10, "span, growx, wrap");
 
     lblCash5 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_5 + POSConstants.COLON);
+    lblCash5.setFont(FontUtil.FONT_BIG);
+    lblCash5.setForeground(new java.awt.Color(204, 102, 0));
     tfCash5 = new IntegerTextField();
     tfCash5.setPreferredSize(dimension);
     tfCash5.getDocument().addDocumentListener(this);
@@ -257,6 +323,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash5, "span, growx, wrap");
 
     lblCash1 = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_1 + POSConstants.COLON);
+    lblCash1.setFont(FontUtil.FONT_BIG);
+    lblCash1.setForeground(new java.awt.Color(204, 102, 0));
     tfCash1 = new IntegerTextField();
     tfCash1.setPreferredSize(dimension);
     tfCash1.getDocument().addDocumentListener(this);
@@ -265,6 +333,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash1, "span, growx, wrap");
 
     lblCash5M = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_5M + POSConstants.COLON);
+    lblCash5M.setFont(FontUtil.FONT_BIG);
+    lblCash5M.setForeground(new java.awt.Color(204, 102, 0));
     tfCash5M = new IntegerTextField();
     tfCash5M.setPreferredSize(dimension);
     tfCash5M.getDocument().addDocumentListener(this);
@@ -273,6 +343,8 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash5M, "span, growx, wrap");
 
     lblCash1M = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_1M + POSConstants.COLON);
+    lblCash1M.setFont(FontUtil.FONT_BIG);
+    lblCash1M.setForeground(new java.awt.Color(204, 102, 0));
     tfCash1M = new IntegerTextField();
     tfCash1M.setPreferredSize(dimension);
     tfCash1M.getDocument().addDocumentListener(this);
@@ -281,9 +353,21 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
     pnlLeft.add(tfCash1M, "span, growx, wrap");
 
     lblCashActual = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_ACTUAL + POSConstants.COLON);
+    lblCashActual.setFont(FontUtil.FONT_BIG);
+    lblCashActual.setForeground(new java.awt.Color(204, 102, 0));
     lblCashActualContent = new JLabel(ZERO);
+    lblCashActualContent.setFont(FontUtil.FONT_BIG);
+    lblCashActualContent.setForeground(Color.RED);
     pnlLeft.add(lblCashActual, "gapleft para, gaptop 20px");
     pnlLeft.add(lblCashActualContent, "span, gaptop 20px, growx, wrap");
+
+    lblCashDiff = new JLabel(POSConstants.CLOCK_OUT_DLG_AREA_CASH_ACTUAL + POSConstants.COLON);
+    lblCashDiff.setFont(FontUtil.FONT_BIG);
+    lblCashDiff.setForeground(new java.awt.Color(204, 102, 0));
+    lblCashDiffContent = new JLabel(ZERO);
+    lblCashDiffContent.setFont(FontUtil.FONT_BIG);
+    pnlLeft.add(lblCashDiff, "gapleft para, gaptop 20px, gapbottom 20px");
+    pnlLeft.add(lblCashDiffContent, "span, gaptop 20px, gapbottom 20px, growx, wrap");
 
     ControllerGenerator.addSeparator(pnlLeft, POSConstants.CLOCK_OUT_DLG_AREA_ATTENDANCE);
 
@@ -333,6 +417,11 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
           + cash5M * 0.5 + cash1M * 0.1;
 
       lblCashActualContent.setText(String.valueOf(total));
+
+      if (isMatched()) {
+        lblCashActualContent.setForeground(Color.GREEN);
+      }
+
     } catch (NumberFormatException nfe) {
       return;
     }
@@ -340,7 +429,7 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
 
   private int getCount(final IntegerTextField tf) {
     int cash;
-    if (tf.getText().length() == 0) {
+    if (tf == null || tf.getText() == null || tf.getText().length() == 0) {
       cash = 0;
     } else {
       cash = Integer.parseInt(tf.getText());
@@ -410,5 +499,23 @@ public class ClockOutDialog extends POSDialog implements DocumentListener, Focus
   @Override
   public void focusLost(FocusEvent e) {
     tfTarget = null;
+
+    IntegerTextField tf = (IntegerTextField) e.getSource();
+    if (StringUtils.isBlank(tf.getText())) {
+      tf.setText(ZERO);
+    }
+  }
+
+  private boolean isMatched() {
+    String shouldAmount = lblCashShouldContent.getText();
+    String actualAmount = lblCashActualContent.getText();
+
+    if (new BigDecimal(shouldAmount).compareTo(new BigDecimal(actualAmount)) == 0) {
+      cashMatched = true;
+      return true;
+    } else {
+      cashMatched = false;
+      return false;
+    }
   }
 }

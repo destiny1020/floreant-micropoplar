@@ -26,6 +26,7 @@ import com.floreantpos.model.User;
 import com.floreantpos.model.VoidTransaction;
 import com.floreantpos.model.util.TicketSummary;
 import com.floreantpos.services.PosTransactionService;
+import com.floreantpos.util.NumberUtil;
 import com.micropoplar.pos.bo.ui.explorer.search.TicketSearchDto;
 
 public class TicketDAO extends BaseTicketDAO {
@@ -429,6 +430,30 @@ public class TicketDAO extends BaseTicketDAO {
 
   public static TicketDAO getInstance() {
     return instance;
+  }
+
+  @SuppressWarnings("unchecked")
+  public double getTotalCashAmountSince(Date lastClockInTime) {
+    Session session = null;
+    try {
+      session = getSession();
+      Criteria criteria = session.createCriteria(getReferenceClass());
+      criteria.add(Restrictions.ge(Ticket.PROP_CLOSING_DATE, lastClockInTime));
+      criteria.add(Restrictions.eq(Ticket.PROP_CLOSED, Boolean.TRUE));
+      criteria.add(Restrictions.eq(Ticket.PROP_PAID, Boolean.TRUE));
+      criteria.add(Restrictions.eq(Ticket.PROP_PAYMENT_TYPE, PaymentType.CASH.getDisplayString()));
+
+      List<Ticket> matchedTickets = criteria.list();
+
+      double totalCashAmount = 0.0;
+      for (Ticket ticket : matchedTickets) {
+        totalCashAmount += ticket.getTotalAmount();
+      }
+
+      return NumberUtil.roundToTwoDigit(totalCashAmount);
+    } finally {
+      closeSession(session);
+    }
   }
 
 }

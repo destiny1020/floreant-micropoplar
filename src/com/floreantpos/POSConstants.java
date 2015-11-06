@@ -645,6 +645,7 @@ public class POSConstants {
   public static final String COMMON_NO = Messages.getString("COMMON_NO");
   public static final String COMMON_REQUIRED = Messages.getString("COMMON_REQUIRED");
   public static final String COMMON_OPTIONAL = Messages.getString("COMMON_OPTIONAL");
+  public static final String COMMON_BACKSPACE = Messages.getString("COMMON_BACKSPACE");
 
   // ERROR related
   public static final String COMMON_ERROR = Messages.getString("COMMON_ERROR");
@@ -795,6 +796,7 @@ public class POSConstants {
   public static final String CLOCK_OUT_DLG_AREA_CASH_5M = Messages.getString("PosMessage.500");
   public static final String CLOCK_OUT_DLG_AREA_CASH_1M = Messages.getString("PosMessage.501");
   public static final String CLOCK_OUT_DLG_AREA_CASH_ACTUAL = Messages.getString("PosMessage.502");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_DIFF = Messages.getString("PosMessage.506");
   public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE = Messages.getString("PosMessage.503");
   public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE_OPERATOR = Messages.getString("PosMessage.396");
   public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE_INFO = Messages.getString("PosMessage.504");
