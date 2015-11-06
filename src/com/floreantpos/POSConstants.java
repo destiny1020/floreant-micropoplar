@@ -782,4 +782,21 @@ public class POSConstants {
   public static final String OTHERS_VIEW_BORDER_TITLE = Messages.getString("PosMessage.469");
   public static final String OTHERS_VIEW_CUSTOM_ITEM_PREFIX = Messages.getString("PosMessage.470");
 
+  // CLOCK-OUT DIALOG
+  public static final String CLOCK_OUT_DLG_AREA_CASH = Messages.getString("PosMessage.492");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_SHOULD = Messages.getString("PosMessage.493");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_STAT = Messages.getString("PosMessage.505");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_100 = Messages.getString("PosMessage.494");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_50 = Messages.getString("PosMessage.495");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_20 = Messages.getString("PosMessage.496");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_10 = Messages.getString("PosMessage.497");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_5 = Messages.getString("PosMessage.498");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_1 = Messages.getString("PosMessage.499");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_5M = Messages.getString("PosMessage.500");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_1M = Messages.getString("PosMessage.501");
+  public static final String CLOCK_OUT_DLG_AREA_CASH_ACTUAL = Messages.getString("PosMessage.502");
+  public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE = Messages.getString("PosMessage.503");
+  public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE_OPERATOR = Messages.getString("PosMessage.396");
+  public static final String CLOCK_OUT_DLG_AREA_ATTENDANCE_INFO = Messages.getString("PosMessage.504");
+
 }

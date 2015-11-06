@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -40,14 +39,11 @@ import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.demo.KitchenDisplay;
 import com.floreantpos.extension.FloorLayoutPlugin;
 import com.floreantpos.main.Application;
-import com.floreantpos.model.AttendenceHistory;
-import com.floreantpos.model.Shift;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.TicketType;
 import com.floreantpos.model.User;
 import com.floreantpos.model.UserPermission;
 import com.floreantpos.model.UserType;
-import com.floreantpos.model.dao.AttendenceHistoryDAO;
 import com.floreantpos.model.dao.TicketDAO;
 import com.floreantpos.services.TicketService;
 import com.floreantpos.swing.PosButton;
@@ -60,6 +56,7 @@ import com.floreantpos.ui.views.order.OrderView;
 import com.floreantpos.ui.views.order.RootView;
 import com.floreantpos.util.POSUtil;
 import com.floreantpos.util.PosGuiUtil;
+import com.micropoplar.pos.attendance.ClockOutDialog;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -364,26 +361,35 @@ public class SwitchboardView extends JPanel implements ActionListener, ITicketLi
     }
 
     User user = Application.getCurrentUser();
-    AttendenceHistoryDAO attendenceHistoryDAO = new AttendenceHistoryDAO();
-    AttendenceHistory attendenceHistory = attendenceHistoryDAO.findHistoryByClockedInTime(user);
-    if (attendenceHistory == null) {
-      attendenceHistory = new AttendenceHistory();
-      Date lastClockInTime = user.getLastClockInTime();
-      Calendar c = Calendar.getInstance();
-      c.setTime(lastClockInTime);
-      attendenceHistory.setClockInTime(lastClockInTime);
-      attendenceHistory.setClockInHour(Short.valueOf((short) c.get(Calendar.HOUR)));
-      attendenceHistory.setUser(user);
-      attendenceHistory.setTerminal(Application.getInstance().getTerminal());
-      attendenceHistory.setShift(user.getCurrentShift());
-    }
 
-    Shift shift = user.getCurrentShift();
-    Calendar calendar = Calendar.getInstance();
+    // fill in the amount info
+    ClockOutDialog clockOutDlg = new ClockOutDialog(Application.getPosWindow());
+    clockOutDlg.setSize(640, 480);
+    clockOutDlg.pack();
+    clockOutDlg.open();
 
-    user.doClockOut(attendenceHistory, shift, calendar);
+    return;
 
-    Application.getInstance().logout();
+    //    AttendenceHistoryDAO attendenceHistoryDAO = AttendenceHistoryDAO.getInstance();
+    //    AttendenceHistory attendenceHistory = attendenceHistoryDAO.findHistoryByClockedInTime(user);
+    //    if (attendenceHistory == null) {
+    //      attendenceHistory = new AttendenceHistory();
+    //      Date lastClockInTime = user.getLastClockInTime();
+    //      Calendar c = Calendar.getInstance();
+    //      c.setTime(lastClockInTime);
+    //      attendenceHistory.setClockInTime(lastClockInTime);
+    //      attendenceHistory.setClockInHour(Short.valueOf((short) c.get(Calendar.HOUR)));
+    //      attendenceHistory.setUser(user);
+    //      attendenceHistory.setTerminal(Application.getInstance().getTerminal());
+    //      attendenceHistory.setShift(user.getCurrentShift());
+    //    }
+    //
+    //    Shift shift = user.getCurrentShift();
+    //    Calendar calendar = Calendar.getInstance();
+    //
+    //    user.doClockOut(attendenceHistory, shift, calendar);
+    //
+    //    Application.getInstance().logout();
   }
 
   private synchronized void doShowBackoffice() {
