@@ -539,6 +539,8 @@ public class POSConstants {
   public static final String TICKET_FORM_TITLE = Messages.getString("PosMessage.394");
   public static final String TICKET_FORM_TICKET_ID = Messages.getString("PosMessage.378");
   public static final String TICKET_FORM_TICKET_STATUS = Messages.getString("PosMessage.379");
+  public static final String TICKET_FORM_TICKET_STATUS_VOID_NOTE = Messages.getString("PosMessage.486");
+  public static final String TICKET_FORM_TICKET_STATUS_VOID_NOTE_UNKNOWN = Messages.getString("PosMessage.487");
   public static final String TICKET_FORM_TICKET_TYPE = Messages.getString("PosMessage.372");
   public static final String TICKET_FORM_TICKET_DINE_IN_NUMBER = Messages.getString("PosMessage.395");
   public static final String TICKET_FORM_TICKET_OPERATOR = Messages.getString("PosMessage.396");
@@ -546,15 +548,18 @@ public class POSConstants {
   public static final String TICKET_FORM_TICKET_MEMBER_PHONE = Messages.getString("PosMessage.397");
   public static final String TICKET_FORM_TICKET_NON_MEMBER = Messages.getString("PosMessage.392");
   public static final String TICKET_FORM_DISCOUNT_DETAILS = Messages.getString("PosMessage.398");
-  public static final String TICKET_FORM_MONEY_TOTAL_BEFORE_DISCOUNT = Messages.getString("PosMessage.380");
-  public static final String TICKET_FORM_MONEY_TOTAL_DISCOUNT = Messages.getString("PosMessage.381");
-  public static final String TICKET_FORM_MONEY_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.382");
+  public static final String TICKET_FORM_MONEY_TOTAL_BEFORE_DISCOUNT = Messages.getString("PosMessage.455");
+  public static final String TICKET_FORM_MONEY_TOTAL_DISCOUNT = Messages.getString("PosMessage.456");
+  public static final String TICKET_FORM_MONEY_TOTAL_AFTER_DISCOUNT = Messages.getString("PosMessage.457");
   public static final String TICKET_FORM_MONEY_PAYMENT_TYPE = Messages.getString("PosMessage.399");
   public static final String TICKET_FORM_MONEY_ACTUAL_RECEIVED = Messages.getString("PosMessage.353");
   public static final String TICKET_FORM_MONEY_CHANGE = Messages.getString("PosMessage.354");
   public static final String TICKET_FORM_MONEY_IGNORED = Messages.getString("PosMessage.400");
   public static final String TICKET_FORM_MONEY_REFUNDED = Messages.getString("PosMessage.401");
   public static final String TICKET_FORM_MONEY_REFUND_TYPE = Messages.getString("PosMessage.402");
+  public static final String TICKET_FORM_AREA_BASIC = Messages.getString("PosMessage.488");
+  public static final String TICKET_FORM_AREA_COMPAIGN = Messages.getString("PosMessage.489");
+  public static final String TICKET_FORM_AREA_PAYMENT = Messages.getString("PosMessage.490");
 
   // Unit names
   public static final String UNITNAME_UNIT = Messages.getString("UnitName.1");

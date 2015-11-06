@@ -393,13 +393,11 @@ public class TicketView extends JPanel implements ActionListener {
 
     pnlTableContainer.setLayout(new java.awt.BorderLayout());
 
-    // jScrollPane1.setBorder(null);
     scrollPaneTable
         .setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     scrollPaneTable
         .setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
     scrollPaneTable.setPreferredSize(new java.awt.Dimension(180, 200));
-    // jScrollPane1.setViewportView(ticketViewerTable);
 
     pnlTableContainer.add(scrollPaneTable, java.awt.BorderLayout.CENTER);
 

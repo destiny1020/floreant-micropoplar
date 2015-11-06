@@ -416,7 +416,7 @@ public class Ticket extends BaseTicket {
 
   public String getTicketStatus() {
     if (voided) {
-      return String.format(POSConstants.TICKET_EXPLORER_TABLE_STATUS_VOIDED, voidReason);
+      return POSConstants.TICKET_EXPLORER_TABLE_STATUS_VOIDED;
     }
 
     if (paid && closed) {
@@ -434,15 +434,4 @@ public class Ticket extends BaseTicket {
     return POSConstants.TICKET_EXPLORER_TABLE_STATUS_UNKNOWN;
   }
 
-  //  @Override
-  //  public String getPaymentType() {
-  //    StringBuilder paymentTypes = new StringBuilder("");
-  //    for (PosTransaction trans : getTransactions()) {
-  //      paymentTypes
-  //          .append(PaymentType.getPaymentTypeFromType(trans.getPaymentType()).getDisplayString());
-  //      paymentTypes.append(" ");
-  //    }
-  //
-  //    return paymentTypes.toString();
-  //  }
 }

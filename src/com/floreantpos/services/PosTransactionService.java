@@ -49,6 +49,8 @@ public class PosTransactionService {
       ticket.setVoided(false);
       ticket.setTerminal(terminal);
       ticket.setPaidAmount(ticket.getPaidAmount() + transaction.getAmount());
+      ticket.setReceivedAmount(transaction.getTenderAmount());
+      ticket.setChangeAmount(transaction.getTenderAmount() - transaction.getAmount());
 
       ticket.calculatePrice();
 

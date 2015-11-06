@@ -173,11 +173,16 @@ public class ControllerGenerator {
   private static final Color LABEL_COLOR = new Color(0, 70, 213);
 
   public static void addSeparator(JPanel panel, String text) {
+    addSeparator(panel, text, "gapbottom 1, span, split 2, aligny center", "gapleft rel, growx");
+  }
+
+  public static void addSeparator(JPanel panel, String text, String constraintLabel,
+      String constraintSeparator) {
     JLabel l = createLabel(text);
     l.setForeground(LABEL_COLOR);
 
-    panel.add(l, "gapbottom 1, span, split 2, aligny center");
-    panel.add(new JSeparator(), "gapleft rel, growx");
+    panel.add(l, constraintLabel);
+    panel.add(new JSeparator(), constraintSeparator);
   }
 
   // support methods for addSeparator

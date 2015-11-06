@@ -27,7 +27,6 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
   public static String PROP_CREATE_DATE = "createDate";
   public static String PROP_DELIVERY_CHARGE = "deliveryCharge";
   public static String PROP_PAID = "paid";
-  public static String PROP_ADVANCE_AMOUNT = "advanceAmount";
   public static String PROP_ACTIVE_DATE = "activeDate";
   public static String PROP_CREATION_HOUR = "creationHour";
   public static String PROP_CUSTOMER_WILL_PICKUP = "customerWillPickup";
@@ -53,6 +52,8 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
   public static String PROP_CUSTOMER = "customer";
   public static String PROP_CUSTOMER_PHONE = "customerPhone";
   public static String PROP_PAYMENT_TYPE = "paymentType";
+  public static String PROP_RECEIVED_AMOUNT = "receivedAmount";
+  public static String PROP_CHANGE_AMOUNT = "changeAmount";
 
   // constructors
   public BaseTicket() {
@@ -108,6 +109,8 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
   protected java.lang.Integer dineInNumber;
   protected String customerPhone;
   protected String paymentType;
+  protected Double receivedAmount;
+  protected Double changeAmount;
 
   // many to one
   private com.floreantpos.model.User owner;
@@ -781,6 +784,22 @@ public abstract class BaseTicket implements Comparable<BaseTicket>, Serializable
 
   public void setPaymentType(String paymentType) {
     this.paymentType = paymentType;
+  }
+
+  public Double getReceivedAmount() {
+    return receivedAmount;
+  }
+
+  public void setReceivedAmount(Double receivedAmount) {
+    this.receivedAmount = receivedAmount;
+  }
+
+  public Double getChangeAmount() {
+    return changeAmount;
+  }
+
+  public void setChangeAmount(Double changeAmount) {
+    this.changeAmount = changeAmount;
   }
 
 }
