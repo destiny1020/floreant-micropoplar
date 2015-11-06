@@ -8,6 +8,7 @@ package com.floreantpos.ui.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -26,6 +27,8 @@ import com.floreantpos.swing.ImageComponent;
 public class LoginScreen extends JPanel {
   public final static String VIEW_NAME = "LOGIN_VIEW";
 
+  private Image backgroundImage;
+
   private PasswordScreen passwordScreen;
 
   /** Creates new form LoginScreen */
@@ -41,7 +44,8 @@ public class LoginScreen extends JPanel {
 
     JPanel centerPanel = new JPanel(new BorderLayout());
     centerPanel.setBorder(new CompoundBorder(new EtchedBorder(), new EmptyBorder(20, 20, 20, 20)));
-    ImageIcon icon = IconFactory.getIcon("/", "logo.png");
+    //    ImageIcon icon = IconFactory.getIcon("/", "logo.png");
+    ImageIcon icon = null;
 
     if (icon == null) {
       icon = IconFactory.getIcon("floreant-pos.png");
@@ -57,6 +61,7 @@ public class LoginScreen extends JPanel {
     add(passwordScreen, BorderLayout.EAST);
   }
 
+  @Override
   public void setVisible(boolean aFlag) {
     super.setVisible(aFlag);
     if (aFlag) {
